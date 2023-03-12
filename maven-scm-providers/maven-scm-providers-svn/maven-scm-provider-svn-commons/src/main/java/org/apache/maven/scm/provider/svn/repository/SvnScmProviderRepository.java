@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.repository;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.repository;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.svn.repository;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.repository;
 
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
@@ -27,9 +26,7 @@ import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class SvnScmProviderRepository
-    extends ScmProviderRepositoryWithHost
-{
+public class SvnScmProviderRepository extends ScmProviderRepositoryWithHost {
     /** */
     private String url;
 
@@ -45,34 +42,30 @@ public class SvnScmProviderRepository
      */
     private String branchBase;
 
-    public SvnScmProviderRepository( String url )
-    {
-        parseUrl( url );
+    public SvnScmProviderRepository(String url) {
+        parseUrl(url);
 
-        tagBase = SvnTagBranchUtils.resolveTagBase( url );
+        tagBase = SvnTagBranchUtils.resolveTagBase(url);
 
-        branchBase = SvnTagBranchUtils.resolveBranchBase( url );
+        branchBase = SvnTagBranchUtils.resolveBranchBase(url);
     }
 
-    public SvnScmProviderRepository( String url, String user, String password )
-    {
-        this( url );
+    public SvnScmProviderRepository(String url, String user, String password) {
+        this(url);
 
-        setUser( user );
+        setUser(user);
 
-        setPassword( password );
+        setPassword(password);
     }
 
-    public String getUrl()
-    {
+    public String getUrl() {
         return url;
     }
 
     /**
      * Returns the url/directory to be used when tagging this repository.
      */
-    public String getTagBase()
-    {
+    public String getTagBase() {
         return tagBase;
     }
 
@@ -86,16 +79,14 @@ public class SvnScmProviderRepository
      * @param tagBase an absolute or relative url to the base directory to create tags in.
      *                URL should be in a format that svn client understands, not the scm url format.
      */
-    public void setTagBase( String tagBase )
-    {
+    public void setTagBase(String tagBase) {
         this.tagBase = tagBase;
     }
 
     /**
      * Returns the url/directory to be used when tagging this repository.
      */
-    public String getBranchBase()
-    {
+    public String getBranchBase() {
         return branchBase;
     }
 
@@ -109,13 +100,11 @@ public class SvnScmProviderRepository
      * @param branchBase an absolute or relative url to the base directory to create branch in.
      *                   URL should be in a format that svn client understands, not the scm url format.
      */
-    public void setBranchBase( String branchBase )
-    {
+    public void setBranchBase(String branchBase) {
         this.branchBase = branchBase;
     }
 
-    private void setProtocol( String protocol )
-    {
+    private void setProtocol(String protocol) {
         this.protocol = protocol;
     }
 
@@ -124,129 +113,99 @@ public class SvnScmProviderRepository
      *
      * @return the protocol
      */
-    public String getProtocol()
-    {
+    public String getProtocol() {
         return protocol;
     }
 
-    private void parseUrl( String url )
-    {
-        if ( url.startsWith( "file" ) )
-        {
-            setProtocol( "file://" );
-        }
-        else if ( url.startsWith( "https" ) )
-        {
-            setProtocol( "https://" );
-        }
-        else if ( url.startsWith( "http" ) )
-        {
-            setProtocol( "http://" );
-        }
-        else if ( url.startsWith( "svn+" ) )
-        {
-            setProtocol( url.substring( 0, url.indexOf( "://" ) + 3 ) );
-        }
-        else if ( url.startsWith( "svn" ) )
-        {
-            setProtocol( "svn://" );
+    private void parseUrl(String url) {
+        if (url.startsWith("file")) {
+            setProtocol("file://");
+        } else if (url.startsWith("https")) {
+            setProtocol("https://");
+        } else if (url.startsWith("http")) {
+            setProtocol("http://");
+        } else if (url.startsWith("svn+")) {
+            setProtocol(url.substring(0, url.indexOf("://") + 3));
+        } else if (url.startsWith("svn")) {
+            setProtocol("svn://");
         }
 
-        if ( getProtocol() == null )
-        {
+        if (getProtocol() == null) {
             return;
         }
 
-        String urlPath = url.substring( getProtocol().length() );
+        String urlPath = url.substring(getProtocol().length());
 
-        int indexAt = urlPath.indexOf( '@' );
+        int indexAt = urlPath.indexOf('@');
 
         // a file:// URL may contain userinfo according to RFC 8089, but our implementation is broken
         // extract user information, broken see SCM-909
-        if ( indexAt > 0 && !getProtocol().startsWith( "svn+" ) && !getProtocol().equals( "file://" ) )
-        {
-            String userPassword = urlPath.substring( 0, indexAt );
-            if ( userPassword.indexOf( ':' ) < 0 )
-            {
-                setUser( userPassword );
-            }
-            else
-            {
-                setUser( userPassword.substring( 0, userPassword.indexOf( ':' ) ) );
-                setPassword( userPassword.substring( userPassword.indexOf( ':' ) + 1 ) );
+        if (indexAt > 0 && !getProtocol().startsWith("svn+") && !getProtocol().equals("file://")) {
+            String userPassword = urlPath.substring(0, indexAt);
+            if (userPassword.indexOf(':') < 0) {
+                setUser(userPassword);
+            } else {
+                setUser(userPassword.substring(0, userPassword.indexOf(':')));
+                setPassword(userPassword.substring(userPassword.indexOf(':') + 1));
             }
 
-            urlPath = urlPath.substring( indexAt + 1 );
+            urlPath = urlPath.substring(indexAt + 1);
 
             this.url = getProtocol() + urlPath;
-        }
-        else
-        {
+        } else {
             this.url = getProtocol() + urlPath;
         }
 
-        if ( !"file://".equals( getProtocol() ) )
-        {
-            int indexSlash = urlPath.indexOf( '/' );
+        if (!"file://".equals(getProtocol())) {
+            int indexSlash = urlPath.indexOf('/');
 
             String hostPort = urlPath;
 
-            if ( indexSlash > 0 )
-            {
-                hostPort = urlPath.substring( 0, indexSlash );
+            if (indexSlash > 0) {
+                hostPort = urlPath.substring(0, indexSlash);
             }
 
-            int indexColon = hostPort.indexOf( ':' );
+            int indexColon = hostPort.indexOf(':');
 
-            if ( indexColon > 0 )
-            {
-                setHost( hostPort.substring( 0, indexColon ) );
-                setPort( Integer.parseInt( hostPort.substring( indexColon + 1 ) ) );
-            }
-            else
-            {
-                setHost( hostPort );
+            if (indexColon > 0) {
+                setHost(hostPort.substring(0, indexColon));
+                setPort(Integer.parseInt(hostPort.substring(indexColon + 1)));
+            } else {
+                setHost(hostPort);
             }
         }
     }
 
     /** {@inheritDoc} */
-    public ScmProviderRepository getParent()
-    {
-        String newUrl = getUrl().substring( getProtocol().length() );
+    public ScmProviderRepository getParent() {
+        String newUrl = getUrl().substring(getProtocol().length());
 
-        while ( newUrl.endsWith( "/." ) )
-        {
-            newUrl = newUrl.substring( 0, newUrl.length() - 2 );
+        while (newUrl.endsWith("/.")) {
+            newUrl = newUrl.substring(0, newUrl.length() - 2);
         }
 
-        while ( newUrl.endsWith( "/" ) )
-        {
-            newUrl = newUrl.substring( 0, newUrl.length() - 1 );
+        while (newUrl.endsWith("/")) {
+            newUrl = newUrl.substring(0, newUrl.length() - 1);
         }
 
-        int i = newUrl.lastIndexOf( '/' );
+        int i = newUrl.lastIndexOf('/');
 
-        if ( i < 0 )
-        {
+        if (i < 0) {
             return null;
         }
-        newUrl = newUrl.substring( 0, i );
+        newUrl = newUrl.substring(0, i);
 
-        return new SvnScmProviderRepository( getProtocol() + newUrl, getUser(), getPassword() );
+        return new SvnScmProviderRepository(getProtocol() + newUrl, getUser(), getPassword());
     }
 
     /** {@inheritDoc} */
-    public String getRelativePath( ScmProviderRepository ancestor )
-    {
-        if ( ancestor instanceof SvnScmProviderRepository )
-        {
+    public String getRelativePath(ScmProviderRepository ancestor) {
+        if (ancestor instanceof SvnScmProviderRepository) {
             SvnScmProviderRepository svnAncestor = (SvnScmProviderRepository) ancestor;
 
-            String path = getUrl().replaceFirst( svnAncestor.getUrl() + "/", "" );
+            String path = getUrl().replaceFirst(svnAncestor.getUrl() + "/", "");
 
-            if ( !path.equals( getUrl() ) )
-            {
+            if (!path.equals(getUrl())) {
                 return path;
             }
         }
@@ -254,9 +213,7 @@ public class SvnScmProviderRepository
     }
 
     /** {@inheritDoc} */
-    public String toString()
-    {
+    public String toString() {
         return getUrl();
     }
-
 }

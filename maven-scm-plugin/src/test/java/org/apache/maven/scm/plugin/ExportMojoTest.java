@@ -1,19 +1,22 @@
-package org.apache.maven.scm.plugin;
-
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
- * agreements. See the NOTICE file distributed with this work for additional information regarding
- * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
@@ -25,99 +28,82 @@ import org.codehaus.plexus.util.FileUtils;
 /**
  *
  */
-public class ExportMojoTest
-    extends AbstractMojoTestCase
-{
+public class ExportMojoTest extends AbstractMojoTestCase {
     File exportDir;
 
     File repository;
 
-    protected void setUp()
-        throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
 
-        exportDir = getTestFile( "target/export" );
+        exportDir = getTestFile("target/export");
 
-        repository = getTestFile( "target/repository" );
+        repository = getTestFile("target/repository");
 
-        FileUtils.forceDelete( exportDir );
+        FileUtils.forceDelete(exportDir);
     }
 
-    public void testExport()
-        throws Exception
-    {
-        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName() );
+    public void testExport() throws Exception {
+        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVNADMIN_COMMAND_LINE)) {
+            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName());
             return;
         }
 
-        SvnScmTestUtils.initializeRepository( repository );
+        SvnScmTestUtils.initializeRepository(repository);
 
-        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
+        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVN_COMMAND_LINE)) {
+            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVN_COMMAND_LINE, getName());
             return;
         }
 
-        ExportMojo mojo = (ExportMojo) lookupMojo( "export", getTestFile( "src/test/resources/mojos/export/export.xml" ) );
+        ExportMojo mojo = (ExportMojo) lookupMojo("export", getTestFile("src/test/resources/mojos/export/export.xml"));
 
-        mojo.setExportDirectory( exportDir.getAbsoluteFile() );
+        mojo.setExportDirectory(exportDir.getAbsoluteFile());
 
         mojo.execute();
 
-        assertTrue( exportDir.listFiles().length > 0 );
-        assertFalse( new File( exportDir, ".svn" ).exists() );
+        assertTrue(exportDir.listFiles().length > 0);
+        assertFalse(new File(exportDir, ".svn").exists());
     }
 
-    public void testSkipExportIfExists()
-        throws Exception
-    {
+    public void testSkipExportIfExists() throws Exception {
         exportDir.mkdirs();
 
         ExportMojo mojo = (ExportMojo) lookupMojo(
-                                                   "export",
-                                                   getTestFile( "src/test/resources/mojos/export/exportWhenExportDirectoryExistsAndSkip.xml" ) );
+                "export", getTestFile("src/test/resources/mojos/export/exportWhenExportDirectoryExistsAndSkip.xml"));
 
-        mojo.setExportDirectory( exportDir );
+        mojo.setExportDirectory(exportDir);
 
         mojo.execute();
 
-        assertEquals( 0, exportDir.listFiles().length );
+        assertEquals(0, exportDir.listFiles().length);
     }
 
-    public void testExcludeInclude()
-        throws Exception
-    {
-        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName() );
+    public void testExcludeInclude() throws Exception {
+        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVNADMIN_COMMAND_LINE)) {
+            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName());
             return;
         }
 
-        SvnScmTestUtils.initializeRepository( repository );
+        SvnScmTestUtils.initializeRepository(repository);
 
         exportDir.mkdirs();
 
-        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
+        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVN_COMMAND_LINE)) {
+            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVN_COMMAND_LINE, getName());
             return;
         }
 
-        ExportMojo mojo = (ExportMojo) lookupMojo(
-                                                       "export",
-                                                       getTestFile( "src/test/resources/mojos/export/exportWithExcludesIncludes.xml" ) );
+        ExportMojo mojo = (ExportMojo)
+                lookupMojo("export", getTestFile("src/test/resources/mojos/export/exportWithExcludesIncludes.xml"));
 
-        mojo.setExportDirectory( exportDir );
+        mojo.setExportDirectory(exportDir);
 
         mojo.execute();
 
-        assertTrue( exportDir.listFiles().length > 0 );
-        assertTrue( new File( exportDir, "pom.xml" ).exists() );
-        assertFalse( new File( exportDir, "readme.txt" ).exists() );
-        assertFalse( new File( exportDir, "src/test" ).exists() );
+        assertTrue(exportDir.listFiles().length > 0);
+        assertTrue(new File(exportDir, "pom.xml").exists());
+        assertFalse(new File(exportDir, "readme.txt").exists());
+        assertFalse(new File(exportDir, "src/test").exists());
     }
-
 }

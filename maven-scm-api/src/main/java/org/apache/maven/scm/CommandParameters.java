@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm;
 
 import java.io.File;
 import java.io.Serializable;
@@ -30,9 +29,7 @@ import java.util.Map;
  * @author Olivier Lamy
  *
  */
-public class CommandParameters
-    implements Serializable
-{
+public class CommandParameters implements Serializable {
     private static final long serialVersionUID = -7346070735958137283L;
 
     private Map<String, Object> parameters = new HashMap<String, Object>();
@@ -48,10 +45,8 @@ public class CommandParameters
      * @return The parameter value as a String
      * @throws ScmException if the parameter doesn't exist
      */
-    public String getString( CommandParameter parameter )
-        throws ScmException
-    {
-        Object object = getObject( String.class, parameter );
+    public String getString(CommandParameter parameter) throws ScmException {
+        Object object = getObject(String.class, parameter);
 
         return object.toString();
     }
@@ -64,13 +59,10 @@ public class CommandParameters
      * @return The parameter value as a String
      * @throws ScmException if the value is in the wrong type
      */
-    public String getString( CommandParameter parameter, String defaultValue )
-        throws ScmException
-    {
-        Object object = getObject( String.class, parameter, null );
+    public String getString(CommandParameter parameter, String defaultValue) throws ScmException {
+        Object object = getObject(String.class, parameter, null);
 
-        if ( object == null )
-        {
+        if (object == null) {
             return defaultValue;
         }
 
@@ -84,10 +76,8 @@ public class CommandParameters
      * @param value     The value of the parameter
      * @throws ScmException if the parameter already exist
      */
-    public void setString( CommandParameter parameter, String value )
-        throws ScmException
-    {
-        setObject( parameter, value );
+    public void setString(CommandParameter parameter, String value) throws ScmException {
+        setObject(parameter, value);
     }
 
     // ----------------------------------------------------------------------
@@ -101,10 +91,8 @@ public class CommandParameters
      * @return The parameter value as a String
      * @throws ScmException if the parameter doesn't exist
      */
-    public int getInt( CommandParameter parameter )
-        throws ScmException
-    {
-        return ( (Integer) getObject( Integer.class, parameter ) ).intValue();
+    public int getInt(CommandParameter parameter) throws ScmException {
+        return ((Integer) getObject(Integer.class, parameter)).intValue();
     }
 
     /**
@@ -115,13 +103,10 @@ public class CommandParameters
      * @return The parameter value as a int
      * @throws ScmException if the value is in the wrong type
      */
-    public int getInt( CommandParameter parameter, int defaultValue )
-        throws ScmException
-    {
-        Integer value = ( (Integer) getObject( Integer.class, parameter, null ) );
+    public int getInt(CommandParameter parameter, int defaultValue) throws ScmException {
+        Integer value = ((Integer) getObject(Integer.class, parameter, null));
 
-        if ( value == null )
-        {
+        if (value == null) {
             return defaultValue;
         }
 
@@ -135,10 +120,8 @@ public class CommandParameters
      * @param value     The value of the parameter
      * @throws ScmException if the parameter already exist
      */
-    public void setInt( CommandParameter parameter, int value )
-        throws ScmException
-    {
-        setObject( parameter, Integer.valueOf( value ) );
+    public void setInt(CommandParameter parameter, int value) throws ScmException {
+        setObject(parameter, Integer.valueOf(value));
     }
 
     // ----------------------------------------------------------------------
@@ -152,10 +135,8 @@ public class CommandParameters
      * @return The parameter value as a Date
      * @throws ScmException if the parameter doesn't exist
      */
-    public Date getDate( CommandParameter parameter )
-        throws ScmException
-    {
-        return (Date) getObject( Date.class, parameter );
+    public Date getDate(CommandParameter parameter) throws ScmException {
+        return (Date) getObject(Date.class, parameter);
     }
 
     /**
@@ -166,10 +147,8 @@ public class CommandParameters
      * @return The parameter value as a Date
      * @throws ScmException if the value is in the wrong type
      */
-    public Date getDate( CommandParameter parameter, Date defaultValue )
-        throws ScmException
-    {
-        return (Date) getObject( Date.class, parameter, defaultValue );
+    public Date getDate(CommandParameter parameter, Date defaultValue) throws ScmException {
+        return (Date) getObject(Date.class, parameter, defaultValue);
     }
 
     /**
@@ -179,10 +158,8 @@ public class CommandParameters
      * @param date      The value of the parameter
      * @throws ScmException if the parameter already exist
      */
-    public void setDate( CommandParameter parameter, Date date )
-        throws ScmException
-    {
-        setObject( parameter, date );
+    public void setDate(CommandParameter parameter, Date date) throws ScmException {
+        setObject(parameter, date);
     }
 
     // ----------------------------------------------------------------------
@@ -196,10 +173,8 @@ public class CommandParameters
      * @return The parameter value as a boolean
      * @throws ScmException if the parameter doesn't exist
      */
-    public boolean getBoolean( CommandParameter parameter )
-        throws ScmException
-    {
-        return Boolean.valueOf( getString( parameter ) ).booleanValue();
+    public boolean getBoolean(CommandParameter parameter) throws ScmException {
+        return Boolean.valueOf(getString(parameter)).booleanValue();
     }
 
     /**
@@ -211,10 +186,9 @@ public class CommandParameters
      * @return The parameter value as a boolean
      * @throws ScmException if the parameter doesn't exist
      */
-    public boolean getBoolean( CommandParameter parameter, boolean defaultValue )
-        throws ScmException
-    {
-        return Boolean.valueOf( getString( parameter, Boolean.toString( defaultValue ) ) ).booleanValue();
+    public boolean getBoolean(CommandParameter parameter, boolean defaultValue) throws ScmException {
+        return Boolean.valueOf(getString(parameter, Boolean.toString(defaultValue)))
+                .booleanValue();
     }
 
     // ----------------------------------------------------------------------
@@ -228,10 +202,8 @@ public class CommandParameters
      * @return The parameter value as a ScmVersion
      * @throws ScmException if the parameter doesn't exist
      */
-    public ScmVersion getScmVersion( CommandParameter parameter )
-        throws ScmException
-    {
-        return (ScmVersion) getObject( ScmVersion.class, parameter );
+    public ScmVersion getScmVersion(CommandParameter parameter) throws ScmException {
+        return (ScmVersion) getObject(ScmVersion.class, parameter);
     }
 
     /**
@@ -242,10 +214,8 @@ public class CommandParameters
      * @return The parameter value as a ScmVersion
      * @throws ScmException if the parameter doesn't exist
      */
-    public ScmVersion getScmVersion( CommandParameter parameter, ScmVersion defaultValue )
-        throws ScmException
-    {
-        return (ScmVersion) getObject( ScmVersion.class, parameter, defaultValue );
+    public ScmVersion getScmVersion(CommandParameter parameter, ScmVersion defaultValue) throws ScmException {
+        return (ScmVersion) getObject(ScmVersion.class, parameter, defaultValue);
     }
 
     /**
@@ -255,10 +225,8 @@ public class CommandParameters
      * @param scmVersion The tbranch/tag/revision
      * @throws ScmException if the parameter already exist
      */
-    public void setScmVersion( CommandParameter parameter, ScmVersion scmVersion )
-        throws ScmException
-    {
-        setObject( parameter, scmVersion );
+    public void setScmVersion(CommandParameter parameter, ScmVersion scmVersion) throws ScmException {
+        setObject(parameter, scmVersion);
     }
 
     // ----------------------------------------------------------------------
@@ -270,10 +238,8 @@ public class CommandParameters
      * @return an array of files
      * @throws ScmException if any
      */
-    public File[] getFileArray( CommandParameter parameter )
-        throws ScmException
-    {
-        return (File[]) getObject( File[].class, parameter );
+    public File[] getFileArray(CommandParameter parameter) throws ScmException {
+        return (File[]) getObject(File[].class, parameter);
     }
 
     /**
@@ -282,35 +248,25 @@ public class CommandParameters
      * @return an array of files
      * @throws ScmException if any
      */
-    public File[] getFileArray( CommandParameter parameter, File[] defaultValue )
-        throws ScmException
-    {
-        return (File[]) getObject( File[].class, parameter, defaultValue );
+    public File[] getFileArray(CommandParameter parameter, File[] defaultValue) throws ScmException {
+        return (File[]) getObject(File[].class, parameter, defaultValue);
     }
 
-
-    public ScmTagParameters getScmTagParameters( CommandParameter parameter )
-        throws ScmException
-    {
-        return (ScmTagParameters) getObject( ScmTagParameters.class, parameter, new ScmTagParameters() );
+    public ScmTagParameters getScmTagParameters(CommandParameter parameter) throws ScmException {
+        return (ScmTagParameters) getObject(ScmTagParameters.class, parameter, new ScmTagParameters());
     }
 
-    public void setScmTagParameters( CommandParameter parameter, ScmTagParameters scmTagParameters )
-        throws ScmException
-    {
-        setObject( parameter, scmTagParameters );
+    public void setScmTagParameters(CommandParameter parameter, ScmTagParameters scmTagParameters) throws ScmException {
+        setObject(parameter, scmTagParameters);
     }
 
-    public void setScmBranchParameters( CommandParameter parameter, ScmBranchParameters scmBranchParameters )
-        throws ScmException
-    {
-        setObject( parameter, scmBranchParameters );
+    public void setScmBranchParameters(CommandParameter parameter, ScmBranchParameters scmBranchParameters)
+            throws ScmException {
+        setObject(parameter, scmBranchParameters);
     }
 
-    public ScmBranchParameters getScmBranchParameters( CommandParameter parameter )
-        throws ScmException
-    {
-        return (ScmBranchParameters) getObject( ScmBranchParameters.class, parameter, new ScmBranchParameters() );
+    public ScmBranchParameters getScmBranchParameters(CommandParameter parameter) throws ScmException {
+        return (ScmBranchParameters) getObject(ScmBranchParameters.class, parameter, new ScmBranchParameters());
     }
 
     // ----------------------------------------------------------------------
@@ -325,14 +281,11 @@ public class CommandParameters
      * @return The parameter value
      * @throws ScmException if the parameter doesn't exist
      */
-    private Object getObject( Class<?> clazz, CommandParameter parameter )
-        throws ScmException
-    {
-        Object object = getObject( clazz, parameter, null );
+    private Object getObject(Class<?> clazz, CommandParameter parameter) throws ScmException {
+        Object object = getObject(clazz, parameter, null);
 
-        if ( object == null )
-        {
-            throw new ScmException( "Missing parameter: '" + parameter.getName() + "'." );
+        if (object == null) {
+            throw new ScmException("Missing parameter: '" + parameter.getName() + "'.");
         }
 
         return object;
@@ -347,21 +300,16 @@ public class CommandParameters
      * @return The parameter value
      * @throws ScmException if the defaultValue is in the wrong type
      */
-    private Object getObject( Class<?> clazz, CommandParameter parameter, Object defaultValue )
-        throws ScmException
-    {
-        Object object = parameters.get( parameter.getName() );
+    private Object getObject(Class<?> clazz, CommandParameter parameter, Object defaultValue) throws ScmException {
+        Object object = parameters.get(parameter.getName());
 
-        if ( object == null )
-        {
+        if (object == null) {
             return defaultValue;
         }
 
-        if ( clazz != null && !clazz.isAssignableFrom( object.getClass() ) )
-        {
-            throw new ScmException(
-                "Wrong parameter type for '" + parameter.getName() + ". " + "Expected: " + clazz.getName() + ", got: "
-                    + object.getClass().getName() );
+        if (clazz != null && !clazz.isAssignableFrom(object.getClass())) {
+            throw new ScmException("Wrong parameter type for '" + parameter.getName() + ". " + "Expected: "
+                    + clazz.getName() + ", got: " + object.getClass().getName());
         }
 
         return object;
@@ -374,17 +322,14 @@ public class CommandParameters
      * @param value     The parameter value
      * @throws ScmException if the parameter already exist
      */
-    private void setObject( CommandParameter parameter, Object value )
-        throws ScmException
-    {
-        Object object = getObject( null, parameter, null );
+    private void setObject(CommandParameter parameter, Object value) throws ScmException {
+        Object object = getObject(null, parameter, null);
 
-        if ( object != null )
-        {
-            throw new ScmException( "The parameter is already set: " + parameter.getName() );
+        if (object != null) {
+            throw new ScmException("The parameter is already set: " + parameter.getName());
         }
 
-        parameters.put( parameter.getName(), value );
+        parameters.put(parameter.getName(), value);
     }
 
     /**
@@ -392,8 +337,7 @@ public class CommandParameters
      *
      * @param parameter to remove
      */
-    public void remove( CommandParameter parameter )
-    {
-        parameters.remove( parameter.getName() );
+    public void remove(CommandParameter parameter) {
+        parameters.remove(parameter.getName());
     }
 }

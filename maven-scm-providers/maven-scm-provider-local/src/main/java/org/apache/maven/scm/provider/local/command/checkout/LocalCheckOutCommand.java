@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.local.command.checkout;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.local.command.checkout;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.local.command.checkout;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.local.command.checkout;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,121 +40,99 @@ import org.codehaus.plexus.util.FileUtils;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public class LocalCheckOutCommand
-    extends AbstractCheckOutCommand
-    implements LocalCommand
-{
+public class LocalCheckOutCommand extends AbstractCheckOutCommand implements LocalCommand {
     /** {@inheritDoc} */
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                       ScmVersion version, boolean recursive, boolean shallow )
-        throws ScmException
-    {
+    protected CheckOutScmResult executeCheckOutCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version, boolean recursive, boolean shallow)
+            throws ScmException {
         LocalScmProviderRepository repository = (LocalScmProviderRepository) repo;
 
-        if ( version != null )
-        {
-            throw new ScmException( "The local scm doesn't support tags." );
+        if (version != null) {
+            throw new ScmException("The local scm doesn't support tags.");
         }
 
-        File root = new File( repository.getRoot() );
+        File root = new File(repository.getRoot());
 
         String module = repository.getModule();
 
-        File source = new File( root, module );
+        File source = new File(root, module);
 
         File baseDestination = fileSet.getBasedir();
 
-        if ( !root.exists() )
-        {
-            throw new ScmException( "The base directory doesn't exist (" + root.getAbsolutePath() + ")." );
+        if (!root.exists()) {
+            throw new ScmException("The base directory doesn't exist (" + root.getAbsolutePath() + ").");
         }
 
-        if ( !source.exists() )
-        {
-            throw new ScmException( "The module directory doesn't exist (" + source.getAbsolutePath() + ")." );
+        if (!source.exists()) {
+            throw new ScmException("The module directory doesn't exist (" + source.getAbsolutePath() + ").");
         }
 
         List<ScmFile> checkedOutFiles;
 
-        try
-        {
-            if ( baseDestination.exists() )
-            {
-                FileUtils.deleteDirectory( baseDestination );
+        try {
+            if (baseDestination.exists()) {
+                FileUtils.deleteDirectory(baseDestination);
             }
 
-            if ( !baseDestination.mkdirs() )
-            {
+            if (!baseDestination.mkdirs()) {
                 throw new ScmException(
-                    "Could not create destination directory '" + baseDestination.getAbsolutePath() + "'." );
+                        "Could not create destination directory '" + baseDestination.getAbsolutePath() + "'.");
             }
 
-            if ( logger.isInfoEnabled() )
-            {
-                logger.info(
-                                  "Checking out '" + source.getAbsolutePath() + "' to '"
-                                      + baseDestination.getAbsolutePath() + "'." );
+            if (logger.isInfoEnabled()) {
+                logger.info("Checking out '" + source.getAbsolutePath() + "' to '" + baseDestination.getAbsolutePath()
+                        + "'.");
             }
 
             List<File> fileList;
 
-            if ( fileSet.getFileList().isEmpty() )
-            {
-                fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
-            }
-            else
-            {
+            if (fileSet.getFileList().isEmpty()) {
+                fileList = FileUtils.getFiles(source.getAbsoluteFile(), "**", null);
+            } else {
                 fileList = fileSet.getFileList();
             }
 
-            checkedOutFiles = checkOut( source, baseDestination, fileList, repository.getModule() );
+            checkedOutFiles = checkOut(source, baseDestination, fileList, repository.getModule());
 
             // write metadata file
             LocalScmMetadataUtils metadataUtils = new LocalScmMetadataUtils();
-            metadataUtils.writeMetadata( baseDestination, metadataUtils.buildMetadata( source ) );
-        }
-        catch ( IOException ex )
-        {
-            throw new ScmException( "Error while checking out the files.", ex );
+            metadataUtils.writeMetadata(baseDestination, metadataUtils.buildMetadata(source));
+        } catch (IOException ex) {
+            throw new ScmException("Error while checking out the files.", ex);
         }
 
-        return new LocalCheckOutScmResult( null, checkedOutFiles );
+        return new LocalCheckOutScmResult(null, checkedOutFiles);
     }
 
-    private List<ScmFile> checkOut( File source, File baseDestination, List<File> files, String module )
-        throws ScmException, IOException
-    {
+    private List<ScmFile> checkOut(File source, File baseDestination, List<File> files, String module)
+            throws ScmException, IOException {
         String sourcePath = source.getAbsolutePath();
 
         List<ScmFile> checkedOutFiles = new ArrayList<>();
 
-        for ( File file : files )
-        {
+        for (File file : files) {
             String dest = file.getAbsolutePath();
 
-            dest = dest.substring( sourcePath.length() + 1 );
+            dest = dest.substring(sourcePath.length() + 1);
 
-            File destination = new File( baseDestination, dest );
+            File destination = new File(baseDestination, dest);
 
             destination = destination.getParentFile();
 
-            if ( !destination.exists() && !destination.mkdirs() )
-            {
+            if (!destination.exists() && !destination.mkdirs()) {
                 throw new ScmException(
-                    "Could not create destination directory '" + destination.getAbsolutePath() + "'." );
+                        "Could not create destination directory '" + destination.getAbsolutePath() + "'.");
             }
 
-            FileUtils.copyFileToDirectory( file, destination );
+            FileUtils.copyFileToDirectory(file, destination);
 
             File parent = file.getParentFile();
 
             String fileName = "/" + module + "/" + dest;
 
-            checkedOutFiles.add( new ScmFile( fileName, ScmFileStatus.CHECKED_OUT ) );
+            checkedOutFiles.add(new ScmFile(fileName, ScmFileStatus.CHECKED_OUT));
         }
 
         return checkedOutFiles;
     }
-
-
 }

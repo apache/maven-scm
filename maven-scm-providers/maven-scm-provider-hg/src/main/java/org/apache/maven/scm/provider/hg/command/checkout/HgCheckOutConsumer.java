@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.hg.command.checkout;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.hg.command.checkout;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,45 +16,40 @@ package org.apache.maven.scm.provider.hg.command.checkout;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.provider.hg.command.HgConsumer;
+package org.apache.maven.scm.provider.hg.command.checkout;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author Olivier Lamy
  *
  */
-public class HgCheckOutConsumer
-    extends HgConsumer
-{
+public class HgCheckOutConsumer extends HgConsumer {
 
     private final File workingDirectory;
 
     private List<ScmFile> checkedOut = new ArrayList<ScmFile>();
 
-    public HgCheckOutConsumer( File workingDirectory )
-    {
+    public HgCheckOutConsumer(File workingDirectory) {
         this.workingDirectory = workingDirectory;
     }
 
     /** {@inheritDoc} */
-    public void doConsume( ScmFileStatus status, String line )
-    {
-        File file = new File( workingDirectory, line );
-        if ( file.isFile() )
-        {
-            checkedOut.add( new ScmFile( line, ScmFileStatus.CHECKED_OUT ) );
+    public void doConsume(ScmFileStatus status, String line) {
+        File file = new File(workingDirectory, line);
+        if (file.isFile()) {
+            checkedOut.add(new ScmFile(line, ScmFileStatus.CHECKED_OUT));
         }
     }
 
-    List<ScmFile> getCheckedOutFiles()
-    {
+    List<ScmFile> getCheckedOutFiles() {
         return checkedOut;
     }
 }

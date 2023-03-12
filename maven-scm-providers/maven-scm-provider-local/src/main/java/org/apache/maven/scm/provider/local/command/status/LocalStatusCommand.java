@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.local.command.status;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.local.command.status;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.local.command.status;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.local.command.status;
 
 import java.util.Collections;
 
@@ -32,14 +31,10 @@ import org.apache.maven.scm.provider.local.command.LocalCommand;
  * @author <a href="mailto:matthewm@ambientideas.com">Matthew McCullough</a>
  *
  */
-public class LocalStatusCommand
-    extends AbstractStatusCommand
-    implements LocalCommand
-{
+public class LocalStatusCommand extends AbstractStatusCommand implements LocalCommand {
     /** {@inheritDoc} */
-    protected StatusScmResult executeStatusCommand( ScmProviderRepository repository, ScmFileSet fileSet )
-        throws ScmException
-    {
-        return new StatusScmResult( null, Collections.emptyList() );
+    protected StatusScmResult executeStatusCommand(ScmProviderRepository repository, ScmFileSet fileSet)
+            throws ScmException {
+        return new StatusScmResult(null, Collections.emptyList());
     }
 }

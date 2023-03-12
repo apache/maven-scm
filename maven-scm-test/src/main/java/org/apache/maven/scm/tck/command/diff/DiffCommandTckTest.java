@@ -1,5 +1,3 @@
-package org.apache.maven.scm.tck.command.diff;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.tck.command.diff;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,13 @@ package org.apache.maven.scm.tck.command.diff;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.tck.command.diff;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -29,12 +34,6 @@ import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.junit.Test;
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -45,14 +44,10 @@ import static org.junit.Assert.assertTrue;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
  */
-public abstract class DiffCommandTckTest
-    extends ScmTckTestCase
-{
+public abstract class DiffCommandTckTest extends ScmTckTestCase {
 
     @Test
-    public void testDiffCommand()
-        throws Exception
-    {
+    public void testDiffCommand() throws Exception {
         ScmRepository repository = getScmRepository();
 
         // ----------------------------------------------------------------------
@@ -69,84 +64,84 @@ public abstract class DiffCommandTckTest
         //
 
         // /readme.txt
-        ScmTestCase.makeFile( getWorkingCopy(), "/readme.txt", "changed readme.txt" );
+        ScmTestCase.makeFile(getWorkingCopy(), "/readme.txt", "changed readme.txt");
 
         // /project.xml
-        ScmTestCase.makeFile( getWorkingCopy(), "/project.xml", "changed project.xml" );
+        ScmTestCase.makeFile(getWorkingCopy(), "/project.xml", "changed project.xml");
 
-        addToWorkingTree( getWorkingCopy(), new File( "project.xml" ), repository );
+        addToWorkingTree(getWorkingCopy(), new File("project.xml"), repository);
 
         // /src/test/java/org
-        ScmTestCase.makeDirectory( getWorkingCopy(), "/src/test/java/org" );
+        ScmTestCase.makeDirectory(getWorkingCopy(), "/src/test/java/org");
 
-        addToWorkingTree( getWorkingCopy(), new File( "src/test/java/org" ), repository );
+        addToWorkingTree(getWorkingCopy(), new File("src/test/java/org"), repository);
 
         // /src/main/java/org/Foo.java
-        ScmTestCase.makeFile( getWorkingCopy(), "/src/main/java/org/Foo.java" );
+        ScmTestCase.makeFile(getWorkingCopy(), "/src/main/java/org/Foo.java");
 
-        addToWorkingTree( getWorkingCopy(), new File( "src/main/java/org" ), repository );
+        addToWorkingTree(getWorkingCopy(), new File("src/main/java/org"), repository);
 
         // src/main/java/org/Foo.java
-        addToWorkingTree( getWorkingCopy(), new File( "src/main/java/org/Foo.java" ), repository );
+        addToWorkingTree(getWorkingCopy(), new File("src/main/java/org/Foo.java"), repository);
 
         // ----------------------------------------------------------------------
         // Diff the project
         // ----------------------------------------------------------------------
 
-        ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
-        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
-        DiffScmResult result = provider.diff( repository, fileSet, null, (ScmVersion) null );
+        ScmProvider provider = getScmManager().getProviderByUrl(getScmUrl());
+        ScmFileSet fileSet = new ScmFileSet(getWorkingCopy());
+        DiffScmResult result = provider.diff(repository, fileSet, null, (ScmVersion) null);
 
-        assertNotNull( "The command returned a null result.", result );
+        assertNotNull("The command returned a null result.", result);
 
-        assertResultIsSuccess( result );
+        assertResultIsSuccess(result);
 
         List<ScmFile> changedFiles = result.getChangedFiles();
 
         Map<String, CharSequence> differences = result.getDifferences();
 
-        assertEquals( "Expected 3 files in the changed files list " + changedFiles, 3, changedFiles.size() );
+        assertEquals("Expected 3 files in the changed files list " + changedFiles, 3, changedFiles.size());
 
-        assertEquals( "Expected 3 files in the differences list " + differences, 3, differences.size() );
+        assertEquals("Expected 3 files in the differences list " + differences, 3, differences.size());
 
         // ----------------------------------------------------------------------
         // Assert the files in the changed files list
         // ----------------------------------------------------------------------
 
-        Iterator<ScmFile> files = new TreeSet<ScmFile>( changedFiles ).iterator();
+        Iterator<ScmFile> files = new TreeSet<ScmFile>(changedFiles).iterator();
 
-        //Check Foo.java
+        // Check Foo.java
         ScmFile file = files.next();
 
-        assertPath( "src/main/java/org/Foo.java", file.getPath() );
+        assertPath("src/main/java/org/Foo.java", file.getPath());
 
-        assertTrue( file.getStatus().isDiff() );
+        assertTrue(file.getStatus().isDiff());
 
         String postRangeStr = "+/src/main/java/org/Foo.java\n\\ No newline at end of file\n";
-        String actualStr = differences.get( file.getPath() ).toString();
-        assertTrue( actualStr.endsWith( postRangeStr ) );
+        String actualStr = differences.get(file.getPath()).toString();
+        assertTrue(actualStr.endsWith(postRangeStr));
 
-        //Check readme.txt
+        // Check readme.txt
         file = files.next();
 
-        assertPath( "readme.txt", file.getPath() );
+        assertPath("readme.txt", file.getPath());
 
-        assertTrue( file.getStatus().isDiff() );
+        assertTrue(file.getStatus().isDiff());
 
         postRangeStr =
-            "-/readme.txt\n\\ No newline at end of file\n+changed readme.txt\n\\ No newline at end of file\n";
-        actualStr = differences.get( file.getPath() ).toString();
-        assertTrue( actualStr.endsWith( postRangeStr ) );
+                "-/readme.txt\n\\ No newline at end of file\n+changed readme.txt\n\\ No newline at end of file\n";
+        actualStr = differences.get(file.getPath()).toString();
+        assertTrue(actualStr.endsWith(postRangeStr));
 
-        //Check project.xml
+        // Check project.xml
         file = files.next();
 
-        assertPath( "project.xml", file.getPath() );
+        assertPath("project.xml", file.getPath());
 
         postRangeStr = "+changed project.xml\n\\ No newline at end of file\n";
-        actualStr = differences.get( file.getPath() ).toString();
-        assertTrue( actualStr.endsWith( postRangeStr ) );
+        actualStr = differences.get(file.getPath()).toString();
+        assertTrue(actualStr.endsWith(postRangeStr));
 
-        assertTrue( file.getStatus().isDiff() );
+        assertTrue(file.getStatus().isDiff());
     }
 }

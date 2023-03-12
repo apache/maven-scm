@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit.command;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit.command;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.jgit.command;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.jgit.command;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,54 +38,41 @@ import org.slf4j.Logger;
  * {@link SshdSessionFactory} considering the settings from {@link GitScmProviderRepository}.
  *
  */
-public class ScmProviderAwareSshdSessionFactory extends SshdSessionFactory
-{
+public class ScmProviderAwareSshdSessionFactory extends SshdSessionFactory {
     private final GitScmProviderRepository repo;
     private final Logger logger;
 
-    public ScmProviderAwareSshdSessionFactory( GitScmProviderRepository repo, Logger logger )
-    {
+    public ScmProviderAwareSshdSessionFactory(GitScmProviderRepository repo, Logger logger) {
         this.repo = repo;
         this.logger = logger;
     }
 
     @Override
-    protected List<Path> getDefaultIdentities( File sshDir )
-    {
-        if ( !StringUtils.isEmptyOrNull( repo.getPrivateKey() ) )
-        {
-            logger.debug( "Using private key at {}", repo.getPrivateKey() );
-            return Collections.singletonList( Paths.get( repo.getPrivateKey() ) );
-        }
-        else
-        {
-            return super.getDefaultIdentities( sshDir );
+    protected List<Path> getDefaultIdentities(File sshDir) {
+        if (!StringUtils.isEmptyOrNull(repo.getPrivateKey())) {
+            logger.debug("Using private key at {}", repo.getPrivateKey());
+            return Collections.singletonList(Paths.get(repo.getPrivateKey()));
+        } else {
+            return super.getDefaultIdentities(sshDir);
         }
     }
 
     @Override
-    protected KeyPasswordProvider createKeyPasswordProvider( CredentialsProvider provider )
-    {
-        if ( repo.getPassphrase() != null )
-        {
-            return new IdentityPasswordProvider( provider )
-            {
+    protected KeyPasswordProvider createKeyPasswordProvider(CredentialsProvider provider) {
+        if (repo.getPassphrase() != null) {
+            return new IdentityPasswordProvider(provider) {
                 @Override
-                public char[] getPassphrase( URIish uri, int attempt ) throws IOException
-                {
-                    if ( attempt > 0 )
-                    {
-                        throw new IOException( "Passphrase was not correct in first attempt, "
-                            + "canceling further attempts!" );
+                public char[] getPassphrase(URIish uri, int attempt) throws IOException {
+                    if (attempt > 0) {
+                        throw new IOException(
+                                "Passphrase was not correct in first attempt, " + "canceling further attempts!");
                     }
-                    logger.debug( "Using stored passphrase" );
+                    logger.debug("Using stored passphrase");
                     return repo.getPassphrase().toCharArray();
                 }
             };
-        }
-        else
-        {
-            return super.createKeyPasswordProvider( provider );
+        } else {
+            return super.createKeyPasswordProvider(provider);
         }
     }
 }

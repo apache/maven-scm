@@ -1,5 +1,3 @@
-package org.apache.maven.scm.plugin;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.plugin;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,9 @@ package org.apache.maven.scm.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.plugin;
+
+import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -26,61 +27,52 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 
-import java.io.IOException;
-
 /**
  * Commit changes to the configured scm url.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  */
-@Mojo( name = "checkin", aggregator = true )
-public class CheckinMojo
-    extends AbstractScmMojo
-{
+@Mojo(name = "checkin", aggregator = true)
+public class CheckinMojo extends AbstractScmMojo {
     /**
      * Commit log.
      */
-    @Parameter( property = "message" )
+    @Parameter(property = "message")
     private String message;
 
     /**
      * The configured scm url to use.
      */
-    @Parameter( property = "connectionType", defaultValue = "developerConnection" )
+    @Parameter(property = "connectionType", defaultValue = "developerConnection")
     private String connectionType;
 
     /**
      * The version type (branch/tag/revision) of scmVersion.
      */
-    @Parameter( property = "scmVersionType" )
+    @Parameter(property = "scmVersionType")
     private String scmVersionType;
 
     /**
      * The version (revision number/branch name/tag name).
      */
-    @Parameter( property = "scmVersion" )
+    @Parameter(property = "scmVersion")
     private String scmVersion;
 
     /** {@inheritDoc} */
-    public void execute()
-        throws MojoExecutionException
-    {
+    public void execute() throws MojoExecutionException {
         super.execute();
 
-        setConnectionType( connectionType );
+        setConnectionType(connectionType);
 
-        try
-        {
+        try {
             ScmRepository repository = getScmRepository();
 
-            CheckInScmResult result = getScmManager().checkIn( repository, getFileSet(),
-                                                               getScmVersion( scmVersionType, scmVersion ), message );
+            CheckInScmResult result = getScmManager()
+                    .checkIn(repository, getFileSet(), getScmVersion(scmVersionType, scmVersion), message);
 
-            checkResult( result );
-        }
-        catch ( IOException | ScmException e )
-        {
-            throw new MojoExecutionException( "Cannot run checkin command : ", e );
+            checkResult(result);
+        } catch (IOException | ScmException e) {
+            throw new MojoExecutionException("Cannot run checkin command : ", e);
         }
     }
 }

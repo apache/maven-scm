@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,11 @@ package org.apache.maven.scm.provider;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider;
+
+import java.io.File;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
@@ -51,25 +54,20 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
-import java.io.File;
-import java.util.Date;
-import java.util.List;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public interface ScmProvider
-{
+public interface ScmProvider {
     String getScmType();
 
     boolean requiresEditMode();
 
-    ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
-        throws ScmRepositoryException;
+    ScmProviderRepository makeProviderScmRepository(String scmSpecificUrl, char delimiter)
+            throws ScmRepositoryException;
 
-    ScmProviderRepository makeProviderScmRepository( File path )
-        throws ScmRepositoryException, UnknownRepositoryStructure;
+    ScmProviderRepository makeProviderScmRepository(File path)
+            throws ScmRepositoryException, UnknownRepositoryStructure;
 
     /**
      * Sets the interactive mode.
@@ -77,9 +75,7 @@ public interface ScmProvider
      * @param interactive either {@code true} in case user may be prompted for information, otherwise {@code false}
      * @since 2.0.0-M2
      */
-    default void setInteractive( boolean interactive )
-    {
-    }
+    default void setInteractive(boolean interactive) {}
 
     /**
      * Validate the scm url.
@@ -88,7 +84,7 @@ public interface ScmProvider
      * @param delimiter      The delimiter used in the SCM url
      * @return Returns a list of messages if the validation failed
      */
-    List<String> validateScmUrl( String scmSpecificUrl, char delimiter );
+    List<String> validateScmUrl(String scmSpecificUrl, char delimiter);
 
     /**
      * Returns the scm reserved file name where the SCM stores information like '.git', '.svn'.
@@ -103,7 +99,7 @@ public interface ScmProvider
      * @param tag tag name to check
      * @return true if tag is valid
      */
-    boolean validateTagName( String tag );
+    boolean validateTagName(String tag);
 
     /**
      * Given a tag name, make it suitable for this SCM provider.
@@ -111,7 +107,7 @@ public interface ScmProvider
      * @param tag input tag name
      * @return sanitized tag name
      */
-    String sanitizeTagName( String tag );
+    String sanitizeTagName(String tag);
 
     /**
      * Adds the given files to the source control system
@@ -121,8 +117,7 @@ public interface ScmProvider
      * @return an {@link AddScmResult} that contains the files that have been added
      * @throws ScmException if any
      */
-    AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
-        throws ScmException;
+    AddScmResult add(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
      * Adds the given files to the source control system
@@ -133,8 +128,7 @@ public interface ScmProvider
      * @return an {@link AddScmResult} that contains the files that have been added
      * @throws ScmException if any
      */
-    AddScmResult add( ScmRepository repository, ScmFileSet fileSet, String message )
-        throws ScmException;
+    AddScmResult add(ScmRepository repository, ScmFileSet fileSet, String message) throws ScmException;
 
     /**
      * Adds the given files to the source control system
@@ -145,8 +139,8 @@ public interface ScmProvider
      * @return an {@link AddScmResult} that contains the files that have been added
      * @throws ScmException if any
      */
-    AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters commandParameters )
-        throws ScmException;
+    AddScmResult add(ScmRepository repository, ScmFileSet fileSet, CommandParameters commandParameters)
+            throws ScmException;
 
     /**
      * Branch (or label in some systems) will create a branch of the source file with a certain branch name
@@ -159,8 +153,7 @@ public interface ScmProvider
      * @throws ScmException if any
      * @deprecated use {@link #branch(ScmRepository, ScmFileSet, String, ScmBranchParameters)}
      */
-    BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName )
-        throws ScmException;
+    BranchScmResult branch(ScmRepository repository, ScmFileSet fileSet, String branchName) throws ScmException;
 
     /**
      * Branch (or label in some systems) will create a branch of the source file with a certain branch name
@@ -174,8 +167,8 @@ public interface ScmProvider
      * @throws ScmException if any
      * @deprecated use {@link #branch(ScmRepository, ScmFileSet, String, ScmBranchParameters)}
      */
-    BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
-        throws ScmException;
+    BranchScmResult branch(ScmRepository repository, ScmFileSet fileSet, String branchName, String message)
+            throws ScmException;
 
     /**
      * Branch (or label in some systems) will create a branch of the source file with a certain
@@ -190,9 +183,9 @@ public interface ScmProvider
      * @throws ScmException if any
      * @since 1.3
      */
-    BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName,
-                            ScmBranchParameters scmBranchParameters )
-        throws ScmException;
+    BranchScmResult branch(
+            ScmRepository repository, ScmFileSet fileSet, String branchName, ScmBranchParameters scmBranchParameters)
+            throws ScmException;
 
     /**
      * Returns the changes that have happened in the source control system in a certain period of time.
@@ -211,9 +204,9 @@ public interface ScmProvider
      *             org.apache.maven.scm.ScmFileSet, java.util.Date, java.util.Date, int,
      *             org.apache.maven.scm.ScmBranch)}
      */
-    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                  int numDays, String branch )
-        throws ScmException;
+    ChangeLogScmResult changeLog(
+            ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate, int numDays, String branch)
+            throws ScmException;
 
     /**
      * Returns the changes that have happened in the source control system in a certain period of time.
@@ -231,9 +224,9 @@ public interface ScmProvider
      * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
     @Deprecated
-    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                  int numDays, ScmBranch branch )
-        throws ScmException;
+    ChangeLogScmResult changeLog(
+            ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate, int numDays, ScmBranch branch)
+            throws ScmException;
 
     /**
      * Returns the changes that have happened in the source control system in a certain period of time.
@@ -252,9 +245,15 @@ public interface ScmProvider
      * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
     @Deprecated
-    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                  int numDays, String branch, String datePattern )
-        throws ScmException;
+    ChangeLogScmResult changeLog(
+            ScmRepository repository,
+            ScmFileSet fileSet,
+            Date startDate,
+            Date endDate,
+            int numDays,
+            String branch,
+            String datePattern)
+            throws ScmException;
 
     /**
      * Returns the changes that have happened in the source control system in a certain period of time.
@@ -272,9 +271,15 @@ public interface ScmProvider
      * @throws ScmException if any
      * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
-    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                  int numDays, ScmBranch branch, String datePattern )
-        throws ScmException;
+    ChangeLogScmResult changeLog(
+            ScmRepository repository,
+            ScmFileSet fileSet,
+            Date startDate,
+            Date endDate,
+            int numDays,
+            ScmBranch branch,
+            String datePattern)
+            throws ScmException;
 
     /**
      * Returns the changes that have happened in the source control system in a certain period of time.
@@ -285,8 +290,7 @@ public interface ScmProvider
      * @throws ScmException if any
      * @since 1.8
      */
-    ChangeLogScmResult changeLog( ChangeLogScmRequest scmRequest )
-        throws ScmException;
+    ChangeLogScmResult changeLog(ChangeLogScmRequest scmRequest) throws ScmException;
 
     /**
      * Returns the changes that have happened in the source control system between two tags.
@@ -302,8 +306,8 @@ public interface ScmProvider
      * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
     @Deprecated
-    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
-        throws ScmException;
+    ChangeLogScmResult changeLog(ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag)
+            throws ScmException;
 
     /**
      * Returns the changes that have happened in the source control system between two tags.
@@ -319,9 +323,9 @@ public interface ScmProvider
      * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
     @Deprecated
-    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
-                                  ScmVersion endVersion )
-        throws ScmException;
+    ChangeLogScmResult changeLog(
+            ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion, ScmVersion endVersion)
+            throws ScmException;
 
     /**
      * Returns the changes that have happened in the source control system between two tags.
@@ -338,9 +342,9 @@ public interface ScmProvider
      * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
     @Deprecated
-    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag,
-                                  String datePattern )
-        throws ScmException;
+    ChangeLogScmResult changeLog(
+            ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag, String datePattern)
+            throws ScmException;
 
     /**
      * Returns the changes that have happened in the source control system between two tags.
@@ -357,9 +361,13 @@ public interface ScmProvider
      * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
     @Deprecated
-    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startRevision,
-                                  ScmVersion endRevision, String datePattern )
-        throws ScmException;
+    ChangeLogScmResult changeLog(
+            ScmRepository repository,
+            ScmFileSet fileSet,
+            ScmVersion startRevision,
+            ScmVersion endRevision,
+            String datePattern)
+            throws ScmException;
 
     /**
      * Save the changes you have done into the repository. This will create a new version of the file or
@@ -378,8 +386,8 @@ public interface ScmProvider
      * @deprecated you must use {@link ScmProvider#checkIn(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, String)}
      */
-    CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String tag, String message )
-        throws ScmException;
+    CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, String tag, String message)
+            throws ScmException;
 
     /**
      * Save the changes you have done into the repository. This will create a new version of the file or
@@ -395,8 +403,7 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String message )
-        throws ScmException;
+    CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, String message) throws ScmException;
 
     /**
      * Save the changes you have done into the repository. This will create a new version of the file or
@@ -413,8 +420,8 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, ScmVersion revision, String message )
-        throws ScmException;
+    CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, ScmVersion revision, String message)
+            throws ScmException;
 
     /**
      * Create a copy of the repository on your local machine
@@ -427,8 +434,7 @@ public interface ScmProvider
      * @deprecated you must use {@link ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion)}
      */
-    CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
-        throws ScmException;
+    CheckOutScmResult checkOut(ScmRepository repository, ScmFileSet fileSet, String tag) throws ScmException;
 
     /**
      * Create a copy of the repository on your local machine
@@ -438,8 +444,7 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet )
-        throws ScmException;
+    CheckOutScmResult checkOut(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
      * Create a copy of the repository on your local machine
@@ -450,8 +455,7 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
-        throws ScmException;
+    CheckOutScmResult checkOut(ScmRepository repository, ScmFileSet fileSet, ScmVersion version) throws ScmException;
 
     /**
      * Create a copy of the repository on your local machine.
@@ -465,8 +469,8 @@ public interface ScmProvider
      * @deprecated you must use {@link ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, boolean)}
      */
-    CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, String tag, boolean recursive )
-        throws ScmException;
+    CheckOutScmResult checkOut(ScmRepository scmRepository, ScmFileSet scmFileSet, String tag, boolean recursive)
+            throws ScmException;
 
     /**
      * Create a copy of the repository on your local machine.
@@ -477,8 +481,8 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, boolean recursive )
-        throws ScmException;
+    CheckOutScmResult checkOut(ScmRepository scmRepository, ScmFileSet scmFileSet, boolean recursive)
+            throws ScmException;
 
     /**
      * Create a copy of the repository on your local machine.
@@ -490,9 +494,9 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, ScmVersion version,
-                                boolean recursive )
-        throws ScmException;
+    CheckOutScmResult checkOut(
+            ScmRepository scmRepository, ScmFileSet scmFileSet, ScmVersion version, boolean recursive)
+            throws ScmException;
 
     /**
      * Create a copy of the repository on your local machine.
@@ -506,9 +510,12 @@ public interface ScmProvider
      * @throws ScmException if any
      * @since 1.9.6
      */
-    CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, ScmVersion version , //
-                                CommandParameters commandParameters )
-        throws ScmException;
+    CheckOutScmResult checkOut(
+            ScmRepository scmRepository,
+            ScmFileSet scmFileSet,
+            ScmVersion version, //
+            CommandParameters commandParameters)
+            throws ScmException;
 
     /**
      * Create a diff between two branch/tag/revision.
@@ -522,8 +529,8 @@ public interface ScmProvider
      * @deprecated you must use {@link ScmProvider#diff(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, org.apache.maven.scm.ScmVersion)}
      */
-    DiffScmResult diff( ScmRepository scmRepository, ScmFileSet scmFileSet, String startRevision, String endRevision )
-        throws ScmException;
+    DiffScmResult diff(ScmRepository scmRepository, ScmFileSet scmFileSet, String startRevision, String endRevision)
+            throws ScmException;
 
     /**
      * Create a diff between two branch/tag/revision.
@@ -535,9 +542,9 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    DiffScmResult diff( ScmRepository scmRepository, ScmFileSet scmFileSet, ScmVersion startVersion,
-                        ScmVersion endVersion )
-        throws ScmException;
+    DiffScmResult diff(
+            ScmRepository scmRepository, ScmFileSet scmFileSet, ScmVersion startVersion, ScmVersion endVersion)
+            throws ScmException;
 
     /**
      * Create an exported copy of the repository on your local machine
@@ -550,8 +557,7 @@ public interface ScmProvider
      * @deprecated you must use {@link ScmProvider#export(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion)}
      */
-    ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag )
-        throws ScmException;
+    ExportScmResult export(ScmRepository repository, ScmFileSet fileSet, String tag) throws ScmException;
 
     /**
      * Create an exported copy of the repository on your local machine
@@ -561,8 +567,7 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    ExportScmResult export( ScmRepository repository, ScmFileSet fileSet )
-        throws ScmException;
+    ExportScmResult export(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
      * Create an exported copy of the repository on your local machine
@@ -573,8 +578,7 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
-        throws ScmException;
+    ExportScmResult export(ScmRepository repository, ScmFileSet fileSet, ScmVersion version) throws ScmException;
 
     /**
      * Create an exported copy of the repository on your local machine
@@ -588,8 +592,8 @@ public interface ScmProvider
      * @deprecated you must use {@link ScmProvider#export(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, String)}
      */
-    ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag, String outputDirectory )
-        throws ScmException;
+    ExportScmResult export(ScmRepository repository, ScmFileSet fileSet, String tag, String outputDirectory)
+            throws ScmException;
 
     /**
      * Create an exported copy of the repository on your local machine
@@ -601,8 +605,8 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, String outputDirectory )
-        throws ScmException;
+    ExportScmResult export(ScmRepository repository, ScmFileSet fileSet, ScmVersion version, String outputDirectory)
+            throws ScmException;
 
     /**
      * Removes the given files from the source control system
@@ -613,8 +617,7 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, String message )
-        throws ScmException;
+    RemoveScmResult remove(ScmRepository repository, ScmFileSet fileSet, String message) throws ScmException;
 
     /**
      * Returns the status of the files in the source control system. The state of each file can be one
@@ -626,8 +629,7 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    StatusScmResult status( ScmRepository repository, ScmFileSet fileSet )
-        throws ScmException;
+    StatusScmResult status(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
      * Tag (or label in some systems) will tag the source file with a certain tag
@@ -640,8 +642,7 @@ public interface ScmProvider
      * @throws ScmException if any
      * @deprecated use {@link #tag(ScmRepository, ScmFileSet, String, ScmTagParameters)}
      */
-    TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName )
-        throws ScmException;
+    TagScmResult tag(ScmRepository repository, ScmFileSet fileSet, String tagName) throws ScmException;
 
     /**
      * Deletes a tag.
@@ -652,8 +653,8 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    UntagScmResult untag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException;
+    UntagScmResult untag(ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException;
 
     /**
      * Tag (or label in some systems) will tag the source file with a certain tag
@@ -667,8 +668,7 @@ public interface ScmProvider
      * @throws ScmException if any
      * @deprecated use {@link #tag(ScmRepository, ScmFileSet, String, ScmTagParameters)}
      */
-    TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, String message )
-        throws ScmException;
+    TagScmResult tag(ScmRepository repository, ScmFileSet fileSet, String tagName, String message) throws ScmException;
 
     /**
      * Tag (or label in some systems) will tag the source file with a certain tag
@@ -682,8 +682,8 @@ public interface ScmProvider
      * @throws ScmException if any
      * @since 1.2
      */
-    TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, ScmTagParameters scmTagParameters )
-        throws ScmException;
+    TagScmResult tag(ScmRepository repository, ScmFileSet fileSet, String tagName, ScmTagParameters scmTagParameters)
+            throws ScmException;
 
     /**
      * Updates the copy on the local machine with the changes in the repository
@@ -693,8 +693,7 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet )
-        throws ScmException;
+    UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
      * Updates the copy on the local machine with the changes in the repository
@@ -707,8 +706,7 @@ public interface ScmProvider
      * @deprecated you must use {@link ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion)}
      */
-    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
-        throws ScmException;
+    UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, String tag) throws ScmException;
 
     /**
      * Updates the copy on the local machine with the changes in the repository
@@ -719,8 +717,7 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
-        throws ScmException;
+    UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, ScmVersion version) throws ScmException;
 
     /**
      * Updates the copy on the local machine with the changes in the repository
@@ -734,8 +731,8 @@ public interface ScmProvider
      * @deprecated you must use {@link ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, boolean)}
      */
-    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, boolean runChangelog )
-        throws ScmException;
+    UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, String tag, boolean runChangelog)
+            throws ScmException;
 
     /**
      * Updates the copy on the local machine with the changes in the repository
@@ -746,8 +743,7 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, boolean runChangelog )
-        throws ScmException;
+    UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, boolean runChangelog) throws ScmException;
 
     /**
      * Updates the copy on the local machine with the changes in the repository
@@ -759,8 +755,8 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, boolean runChangelog )
-        throws ScmException;
+    UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, ScmVersion version, boolean runChangelog)
+            throws ScmException;
 
     /**
      * Updates the copy on the local machine with the changes in the repository
@@ -774,8 +770,8 @@ public interface ScmProvider
      * @deprecated you must use {@link ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, String)}
      */
-    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern )
-        throws ScmException;
+    UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern)
+            throws ScmException;
 
     /**
      * Updates the copy on the local machine with the changes in the repository
@@ -787,8 +783,8 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, String datePattern )
-        throws ScmException;
+    UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, ScmVersion version, String datePattern)
+            throws ScmException;
 
     /**
      * Updates the copy on the local machine with the changes in the repository
@@ -802,8 +798,8 @@ public interface ScmProvider
      * @deprecated you must use {@link ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, java.util.Date)}
      */
-    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate )
-        throws ScmException;
+    UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate)
+            throws ScmException;
 
     /**
      * Updates the copy on the local machine with the changes in the repository
@@ -815,8 +811,8 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate )
-        throws ScmException;
+    UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate)
+            throws ScmException;
 
     /**
      * Updates the copy on the local machine with the changes in the repository
@@ -831,9 +827,9 @@ public interface ScmProvider
      * @deprecated you must use {@link ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, java.util.Date, String)}
      */
-    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
-                            String datePattern )
-        throws ScmException;
+    UpdateScmResult update(
+            ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate, String datePattern)
+            throws ScmException;
 
     /**
      * Updates the copy on the local machine with the changes in the repository
@@ -846,9 +842,9 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate,
-                            String datePattern )
-        throws ScmException;
+    UpdateScmResult update(
+            ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate, String datePattern)
+            throws ScmException;
 
     /**
      * Make a file editable. This is used in source control systems where you look at read-only files
@@ -860,8 +856,7 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    EditScmResult edit( ScmRepository repository, ScmFileSet fileSet )
-        throws ScmException;
+    EditScmResult edit(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
      * Make a file no longer editable. This is the conterpart of {@link #edit(
@@ -873,8 +868,7 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
-        throws ScmException;
+    UnEditScmResult unedit(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
      * List each element (files and directories) of <B>fileSet</B> as they exist in the repository.
@@ -888,8 +882,7 @@ public interface ScmProvider
      * @deprecated you must use {@link ScmProvider#list(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, boolean, org.apache.maven.scm.ScmVersion)}
      */
-    ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag )
-        throws ScmException;
+    ListScmResult list(ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag) throws ScmException;
 
     /**
      * List each element (files and directories) of <B>fileSet</B> as they exist in the repository.
@@ -901,8 +894,8 @@ public interface ScmProvider
      * @return the list of files in the repository
      * @throws ScmException if any
      */
-    ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion version )
-        throws ScmException;
+    ListScmResult list(ScmRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion version)
+            throws ScmException;
 
     /**
      * Returns the blame of specified file
@@ -915,8 +908,7 @@ public interface ScmProvider
      * @since 1.4
      * @deprecated use blame with {@link BlameScmRequest} parameter
      */
-    BlameScmResult blame( ScmRepository repository, ScmFileSet fileSet, String filename )
-        throws ScmException;
+    BlameScmResult blame(ScmRepository repository, ScmFileSet fileSet, String filename) throws ScmException;
 
     /**
      *
@@ -925,9 +917,7 @@ public interface ScmProvider
      * @throws ScmException if any
      * @since 1.8
      */
-    BlameScmResult blame( BlameScmRequest blameScmRequest )
-        throws ScmException;
-
+    BlameScmResult blame(BlameScmRequest blameScmRequest) throws ScmException;
 
     /**
      * Create directory/directories in the repository.
@@ -939,8 +929,8 @@ public interface ScmProvider
      * @return TODO
      * @throws ScmException if any
      */
-    MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
-        throws ScmException;
+    MkdirScmResult mkdir(ScmRepository repository, ScmFileSet fileSet, String message, boolean createInLocal)
+            throws ScmException;
 
     /**
      * @param repository the source control system
@@ -950,8 +940,8 @@ public interface ScmProvider
      * @throws ScmException if any
      * @since 1.5
      */
-    InfoScmResult info( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException;
+    InfoScmResult info(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException;
 
     /**
      * @param repository the source control system
@@ -961,6 +951,6 @@ public interface ScmProvider
      * @throws ScmException if any
      * @since 1.6
      */
-    RemoteInfoScmResult remoteInfo( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException;
+    RemoteInfoScmResult remoteInfo(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException;
 }

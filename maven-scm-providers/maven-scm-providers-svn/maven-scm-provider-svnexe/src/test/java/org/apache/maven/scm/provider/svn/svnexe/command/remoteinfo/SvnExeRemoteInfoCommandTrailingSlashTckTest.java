@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.remoteinfo;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.remoteinfo;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.remoteinfo;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command.remoteinfo;
 
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
@@ -25,15 +24,10 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 /**
  * @author Bertrand Paquet
  */
-public class SvnExeRemoteInfoCommandTrailingSlashTckTest
-    extends AbstractSvnExeRemoteInfoCommandTckTest
-{
+public class SvnExeRemoteInfoCommandTrailingSlashTckTest extends AbstractSvnExeRemoteInfoCommandTckTest {
 
     @Override
-    protected ScmProviderRepository getScmProviderRepository()
-        throws Exception
-    {
-        return new SvnScmProviderRepository( "http://svn.apache.org/repos/asf/maven/maven-3/trunk/" );
+    protected ScmProviderRepository getScmProviderRepository() throws Exception {
+        return new SvnScmProviderRepository("http://svn.apache.org/repos/asf/maven/maven-3/trunk/");
     }
-
 }

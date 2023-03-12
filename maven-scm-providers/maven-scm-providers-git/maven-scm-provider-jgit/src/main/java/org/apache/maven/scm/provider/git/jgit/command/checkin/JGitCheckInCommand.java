@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit.command.checkin;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit.command.checkin;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,14 @@ package org.apache.maven.scm.provider.git.jgit.command.checkin;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.jgit.command.checkin;
+
+import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -39,13 +45,6 @@ import org.eclipse.jgit.lib.UserConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
 
-import java.io.File;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 /**
  * This provider uses the following strategy to discover the committer and author name/mail for a commit:
  * <ol>
@@ -58,15 +57,12 @@ import java.util.Set;
  * <code>git config --global maven-scm.maildomain mycomp.com</code> <br>
  * you can also enforce the usage of the username for the author and committer:<br>
  * <code>git config --global maven-scm.forceUsername true</code> <br>
- * 
+ *
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitCheckInCommand
-    extends AbstractCheckInCommand
-    implements GitCommand
-{
+public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCommand {
 
     protected static final String GIT_MAVEN_SECTION = "maven-scm";
 
@@ -77,55 +73,41 @@ public class JGitCheckInCommand
     /**
      * {@inheritDoc}
      */
-    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
-                                                      ScmVersion version )
-        throws ScmException
-    {
+    protected CheckInScmResult executeCheckInCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, String message, ScmVersion version) throws ScmException {
 
         Git git = null;
-        try
-        {
+        try {
             File basedir = fileSet.getBasedir();
-            git = JGitUtils.openRepo( basedir );
+            git = JGitUtils.openRepo(basedir);
 
             boolean doCommit = false;
 
-            if ( !fileSet.getFileList().isEmpty() )
-            {
+            if (!fileSet.getFileList().isEmpty()) {
                 // add files first
-                doCommit = JGitUtils.addAllFiles( git, fileSet ).size() > 0;
-                if ( !doCommit )
-                {
+                doCommit = JGitUtils.addAllFiles(git, fileSet).size() > 0;
+                if (!doCommit) {
                     doCommit = git.status().call().hasUncommittedChanges();
                 }
-            }
-            else
-            {
+            } else {
                 // add all tracked files which are modified manually
                 Status status = git.status().call();
                 Set<String> changeds = git.status().call().getModified();
-                if ( changeds.isEmpty() )
-                {
-                    if ( !status.hasUncommittedChanges() )
-                    {
+                if (changeds.isEmpty()) {
+                    if (!status.hasUncommittedChanges()) {
                         // warn there is nothing to add
-                        logger.warn( "There are neither files to be added nor any uncommitted changes" );
+                        logger.warn("There are neither files to be added nor any uncommitted changes");
                         doCommit = false;
-                    }
-                    else
-                    {
-                        logger.debug( "There are uncommitted changes in the git index" );
+                    } else {
+                        logger.debug("There are uncommitted changes in the git index");
                         doCommit = true;
                     }
-                }
-                else
-                {
+                } else {
                     // TODO: gitexe only adds if fileSet is not empty
                     AddCommand add = git.add();
-                    for ( String changed : changeds )
-                    {
-                        logger.debug( "Add manually: {}", changed );
-                        add.addFilepattern( changed );
+                    for (String changed : changeds) {
+                        logger.debug("Add manually: {}", changed);
+                        add.addFilepattern(changed);
                         doCommit = true;
                     }
                     add.call();
@@ -133,167 +115,140 @@ public class JGitCheckInCommand
             }
 
             List<ScmFile> checkedInFiles = Collections.emptyList();
-            if ( doCommit )
-            {
-                UserInfo author = getAuthor( repo, git );
-                UserInfo committer = getCommitter( repo, git );
+            if (doCommit) {
+                UserInfo author = getAuthor(repo, git);
+                UserInfo committer = getCommitter(repo, git);
 
-                CommitCommand command = git.commit().setMessage( message ).setAuthor( author.name, author.email );
-                command.setCommitter( committer.name, committer.email );
+                CommitCommand command = git.commit().setMessage(message).setAuthor(author.name, author.email);
+                command.setCommitter(committer.name, committer.email);
                 RevCommit commitRev = command.call();
 
-                logger.info( "commit done: " + commitRev.getShortMessage() );
-                checkedInFiles = JGitUtils.getFilesInCommit( git.getRepository(), commitRev, fileSet.getBasedir() );
-                if ( logger.isDebugEnabled() )
-                {
-                    for ( ScmFile scmFile : checkedInFiles )
-                    {
-                        logger.debug( "in commit: " + scmFile );
+                logger.info("commit done: " + commitRev.getShortMessage());
+                checkedInFiles = JGitUtils.getFilesInCommit(git.getRepository(), commitRev, fileSet.getBasedir());
+                if (logger.isDebugEnabled()) {
+                    for (ScmFile scmFile : checkedInFiles) {
+                        logger.debug("in commit: " + scmFile);
                     }
                 }
             }
 
-            if ( repo.isPushChanges() )
-            {
+            if (repo.isPushChanges()) {
                 String branch = version != null ? version.getName() : null;
-                if ( StringUtils.isBlank( branch ) )
-                {
+                if (StringUtils.isBlank(branch)) {
                     branch = git.getRepository().getBranch();
                 }
-                RefSpec refSpec = new RefSpec( Constants.R_HEADS + branch + ":" + Constants.R_HEADS + branch );
-                logger.info( "push changes to remote... " + refSpec );
-                JGitUtils.push( git, (GitScmProviderRepository) repo, refSpec );
+                RefSpec refSpec = new RefSpec(Constants.R_HEADS + branch + ":" + Constants.R_HEADS + branch);
+                logger.info("push changes to remote... " + refSpec);
+                JGitUtils.push(git, (GitScmProviderRepository) repo, refSpec);
             }
 
-            return new CheckInScmResult( "JGit checkin", checkedInFiles );
-        }
-        catch ( Exception e )
-        {
-            throw new ScmException( "JGit checkin failure!", e );
-        }
-        finally
-        {
-            JGitUtils.closeRepo( git );
+            return new CheckInScmResult("JGit checkin", checkedInFiles);
+        } catch (Exception e) {
+            throw new ScmException("JGit checkin failure!", e);
+        } finally {
+            JGitUtils.closeRepo(git);
         }
     }
 
-    private static final class UserInfo
-    {
+    private static final class UserInfo {
         final String name;
 
         final String email;
 
-        UserInfo( String name, String email )
-        {
+        UserInfo(String name, String email) {
             this.name = name;
             this.email = email;
         }
     }
 
-    private UserInfo getCommitter( ScmProviderRepository repo, Git git )
-    {
-        boolean forceMvnUser = git.getRepository().getConfig().getBoolean( GIT_MAVEN_SECTION, GIT_FORCE, false );
+    private UserInfo getCommitter(ScmProviderRepository repo, Git git) {
+        boolean forceMvnUser = git.getRepository().getConfig().getBoolean(GIT_MAVEN_SECTION, GIT_FORCE, false);
 
         // git config
-        UserConfig user = git.getRepository().getConfig().get( UserConfig.KEY );
+        UserConfig user = git.getRepository().getConfig().get(UserConfig.KEY);
         String committerName = null;
-        if ( !forceMvnUser && !user.isCommitterNameImplicit() )
-        {
+        if (!forceMvnUser && !user.isCommitterNameImplicit()) {
             committerName = user.getCommitterName();
         }
 
         // mvn parameter
-        if ( StringUtils.isBlank( committerName ) )
-        {
+        if (StringUtils.isBlank(committerName)) {
             committerName = repo.getUser();
         }
 
         // git default
-        if ( StringUtils.isBlank( committerName ) )
-        {
+        if (StringUtils.isBlank(committerName)) {
             committerName = user.getCommitterName();
         }
 
         // git config
         String committerMail = null;
-        if ( !user.isCommitterEmailImplicit() )
-        {
+        if (!user.isCommitterEmailImplicit()) {
             committerMail = user.getCommitterEmail();
         }
 
-        if ( StringUtils.isBlank( committerMail ) )
-        {
-            String defaultDomain = git.getRepository().getConfig().getString( GIT_MAVEN_SECTION, null, GIT_MAILDOMAIN );
-            defaultDomain = StringUtils.isNotBlank( defaultDomain ) ? defaultDomain : getHostname();
+        if (StringUtils.isBlank(committerMail)) {
+            String defaultDomain = git.getRepository().getConfig().getString(GIT_MAVEN_SECTION, null, GIT_MAILDOMAIN);
+            defaultDomain = StringUtils.isNotBlank(defaultDomain) ? defaultDomain : getHostname();
 
             // mvn parameter (constructed with username) or git default
-            committerMail =
-                StringUtils.isNotBlank( repo.getUser() ) ? repo.getUser() + "@" + defaultDomain
-                                : user.getCommitterEmail();
+            committerMail = StringUtils.isNotBlank(repo.getUser())
+                    ? repo.getUser() + "@" + defaultDomain
+                    : user.getCommitterEmail();
         }
 
-        return new UserInfo( committerName, committerMail );
+        return new UserInfo(committerName, committerMail);
     }
 
-    private UserInfo getAuthor( ScmProviderRepository repo, Git git )
-    {
-        boolean forceMvnUser = git.getRepository().getConfig().getBoolean( GIT_MAVEN_SECTION, GIT_FORCE, false );
+    private UserInfo getAuthor(ScmProviderRepository repo, Git git) {
+        boolean forceMvnUser = git.getRepository().getConfig().getBoolean(GIT_MAVEN_SECTION, GIT_FORCE, false);
 
         // git config
-        UserConfig user = git.getRepository().getConfig().get( UserConfig.KEY );
+        UserConfig user = git.getRepository().getConfig().get(UserConfig.KEY);
         String authorName = null;
-        if ( !forceMvnUser && !user.isAuthorNameImplicit() )
-        {
+        if (!forceMvnUser && !user.isAuthorNameImplicit()) {
             authorName = user.getAuthorName();
         }
 
         // mvn parameter
-        if ( StringUtils.isBlank( authorName ) )
-        {
+        if (StringUtils.isBlank(authorName)) {
             authorName = repo.getUser();
         }
 
         // git default
-        if ( StringUtils.isBlank( authorName ) )
-        {
+        if (StringUtils.isBlank(authorName)) {
             authorName = user.getAuthorName();
         }
 
         // git config
         String authorMail = null;
-        if ( !user.isAuthorEmailImplicit() )
-        {
+        if (!user.isAuthorEmailImplicit()) {
             authorMail = user.getAuthorEmail();
         }
 
-        if ( StringUtils.isBlank( authorMail ) )
-        {
-            String defaultDomain = git.getRepository().getConfig().getString( GIT_MAVEN_SECTION, null, GIT_MAILDOMAIN );
-            defaultDomain = StringUtils.isNotBlank( defaultDomain ) ? defaultDomain : getHostname();
+        if (StringUtils.isBlank(authorMail)) {
+            String defaultDomain = git.getRepository().getConfig().getString(GIT_MAVEN_SECTION, null, GIT_MAILDOMAIN);
+            defaultDomain = StringUtils.isNotBlank(defaultDomain) ? defaultDomain : getHostname();
 
             // mvn parameter (constructed with username) or git default
-            authorMail =
-                StringUtils.isNotBlank( repo.getUser() ) ? repo.getUser() + "@" + defaultDomain : user.getAuthorEmail();
+            authorMail = StringUtils.isNotBlank(repo.getUser())
+                    ? repo.getUser() + "@" + defaultDomain
+                    : user.getAuthorEmail();
         }
 
-        return new UserInfo( authorName, authorMail );
+        return new UserInfo(authorName, authorMail);
     }
 
-    private String getHostname()
-    {
+    private String getHostname() {
         String hostname;
-        try
-        {
+        try {
             InetAddress localhost = java.net.InetAddress.getLocalHost();
             hostname = localhost.getHostName();
-        }
-        catch ( UnknownHostException e )
-        {
-            logger.warn( "failed to resolve hostname to create mail address, "
-                                  + "defaulting to 'maven-scm-provider-jgit'" );
+        } catch (UnknownHostException e) {
+            logger.warn(
+                    "failed to resolve hostname to create mail address, " + "defaulting to 'maven-scm-provider-jgit'");
             hostname = "maven-scm-provider-jgit";
         }
         return hostname;
     }
-
 }

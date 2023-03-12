@@ -1,5 +1,3 @@
-package org.apache.maven.scm.tck.command.untag;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.tck.command.untag;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.tck.command.untag;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.tck.command.untag;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -38,51 +37,39 @@ import static org.junit.Assert.assertFalse;
 /**
  * This test tests the untag command.
  */
-public abstract class UntagCommandTckTest
-    extends ScmTckTestCase
-{
+public abstract class UntagCommandTckTest extends ScmTckTestCase {
 
-    protected String getTagName()
-    {
+    protected String getTagName() {
         return "test-untag";
     }
 
     @Test
-    public void testUntagCommandTest()
-        throws Exception
-    {
+    public void testUntagCommandTest() throws Exception {
         String tag = getTagName();
-        ScmProvider scmProvider = getScmManager().getProviderByUrl( getScmUrl() );
+        ScmProvider scmProvider = getScmManager().getProviderByUrl(getScmUrl());
         ScmRepository scmRepository = getScmRepository();
-        ScmFileSet files = new ScmFileSet( getWorkingCopy() );
-        TagScmResult tagResult = scmProvider.tag( scmRepository, files, tag, new ScmTagParameters() );
+        ScmFileSet files = new ScmFileSet(getWorkingCopy());
+        TagScmResult tagResult = scmProvider.tag(scmRepository, files, tag, new ScmTagParameters());
 
-        assertResultIsSuccess( tagResult );
+        assertResultIsSuccess(tagResult);
         CommandParameters params = new CommandParameters();
-        params.setString( CommandParameter.TAG_NAME, tag );
+        params.setString(CommandParameter.TAG_NAME, tag);
 
-        UntagScmResult untagResult = scmProvider.untag( scmRepository, files, params );
+        UntagScmResult untagResult = scmProvider.untag(scmRepository, files, params);
 
-        assertResultIsSuccess( untagResult );
+        assertResultIsSuccess(untagResult);
 
-        try
-        {
-            untagResult = scmProvider.untag( scmRepository, files, params );
-            assertFalse( untagResult.isSuccess() ); // already been deleted
-        }
-        catch ( ScmException ignored )
-        {
+        try {
+            untagResult = scmProvider.untag(scmRepository, files, params);
+            assertFalse(untagResult.isSuccess()); // already been deleted
+        } catch (ScmException ignored) {
         }
 
-        try
-        {
+        try {
             CheckOutScmResult checkoutResult =
-                getScmManager().checkOut( scmRepository, new ScmFileSet( getAssertionCopy() ), new ScmTag( tag ) );
-            assertFalse( checkoutResult.isSuccess() ); // can't check out a deleted tags
-        }
-        catch ( ScmException ignored )
-        {
+                    getScmManager().checkOut(scmRepository, new ScmFileSet(getAssertionCopy()), new ScmTag(tag));
+            assertFalse(checkoutResult.isSuccess()); // can't check out a deleted tags
+        } catch (ScmException ignored) {
         }
     }
-
 }

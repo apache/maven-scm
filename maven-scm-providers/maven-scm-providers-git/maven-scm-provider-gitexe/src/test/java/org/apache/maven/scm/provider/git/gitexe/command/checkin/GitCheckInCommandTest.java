@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.checkin;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkin;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,9 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkin;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.checkin;
+
+import java.io.File;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
@@ -35,66 +36,51 @@ import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
-
 import static org.junit.Assert.assertTrue;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  */
-public class GitCheckInCommandTest
-    extends ScmTestCase
-{
+public class GitCheckInCommandTest extends ScmTestCase {
     private File messageFile;
 
     private String messageFileString;
 
     @Before
     @Override
-    public void setUp()
-        throws Exception
-    {
+    public void setUp() throws Exception {
         super.setUp();
 
-        messageFile = new File( "commit-message" );
+        messageFile = new File("commit-message");
 
         String path = messageFile.getAbsolutePath();
-        if ( path.indexOf( ' ' ) >= 0 )
-        {
+        if (path.indexOf(' ') >= 0) {
             path = "\"" + path + "\"";
         }
         messageFileString = "-F " + path;
     }
 
     @Test
-    public void testCommandLineWithoutTag()
-        throws Exception
-    {
-        if ( GitUtil.getSettings().isCommitNoVerify() )
-        {
-            testCommandLine( "scm:git:http://foo.com/git/trunk", "git commit --verbose " + messageFileString + " -a" + " --no-verify" );
-        }
-        else
-        {
-            testCommandLine( "scm:git:http://foo.com/git/trunk", "git commit --verbose " + messageFileString + " -a" );
+    public void testCommandLineWithoutTag() throws Exception {
+        if (GitUtil.getSettings().isCommitNoVerify()) {
+            testCommandLine(
+                    "scm:git:http://foo.com/git/trunk",
+                    "git commit --verbose " + messageFileString + " -a" + " --no-verify");
+        } else {
+            testCommandLine("scm:git:http://foo.com/git/trunk", "git commit --verbose " + messageFileString + " -a");
         }
     }
 
     @Test
-    public void testCommandLineWithUsername()
-        throws Exception
-    {
-        if ( GitUtil.getSettings().isCommitNoVerify() )
-        {
-            testCommandLine( "scm:git:http://anonymous@foo.com/git/trunk", "git commit --verbose " + messageFileString
-                + " -a" + " --no-verify" );
-        }
-        else
-        {
-            testCommandLine( "scm:git:http://anonymous@foo.com/git/trunk", "git commit --verbose " + messageFileString
-                + " -a" );
+    public void testCommandLineWithUsername() throws Exception {
+        if (GitUtil.getSettings().isCommitNoVerify()) {
+            testCommandLine(
+                    "scm:git:http://anonymous@foo.com/git/trunk",
+                    "git commit --verbose " + messageFileString + " -a" + " --no-verify");
+        } else {
+            testCommandLine(
+                    "scm:git:http://anonymous@foo.com/git/trunk", "git commit --verbose " + messageFileString + " -a");
         }
     }
 
@@ -104,30 +90,33 @@ public class GitCheckInCommandTest
         File repo = getRepositoryRoot();
         File checkedOutRepo = getWorkingCopy();
 
-        checkScmPresence( GIT_COMMAND_LINE );
+        checkScmPresence(GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory());
 
-        ScmRepository scmRepository = getScmManager().makeScmRepository(
-            "scm:git:" + repo.toPath().toAbsolutePath().toUri().toASCIIString() );
+        ScmRepository scmRepository = getScmManager()
+                .makeScmRepository(
+                        "scm:git:" + repo.toPath().toAbsolutePath().toUri().toASCIIString());
         checkoutRepoInto(checkedOutRepo, scmRepository);
 
         // Add a default user to the config
-        GitScmTestUtils.setDefaultUser( checkedOutRepo );
+        GitScmTestUtils.setDefaultUser(checkedOutRepo);
 
         // Creating foo/bar/wine.xml
-        File fooDir = new File( checkedOutRepo.getAbsolutePath(), "foo" );
+        File fooDir = new File(checkedOutRepo.getAbsolutePath(), "foo");
         fooDir.mkdir();
         File barDir = new File(fooDir.getAbsolutePath(), "bar");
         barDir.mkdir();
         File wineFile = new File(barDir.getAbsolutePath(), "wine.xml");
-        FileUtils.fileWrite( wineFile.getAbsolutePath(), "Lacoste castle" );
+        FileUtils.fileWrite(wineFile.getAbsolutePath(), "Lacoste castle");
 
         // Adding and commiting file
-        AddScmResult addResult = getScmManager().add( scmRepository, new ScmFileSet( checkedOutRepo, new File( "foo/bar/wine.xml" ) ) );
-        assertResultIsSuccess( addResult );
-        CheckInScmResult checkInScmResult = getScmManager().checkIn(scmRepository, new ScmFileSet(checkedOutRepo), "Created wine file");
-        assertResultIsSuccess( checkInScmResult );
+        AddScmResult addResult =
+                getScmManager().add(scmRepository, new ScmFileSet(checkedOutRepo, new File("foo/bar/wine.xml")));
+        assertResultIsSuccess(addResult);
+        CheckInScmResult checkInScmResult =
+                getScmManager().checkIn(scmRepository, new ScmFileSet(checkedOutRepo), "Created wine file");
+        assertResultIsSuccess(checkInScmResult);
 
         // Cloning foo/bar/wine.xml to foo/newbar/wine.xml
         File newBarDir = new File(fooDir.getAbsolutePath(), "newbar");
@@ -136,13 +125,17 @@ public class GitCheckInCommandTest
         FileUtils.copyFile(wineFile, movedWineFile);
 
         // Removing old file, adding new file and commiting...
-        RemoveScmResult removeResult = getScmManager().remove(scmRepository, new ScmFileSet(checkedOutRepo, new File("foo/bar/")), "");
+        RemoveScmResult removeResult =
+                getScmManager().remove(scmRepository, new ScmFileSet(checkedOutRepo, new File("foo/bar/")), "");
         assertResultIsSuccess(removeResult);
         addResult = getScmManager().add(scmRepository, new ScmFileSet(checkedOutRepo, new File("foo/newbar/wine.xml")));
         assertResultIsSuccess(addResult);
-        checkInScmResult = getScmManager().checkIn(scmRepository, new ScmFileSet(checkedOutRepo), "moved wine.xml from foo/bar/ to foo/newbar/");
+        checkInScmResult = getScmManager()
+                .checkIn(scmRepository, new ScmFileSet(checkedOutRepo), "moved wine.xml from foo/bar/ to foo/newbar/");
         assertResultIsSuccess(checkInScmResult);
-        assertTrue("Renamed file has not been commited!", checkInScmResult.getCheckedInFiles().size() != 0);
+        assertTrue(
+                "Renamed file has not been commited!",
+                checkInScmResult.getCheckedInFiles().size() != 0);
     }
 
     // Test FileSet in configuration
@@ -151,68 +144,67 @@ public class GitCheckInCommandTest
         File repo = getRepositoryRoot();
         File checkedOutRepo = getWorkingCopy();
 
-        checkScmPresence( GIT_COMMAND_LINE );
+        checkScmPresence(GIT_COMMAND_LINE);
 
-        GitScmTestUtils.initRepo( "src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory() );
+        GitScmTestUtils.initRepo("src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory());
 
-        ScmRepository scmRepository = getScmManager().makeScmRepository(
-            "scm:git:" + repo.toPath().toAbsolutePath().toUri().toASCIIString() );
-        checkoutRepoInto( checkedOutRepo, scmRepository );
+        ScmRepository scmRepository = getScmManager()
+                .makeScmRepository(
+                        "scm:git:" + repo.toPath().toAbsolutePath().toUri().toASCIIString());
+        checkoutRepoInto(checkedOutRepo, scmRepository);
 
         // Add a default user to the config
-        GitScmTestUtils.setDefaultUser( checkedOutRepo );
+        GitScmTestUtils.setDefaultUser(checkedOutRepo);
 
         // Creating beer.xml and whiskey.xml
-        File beerFile = new File( checkedOutRepo.getAbsolutePath(), "beer.xml" );
-        FileUtils.fileWrite( beerFile.getAbsolutePath(), "1/2 litre" );
-        File whiskeyFile = new File( checkedOutRepo.getAbsolutePath(), "whiskey.xml" );
-        FileUtils.fileWrite( whiskeyFile.getAbsolutePath(), "700 ml" );
+        File beerFile = new File(checkedOutRepo.getAbsolutePath(), "beer.xml");
+        FileUtils.fileWrite(beerFile.getAbsolutePath(), "1/2 litre");
+        File whiskeyFile = new File(checkedOutRepo.getAbsolutePath(), "whiskey.xml");
+        FileUtils.fileWrite(whiskeyFile.getAbsolutePath(), "700 ml");
 
         // Adding and commiting beer and whiskey
-        AddScmResult addResult = getScmManager().add( scmRepository, new ScmFileSet( checkedOutRepo, "beer.xml,whiskey.xml" ) );
-        assertResultIsSuccess( addResult );
-        CheckInScmResult checkInScmResult = getScmManager().checkIn( scmRepository,
-            new ScmFileSet( checkedOutRepo, "beer.xml,whiskey.xml" ), "Created beer file" );
-        assertResultIsSuccess( checkInScmResult );
+        AddScmResult addResult =
+                getScmManager().add(scmRepository, new ScmFileSet(checkedOutRepo, "beer.xml,whiskey.xml"));
+        assertResultIsSuccess(addResult);
+        CheckInScmResult checkInScmResult = getScmManager()
+                .checkIn(scmRepository, new ScmFileSet(checkedOutRepo, "beer.xml,whiskey.xml"), "Created beer file");
+        assertResultIsSuccess(checkInScmResult);
 
         // Editing beer and commiting whiskey, should commit nothingi, but succeed
-        FileUtils.fileWrite( beerFile.getAbsolutePath(), "1 litre" );
+        FileUtils.fileWrite(beerFile.getAbsolutePath(), "1 litre");
 
-        addResult = getScmManager().add( scmRepository, new ScmFileSet( checkedOutRepo, "whiskey.xml" ) );
-        assertResultIsSuccess( addResult );
-        checkInScmResult = getScmManager().checkIn( scmRepository,
-            new ScmFileSet( checkedOutRepo, "whiskey.xml" ), "Checking beer file");
-        assertResultIsSuccess( checkInScmResult );
+        addResult = getScmManager().add(scmRepository, new ScmFileSet(checkedOutRepo, "whiskey.xml"));
+        assertResultIsSuccess(addResult);
+        checkInScmResult = getScmManager()
+                .checkIn(scmRepository, new ScmFileSet(checkedOutRepo, "whiskey.xml"), "Checking beer file");
+        assertResultIsSuccess(checkInScmResult);
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private CheckOutScmResult checkoutRepoInto( File workingCopy, ScmRepository scmRepository )
-        throws Exception {
-        FileUtils.deleteDirectory( workingCopy );
+    private CheckOutScmResult checkoutRepoInto(File workingCopy, ScmRepository scmRepository) throws Exception {
+        FileUtils.deleteDirectory(workingCopy);
         workingCopy.mkdir();
 
         CheckOutScmResult result =
-            getScmManager().checkOut( scmRepository, new ScmFileSet( workingCopy ), (ScmVersion) null );
+                getScmManager().checkOut(scmRepository, new ScmFileSet(workingCopy), (ScmVersion) null);
 
-        assertResultIsSuccess( result );
+        assertResultIsSuccess(result);
         return result;
     }
 
-    private void testCommandLine( String scmUrl, String commandLine )
-        throws Exception
-    {
-        File workingDirectory = getTestFile( "target/git-checkin-command-test" );
+    private void testCommandLine(String scmUrl, String commandLine) throws Exception {
+        File workingDirectory = getTestFile("target/git-checkin-command-test");
 
         ScmRepository repository = getScmManager().makeScmRepository(scmUrl);
 
         GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
 
         Commandline cl =
-            GitCheckInCommand.createCommitCommandLine( gitRepository, new ScmFileSet( workingDirectory ), messageFile );
+                GitCheckInCommand.createCommitCommandLine(gitRepository, new ScmFileSet(workingDirectory), messageFile);
 
-        assertCommandLine( commandLine, workingDirectory, cl );
+        assertCommandLine(commandLine, workingDirectory, cl);
     }
 }

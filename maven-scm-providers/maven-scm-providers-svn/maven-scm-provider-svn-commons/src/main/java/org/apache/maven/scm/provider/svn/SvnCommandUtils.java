@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.svn;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn;
 
 import org.codehaus.plexus.util.StringUtils;
 
@@ -27,12 +26,9 @@ import org.codehaus.plexus.util.StringUtils;
  * @author <a href="mailto:jerome@coffeebreaks.org">Jerome Lacoste</a>
  *
  */
-public final class SvnCommandUtils
-{
+public final class SvnCommandUtils {
 
-    private SvnCommandUtils()
-    {
-    }
+    private SvnCommandUtils() {}
 
     /**
      * Add or overrides the username into a url with a svn+ssh scheme.
@@ -47,21 +43,17 @@ public final class SvnCommandUtils
      * @return the fixed url
      * @throws NullPointerException if url is <code>null</code>
      */
-    public static String fixUrl( String url, String username )
-    {
-        if ( !StringUtils.isEmpty( username ) && url.startsWith( "svn+ssh://" ) )
-        {
+    public static String fixUrl(String url, String username) {
+        if (!StringUtils.isEmpty(username) && url.startsWith("svn+ssh://")) {
             // is there a username to override ? If so we cut after
-            int idx = url.indexOf( '@' );
+            int idx = url.indexOf('@');
             int cutIdx = idx < 0 ? "svn+ssh://".length() : idx + 1;
-            url = "svn+ssh://" + username + "@" + url.substring( cutIdx );
+            url = "svn+ssh://" + username + "@" + url.substring(cutIdx);
+        } else if (url.startsWith("file://")) {
+            // some svn commands does not understand windows path separator in file URL derived from windows file path
+            url = url.replace('\\', '/');
         }
-        else if ( url.startsWith( "file://" ) )
-        {
-            //some svn commands does not understand windows path separator in file URL derived from windows file path
-            url = url.replace( '\\', '/' );
-        }        
-        
+
         return url;
     }
 }

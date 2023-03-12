@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.command.remoteinfo;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.command.remoteinfo;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,34 +16,28 @@ package org.apache.maven.scm.provider.svn.command.remoteinfo;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.command.remoteinfo;
+
+import java.io.File;
 
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.tck.command.remoteinfo.AbstractRemoteInfoCommandTckTest;
 
-import java.io.File;
-
 /**
  * @author Bertrand Paquet
  */
-public abstract class AbstractSvnRemoteInfoCommandTckTest
-    extends AbstractRemoteInfoCommandTckTest
-{
+public abstract class AbstractSvnRemoteInfoCommandTckTest extends AbstractRemoteInfoCommandTckTest {
     /**
      * {@inheritDoc}
      */
-    public String getScmUrl()
-        throws Exception
-    {
-        return SvnScmTestUtils.getScmUrl( new File( getRepositoryRoot(), "trunk" ) );
+    public String getScmUrl() throws Exception {
+        return SvnScmTestUtils.getScmUrl(new File(getRepositoryRoot(), "trunk"));
     }
 
     /**
      * {@inheritDoc}
      */
-    public void initRepo()
-        throws Exception
-    {
-        SvnScmTestUtils.initializeRepository( getRepositoryRoot() );
+    public void initRepo() throws Exception {
+        SvnScmTestUtils.initializeRepository(getRepositoryRoot());
     }
-
 }

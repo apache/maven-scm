@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.update;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.update;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,11 @@ package org.apache.maven.scm.command.update;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.update;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.CommandParameter;
@@ -33,80 +36,60 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public abstract class AbstractUpdateCommand
-    extends AbstractCommand
-{
-    protected abstract UpdateScmResult executeUpdateCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                             ScmVersion scmVersion )
-        throws ScmException;
+public abstract class AbstractUpdateCommand extends AbstractCommand {
+    protected abstract UpdateScmResult executeUpdateCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, ScmVersion scmVersion) throws ScmException;
 
     /** {@inheritDoc} */
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                     CommandParameters parameters )
-        throws ScmException
-    {
-        ScmVersion scmVersion = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
+    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        ScmVersion scmVersion = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
 
-        boolean runChangelog = Boolean.valueOf(
-            parameters.getString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, "true" ) ).booleanValue();
+        boolean runChangelog = Boolean.valueOf(parameters.getString(CommandParameter.RUN_CHANGELOG_WITH_UPDATE, "true"))
+                .booleanValue();
 
-        UpdateScmResult updateScmResult = executeUpdateCommand( repository, fileSet, scmVersion );
+        UpdateScmResult updateScmResult = executeUpdateCommand(repository, fileSet, scmVersion);
 
         List<ScmFile> filesList = updateScmResult.getUpdatedFiles();
 
-        if ( !runChangelog )
-        {
+        if (!runChangelog) {
             return updateScmResult;
         }
 
         ChangeLogCommand changeLogCmd = getChangeLogCommand();
 
-        if ( filesList != null && filesList.size() > 0 && changeLogCmd != null )
-        {
+        if (filesList != null && filesList.size() > 0 && changeLogCmd != null) {
             ChangeLogScmResult changeLogScmResult =
-                (ChangeLogScmResult) changeLogCmd.executeCommand( repository, fileSet, parameters );
+                    (ChangeLogScmResult) changeLogCmd.executeCommand(repository, fileSet, parameters);
 
             List<ChangeSet> changes = new ArrayList<ChangeSet>();
 
             ChangeLogSet changeLogSet = changeLogScmResult.getChangeLog();
 
-            if ( changeLogSet != null )
-            {
+            if (changeLogSet != null) {
                 Date startDate = null;
 
-                try
-                {
-                    startDate = parameters.getDate( CommandParameter.START_DATE );
-                }
-                catch ( ScmException e )
-                {
-                    //Do nothing, startDate isn't define.
+                try {
+                    startDate = parameters.getDate(CommandParameter.START_DATE);
+                } catch (ScmException e) {
+                    // Do nothing, startDate isn't define.
                 }
 
-                for ( ChangeSet change : changeLogSet.getChangeSets() )
-                {
-                    if ( startDate != null && change.getDate() != null )
-                    {
-                        if ( startDate.after( change.getDate() ) )
-                        {
+                for (ChangeSet change : changeLogSet.getChangeSets()) {
+                    if (startDate != null && change.getDate() != null) {
+                        if (startDate.after(change.getDate())) {
                             continue;
                         }
                     }
 
-                    for ( ScmFile currentFile : filesList )
-                    {
-                        if ( change.containsFilename( currentFile.getPath() ) )
-                        {
-                            changes.add( change );
+                    for (ScmFile currentFile : filesList) {
+                        if (change.containsFilename(currentFile.getPath())) {
+                            changes.add(change);
 
                             break;
                         }
@@ -114,7 +97,7 @@ public abstract class AbstractUpdateCommand
                 }
             }
 
-            updateScmResult.setChanges( changes );
+            updateScmResult.setChanges(changes);
         }
 
         return updateScmResult;

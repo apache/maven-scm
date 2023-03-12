@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.hg;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.hg;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.hg;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.hg;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -68,248 +67,201 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  */
 @Singleton
-@Named( "hg" )
-public class HgScmProvider
-    extends AbstractScmProvider
-{
+@Named("hg")
+public class HgScmProvider extends AbstractScmProvider {
     /** {@inheritDoc} */
-    public String getScmSpecificFilename()
-    {
+    public String getScmSpecificFilename() {
         return ".hg";
     }
 
-    private static class HgUrlParserResult
-    {
+    private static class HgUrlParserResult {
         private final List<String> messages = new ArrayList<>();
 
         private ScmProviderRepository repository;
     }
 
     /** {@inheritDoc} */
-    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
-        throws ScmRepositoryException
-    {
-        HgUrlParserResult result = parseScmUrl( scmSpecificUrl );
+    public ScmProviderRepository makeProviderScmRepository(String scmSpecificUrl, char delimiter)
+            throws ScmRepositoryException {
+        HgUrlParserResult result = parseScmUrl(scmSpecificUrl);
 
-        if ( result.messages.size() > 0 )
-        {
-            throw new ScmRepositoryException( "The scm url is invalid.", result.messages );
+        if (result.messages.size() > 0) {
+            throw new ScmRepositoryException("The scm url is invalid.", result.messages);
         }
 
         return result.repository;
     }
 
-    private HgUrlParserResult parseScmUrl( String scmSpecificUrl )
-    {
+    private HgUrlParserResult parseScmUrl(String scmSpecificUrl) {
         HgUrlParserResult result = new HgUrlParserResult();
 
         // ----------------------------------------------------------------------
         // Do some sanity checking of the SVN url
         // ----------------------------------------------------------------------
 
-        if ( scmSpecificUrl.startsWith( "file" ) )
-        {
-            if ( !scmSpecificUrl.startsWith( "file:///" ) && !scmSpecificUrl.startsWith( "file://localhost/" ) )
-            {
-                result.messages.add( "An hg 'file' url must be on the form 'file:///' or 'file://localhost/'." );
+        if (scmSpecificUrl.startsWith("file")) {
+            if (!scmSpecificUrl.startsWith("file:///") && !scmSpecificUrl.startsWith("file://localhost/")) {
+                result.messages.add("An hg 'file' url must be on the form 'file:///' or 'file://localhost/'.");
+
+                return result;
+            }
+        } else if (scmSpecificUrl.startsWith("https")) {
+            if (!scmSpecificUrl.startsWith("https://")) {
+                result.messages.add("An hg 'http' url must be on the form 'https://'.");
+
+                return result;
+            }
+        } else if (scmSpecificUrl.startsWith("http")) {
+            if (!scmSpecificUrl.startsWith("http://")) {
+                result.messages.add("An hg 'http' url must be on the form 'http://'.");
+
+                return result;
+            }
+        } else {
+            try {
+                @SuppressWarnings("unused")
+                File file = new File(scmSpecificUrl);
+            } catch (Throwable e) {
+                result.messages.add("The filename provided is not valid");
 
                 return result;
             }
         }
-        else if ( scmSpecificUrl.startsWith( "https" ) )
-        {
-            if ( !scmSpecificUrl.startsWith( "https://" ) )
-            {
-                result.messages.add( "An hg 'http' url must be on the form 'https://'." );
 
-                return result;
-            }
-        }
-        else if ( scmSpecificUrl.startsWith( "http" ) )
-        {
-            if ( !scmSpecificUrl.startsWith( "http://" ) )
-            {
-                result.messages.add( "An hg 'http' url must be on the form 'http://'." );
-
-                return result;
-            }
-        }
-        else
-        {
-            try
-            {
-                @SuppressWarnings( "unused" )
-                File file = new File( scmSpecificUrl );
-            }
-            catch ( Throwable e )
-            {
-                result.messages.add( "The filename provided is not valid" );
-
-                return result;
-            }
-
-        }
-
-        result.repository = new HgScmProviderRepository( scmSpecificUrl );
+        result.repository = new HgScmProviderRepository(scmSpecificUrl);
 
         return result;
     }
 
     /** {@inheritDoc} */
-    public ScmProviderRepository makeProviderScmRepository( File path )
-        throws ScmRepositoryException, UnknownRepositoryStructure
-    {
-        if ( path == null )
-        {
-            throw new NullPointerException( "Path argument is null" );
+    public ScmProviderRepository makeProviderScmRepository(File path)
+            throws ScmRepositoryException, UnknownRepositoryStructure {
+        if (path == null) {
+            throw new NullPointerException("Path argument is null");
         }
 
-        if ( !path.isDirectory() )
-        {
-            throw new ScmRepositoryException( path.getAbsolutePath() + " isn't a valid directory." );
+        if (!path.isDirectory()) {
+            throw new ScmRepositoryException(path.getAbsolutePath() + " isn't a valid directory.");
         }
 
-        File hgDir = new File( path, ".hg" );
+        File hgDir = new File(path, ".hg");
 
-        if ( !hgDir.exists() )
-        {
-            throw new ScmRepositoryException( path.getAbsolutePath() + " isn't a hg directory." );
+        if (!hgDir.exists()) {
+            throw new ScmRepositoryException(path.getAbsolutePath() + " isn't a hg directory.");
         }
 
-        return makeProviderScmRepository( path.getAbsolutePath(), ':' );
+        return makeProviderScmRepository(path.getAbsolutePath(), ':');
     }
 
     /** {@inheritDoc} */
-    public List<String> validateScmUrl( String scmSpecificUrl, char delimiter )
-    {
-        HgUrlParserResult result = parseScmUrl( scmSpecificUrl );
+    public List<String> validateScmUrl(String scmSpecificUrl, char delimiter) {
+        HgUrlParserResult result = parseScmUrl(scmSpecificUrl);
 
         return result.messages;
     }
 
     /** {@inheritDoc} */
-    public String getScmType()
-    {
+    public String getScmType() {
         return "hg";
     }
 
     /** {@inheritDoc} */
-    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
+    public AddScmResult add(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
         HgAddCommand command = new HgAddCommand();
 
-        return (AddScmResult) command.execute( repository, fileSet, parameters );
+        return (AddScmResult) command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
-    public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
-                                         CommandParameters parameters )
-        throws ScmException
-    {
+    public ChangeLogScmResult changelog(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         HgChangeLogCommand command = new HgChangeLogCommand();
 
-        return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
+        return (ChangeLogScmResult) command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
-    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
-                                     CommandParameters parameters )
-        throws ScmException
-    {
+    public CheckInScmResult checkin(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
         HgCheckInCommand command = new HgCheckInCommand();
 
-        return (CheckInScmResult) command.execute( repository, fileSet, parameters );
+        return (CheckInScmResult) command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
-    public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
-                                       CommandParameters parameters )
-        throws ScmException
-    {
+    public CheckOutScmResult checkout(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         HgCheckOutCommand command = new HgCheckOutCommand();
 
-        return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
+        return (CheckOutScmResult) command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
-    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
+    public TagScmResult tag(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
         HgTagCommand command = new HgTagCommand();
 
-        return (TagScmResult) command.execute( repository, fileSet, parameters );
+        return (TagScmResult) command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
-    public DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
+    public DiffScmResult diff(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
         HgDiffCommand command = new HgDiffCommand();
 
-        return (DiffScmResult) command.execute( repository, fileSet, parameters );
+        return (DiffScmResult) command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
-    public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet,
-                                   CommandParameters parameters )
-        throws ScmException
-    {
+    public RemoveScmResult remove(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
         HgRemoveCommand command = new HgRemoveCommand();
 
-        return (RemoveScmResult) command.execute( repository, fileSet, parameters );
+        return (RemoveScmResult) command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
-    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet,
-                                   CommandParameters parameters )
-        throws ScmException
-    {
+    public StatusScmResult status(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
         HgStatusCommand command = new HgStatusCommand();
 
-        return (StatusScmResult) command.execute( repository, fileSet, parameters );
+        return (StatusScmResult) command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
-    public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet,
-                                   CommandParameters parameters )
-        throws ScmException
-    {
+    public UpdateScmResult update(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
         HgUpdateCommand command = new HgUpdateCommand();
 
-        return (UpdateScmResult) command.execute( repository, fileSet, parameters );
+        return (UpdateScmResult) command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
-    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet,
-                                    CommandParameters parameters )
-        throws ScmException
-    {
+    protected BlameScmResult blame(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
         HgBlameCommand command = new HgBlameCommand();
 
-        return (BlameScmResult) command.execute( repository, fileSet, parameters );
+        return (BlameScmResult) command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
-    public BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
+    public BranchScmResult branch(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
         HgBranchCommand command = new HgBranchCommand();
 
-        return (BranchScmResult) command.execute( repository, fileSet, parameters );
+        return (BranchScmResult) command.execute(repository, fileSet, parameters);
     }
 
     /**
      * @since 1.5
      */
     @Override
-    protected ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
+    protected ListScmResult list(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
         HgListCommand hgListCommand = new HgListCommand();
 
-        return (ListScmResult) hgListCommand.executeCommand( repository, fileSet, parameters );
-
+        return (ListScmResult) hgListCommand.executeCommand(repository, fileSet, parameters);
     }
 
     /**
@@ -318,11 +270,10 @@ public class HgScmProvider
      * @see org.apache.maven.scm.provider.AbstractScmProvider#info(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
      */
     @Override
-    public InfoScmResult info( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
+    public InfoScmResult info(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
         HgInfoCommand infoCommand = new HgInfoCommand();
 
-        return (InfoScmResult) infoCommand.execute( repository, fileSet, parameters );
+        return (InfoScmResult) infoCommand.execute(repository, fileSet, parameters);
     }
 }

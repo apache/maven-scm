@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.branch;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.branch;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.branch;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.branch;
 
 import org.apache.maven.scm.util.AbstractConsumer;
 
@@ -27,16 +26,13 @@ import org.apache.maven.scm.util.AbstractConsumer;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
  */
-public class GitCurrentBranchConsumer
-    extends AbstractConsumer
-{
-    
+public class GitCurrentBranchConsumer extends AbstractConsumer {
+
     private static final String BRANCH_INDICATOR = "refs/heads/";
-    
+
     private String branch;
 
-    public String getBranchName()
-    {
+    public String getBranchName() {
         return branch;
     }
 
@@ -45,14 +41,11 @@ public class GitCurrentBranchConsumer
     // ----------------------------------------------------------------------
 
     /** {@inheritDoc} */
-    public void consumeLine( String line )
-    {
+    public void consumeLine(String line) {
         line = line.trim();
-        
-        if ( line.startsWith( BRANCH_INDICATOR ) )
-        {
-            branch = line.substring( BRANCH_INDICATOR.length() );
+
+        if (line.startsWith(BRANCH_INDICATOR)) {
+            branch = line.substring(BRANCH_INDICATOR.length());
         }
     }
-
 }

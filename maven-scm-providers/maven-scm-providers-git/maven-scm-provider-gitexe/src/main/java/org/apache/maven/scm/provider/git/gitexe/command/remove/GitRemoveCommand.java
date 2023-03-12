@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.remove;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,11 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.remove;
+
+import java.io.File;
+import java.net.URI;
+import java.util.List;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -31,82 +34,63 @@ import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusCommand;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-import java.net.URI;
-import java.util.List;
-
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Olivier Lamy
  *
  */
-public class GitRemoveCommand
-    extends AbstractRemoveCommand
-    implements GitCommand
-{
+public class GitRemoveCommand extends AbstractRemoveCommand implements GitCommand {
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeRemoveCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message )
-        throws ScmException
-    {
+    protected ScmResult executeRemoveCommand(ScmProviderRepository repo, ScmFileSet fileSet, String message)
+            throws ScmException {
 
-        if ( fileSet.getFileList().isEmpty() )
-        {
-            throw new ScmException( "You must provide at least one file/directory to remove" );
+        if (fileSet.getFileList().isEmpty()) {
+            throw new ScmException("You must provide at least one file/directory to remove");
         }
 
-        Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFileList() );
+        Commandline cl = createCommandLine(fileSet.getBasedir(), fileSet.getFileList());
 
         // git-rm uses repositoryRoot instead of workingDirectory, adjust it with relativeRepositoryPath
-        URI relativeRepositoryPath = GitStatusCommand.getRelativeCWD( logger, fileSet );
-        GitRemoveConsumer consumer = new GitRemoveConsumer( relativeRepositoryPath );
+        URI relativeRepositoryPath = GitStatusCommand.getRelativeCWD(logger, fileSet);
+        GitRemoveConsumer consumer = new GitRemoveConsumer(relativeRepositoryPath);
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         int exitCode;
 
-        exitCode = GitCommandLineUtils.execute( cl, consumer, stderr );
-        if ( exitCode != 0 )
-        {
-            return new RemoveScmResult( cl.toString(), "The git command failed.", stderr.getOutput(), false );
+        exitCode = GitCommandLineUtils.execute(cl, consumer, stderr);
+        if (exitCode != 0) {
+            return new RemoveScmResult(cl.toString(), "The git command failed.", stderr.getOutput(), false);
         }
 
-        return new RemoveScmResult( cl.toString(), consumer.getRemovedFiles() );
+        return new RemoveScmResult(cl.toString(), consumer.getRemovedFiles());
     }
 
-    public static Commandline createCommandLine( File workingDirectory, List<File> files )
-        throws ScmException
-    {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "rm" );
+    public static Commandline createCommandLine(File workingDirectory, List<File> files) throws ScmException {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "rm");
 
-        for ( File file : files )
-        {
-            if ( file.isAbsolute() )
-            {
-                if ( file.isDirectory() )
-                {
-                    cl.createArg().setValue( "-r" );
+        for (File file : files) {
+            if (file.isAbsolute()) {
+                if (file.isDirectory()) {
+                    cl.createArg().setValue("-r");
                     break;
                 }
-            }
-            else
-            {
-                File absFile = new File( workingDirectory, file.getPath() );
-                if ( absFile.isDirectory() )
-                {
-                    cl.createArg().setValue( "-r" );
+            } else {
+                File absFile = new File(workingDirectory, file.getPath());
+                if (absFile.isDirectory()) {
+                    cl.createArg().setValue("-r");
                     break;
                 }
             }
         }
 
         // use this separator to make clear that the following parameters are files and options.
-        cl.createArg().setValue( "--" );
+        cl.createArg().setValue("--");
 
-        GitCommandLineUtils.addTarget( cl, files );
+        GitCommandLineUtils.addTarget(cl, files);
 
         return cl;
     }
-
 }

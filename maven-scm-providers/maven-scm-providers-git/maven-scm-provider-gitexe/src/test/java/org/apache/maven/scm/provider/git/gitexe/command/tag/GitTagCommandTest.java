@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.tag;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.tag;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,9 @@ package org.apache.maven.scm.provider.git.gitexe.command.tag;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.tag;
+
+import java.io.File;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
@@ -26,73 +27,65 @@ import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitTagCommandTest
-    extends ScmTestCase
-{
+public class GitTagCommandTest extends ScmTestCase {
     private File messageFile;
 
     private String messageFileString;
 
     @Before
     @Override
-    public void setUp()
-        throws Exception
-    {
+    public void setUp() throws Exception {
         super.setUp();
 
-        messageFile = new File( "commit-message" );
+        messageFile = new File("commit-message");
 
         String path = messageFile.getAbsolutePath();
-        if ( path.indexOf( ' ' ) >= 0 )
-        {
+        if (path.indexOf(' ') >= 0) {
             path = "\"" + path + "\"";
         }
         messageFileString = "-F " + path;
     }
 
     @Test
-    public void testCommandLineTag()
-        throws Exception
-    {
-        testCommandLine( "scm:git:http://foo.com/git/trunk", "my-tag-1", "git tag " + messageFileString + " my-tag-1", false );
+    public void testCommandLineTag() throws Exception {
+        testCommandLine(
+                "scm:git:http://foo.com/git/trunk", "my-tag-1", "git tag " + messageFileString + " my-tag-1", false);
     }
 
     @Test
-    public void testCommandLineWithUsernameAndTag()
-        throws Exception
-    {
-        testCommandLine( "scm:git:http://anonymous@foo.com/git/trunk", "my-tag-1",
-                         "git tag " + messageFileString + " my-tag-1", false );
+    public void testCommandLineWithUsernameAndTag() throws Exception {
+        testCommandLine(
+                "scm:git:http://anonymous@foo.com/git/trunk",
+                "my-tag-1",
+                "git tag " + messageFileString + " my-tag-1",
+                false);
     }
 
     @Test
-    public void testCommandLineWithUsernameAndTagAndSign()
-            throws Exception
-    {
-         testCommandLine( "scm:git:http://anonymous@foo.com/git/trunk", "my-tag-1",
-                          "git tag -s " + messageFileString + " my-tag-1", true );
+    public void testCommandLineWithUsernameAndTagAndSign() throws Exception {
+        testCommandLine(
+                "scm:git:http://anonymous@foo.com/git/trunk",
+                "my-tag-1",
+                "git tag -s " + messageFileString + " my-tag-1",
+                true);
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, String tag, String commandLine, boolean sign )
-        throws Exception
-    {
-        File workingDirectory = getTestFile( "target/git-checkin-command-test" );
+    private void testCommandLine(String scmUrl, String tag, String commandLine, boolean sign) throws Exception {
+        File workingDirectory = getTestFile("target/git-checkin-command-test");
 
-        ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
+        ScmRepository repository = getScmManager().makeScmRepository(scmUrl);
 
         GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = GitTagCommand.createCommandLine( gitRepository, workingDirectory, tag, messageFile, sign );
+        Commandline cl = GitTagCommand.createCommandLine(gitRepository, workingDirectory, tag, messageFile, sign);
 
-        assertCommandLine( commandLine, workingDirectory, cl );
+        assertCommandLine(commandLine, workingDirectory, cl);
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,12 +16,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.ChangeFile;
-import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.provider.svn.SvnChangeSet;
-import org.apache.maven.scm.util.AbstractConsumer;
+package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,13 +24,17 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.provider.svn.SvnChangeSet;
+import org.apache.maven.scm.util.AbstractConsumer;
+
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class SvnChangeLogConsumer
-    extends AbstractConsumer
-{
+public class SvnChangeLogConsumer extends AbstractConsumer {
     /**
      * Date formatter for svn timestamp (after a little massaging)
      */
@@ -61,13 +58,13 @@ public class SvnChangeLogConsumer
     /**
      * There is always action and affected path; when copying/moving, recognize also original path and revision
      */
-    private static final Pattern FILE_PATTERN = Pattern.compile( "^\\s\\s\\s([A-Z])\\s(.+)$" );
+    private static final Pattern FILE_PATTERN = Pattern.compile("^\\s\\s\\s([A-Z])\\s(.+)$");
 
     /**
      * This matches the 'original file info' part of the complete file line.
      * Note the use of [:alpha:] instead of literal 'from' - this is meant to allow non-English localizations.
      */
-    private static final Pattern ORIG_FILE_PATTERN = Pattern.compile( "\\([A-Za-z]+ (.+):(\\d+)\\)" );
+    private static final Pattern ORIG_FILE_PATTERN = Pattern.compile("\\([A-Za-z]+ (.+):(\\d+)\\)");
 
     /**
      * The file section ends with a blank line
@@ -78,7 +75,7 @@ public class SvnChangeLogConsumer
      * The comment section ends with a dashed line
      */
     private static final String COMMENT_END_TOKEN =
-        "------------------------------------" + "------------------------------------";
+            "------------------------------------" + "------------------------------------";
 
     /**
      * Current status of the parser
@@ -108,7 +105,7 @@ public class SvnChangeLogConsumer
     /**
      * The regular expression used to match header lines
      */
-    private static final Pattern HEADER_REG_EXP = Pattern.compile( "^(.+) \\| (.+) \\| (.+) \\|.*$" );
+    private static final Pattern HEADER_REG_EXP = Pattern.compile("^(.+) \\| (.+) \\| (.+) \\|.*$");
 
     private static final int REVISION_GROUP = 1;
 
@@ -116,26 +113,25 @@ public class SvnChangeLogConsumer
 
     private static final int DATE_GROUP = 3;
 
-    private static final Pattern REVISION_REG_EXP1 = Pattern.compile( "rev (\\d+):" );
+    private static final Pattern REVISION_REG_EXP1 = Pattern.compile("rev (\\d+):");
 
-    private static final Pattern REVISION_REG_EXP2 = Pattern.compile( "r(\\d+)" );
+    private static final Pattern REVISION_REG_EXP2 = Pattern.compile("r(\\d+)");
 
-    private static final Pattern DATE_REG_EXP = Pattern.compile( "(\\d+-\\d+-\\d+ " +   // date 2002-08-24
-                                                       "\\d+:\\d+:\\d+) " +             // time 16:01:00
-                                                       "([\\-+])(\\d\\d)(\\d\\d)" );    // gmt offset -0400);)
+    private static final Pattern DATE_REG_EXP = Pattern.compile("(\\d+-\\d+-\\d+ " + // date 2002-08-24
+            "\\d+:\\d+:\\d+) "
+            + // time 16:01:00
+            "([\\-+])(\\d\\d)(\\d\\d)"); // gmt offset -0400);)
 
     private final String userDateFormat;
 
     /**
      * Default constructor.
      */
-    public SvnChangeLogConsumer( String userDateFormat )
-    {
+    public SvnChangeLogConsumer(String userDateFormat) {
         this.userDateFormat = userDateFormat;
     }
 
-    public List<ChangeSet> getModifications()
-    {
+    public List<ChangeSet> getModifications() {
         return entries;
     }
 
@@ -146,25 +142,22 @@ public class SvnChangeLogConsumer
     /**
      * {@inheritDoc}
      */
-    public void consumeLine( String line )
-    {
-        if ( logger.isDebugEnabled() )
-        {
-            logger.debug( line );
+    public void consumeLine(String line) {
+        if (logger.isDebugEnabled()) {
+            logger.debug(line);
         }
-        switch ( status )
-        {
+        switch (status) {
             case GET_HEADER:
-                processGetHeader( line );
+                processGetHeader(line);
                 break;
             case GET_FILE:
-                processGetFile( line );
+                processGetFile(line);
                 break;
             case GET_COMMENT:
-                processGetComment( line );
+                processGetComment(line);
                 break;
             default:
-                throw new IllegalStateException( "Unknown state: " + status );
+                throw new IllegalStateException("Unknown state: " + status);
         }
     }
 
@@ -181,24 +174,22 @@ public class SvnChangeLogConsumer
      *
      * @param line A line of text from the svn log output
      */
-    private void processGetHeader( String line )
-    {
-        Matcher matcher = HEADER_REG_EXP.matcher( line );
-        if ( !matcher.matches() )
-        {
+    private void processGetHeader(String line) {
+        Matcher matcher = HEADER_REG_EXP.matcher(line);
+        if (!matcher.matches()) {
             // The header line is not found. Intentionally do nothing.
             return;
         }
 
-        currentRevision = getRevision( matcher.group( REVISION_GROUP ) );
+        currentRevision = getRevision(matcher.group(REVISION_GROUP));
 
         currentChange = new SvnChangeSet();
 
-        currentChange.setAuthor( matcher.group( AUTHOR_GROUP ) );
+        currentChange.setAuthor(matcher.group(AUTHOR_GROUP));
 
-        currentChange.setDate( getDate( matcher.group( DATE_GROUP ) ) );
+        currentChange.setDate(getDate(matcher.group(DATE_GROUP)));
 
-        currentChange.setRevision( currentRevision );
+        currentChange.setRevision(currentRevision);
 
         status = GET_FILE;
     }
@@ -209,20 +200,14 @@ public class SvnChangeLogConsumer
      * @param revisionOutput
      * @return the svn revision
      */
-    private String getRevision( final String revisionOutput )
-    {
+    private String getRevision(final String revisionOutput) {
         Matcher matcher;
-        if ( ( matcher = REVISION_REG_EXP1.matcher( revisionOutput ) ).matches() )
-        {
-            return matcher.group( 1 );
-        }
-        else if ( ( matcher = REVISION_REG_EXP2.matcher( revisionOutput ) ).matches() )
-        {
-            return matcher.group( 1 );
-        }
-        else
-        {
-            throw new IllegalOutputException( revisionOutput );
+        if ((matcher = REVISION_REG_EXP1.matcher(revisionOutput)).matches()) {
+            return matcher.group(1);
+        } else if ((matcher = REVISION_REG_EXP2.matcher(revisionOutput)).matches()) {
+            return matcher.group(1);
+        } else {
+            throw new IllegalOutputException(revisionOutput);
         }
     }
 
@@ -234,65 +219,49 @@ public class SvnChangeLogConsumer
      *
      * @param line A line of text from the svn log output
      */
-    private void processGetFile( String line )
-    {
-        Matcher matcher = FILE_PATTERN.matcher( line );
-        if ( matcher.matches() )
-        {
-            final String fileinfo = matcher.group( 2 );
+    private void processGetFile(String line) {
+        Matcher matcher = FILE_PATTERN.matcher(line);
+        if (matcher.matches()) {
+            final String fileinfo = matcher.group(2);
             String name = fileinfo;
             String originalName = null;
             String originalRev = null;
-            final int n = fileinfo.indexOf( " (" );
-            if ( n > 1 && fileinfo.endsWith( ")" ) )
-            {
-                final String origFileInfo = fileinfo.substring( n );
-                Matcher matcher2 = ORIG_FILE_PATTERN.matcher( origFileInfo );
-                if ( matcher2.find() )
-                {
+            final int n = fileinfo.indexOf(" (");
+            if (n > 1 && fileinfo.endsWith(")")) {
+                final String origFileInfo = fileinfo.substring(n);
+                Matcher matcher2 = ORIG_FILE_PATTERN.matcher(origFileInfo);
+                if (matcher2.find()) {
                     // if original file is present, we must extract the affected one from the beginning
-                    name = fileinfo.substring( 0, n );
-                    originalName = matcher2.group( 1 );
-                    originalRev = matcher2.group( 2 );
+                    name = fileinfo.substring(0, n);
+                    originalName = matcher2.group(1);
+                    originalRev = matcher2.group(2);
                 }
             }
-            final String actionStr = matcher.group( 1 );
+            final String actionStr = matcher.group(1);
             final ScmFileStatus action;
-            if ( "A".equals( actionStr ) )
-            {
-                //TODO: this may even change to MOVED if we later explore whole changeset and find matching DELETED
+            if ("A".equals(actionStr)) {
+                // TODO: this may even change to MOVED if we later explore whole changeset and find matching DELETED
                 action = originalRev == null ? ScmFileStatus.ADDED : ScmFileStatus.COPIED;
-            }
-            else if ( "D".equals( actionStr ) )
-            {
+            } else if ("D".equals(actionStr)) {
                 action = ScmFileStatus.DELETED;
-            }
-            else if ( "M".equals( actionStr ) )
-            {
+            } else if ("M".equals(actionStr)) {
                 action = ScmFileStatus.MODIFIED;
-            }
-            else if ( "R".equals( actionStr ) )
-            {
-                action = ScmFileStatus.UPDATED; //== REPLACED in svn terms
-            }
-            else
-            {
+            } else if ("R".equals(actionStr)) {
+                action = ScmFileStatus.UPDATED; // == REPLACED in svn terms
+            } else {
                 action = ScmFileStatus.UNKNOWN;
             }
-            if ( logger.isDebugEnabled() )
-            {
-                logger.debug( actionStr + " : " + name );
+            if (logger.isDebugEnabled()) {
+                logger.debug(actionStr + " : " + name);
             }
-            final ChangeFile changeFile = new ChangeFile( name, currentRevision );
-            changeFile.setAction( action );
-            changeFile.setOriginalName( originalName );
-            changeFile.setOriginalRevision( originalRev );
-            currentChange.addFile( changeFile );
+            final ChangeFile changeFile = new ChangeFile(name, currentRevision);
+            changeFile.setAction(action);
+            changeFile.setOriginalName(originalName);
+            changeFile.setOriginalRevision(originalRev);
+            currentChange.addFile(changeFile);
 
             status = GET_FILE;
-        }
-        else if ( line.equals( FILE_END_TOKEN ) )
-        {
+        } else if (line.equals(FILE_END_TOKEN)) {
             // Create a buffer for the collection of the comment now
             // that we are leaving the GET_FILE state.
             currentComment = new StringBuilder();
@@ -307,19 +276,15 @@ public class SvnChangeLogConsumer
      *
      * @param line a line of text from the svn log output
      */
-    private void processGetComment( String line )
-    {
-        if ( line.equals( COMMENT_END_TOKEN ) )
-        {
-            currentChange.setComment( currentComment.toString() );
+    private void processGetComment(String line) {
+        if (line.equals(COMMENT_END_TOKEN)) {
+            currentChange.setComment(currentComment.toString());
 
-            entries.add( currentChange );
+            entries.add(currentChange);
 
             status = GET_HEADER;
-        }
-        else
-        {
-            currentComment.append( line ).append( '\n' );
+        } else {
+            currentComment.append(line).append('\n');
         }
     }
 
@@ -330,22 +295,20 @@ public class SvnChangeLogConsumer
      * @param dateOutput The date output from an svn log command.
      * @return A date representing the time stamp of the log entry.
      */
-    private Date getDate( final String dateOutput )
-    {
-        Matcher matcher = DATE_REG_EXP.matcher( dateOutput );
-        if ( !matcher.find() )
-        {
-            throw new IllegalOutputException( dateOutput );
+    private Date getDate(final String dateOutput) {
+        Matcher matcher = DATE_REG_EXP.matcher(dateOutput);
+        if (!matcher.find()) {
+            throw new IllegalOutputException(dateOutput);
         }
 
         final StringBuilder date = new StringBuilder();
-        date.append( matcher.group( 1 ) );
-        date.append( " GMT" );
-        date.append( matcher.group( 2 ) );
-        date.append( matcher.group( 3 ) );
-        date.append( ':' );
-        date.append( matcher.group( 4 ) );
+        date.append(matcher.group(1));
+        date.append(" GMT");
+        date.append(matcher.group(2));
+        date.append(matcher.group(3));
+        date.append(':');
+        date.append(matcher.group(4));
 
-        return parseDate( date.toString(), userDateFormat, SVN_TIMESTAMP_PATTERN );
+        return parseDate(date.toString(), userDateFormat, SVN_TIMESTAMP_PATTERN);
     }
 }

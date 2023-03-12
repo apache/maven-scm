@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.local;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.local;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.local;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.local;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.junit.Test;
@@ -28,18 +27,15 @@ import static org.junit.Assert.assertEquals;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public class LocalScmProviderTest
-    extends ScmTestCase
-{
+public class LocalScmProviderTest extends ScmTestCase {
     @Test
-    public void testFixModuleName()
-    {
-        assertEquals( "my-module", LocalScmProvider.fixModuleName( "my-module" ) );
+    public void testFixModuleName() {
+        assertEquals("my-module", LocalScmProvider.fixModuleName("my-module"));
 
-        assertEquals( "my-module", LocalScmProvider.fixModuleName( "/my-module" ) );
+        assertEquals("my-module", LocalScmProvider.fixModuleName("/my-module"));
 
-        assertEquals( "my-module", LocalScmProvider.fixModuleName( "my-module/" ) );
+        assertEquals("my-module", LocalScmProvider.fixModuleName("my-module/"));
 
-        assertEquals( "my-module", LocalScmProvider.fixModuleName( "/my-module/" ) );
+        assertEquals("my-module", LocalScmProvider.fixModuleName("/my-module/"));
     }
 }

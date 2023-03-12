@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit.command.remove;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit.command.remove;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.jgit.command.remove;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.jgit.command.remove;
 
 import java.util.List;
 
@@ -36,46 +35,33 @@ import org.eclipse.jgit.api.Git;
  * @author Georg Tsakumagos
  * @since 2.0.0-M2
  */
-public class JGitRemoveCommand
-    extends AbstractRemoveCommand
-    implements GitCommand
-{
+public class JGitRemoveCommand extends AbstractRemoveCommand implements GitCommand {
 
     @Override
-    protected ScmResult executeRemoveCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message )
-        throws ScmException
-    {
+    protected ScmResult executeRemoveCommand(ScmProviderRepository repository, ScmFileSet fileSet, String message)
+            throws ScmException {
 
-        if ( fileSet.getFileList().isEmpty() )
-        {
-            throw new ScmException( "You must provide at least one file/directory to remove" );
+        if (fileSet.getFileList().isEmpty()) {
+            throw new ScmException("You must provide at least one file/directory to remove");
         }
         Git git = null;
-        try
-        {
-            git = JGitUtils.openRepo( fileSet.getBasedir() );
+        try {
+            git = JGitUtils.openRepo(fileSet.getBasedir());
 
-            List<ScmFile> removedFiles = JGitUtils.removeAllFiles( git, fileSet );
+            List<ScmFile> removedFiles = JGitUtils.removeAllFiles(git, fileSet);
 
-            if ( logger.isDebugEnabled() )
-            {
-                for ( ScmFile scmFile : removedFiles )
-                {
-                    logger.info( "Removed file: " + scmFile );
+            if (logger.isDebugEnabled()) {
+                for (ScmFile scmFile : removedFiles) {
+                    logger.info("Removed file: " + scmFile);
                 }
             }
 
-            return new RemoveScmResult( "JGit remove", removedFiles );
+            return new RemoveScmResult("JGit remove", removedFiles);
 
-        }
-        catch ( Exception e )
-        {
-            throw new ScmException( "JGit remove failure!", e );
-        }
-        finally
-        {
-            JGitUtils.closeRepo( git );
+        } catch (Exception e) {
+            throw new ScmException("JGit remove failure!", e);
+        } finally {
+            JGitUtils.closeRepo(git);
         }
     }
-
 }

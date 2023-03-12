@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.remoteinfo;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.remoteinfo;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.remoteinfo;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
@@ -30,19 +29,14 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author Olivier Lamy
  * @since 1.6
  */
-public abstract class AbstractRemoteInfoCommand
-    extends AbstractCommand
-{
+public abstract class AbstractRemoteInfoCommand extends AbstractCommand {
 
-    public abstract RemoteInfoScmResult executeRemoteInfoCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                                  CommandParameters parameters )
-        throws ScmException;
+    public abstract RemoteInfoScmResult executeRemoteInfoCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException;
 
     @Override
-    protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                        CommandParameters parameters )
-        throws ScmException
-    {
-        return executeRemoteInfoCommand( repository, fileSet, parameters );
+    protected ScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
+        return executeRemoteInfoCommand(repository, fileSet, parameters);
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.tck.command.blame;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.tck.command.blame;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,9 @@ package org.apache.maven.scm.tck.command.blame;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.tck.command.blame;
+
+import java.util.Date;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTckTestCase;
@@ -31,8 +32,6 @@ import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.junit.Test;
 
-import java.util.Date;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -41,86 +40,80 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Evgeny Mandrikov
  */
-public abstract class BlameCommandTckTest
-    extends ScmTckTestCase
-{
+public abstract class BlameCommandTckTest extends ScmTckTestCase {
     private static final String COMMIT_MSG = "Second changelog";
 
     @Test
-    public void testBlameCommand()
-        throws Exception
-    {
+    public void testBlameCommand() throws Exception {
         ScmRepository repository = getScmRepository();
         ScmManager manager = getScmManager();
-        ScmProvider provider = manager.getProviderByRepository( getScmRepository() );
-        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+        ScmProvider provider = manager.getProviderByRepository(getScmRepository());
+        ScmFileSet fileSet = new ScmFileSet(getWorkingCopy());
 
         BlameScmResult result;
         BlameLine line;
 
         // === readme.txt ===
-        BlameScmRequest blameScmRequest = new BlameScmRequest( repository, fileSet );
-        blameScmRequest.setFilename( "readme.txt" );
-        //result = manager.blame( repository, fileSet, "readme.txt" );
-        result = manager.blame( blameScmRequest );
-        assertNotNull( "The command returned a null result.", result );
-        assertResultIsSuccess( result );
-        assertEquals( "Expected 1 line in blame", 1, result.getLines().size() );
-        line = result.getLines().get( 0 );
+        BlameScmRequest blameScmRequest = new BlameScmRequest(repository, fileSet);
+        blameScmRequest.setFilename("readme.txt");
+        // result = manager.blame( repository, fileSet, "readme.txt" );
+        result = manager.blame(blameScmRequest);
+        assertNotNull("The command returned a null result.", result);
+        assertResultIsSuccess(result);
+        assertEquals("Expected 1 line in blame", 1, result.getLines().size());
+        line = result.getLines().get(0);
         String initialRevision = line.getRevision();
 
-        //Make a timestamp that we know are after initial revision but before the second
+        // Make a timestamp that we know are after initial revision but before the second
         Date timeBeforeSecond = new Date(); // Current time
         // pause a couple seconds...
-        Thread.sleep( 2000 );
-        //Make a change to the readme.txt and commit the change
-        this.edit( getWorkingCopy(), "readme.txt", null, getScmRepository() );
-        ScmTestCase.makeFile( getWorkingCopy(), "/readme.txt", "changed readme.txt" );
-        CheckInScmResult checkInResult = provider.checkIn( getScmRepository(), fileSet, COMMIT_MSG );
-        assertTrue( "Unable to checkin changes to the repository", checkInResult.isSuccess() );
+        Thread.sleep(2000);
+        // Make a change to the readme.txt and commit the change
+        this.edit(getWorkingCopy(), "readme.txt", null, getScmRepository());
+        ScmTestCase.makeFile(getWorkingCopy(), "/readme.txt", "changed readme.txt");
+        CheckInScmResult checkInResult = provider.checkIn(getScmRepository(), fileSet, COMMIT_MSG);
+        assertTrue("Unable to checkin changes to the repository", checkInResult.isSuccess());
 
-        result = manager.blame( repository, fileSet, "readme.txt" );
+        result = manager.blame(repository, fileSet, "readme.txt");
 
         // pause a couple seconds...
-        Thread.sleep( 2000 );
+        Thread.sleep(2000);
         Date timeAfterSecond = new Date(); // Current time
 
-        assertNotNull( "The command returned a null result.", result );
-        assertResultIsSuccess( result );
+        assertNotNull("The command returned a null result.", result);
+        assertResultIsSuccess(result);
 
-        assertEquals( "Expected 1 line in blame", 1, result.getLines().size() );
-        line = result.getLines().get( 0 );
+        assertEquals("Expected 1 line in blame", 1, result.getLines().size());
+        line = result.getLines().get(0);
 
-        assertNotNull( "Expected not null author", line.getAuthor() );
-        assertNotNull( "Expected not null revision", line.getRevision() );
-        assertNotNull( "Expected not null date", line.getDate() );
+        assertNotNull("Expected not null author", line.getAuthor());
+        assertNotNull("Expected not null revision", line.getRevision());
+        assertNotNull("Expected not null date", line.getDate());
 
-        assertNotEquals( "Expected another revision", initialRevision, line.getRevision() );
-        if ( isTestDateTime() )
-        {
-            assertDateBetween( timeBeforeSecond, timeAfterSecond, line.getDate() );
+        assertNotEquals("Expected another revision", initialRevision, line.getRevision());
+        if (isTestDateTime()) {
+            assertDateBetween(timeBeforeSecond, timeAfterSecond, line.getDate());
         }
 
         // === pom.xml ===
-        result = manager.blame( repository, fileSet, "pom.xml" );
+        result = manager.blame(repository, fileSet, "pom.xml");
 
-        assertNotNull( "The command returned a null result.", result );
+        assertNotNull("The command returned a null result.", result);
 
-        assertResultIsSuccess( result );
+        assertResultIsSuccess(result);
 
-        verifyResult( result );
+        verifyResult(result);
     }
 
-    protected boolean isTestDateTime()
-    {
+    protected boolean isTestDateTime() {
         return true;
     }
 
-    protected void assertDateBetween( Date start, Date end, Date actual )
-    {
-        assertTrue( "Expected date between " + start + " and " + end + ", but was " + actual,
-                    start.before( actual ) && actual.before( end ) );
+    protected void assertDateBetween(Date start, Date end, Date actual) {
+        assertTrue(
+                "Expected date between " + start + " and " + end + ", but was " + actual,
+                start.before(actual) && actual.before(end));
     }
 
-    protected abstract void verifyResult( BlameScmResult result );
+    protected abstract void verifyResult(BlameScmResult result);
 }

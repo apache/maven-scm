@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit.command;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit.command;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,20 @@ package org.apache.maven.scm.provider.git.jgit.command;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.jgit.command;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.BiConsumer;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -63,18 +75,6 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.function.BiConsumer;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 /**
@@ -84,12 +84,10 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitUtils
-{
-    private static final Logger LOGGER = LoggerFactory.getLogger( JGitUtils.class );
+public class JGitUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JGitUtils.class);
 
-    private JGitUtils()
-    {
+    private JGitUtils() {
         // no op
     }
 
@@ -98,19 +96,20 @@ public class JGitUtils
      * @param basedir The directory to start with
      * @throws IOException If the repository cannot be opened
      */
-    public static Git openRepo( File basedir ) throws IOException
-    {
-        return new Git( new RepositoryBuilder().readEnvironment().findGitDir( basedir ).setMustExist( true ).build() );
+    public static Git openRepo(File basedir) throws IOException {
+        return new Git(new RepositoryBuilder()
+                .readEnvironment()
+                .findGitDir(basedir)
+                .setMustExist(true)
+                .build());
     }
 
     /**
      * Closes the repository wrapped by the passed git object
      * @param git
      */
-    public static void closeRepo( Git git )
-    {
-        if ( git != null && git.getRepository() != null )
-        {
+    public static void closeRepo(Git git) {
+        if (git != null && git.getRepository() != null) {
             git.getRepository().close();
         }
     }
@@ -120,8 +119,7 @@ public class JGitUtils
      *
      * @return a ProgressMonitor for use
      */
-    public static ProgressMonitor getMonitor()
-    {
+    public static ProgressMonitor getMonitor() {
         // X TODO write an own ProgressMonitor which logs to ScmLogger!
         return new TextProgressMonitor();
     }
@@ -137,30 +135,27 @@ public class JGitUtils
      * @return {@link CredentialsProvider} in case there are credentials
      *         informations configured in the repository.
      */
-    public static CredentialsProvider prepareSession( Git git, GitScmProviderRepository repository )
-    {
+    public static CredentialsProvider prepareSession(Git git, GitScmProviderRepository repository) {
         StoredConfig config = git.getRepository().getConfig();
-        config.setString( "remote", "origin", "url", repository.getFetchUrl() );
-        config.setString( "remote", "origin", "pushURL", repository.getPushUrl() );
+        config.setString("remote", "origin", "url", repository.getFetchUrl());
+        config.setString("remote", "origin", "pushURL", repository.getPushUrl());
 
         // make sure we do not log any passwords to the output
-        String password =
-            StringUtils.isNotBlank( repository.getPassword() ) ? repository.getPassword().trim() : "no-pwd-defined";
+        String password = StringUtils.isNotBlank(repository.getPassword())
+                ? repository.getPassword().trim()
+                : "no-pwd-defined";
         // if password contains special characters it won't match below.
         // Try encoding before match. (Passwords without will be unaffected)
-        try
-        {
-            password = URLEncoder.encode( password, "UTF-8" );
-        }
-        catch ( UnsupportedEncodingException e )
-        {
+        try {
+            password = URLEncoder.encode(password, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
             // UTF-8 should be valid
             // TODO use a logger
-            System.out.println( "Ignore UnsupportedEncodingException when trying to encode password" );
+            System.out.println("Ignore UnsupportedEncodingException when trying to encode password");
         }
-        LOGGER.info( "fetch url: " + repository.getFetchUrl().replace( password, "******" ) );
-        LOGGER.info( "push url: " + repository.getPushUrl().replace( password, "******" ) );
-        return getCredentials( repository );
+        LOGGER.info("fetch url: " + repository.getFetchUrl().replace(password, "******"));
+        LOGGER.info("push url: " + repository.getPushUrl().replace(password, "******"));
+        return getCredentials(repository);
     }
 
     /**
@@ -173,34 +168,29 @@ public class JGitUtils
      * @return <code>null</code> if there is not enough info to create a
      *         provider with
      */
-    public static CredentialsProvider getCredentials( GitScmProviderRepository repository )
-    {
-        if ( StringUtils.isNotBlank( repository.getUser() ) && StringUtils.isNotBlank( repository.getPassword() ) )
-        {
-            return new UsernamePasswordCredentialsProvider( repository.getUser().trim(),
-                                                            repository.getPassword().trim() );
+    public static CredentialsProvider getCredentials(GitScmProviderRepository repository) {
+        if (StringUtils.isNotBlank(repository.getUser()) && StringUtils.isNotBlank(repository.getPassword())) {
+            return new UsernamePasswordCredentialsProvider(
+                    repository.getUser().trim(), repository.getPassword().trim());
         }
-
 
         return null;
     }
 
-    public static Iterable<PushResult> push( Git git, GitScmProviderRepository repo, RefSpec refSpec )
-        throws GitAPIException, InvalidRemoteException, TransportException
-    {
-        CredentialsProvider credentials = prepareSession( git, repo );
-        PushCommand command = git.push().setRefSpecs( refSpec ).setCredentialsProvider( credentials )
+    public static Iterable<PushResult> push(Git git, GitScmProviderRepository repo, RefSpec refSpec)
+            throws GitAPIException, InvalidRemoteException, TransportException {
+        CredentialsProvider credentials = prepareSession(git, repo);
+        PushCommand command = git.push()
+                .setRefSpecs(refSpec)
+                .setCredentialsProvider(credentials)
                 .setTransportConfigCallback(
-                       new JGitTransportConfigCallback( new ScmProviderAwareSshdSessionFactory( repo, LOGGER ) )
-                 );
+                        new JGitTransportConfigCallback(new ScmProviderAwareSshdSessionFactory(repo, LOGGER)));
 
         Iterable<PushResult> pushResultList = command.call();
-        for ( PushResult pushResult : pushResultList )
-        {
+        for (PushResult pushResult : pushResultList) {
             Collection<RemoteRefUpdate> ru = pushResult.getRemoteUpdates();
-            for ( RemoteRefUpdate remoteRefUpdate : ru )
-            {
-                LOGGER.info( remoteRefUpdate.getStatus() + " - " + remoteRefUpdate );
+            for (RemoteRefUpdate remoteRefUpdate : ru) {
+                LOGGER.info(remoteRefUpdate.getStatus() + " - " + remoteRefUpdate);
             }
         }
         return pushResultList;
@@ -212,12 +202,10 @@ public class JGitUtils
      * @param repo
      * @return false if there are no commits
      */
-    public static boolean hasCommits( Repository repo )
-    {
-        if ( repo != null && repo.getDirectory().exists() )
-        {
-            return ( new File( repo.getDirectory(), "objects" ).list().length > 2 ) || (
-                new File( repo.getDirectory(), "objects/pack" ).list().length > 0 );
+    public static boolean hasCommits(Repository repo) {
+        if (repo != null && repo.getDirectory().exists()) {
+            return (new File(repo.getDirectory(), "objects").list().length > 2)
+                    || (new File(repo.getDirectory(), "objects/pack").list().length > 0);
         }
         return false;
     }
@@ -233,10 +221,9 @@ public class JGitUtils
      * @throws CorruptObjectException
      * @throws IOException
      */
-    public static List<ScmFile> getFilesInCommit( Repository repository, RevCommit commit )
-        throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException
-    {
-        return getFilesInCommit( repository, commit, null );
+    public static List<ScmFile> getFilesInCommit(Repository repository, RevCommit commit)
+            throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException {
+        return getFilesInCommit(repository, commit, null);
     }
 
     /**
@@ -253,34 +240,27 @@ public class JGitUtils
      * @throws CorruptObjectException
      * @throws IOException
      */
-    public static List<ScmFile> getFilesInCommit( Repository repository, RevCommit commit, File baseDir )
-        throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException
-    {
+    public static List<ScmFile> getFilesInCommit(Repository repository, RevCommit commit, File baseDir)
+            throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException {
         List<ScmFile> list = new ArrayList<>();
-        if ( JGitUtils.hasCommits( repository ) )
-        {
+        if (JGitUtils.hasCommits(repository)) {
 
-            try ( RevWalk rw = new RevWalk( repository );
-                  DiffFormatter df = new DiffFormatter( DisabledOutputStream.INSTANCE ) )
-            {
-                RevCommit realParent = commit.getParentCount() > 0 ? commit.getParent( 0 ) : commit;
-                RevCommit parent = rw.parseCommit( realParent.getId() );
-                    df.setRepository( repository );
-                df.setDiffComparator( RawTextComparator.DEFAULT );
-                df.setDetectRenames( true );
-                List<DiffEntry> diffs = df.scan( parent.getTree(), commit.getTree() );
-                for ( DiffEntry diff : diffs )
-                {
+            try (RevWalk rw = new RevWalk(repository);
+                    DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
+                RevCommit realParent = commit.getParentCount() > 0 ? commit.getParent(0) : commit;
+                RevCommit parent = rw.parseCommit(realParent.getId());
+                df.setRepository(repository);
+                df.setDiffComparator(RawTextComparator.DEFAULT);
+                df.setDetectRenames(true);
+                List<DiffEntry> diffs = df.scan(parent.getTree(), commit.getTree());
+                for (DiffEntry diff : diffs) {
                     final String path;
-                    if ( baseDir != null )
-                    {
-                        path = relativize ( baseDir.toURI(), new File( repository.getWorkTree(), diff.getNewPath() ) );
-                    }
-                    else
-                    {
+                    if (baseDir != null) {
+                        path = relativize(baseDir.toURI(), new File(repository.getWorkTree(), diff.getNewPath()));
+                    } else {
                         path = diff.getNewPath();
                     }
-                    list.add( new ScmFile( path, ScmFileStatus.CHECKED_IN ) );
+                    list.add(new ScmFile(path, ScmFileStatus.CHECKED_IN));
                 }
             }
         }
@@ -293,10 +273,8 @@ public class JGitUtils
      * @param changeType
      * @return the matching ScmFileStatus
      */
-    public static ScmFileStatus getScmFileStatus( ChangeType changeType )
-    {
-        switch ( changeType )
-        {
+    public static ScmFileStatus getScmFileStatus(ChangeType changeType) {
+        switch (changeType) {
             case ADD:
                 return ScmFileStatus.ADDED;
             case MODIFY:
@@ -321,27 +299,26 @@ public class JGitUtils
      * @return a list of added files
      * @throws GitAPIException
      */
-    public static List<ScmFile> addAllFiles( Git git, ScmFileSet fileSet )
-        throws GitAPIException
-    {
+    public static List<ScmFile> addAllFiles(Git git, ScmFileSet fileSet) throws GitAPIException {
         URI workingCopyRootUri = git.getRepository().getWorkTree().toURI();
         AddCommand add = git.add();
-        callWithRepositoryRelativeFilePath( ( relativeFile, absoluteFile ) ->
-            {
-                if ( absoluteFile.exists() )
-                {
-                    add.addFilepattern( relativeFile );
-                }
-            }, workingCopyRootUri, fileSet );
+        callWithRepositoryRelativeFilePath(
+                (relativeFile, absoluteFile) -> {
+                    if (absoluteFile.exists()) {
+                        add.addFilepattern(relativeFile);
+                    }
+                },
+                workingCopyRootUri,
+                fileSet);
         add.call();
 
         Status status = git.status().call();
 
         Set<String> allInIndex = new HashSet<>();
-        allInIndex.addAll( status.getAdded() );
-        allInIndex.addAll( status.getChanged() );
-        return getScmFilesForAllFileSetFilesContainedInRepoPath( workingCopyRootUri, fileSet, allInIndex,
-                                                                 ScmFileStatus.ADDED );
+        allInIndex.addAll(status.getAdded());
+        allInIndex.addAll(status.getChanged());
+        return getScmFilesForAllFileSetFilesContainedInRepoPath(
+                workingCopyRootUri, fileSet, allInIndex, ScmFileStatus.ADDED);
     }
 
     /**
@@ -353,20 +330,18 @@ public class JGitUtils
      * @return a list of removed files
      * @throws GitAPIException
      */
-    public static List<ScmFile> removeAllFiles( Git git, ScmFileSet fileSet )
-        throws GitAPIException
-    {
+    public static List<ScmFile> removeAllFiles(Git git, ScmFileSet fileSet) throws GitAPIException {
         URI workingCopyRootUri = git.getRepository().getWorkTree().toURI();
         RmCommand remove = git.rm();
-        callWithRepositoryRelativeFilePath( ( relativeFile, absoluteFile ) ->
-            remove.addFilepattern( relativeFile ), workingCopyRootUri, fileSet );
+        callWithRepositoryRelativeFilePath(
+                (relativeFile, absoluteFile) -> remove.addFilepattern(relativeFile), workingCopyRootUri, fileSet);
         remove.call();
 
         Status status = git.status().call();
 
-        Set<String> allInIndex = new HashSet<>( status.getRemoved() );
-        return getScmFilesForAllFileSetFilesContainedInRepoPath( workingCopyRootUri, fileSet, allInIndex,
-                                                                 ScmFileStatus.DELETED );
+        Set<String> allInIndex = new HashSet<>(status.getRemoved());
+        return getScmFilesForAllFileSetFilesContainedInRepoPath(
+                workingCopyRootUri, fileSet, allInIndex, ScmFileStatus.DELETED);
     }
 
     /**
@@ -376,47 +351,39 @@ public class JGitUtils
      * @param git the git repository
      * @param fileSet the file set to traverse
      */
-    private static void callWithRepositoryRelativeFilePath( BiConsumer<String, File> fileCallback,
-                                                            URI workingCopyRootUri, ScmFileSet fileSet )
-    {
-        for ( File file : fileSet.getFileList() )
-        {
-            if ( !file.isAbsolute() )
-            {
-                file = new File( fileSet.getBasedir().getPath(), file.getPath() );
+    private static void callWithRepositoryRelativeFilePath(
+            BiConsumer<String, File> fileCallback, URI workingCopyRootUri, ScmFileSet fileSet) {
+        for (File file : fileSet.getFileList()) {
+            if (!file.isAbsolute()) {
+                file = new File(fileSet.getBasedir().getPath(), file.getPath());
             }
-            String path = relativize( workingCopyRootUri, file );
-            fileCallback.accept( path, file );
+            String path = relativize(workingCopyRootUri, file);
+            fileCallback.accept(path, file);
         }
     }
 
-    private static List<ScmFile> getScmFilesForAllFileSetFilesContainedInRepoPath( URI workingCopyRootUri,
-                                                                                   ScmFileSet fileSet,
-                                                                                   Set<String> repoFilePaths,
-                                                                                   ScmFileStatus fileStatus )
-    {
-        List<ScmFile> files = new ArrayList<>( repoFilePaths.size() );
-        callWithRepositoryRelativeFilePath( ( relativeFile, absoluteFile ) ->
-            {
-                // check if repo relative path is contained
-                if ( repoFilePaths.contains( relativeFile ) )
-                {
-                    // returned ScmFiles should be relative to given fileset's basedir
-                    ScmFile scmfile = new ScmFile( relativize( fileSet.getBasedir().toURI(), absoluteFile ),
-                                                   fileStatus );
-                    files.add( scmfile );
-                }
-            },
-            workingCopyRootUri, fileSet );
+    private static List<ScmFile> getScmFilesForAllFileSetFilesContainedInRepoPath(
+            URI workingCopyRootUri, ScmFileSet fileSet, Set<String> repoFilePaths, ScmFileStatus fileStatus) {
+        List<ScmFile> files = new ArrayList<>(repoFilePaths.size());
+        callWithRepositoryRelativeFilePath(
+                (relativeFile, absoluteFile) -> {
+                    // check if repo relative path is contained
+                    if (repoFilePaths.contains(relativeFile)) {
+                        // returned ScmFiles should be relative to given fileset's basedir
+                        ScmFile scmfile =
+                                new ScmFile(relativize(fileSet.getBasedir().toURI(), absoluteFile), fileStatus);
+                        files.add(scmfile);
+                    }
+                },
+                workingCopyRootUri,
+                fileSet);
         return files;
     }
 
-    private static String relativize( URI baseUri, File f )
-    {
+    private static String relativize(URI baseUri, File f) {
         String path = f.getPath();
-        if ( f.isAbsolute() )
-        {
-            path = baseUri.relativize( new File( path ).toURI() ).getPath();
+        if (f.isAbsolute()) {
+            path = baseUri.relativize(new File(path).toURI()).getPath();
         }
         return path;
     }
@@ -436,98 +403,85 @@ public class JGitUtils
      * @throws MissingObjectException
      * @throws IncorrectObjectTypeException
      */
-    public static List<RevCommit> getRevCommits( Repository repo, RevSort[] sortings, String fromRev, String toRev,
-                                                 final Date fromDate, final Date toDate, int maxLines )
-        throws IOException, MissingObjectException, IncorrectObjectTypeException
-    {
+    public static List<RevCommit> getRevCommits(
+            Repository repo,
+            RevSort[] sortings,
+            String fromRev,
+            String toRev,
+            final Date fromDate,
+            final Date toDate,
+            int maxLines)
+            throws IOException, MissingObjectException, IncorrectObjectTypeException {
 
         List<RevCommit> revs = new ArrayList<>();
 
-        ObjectId fromRevId = fromRev != null ? repo.resolve( fromRev ) : null;
-        ObjectId toRevId = toRev != null ? repo.resolve( toRev ) : null;
+        ObjectId fromRevId = fromRev != null ? repo.resolve(fromRev) : null;
+        ObjectId toRevId = toRev != null ? repo.resolve(toRev) : null;
 
-        if ( sortings == null || sortings.length == 0 )
-        {
-            sortings = new RevSort[]{ RevSort.TOPO, RevSort.COMMIT_TIME_DESC };
+        if (sortings == null || sortings.length == 0) {
+            sortings = new RevSort[] {RevSort.TOPO, RevSort.COMMIT_TIME_DESC};
         }
 
-        try ( RevWalk walk = new RevWalk( repo ) )
-        {
-            for ( final RevSort s : sortings )
-            {
-                walk.sort( s, true );
+        try (RevWalk walk = new RevWalk(repo)) {
+            for (final RevSort s : sortings) {
+                walk.sort(s, true);
             }
 
-            if ( fromDate != null && toDate != null )
-            {
-                //walk.setRevFilter( CommitTimeRevFilter.between( fromDate, toDate ) );
-                walk.setRevFilter( new RevFilter()
-                {
+            if (fromDate != null && toDate != null) {
+                // walk.setRevFilter( CommitTimeRevFilter.between( fromDate, toDate ) );
+                walk.setRevFilter(new RevFilter() {
                     @Override
-                    public boolean include( RevWalk walker, RevCommit cmit )
-                        throws StopWalkException, MissingObjectException, IncorrectObjectTypeException, IOException
-                    {
+                    public boolean include(RevWalk walker, RevCommit cmit)
+                            throws StopWalkException, MissingObjectException, IncorrectObjectTypeException,
+                                    IOException {
                         int cmtTime = cmit.getCommitTime();
 
-                        return ( cmtTime >= ( fromDate.getTime() / 1000 ) )
-                                && ( cmtTime <= ( toDate.getTime() / 1000 ) );
+                        return (cmtTime >= (fromDate.getTime() / 1000)) && (cmtTime <= (toDate.getTime() / 1000));
                     }
 
                     @Override
-                    public RevFilter clone()
-                    {
+                    public RevFilter clone() {
                         return this;
                     }
-                } );
-            }
-            else
-            {
-                if ( fromDate != null )
-                {
-                    walk.setRevFilter( CommitTimeRevFilter.after( fromDate ) );
+                });
+            } else {
+                if (fromDate != null) {
+                    walk.setRevFilter(CommitTimeRevFilter.after(fromDate));
                 }
-                if ( toDate != null )
-                {
-                    walk.setRevFilter( CommitTimeRevFilter.before( toDate ) );
+                if (toDate != null) {
+                    walk.setRevFilter(CommitTimeRevFilter.before(toDate));
                 }
             }
 
-            if ( fromRevId != null )
-            {
-                RevCommit c = walk.parseCommit( fromRevId );
-                c.add( RevFlag.UNINTERESTING );
-                RevCommit real = walk.parseCommit( c );
-                walk.markUninteresting( real );
+            if (fromRevId != null) {
+                RevCommit c = walk.parseCommit(fromRevId);
+                c.add(RevFlag.UNINTERESTING);
+                RevCommit real = walk.parseCommit(c);
+                walk.markUninteresting(real);
             }
 
-            if ( toRevId != null )
-            {
-                RevCommit c = walk.parseCommit( toRevId );
-                c.remove( RevFlag.UNINTERESTING );
-                RevCommit real = walk.parseCommit( c );
-                walk.markStart( real );
-            }
-            else
-            {
-                final ObjectId head = repo.resolve( Constants.HEAD );
-                if ( head == null )
-                {
-                    throw new RuntimeException( "Cannot resolve " + Constants.HEAD );
+            if (toRevId != null) {
+                RevCommit c = walk.parseCommit(toRevId);
+                c.remove(RevFlag.UNINTERESTING);
+                RevCommit real = walk.parseCommit(c);
+                walk.markStart(real);
+            } else {
+                final ObjectId head = repo.resolve(Constants.HEAD);
+                if (head == null) {
+                    throw new RuntimeException("Cannot resolve " + Constants.HEAD);
                 }
-                RevCommit real = walk.parseCommit( head );
-                walk.markStart( real );
+                RevCommit real = walk.parseCommit(head);
+                walk.markStart(real);
             }
 
             int n = 0;
-            for ( final RevCommit c : walk )
-            {
+            for (final RevCommit c : walk) {
                 n++;
-                if ( maxLines != -1 && n > maxLines )
-                {
+                if (maxLines != -1 && n > maxLines) {
                     break;
                 }
 
-                revs.add( c );
+                revs.add(c);
             }
             return revs;
         }
@@ -540,26 +494,21 @@ public class JGitUtils
      * @param commit the commit for which we want the tags
      * @return a list of tags, might be empty, and never <code>null</code>
      */
-    public static List<String> getTags( Repository repo, RevCommit commit ) throws IOException
-    {
-        List<Ref> refList = repo.getRefDatabase().getRefsByPrefix( R_TAGS );
+    public static List<String> getTags(Repository repo, RevCommit commit) throws IOException {
+        List<Ref> refList = repo.getRefDatabase().getRefsByPrefix(R_TAGS);
 
-        try ( RevWalk revWalk = new RevWalk( repo ) )
-        {
+        try (RevWalk revWalk = new RevWalk(repo)) {
             ObjectId commitId = commit.getId();
             List<String> result = new ArrayList<>();
 
-            for ( Ref ref : refList )
-            {
+            for (Ref ref : refList) {
                 ObjectId tagId = ref.getObjectId();
-                RevCommit tagCommit = revWalk.parseCommit( tagId );
-                if ( commitId.equals( tagCommit.getId() ) )
-                {
-                    result.add( ref.getName().substring( R_TAGS.length() ) );
+                RevCommit tagCommit = revWalk.parseCommit(tagId);
+                if (commitId.equals(tagCommit.getId())) {
+                    result.add(ref.getName().substring(R_TAGS.length()));
                 }
             }
             return result;
         }
     }
-
 }

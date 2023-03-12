@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.blame;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.blame;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.blame;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.blame;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -31,21 +30,15 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author Evgeny Mandrikov
  * @since 1.4
  */
-public abstract class AbstractBlameCommand
-    extends AbstractCommand
-{
-    public abstract BlameScmResult executeBlameCommand( ScmProviderRepository repo, ScmFileSet workingDirectory,
-                                                        String filename )
-        throws ScmException;
+public abstract class AbstractBlameCommand extends AbstractCommand {
+    public abstract BlameScmResult executeBlameCommand(
+            ScmProviderRepository repo, ScmFileSet workingDirectory, String filename) throws ScmException;
 
-    protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet workingDirectory,
-                                        CommandParameters parameters )
-        throws ScmException
-    {
-        String file = parameters.getString( CommandParameter.FILE );
+    protected ScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet workingDirectory, CommandParameters parameters)
+            throws ScmException {
+        String file = parameters.getString(CommandParameter.FILE);
 
-        return executeBlameCommand( repository, workingDirectory, file );
+        return executeBlameCommand(repository, workingDirectory, file);
     }
-
-
 }

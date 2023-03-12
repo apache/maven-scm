@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.changelog;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.changelog;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.changelog;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.changelog;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
@@ -29,8 +28,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public interface ChangeLogCommand
-{
-    ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException;
+public interface ChangeLogCommand {
+    ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException;
 }

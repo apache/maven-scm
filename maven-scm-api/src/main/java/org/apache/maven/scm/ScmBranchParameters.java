@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm;
 
 import java.io.Serializable;
 
@@ -25,9 +24,7 @@ import java.io.Serializable;
  * @author Olivier Lamy
  * @since 1.2
  */
-public class ScmBranchParameters
-    implements Serializable
-{
+public class ScmBranchParameters implements Serializable {
     private static final long serialVersionUID = 7241536408630608707L;
 
     private String message;
@@ -38,59 +35,48 @@ public class ScmBranchParameters
 
     private String scmRevision;
 
-    public ScmBranchParameters()
-    {
+    public ScmBranchParameters() {
         this.remoteBranching = false;
         this.pinExternals = false;
     }
 
-    public ScmBranchParameters( String message )
-    {
+    public ScmBranchParameters(String message) {
         this.message = message;
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return message;
     }
 
-    public void setMessage( String message )
-    {
+    public void setMessage(String message) {
         this.message = message;
     }
 
-    public String getScmRevision()
-    {
+    public String getScmRevision() {
         return scmRevision;
     }
 
-    public void setScmRevision( String scmRevision )
-    {
+    public void setScmRevision(String scmRevision) {
         this.scmRevision = scmRevision;
     }
 
-    public boolean isRemoteBranching()
-    {
+    public boolean isRemoteBranching() {
         return remoteBranching;
     }
 
-    public void setRemoteBranching( boolean remoteBranching )
-    {
+    public void setRemoteBranching(boolean remoteBranching) {
         this.remoteBranching = remoteBranching;
     }
 
-    public boolean isPinExternals()
-    {
+    public boolean isPinExternals() {
         return pinExternals;
     }
 
-    public void setPinExternals( boolean pinExternals )
-    {
+    public void setPinExternals(boolean pinExternals) {
         this.pinExternals = pinExternals;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "[" + scmRevision + "] " + message;
     }
 }

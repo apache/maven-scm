@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.branch;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.branch;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.branch;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.branch;
 
 import java.util.List;
 
@@ -29,34 +28,28 @@ import org.apache.maven.scm.ScmResult;
  * @author Olivier Lamy
  *
  */
-public class BranchScmResult
-    extends ScmResult
-{
+public class BranchScmResult extends ScmResult {
     private static final long serialVersionUID = -4241972929129557932L;
 
     private List<ScmFile> branchedFiles;
 
-    public BranchScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
-    {
-        super( commandLine, providerMessage, commandOutput, success );
+    public BranchScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
+        super(commandLine, providerMessage, commandOutput, success);
     }
 
-    public BranchScmResult( String commandLine, List<ScmFile> branchedFiles )
-    {
-        super( commandLine, null, null, true );
+    public BranchScmResult(String commandLine, List<ScmFile> branchedFiles) {
+        super(commandLine, null, null, true);
 
         this.branchedFiles = branchedFiles;
     }
 
-    public BranchScmResult( List<ScmFile> branchedFiles, ScmResult result )
-    {
-        super( result );
+    public BranchScmResult(List<ScmFile> branchedFiles, ScmResult result) {
+        super(result);
 
         this.branchedFiles = branchedFiles;
     }
 
-    public List<ScmFile> getBranchedFiles()
-    {
+    public List<ScmFile> getBranchedFiles() {
         return branchedFiles;
     }
 }

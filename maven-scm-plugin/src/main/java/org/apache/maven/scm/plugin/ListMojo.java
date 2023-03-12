@@ -1,5 +1,3 @@
-package org.apache.maven.scm.plugin;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.plugin;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.plugin;
 
 import java.io.IOException;
 
@@ -34,55 +33,44 @@ import org.apache.maven.scm.repository.ScmRepository;
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  */
-@Mojo( name = "list", aggregator = true )
-public class ListMojo
-    extends AbstractScmMojo
-{
+@Mojo(name = "list", aggregator = true)
+public class ListMojo extends AbstractScmMojo {
     /**
      * The version type (branch/tag/revision) of scmVersion.
      */
-    @Parameter( property = "scmVersionType" )
+    @Parameter(property = "scmVersionType")
     private String scmVersionType;
 
     /**
      * The version (revision number/branch name/tag name).
      */
-    @Parameter( property = "scmVersion" )
+    @Parameter(property = "scmVersion")
     private String scmVersion;
 
     /**
      * Use recursive mode.
      */
-    @Parameter( property = "recursive", defaultValue = "true" )
+    @Parameter(property = "recursive", defaultValue = "true")
     private boolean recursive = true;
 
     /** {@inheritDoc} */
-    public void execute()
-        throws MojoExecutionException
-    {
+    public void execute() throws MojoExecutionException {
         super.execute();
 
-        try
-        {
+        try {
             ScmRepository repository = getScmRepository();
-            ListScmResult result = getScmManager().list( repository, getFileSet(), recursive,
-                                                         getScmVersion( scmVersionType, scmVersion ) );
+            ListScmResult result = getScmManager()
+                    .list(repository, getFileSet(), recursive, getScmVersion(scmVersionType, scmVersion));
 
-            checkResult( result );
+            checkResult(result);
 
-            if ( result.getFiles() != null )
-            {
-                for ( ScmFile scmFile : result.getFiles() )
-                {
-                    getLog().info( scmFile.getPath() );
+            if (result.getFiles() != null) {
+                for (ScmFile scmFile : result.getFiles()) {
+                    getLog().info(scmFile.getPath());
                 }
             }
-        }
-        catch ( ScmException | IOException e )
-        {
-            throw new MojoExecutionException( "Cannot run list command : ", e );
+        } catch (ScmException | IOException e) {
+            throw new MojoExecutionException("Cannot run list command : ", e);
         }
     }
-
 }
-

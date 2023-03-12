@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.diff;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.diff;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,9 @@ package org.apache.maven.scm.provider.git.gitexe.command.diff;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.diff;
+
+import java.io.File;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -32,45 +33,36 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
  */
-public class GitDiffCommand
-    extends AbstractDiffCommand
-    implements GitCommand
-{
+public class GitDiffCommand extends AbstractDiffCommand implements GitCommand {
     /** {@inheritDoc} */
-    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                ScmVersion startVersion, ScmVersion endVersion )
-        throws ScmException
-    {
-        GitDiffConsumer consumer = new GitDiffConsumer( fileSet.getBasedir() );
+    protected DiffScmResult executeDiffCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion, ScmVersion endVersion)
+            throws ScmException {
+        GitDiffConsumer consumer = new GitDiffConsumer(fileSet.getBasedir());
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         int exitCode;
 
-        Commandline clDiff2Index = createCommandLine( fileSet.getBasedir(), startVersion, endVersion, false );
+        Commandline clDiff2Index = createCommandLine(fileSet.getBasedir(), startVersion, endVersion, false);
 
-        exitCode = GitCommandLineUtils.execute( clDiff2Index, consumer, stderr );
-        if ( exitCode != 0 )
-        {
-            return new DiffScmResult( clDiff2Index.toString(), "The git-diff command failed.", stderr.getOutput(),
-                                      false );
+        exitCode = GitCommandLineUtils.execute(clDiff2Index, consumer, stderr);
+        if (exitCode != 0) {
+            return new DiffScmResult(
+                    clDiff2Index.toString(), "The git-diff command failed.", stderr.getOutput(), false);
         }
 
-        Commandline clDiff2Head = createCommandLine( fileSet.getBasedir(), startVersion, endVersion, true );
+        Commandline clDiff2Head = createCommandLine(fileSet.getBasedir(), startVersion, endVersion, true);
 
-        exitCode = GitCommandLineUtils.execute( clDiff2Head, consumer, stderr );
-        if ( exitCode != 0 )
-        {
-            return new DiffScmResult( clDiff2Head.toString(), "The git-diff command failed.", stderr.getOutput(),
-                                      false );
+        exitCode = GitCommandLineUtils.execute(clDiff2Head, consumer, stderr);
+        if (exitCode != 0) {
+            return new DiffScmResult(clDiff2Head.toString(), "The git-diff command failed.", stderr.getOutput(), false);
         }
 
-        return new DiffScmResult( clDiff2Index.toString(), consumer.getChangedFiles(), consumer.getDifferences(),
-                                  consumer.getPatch() );
+        return new DiffScmResult(
+                clDiff2Index.toString(), consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch());
     }
 
     // ----------------------------------------------------------------------
@@ -80,23 +72,19 @@ public class GitDiffCommand
     /**
      * @param cached if <code>true</code> diff the index to the head, else diff the tree to the index
      */
-    public static Commandline createCommandLine( File workingDirectory, ScmVersion startVersion, ScmVersion endVersion,
-                                                 boolean cached )
-    {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "diff" );
+    public static Commandline createCommandLine(
+            File workingDirectory, ScmVersion startVersion, ScmVersion endVersion, boolean cached) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "diff");
 
-        if ( cached )
-        {
-            cl.createArg().setValue( "--cached" );
+        if (cached) {
+            cl.createArg().setValue("--cached");
         }
 
-        if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
-        {
-            cl.createArg().setValue( startVersion.getName() );
+        if (startVersion != null && StringUtils.isNotEmpty(startVersion.getName())) {
+            cl.createArg().setValue(startVersion.getName());
         }
-        if ( endVersion != null && StringUtils.isNotEmpty( endVersion.getName() ) )
-        {
-            cl.createArg().setValue( endVersion.getName() );
+        if (endVersion != null && StringUtils.isNotEmpty(endVersion.getName())) {
+            cl.createArg().setValue(endVersion.getName());
         }
 
         return cl;
@@ -109,14 +97,12 @@ public class GitDiffCommand
      *
      * @param workingDirectory
      */
-    public static Commandline createDiffRawCommandLine( File workingDirectory, String sha1 )
-    {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "diff" );
+    public static Commandline createDiffRawCommandLine(File workingDirectory, String sha1) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "diff");
 
-        cl.createArg().setValue( "--raw" );
-        cl.createArg().setValue( sha1 );
+        cl.createArg().setValue("--raw");
+        cl.createArg().setValue(sha1);
 
         return cl;
     }
-
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.add;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.add;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.add;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.add;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -31,19 +30,17 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public abstract class AbstractAddCommand
-    extends AbstractCommand
-{
-    protected abstract ScmResult executeAddCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                    String message, boolean binary )
-        throws ScmException;
+public abstract class AbstractAddCommand extends AbstractCommand {
+    protected abstract ScmResult executeAddCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean binary) throws ScmException;
 
     /** {@inheritDoc} */
-    protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                        CommandParameters parameters )
-        throws ScmException
-    {
-        return executeAddCommand( repository, fileSet, parameters.getString( CommandParameter.MESSAGE, "no message" ),
-                                  parameters.getBoolean( CommandParameter.BINARY ) );
+    protected ScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
+        return executeAddCommand(
+                repository,
+                fileSet,
+                parameters.getString(CommandParameter.MESSAGE, "no message"),
+                parameters.getBoolean(CommandParameter.BINARY));
     }
 }

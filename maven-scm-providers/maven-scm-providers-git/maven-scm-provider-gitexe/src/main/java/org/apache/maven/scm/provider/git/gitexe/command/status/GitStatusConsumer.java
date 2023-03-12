@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.status;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.status;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -29,37 +28,35 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.util.AbstractConsumer;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitStatusConsumer
-        extends AbstractConsumer
-{
+public class GitStatusConsumer extends AbstractConsumer {
 
     /**
      * The pattern used to match added file lines
      */
-    private static final Pattern ADDED_PATTERN = Pattern.compile( "^A[ M]* (.*)$" );
+    private static final Pattern ADDED_PATTERN = Pattern.compile("^A[ M]* (.*)$");
 
     /**
      * The pattern used to match modified file lines
      */
-    private static final Pattern MODIFIED_PATTERN = Pattern.compile( "^ *M[ M]* (.*)$" );
+    private static final Pattern MODIFIED_PATTERN = Pattern.compile("^ *M[ M]* (.*)$");
 
     /**
      * The pattern used to match deleted file lines
      */
-    private static final Pattern DELETED_PATTERN = Pattern.compile( "^ *D * (.*)$" );
+    private static final Pattern DELETED_PATTERN = Pattern.compile("^ *D * (.*)$");
 
     /**
      * The pattern used to match renamed file lines
      */
-    private static final Pattern RENAMED_PATTERN = Pattern.compile( "^R  (.*) -> (.*)$" );
+    private static final Pattern RENAMED_PATTERN = Pattern.compile("^R  (.*) -> (.*)$");
 
     private final File workingDirectory;
 
@@ -81,8 +78,7 @@ public class GitStatusConsumer
      *
      * @param workingDirectory the working directory
      */
-    public GitStatusConsumer( File workingDirectory )
-    {
+    public GitStatusConsumer(File workingDirectory) {
         this.workingDirectory = workingDirectory;
     }
 
@@ -98,9 +94,8 @@ public class GitStatusConsumer
      * @since 1.9
      * @see GitStatusCommand#createRevparseShowPrefix(ScmFileSet)
      */
-    public GitStatusConsumer( File workingDirectory, URI relativeRepositoryPath )
-    {
-        this( workingDirectory );
+    public GitStatusConsumer(File workingDirectory, URI relativeRepositoryPath) {
+        this(workingDirectory);
         this.relativeRepositoryPath = relativeRepositoryPath;
     }
 
@@ -116,9 +111,8 @@ public class GitStatusConsumer
      * @since 1.11.0
      * @see GitStatusCommand#createRevparseShowPrefix(ScmFileSet)
      */
-    public GitStatusConsumer( File workingDirectory, ScmFileSet scmFileSet )
-    {
-        this( workingDirectory );
+    public GitStatusConsumer(File workingDirectory, ScmFileSet scmFileSet) {
+        this(workingDirectory);
         this.scmFileSet = scmFileSet;
     }
 
@@ -135,10 +129,8 @@ public class GitStatusConsumer
      * @since 1.11.0
      * @see GitStatusCommand#createRevparseShowPrefix(ScmFileSet)
      */
-    public GitStatusConsumer( File workingDirectory, URI relativeRepositoryPath,
-                              ScmFileSet scmFileSet )
-    {
-        this( workingDirectory, scmFileSet );
+    public GitStatusConsumer(File workingDirectory, URI relativeRepositoryPath, ScmFileSet scmFileSet) {
+        this(workingDirectory, scmFileSet);
         this.relativeRepositoryPath = relativeRepositoryPath;
     }
 
@@ -149,14 +141,11 @@ public class GitStatusConsumer
     /**
      * {@inheritDoc}
      */
-    public void consumeLine( String line )
-    {
-        if ( logger.isDebugEnabled() )
-        {
-            logger.debug( line );
+    public void consumeLine(String line) {
+        if (logger.isDebugEnabled()) {
+            logger.debug(line);
         }
-        if ( StringUtils.isEmpty( line ) )
-        {
+        if (StringUtils.isEmpty(line)) {
             return;
         }
 
@@ -165,130 +154,90 @@ public class GitStatusConsumer
         List<String> files = new ArrayList<String>();
 
         Matcher matcher;
-        if ( ( matcher = ADDED_PATTERN.matcher( line ) ).find() )
-        {
+        if ((matcher = ADDED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.ADDED;
-            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
-        }
-        else if ( ( matcher = MODIFIED_PATTERN.matcher( line ) ).find() )
-        {
+            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+        } else if ((matcher = MODIFIED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.MODIFIED;
-            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
-        }
-        else if ( ( matcher = DELETED_PATTERN.matcher( line ) ).find() )
-        {
+            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+        } else if ((matcher = DELETED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.DELETED;
-            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
-        }
-        else if ( ( matcher = RENAMED_PATTERN.matcher( line ) ).find() )
-        {
+            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+        } else if ((matcher = RENAMED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.RENAMED;
-            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
-            files.add( resolvePath( matcher.group( 2 ), relativeRepositoryPath ) );
-            logger.debug( "RENAMED status for line '" + line + "' files added '" + matcher.group( 1 ) + "' '"
-                              + matcher.group( 2 ) );
-        }
-        else
-        {
-            logger.warn( "Ignoring unrecognized line: " + line );
+            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+            files.add(resolvePath(matcher.group(2), relativeRepositoryPath));
+            logger.debug("RENAMED status for line '" + line + "' files added '" + matcher.group(1) + "' '"
+                    + matcher.group(2));
+        } else {
+            logger.warn("Ignoring unrecognized line: " + line);
             return;
         }
 
         // If the file isn't a file; don't add it.
-        if ( !files.isEmpty() )
-        {
-            if ( workingDirectory != null )
-            {
-                if ( status == ScmFileStatus.RENAMED )
-                {
-                    String oldFilePath = files.get( 0 );
-                    String newFilePath = files.get( 1 );
-                    if ( isFile( oldFilePath ) )
-                    {
-                        logger.debug( "file '" + oldFilePath + "' is a file" );
+        if (!files.isEmpty()) {
+            if (workingDirectory != null) {
+                if (status == ScmFileStatus.RENAMED) {
+                    String oldFilePath = files.get(0);
+                    String newFilePath = files.get(1);
+                    if (isFile(oldFilePath)) {
+                        logger.debug("file '" + oldFilePath + "' is a file");
+                        return;
+                    } else {
+                        logger.debug("file '" + oldFilePath + "' not a file");
+                    }
+                    if (!isFile(newFilePath)) {
+                        logger.debug("file '" + newFilePath + "' not a file");
+                        return;
+                    } else {
+                        logger.debug("file '" + newFilePath + "' is a file");
+                    }
+                } else if (status == ScmFileStatus.DELETED) {
+                    if (isFile(files.get(0))) {
                         return;
                     }
-                    else
-                    {
-                        logger.debug( "file '" + oldFilePath + "' not a file" );
-                    }
-                    if ( !isFile( newFilePath ) )
-                    {
-                        logger.debug( "file '" + newFilePath + "' not a file" );
-                        return;
-                    }
-                    else
-                    {
-                        logger.debug( "file '" + newFilePath + "' is a file" );
-                    }
-                }
-                else if ( status == ScmFileStatus.DELETED )
-                {
-                    if ( isFile( files.get( 0 ) ) )
-                    {
-                        return;
-                    }
-                }
-                else
-                {
-                    if ( !isFile( files.get( 0 ) ) )
-                    {
+                } else {
+                    if (!isFile(files.get(0))) {
                         return;
                     }
                 }
             }
 
-            for ( String file : files )
-            {
-                if ( this.scmFileSet != null && !isFileNameInFileList( this.scmFileSet.getFileList(), file ) )
-                {
+            for (String file : files) {
+                if (this.scmFileSet != null && !isFileNameInFileList(this.scmFileSet.getFileList(), file)) {
                     // skip adding this file
-                }
-                else
-                {
-                    changedFiles.add( new ScmFile( file, status ) );
+                } else {
+                    changedFiles.add(new ScmFile(file, status));
                 }
             }
         }
     }
 
-    private boolean isFileNameInFileList( List<File> fileList, String fileName )
-    {
-        if ( relativeRepositoryPath == null )
-        {
-          return fileList.contains( new File( fileName ) );
-        }
-        else
-        {
-            for ( File f : fileList )
-            {
-                File file = new File( relativeRepositoryPath.getPath(), fileName );
-                if ( file.getPath().endsWith( f.getName() ) )
-                {
+    private boolean isFileNameInFileList(List<File> fileList, String fileName) {
+        if (relativeRepositoryPath == null) {
+            return fileList.contains(new File(fileName));
+        } else {
+            for (File f : fileList) {
+                File file = new File(relativeRepositoryPath.getPath(), fileName);
+                if (file.getPath().endsWith(f.getName())) {
                     return true;
                 }
             }
             return fileList.isEmpty();
         }
-
     }
 
-    private boolean isFile( String file )
-    {
-        File targetFile = new File( workingDirectory, file );
+    private boolean isFile(String file) {
+        File targetFile = new File(workingDirectory, file);
         return targetFile.isFile();
     }
 
-    public static String resolvePath( String fileEntry, URI path )
-    {
+    public static String resolvePath(String fileEntry, URI path) {
         /* Quotes may be included (from the git status line) when an fileEntry includes spaces */
-        String cleanedEntry = stripQuotes( fileEntry );
-        if ( path != null )
-        {
-            return resolveURI( cleanedEntry, path ).getPath();
-        }
-        else
-        {
+        String cleanedEntry = stripQuotes(fileEntry);
+        if (path != null) {
+            return resolveURI(cleanedEntry, path).getPath();
+        } else {
             return cleanedEntry;
         }
     }
@@ -299,12 +248,11 @@ public class GitStatusConsumer
      * @param path the path, must not be {@code null}
      * @return TODO
      */
-    public static URI resolveURI( String fileEntry, URI path )
-    {
+    public static URI resolveURI(String fileEntry, URI path) {
         // When using URI.create, spaces need to be escaped but not the slashes, so we can't use
         // URLEncoder.encode( String, String )
         // new File( String ).toURI() results in an absolute URI while path is relative, so that can't be used either.
-        return path.relativize( uriFromPath( stripQuotes ( fileEntry ) ) );
+        return path.relativize(uriFromPath(stripQuotes(fileEntry)));
     }
 
     /**
@@ -314,30 +262,22 @@ public class GitStatusConsumer
      * @param path the path.
      * @return the new URI
      */
-    public static URI uriFromPath( String path )
-    {
-        try
-        {
-            if ( path != null && path.indexOf( ':' ) != -1 )
-            {
+    public static URI uriFromPath(String path) {
+        try {
+            if (path != null && path.indexOf(':') != -1) {
                 // prefixing the path so the part preceding the colon does not become the scheme
-                String tmp = new URI( null, null, "/x" + path, null ).toString().substring( 2 );
+                String tmp = new URI(null, null, "/x" + path, null).toString().substring(2);
                 // the colon is not escaped by default
-                return new URI( tmp.replace( ":", "%3A" ) );
+                return new URI(tmp.replace(":", "%3A"));
+            } else {
+                return new URI(null, null, path, null);
             }
-            else
-            {
-                return new URI( null, null, path, null );
-            }
-        }
-        catch ( URISyntaxException x )
-        {
-            throw new IllegalArgumentException( x.getMessage(), x );
+        } catch (URISyntaxException x) {
+            throw new IllegalArgumentException(x.getMessage(), x);
         }
     }
 
-    public List<ScmFile> getChangedFiles()
-    {
+    public List<ScmFile> getChangedFiles() {
         return changedFiles;
     }
 
@@ -345,12 +285,11 @@ public class GitStatusConsumer
      * @param str the (potentially quoted) string, must not be {@code null}
      * @return the string with a pair of double quotes removed (if they existed)
      */
-    private static String stripQuotes( String str )
-    {
+    private static String stripQuotes(String str) {
         int strLen = str.length();
-        return ( strLen > 0 && str.startsWith( "\"" ) && str.endsWith( "\"" ) )
-                        ? unescape( str.substring( 1, strLen - 1 ) )
-                        : str;
+        return (strLen > 0 && str.startsWith("\"") && str.endsWith("\""))
+                ? unescape(str.substring(1, strLen - 1))
+                : str;
     }
 
     /**
@@ -359,34 +298,30 @@ public class GitStatusConsumer
      * @param fileEntry
      * @return TODO
      */
-    private static String unescape( String fileEntry )
-    {
+    private static String unescape(String fileEntry) {
         // If there are no escaped characters, just return the input argument
-        int pos = fileEntry.indexOf( '\\' );
-        if ( pos == -1 )
-        {
+        int pos = fileEntry.indexOf('\\');
+        if (pos == -1) {
             return fileEntry;
         }
 
         // We have escaped characters
         byte[] inba = fileEntry.getBytes();
-        int inSub = 0;      // Input subscript into fileEntry
+        int inSub = 0; // Input subscript into fileEntry
         byte[] outba = new byte[fileEntry.length()];
-        int outSub = 0;     // Output subscript into outba
+        int outSub = 0; // Output subscript into outba
 
-        while ( true )
-        {
-            System.arraycopy( inba,  inSub,  outba, outSub, pos - inSub );
+        while (true) {
+            System.arraycopy(inba, inSub, outba, outSub, pos - inSub);
             outSub += pos - inSub;
             inSub = pos + 1;
-            switch ( (char) inba[inSub++] )
-            {
+            switch ((char) inba[inSub++]) {
                 case '"':
                     outba[outSub++] = '"';
                     break;
 
                 case 'a':
-                    outba[outSub++] = 7;        // Bell
+                    outba[outSub++] = 7; // Bell
                     break;
 
                 case 'b':
@@ -402,7 +337,7 @@ public class GitStatusConsumer
                     break;
 
                 case 'v':
-                    outba[outSub++] = 11;       // Vertical tab
+                    outba[outSub++] = 11; // Vertical tab
                     break;
 
                 case 'f':
@@ -422,34 +357,31 @@ public class GitStatusConsumer
                 case '2':
                 case '3':
                     // This assumes that the octal escape here is valid.
-                    byte b = (byte) ( ( inba[inSub - 1] - '0' ) << 6 );
-                    b |= (byte) ( ( inba[inSub++] - '0' ) << 3 );
-                    b |= (byte) ( inba[inSub++] - '0' );
+                    byte b = (byte) ((inba[inSub - 1] - '0') << 6);
+                    b |= (byte) ((inba[inSub++] - '0') << 3);
+                    b |= (byte) (inba[inSub++] - '0');
                     outba[outSub++] = b;
                     break;
 
                 default:
-                    //This is an invalid escape in a string.  Just copy it.
+                    // This is an invalid escape in a string.  Just copy it.
                     outba[outSub++] = '\\';
                     inSub--;
                     break;
             }
-            pos = fileEntry.indexOf( '\\', inSub );
-            if ( pos == -1 )        // No more backslashes; we're done
+            pos = fileEntry.indexOf('\\', inSub);
+            if (pos == -1) // No more backslashes; we're done
             {
-                System.arraycopy( inba, inSub, outba, outSub, inba.length - inSub );
+                System.arraycopy(inba, inSub, outba, outSub, inba.length - inSub);
                 outSub += inba.length - inSub;
                 break;
             }
         }
-        try
-        {
+        try {
             // explicit say UTF-8, otherwise it'll fail at least on Windows cmdline
-            return new String( outba, 0, outSub, "UTF-8" );
-        }
-        catch ( UnsupportedEncodingException e )
-        {
-          throw new RuntimeException( e );
+            return new String(outba, 0, outSub, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
     }
 }

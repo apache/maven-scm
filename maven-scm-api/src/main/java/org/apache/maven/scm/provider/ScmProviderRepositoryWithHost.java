@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,14 +16,13 @@ package org.apache.maven.scm.provider;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public abstract class ScmProviderRepositoryWithHost
-    extends ScmProviderRepository
-{
+public abstract class ScmProviderRepositoryWithHost extends ScmProviderRepository {
     private String host;
 
     private int port;
@@ -34,43 +31,35 @@ public abstract class ScmProviderRepositoryWithHost
 
     private String passphrase;
 
-    public String getHost()
-    {
+    public String getHost() {
         return host;
     }
 
-    public void setHost( String host )
-    {
+    public void setHost(String host) {
         this.host = host;
     }
 
-    public int getPort()
-    {
+    public int getPort() {
         return port;
     }
 
-    public void setPort( int port )
-    {
+    public void setPort(int port) {
         this.port = port;
     }
 
-    public String getPrivateKey()
-    {
+    public String getPrivateKey() {
         return privateKey;
     }
 
-    public void setPrivateKey( String privateKey )
-    {
+    public void setPrivateKey(String privateKey) {
         this.privateKey = privateKey;
     }
 
-    public String getPassphrase()
-    {
+    public String getPassphrase() {
         return passphrase;
     }
 
-    public void setPassphrase( String passphrase )
-    {
+    public void setPassphrase(String passphrase) {
         this.passphrase = passphrase;
     }
 }

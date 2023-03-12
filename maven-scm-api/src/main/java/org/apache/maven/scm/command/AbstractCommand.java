@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
@@ -32,36 +31,27 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public abstract class AbstractCommand
-    implements Command
-{
-    protected Logger logger = LoggerFactory.getLogger( getClass() );
+public abstract class AbstractCommand implements Command {
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected abstract ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                 CommandParameters parameters )
-        throws ScmException;
+    protected abstract ScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException;
 
     /** {@inheritDoc} */
-    public final ScmResult execute( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
-        if ( repository == null )
-        {
-            throw new NullPointerException( "repository cannot be null" );
+    public final ScmResult execute(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        if (repository == null) {
+            throw new NullPointerException("repository cannot be null");
         }
 
-        if ( fileSet == null )
-        {
-            throw new NullPointerException( "fileSet cannot be null" );
+        if (fileSet == null) {
+            throw new NullPointerException("fileSet cannot be null");
         }
 
-        try
-        {
-            return executeCommand( repository, fileSet, parameters );
-        }
-        catch ( Exception ex )
-        {
-            throw new ScmException( "Exception while executing SCM command.", ex );
+        try {
+            return executeCommand(repository, fileSet, parameters);
+        } catch (Exception ex) {
+            throw new ScmException("Exception while executing SCM command.", ex);
         }
     }
 }

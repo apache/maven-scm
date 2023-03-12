@@ -1,5 +1,3 @@
-package org.apache.maven.scm.plugin;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.plugin;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
@@ -28,101 +27,88 @@ import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 
-public class UntagMojoTest
-    extends AbstractMojoTestCase
-{
+public class UntagMojoTest extends AbstractMojoTestCase {
     File checkoutDir;
 
     File repository;
 
-    protected void setUp()
-        throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
 
-        checkoutDir = getTestFile( "target/checkout" );
+        checkoutDir = getTestFile("target/checkout");
 
-        repository = getTestFile( "target/repository" );
+        repository = getTestFile("target/repository");
 
-        if ( !ScmTestCase.isSystemCmd( GitScmTestUtils.GIT_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( GitScmTestUtils.GIT_COMMAND_LINE, "setUp" );
+        if (!ScmTestCase.isSystemCmd(GitScmTestUtils.GIT_COMMAND_LINE)) {
+            ScmTestCase.printSystemCmdUnavail(GitScmTestUtils.GIT_COMMAND_LINE, "setUp");
             return;
         }
 
-        GitScmTestUtils.initRepo( "src/test/resources/git", repository, checkoutDir );
+        GitScmTestUtils.initRepo("src/test/resources/git", repository, checkoutDir);
 
-        CheckoutMojo checkoutMojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
-            "src/test/resources/mojos/untag/checkout.xml" ) );
-        checkoutMojo.setWorkingDirectory( checkoutDir );
+        CheckoutMojo checkoutMojo =
+                (CheckoutMojo) lookupMojo("checkout", getTestFile("src/test/resources/mojos/untag/checkout.xml"));
+        checkoutMojo.setWorkingDirectory(checkoutDir);
 
         String connectionUrl = checkoutMojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace( connectionUrl, "${basedir}", getBasedir() );
-        connectionUrl = StringUtils.replace( connectionUrl, "\\", "/" );
-        checkoutMojo.setConnectionUrl( connectionUrl );
+        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
+        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
+        checkoutMojo.setConnectionUrl(connectionUrl);
 
-        checkoutMojo.setCheckoutDirectory( checkoutDir );
+        checkoutMojo.setCheckoutDirectory(checkoutDir);
 
         checkoutMojo.execute();
 
         // Add a default user to the config
-        GitScmTestUtils.setDefaultUser( checkoutDir );
+        GitScmTestUtils.setDefaultUser(checkoutDir);
     }
 
-    public void testUntag()
-        throws Exception
-    {
-        if ( !ScmTestCase.isSystemCmd( GitScmTestUtils.GIT_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( GitScmTestUtils.GIT_COMMAND_LINE, getName() );
+    public void testUntag() throws Exception {
+        if (!ScmTestCase.isSystemCmd(GitScmTestUtils.GIT_COMMAND_LINE)) {
+            ScmTestCase.printSystemCmdUnavail(GitScmTestUtils.GIT_COMMAND_LINE, getName());
             return;
         }
 
-        TagMojo tagMojo = (TagMojo) lookupMojo( "tag", getTestFile( "src/test/resources/mojos/untag/tag.xml" ) );
-        tagMojo.setWorkingDirectory( checkoutDir );
-        tagMojo.setConnectionUrl( getConnectionLocalAddress( tagMojo ) );
+        TagMojo tagMojo = (TagMojo) lookupMojo("tag", getTestFile("src/test/resources/mojos/untag/tag.xml"));
+        tagMojo.setWorkingDirectory(checkoutDir);
+        tagMojo.setConnectionUrl(getConnectionLocalAddress(tagMojo));
         tagMojo.execute();
 
         CheckoutMojo checkoutMojo =
-            (CheckoutMojo) lookupMojo( "checkout", getTestFile( "src/test/resources/mojos/untag/checkout-tag.xml" ) );
-        checkoutMojo.setWorkingDirectory( new File( getBasedir() ) );
-        checkoutMojo.setConnectionUrl( getConnectionLocalAddress( checkoutMojo ) );
+                (CheckoutMojo) lookupMojo("checkout", getTestFile("src/test/resources/mojos/untag/checkout-tag.xml"));
+        checkoutMojo.setWorkingDirectory(new File(getBasedir()));
+        checkoutMojo.setConnectionUrl(getConnectionLocalAddress(checkoutMojo));
 
-        File tagCheckoutDir = getTestFile( "target/tags/mytag" );
+        File tagCheckoutDir = getTestFile("target/tags/mytag");
 
-        if ( tagCheckoutDir.exists() )
-        {
-            FileUtils.deleteDirectory( tagCheckoutDir );
+        if (tagCheckoutDir.exists()) {
+            FileUtils.deleteDirectory(tagCheckoutDir);
         }
 
-        checkoutMojo.setCheckoutDirectory( tagCheckoutDir );
+        checkoutMojo.setCheckoutDirectory(tagCheckoutDir);
         checkoutMojo.execute();
 
-        UntagMojo mojo = (UntagMojo) lookupMojo( "untag", getTestFile( "src/test/resources/mojos/untag/untag.xml" ) );
-        mojo.setWorkingDirectory( checkoutDir );
-        mojo.setConnectionUrl( getConnectionLocalAddress( mojo ) );
+        UntagMojo mojo = (UntagMojo) lookupMojo("untag", getTestFile("src/test/resources/mojos/untag/untag.xml"));
+        mojo.setWorkingDirectory(checkoutDir);
+        mojo.setConnectionUrl(getConnectionLocalAddress(mojo));
 
         mojo.execute();
 
-        FileUtils.deleteDirectory( tagCheckoutDir );
+        FileUtils.deleteDirectory(tagCheckoutDir);
 
-        try
-        {
+        try {
             checkoutMojo.execute();
 
-            fail( "mojo execution must fail." );
-        }
-        catch ( MojoExecutionException e )
-        {
-            assertTrue( true );
+            fail("mojo execution must fail.");
+        } catch (MojoExecutionException e) {
+            assertTrue(true);
         }
     }
 
-    private String getConnectionLocalAddress( AbstractScmMojo mojo )
-    {
+    private String getConnectionLocalAddress(AbstractScmMojo mojo) {
         String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace( connectionUrl, "${basedir}", getBasedir() );
-        connectionUrl = StringUtils.replace( connectionUrl, "\\", "/" );
+        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
+        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
         return connectionUrl;
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.hg.command.branch;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.hg.command.branch;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.hg.command.branch;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.hg.command.branch;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,123 +46,105 @@ import org.codehaus.plexus.util.StringUtils;
  * @author Henning Schmiedehausen
  *
  */
-public class HgBranchCommand
-    extends AbstractBranchCommand
-    implements Command
-{
+public class HgBranchCommand extends AbstractBranchCommand implements Command {
 
-    protected ScmResult executeBranchCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet,
-                                              String branch, String message )
-        throws ScmException
-    {
-        return executeBranchCommand( scmProviderRepository, fileSet, branch, new ScmBranchParameters( message ) );
+    protected ScmResult executeBranchCommand(
+            ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String branch, String message)
+            throws ScmException {
+        return executeBranchCommand(scmProviderRepository, fileSet, branch, new ScmBranchParameters(message));
     }
 
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeBranchCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet,
-                                              String branch, ScmBranchParameters scmBranchParameters )
-        throws ScmException
-    {
+    protected ScmResult executeBranchCommand(
+            ScmProviderRepository scmProviderRepository,
+            ScmFileSet fileSet,
+            String branch,
+            ScmBranchParameters scmBranchParameters)
+            throws ScmException {
 
-        if ( StringUtils.isBlank( branch ) )
-        {
-            throw new ScmException( "branch must be specified" );
+        if (StringUtils.isBlank(branch)) {
+            throw new ScmException("branch must be specified");
         }
 
-        if ( !fileSet.getFileList().isEmpty() )
-        {
-            throw new ScmException( "This provider doesn't support branchging subsets of a directory" );
+        if (!fileSet.getFileList().isEmpty()) {
+            throw new ScmException("This provider doesn't support branchging subsets of a directory");
         }
 
         File workingDir = fileSet.getBasedir();
 
         // build the command
-        String[] branchCmd = new String[] { HgCommandConstants.BRANCH_CMD, branch };
+        String[] branchCmd = new String[] {HgCommandConstants.BRANCH_CMD, branch};
 
         // keep the command about in string form for reporting
-        HgConsumer branchConsumer = new HgConsumer()
-        {
-            public void doConsume( ScmFileStatus status, String trimmedLine )
-            {
+        HgConsumer branchConsumer = new HgConsumer() {
+            public void doConsume(ScmFileStatus status, String trimmedLine) {
                 // noop
             }
         };
 
-        ScmResult result = HgUtils.execute( branchConsumer, workingDir, branchCmd );
+        ScmResult result = HgUtils.execute(branchConsumer, workingDir, branchCmd);
         HgScmProviderRepository repository = (HgScmProviderRepository) scmProviderRepository;
 
-        if ( !result.isSuccess() )
-        {
-            throw new ScmException( "Error while executing command " + joinCmd( branchCmd ) );
+        if (!result.isSuccess()) {
+            throw new ScmException("Error while executing command " + joinCmd(branchCmd));
         }
 
         // First commit.
-        String[] commitCmd =
-            new String[] { HgCommandConstants.COMMIT_CMD, HgCommandConstants.MESSAGE_OPTION,
-                scmBranchParameters.getMessage() };
+        String[] commitCmd = new String[] {
+            HgCommandConstants.COMMIT_CMD, HgCommandConstants.MESSAGE_OPTION, scmBranchParameters.getMessage()
+        };
 
-        result = HgUtils.execute( new HgConsumer(), workingDir, commitCmd );
+        result = HgUtils.execute(new HgConsumer(), workingDir, commitCmd);
 
-        if ( !result.isSuccess() )
-        {
-            throw new ScmException( "Error while executing command " + joinCmd( commitCmd ) );
+        if (!result.isSuccess()) {
+            throw new ScmException("Error while executing command " + joinCmd(commitCmd));
         }
 
         // now push, if we should.
 
-        if ( repository.isPushChanges() )
-        {
-            if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
-            {
+        if (repository.isPushChanges()) {
+            if (!repository.getURI().equals(fileSet.getBasedir().getAbsolutePath())) {
 
                 String[] pushCmd = new String[] {
-                    HgCommandConstants.PUSH_CMD,
-                    HgCommandConstants.NEW_BRANCH_OPTION,
-                    repository.getURI()
+                    HgCommandConstants.PUSH_CMD, HgCommandConstants.NEW_BRANCH_OPTION, repository.getURI()
                 };
 
-                result = HgUtils.execute( new HgConsumer(), fileSet.getBasedir(), pushCmd );
+                result = HgUtils.execute(new HgConsumer(), fileSet.getBasedir(), pushCmd);
 
-                if ( !result.isSuccess() )
-                {
-                    throw new ScmException( "Error while executing command " + joinCmd( pushCmd ) );
+                if (!result.isSuccess()) {
+                    throw new ScmException("Error while executing command " + joinCmd(pushCmd));
                 }
             }
         }
 
         // do an inventory to return the files branched (all of them)
-        String[] listCmd = new String[]{ HgCommandConstants.INVENTORY_CMD };
+        String[] listCmd = new String[] {HgCommandConstants.INVENTORY_CMD};
         HgListConsumer listconsumer = new HgListConsumer();
 
-        result = HgUtils.execute( listconsumer, fileSet.getBasedir(), listCmd );
+        result = HgUtils.execute(listconsumer, fileSet.getBasedir(), listCmd);
 
-        if ( !result.isSuccess() )
-        {
-            throw new ScmException( "Error while executing command " + joinCmd( listCmd ) );
+        if (!result.isSuccess()) {
+            throw new ScmException("Error while executing command " + joinCmd(listCmd));
         }
 
         List<ScmFile> files = listconsumer.getFiles();
         List<ScmFile> fileList = new ArrayList<ScmFile>();
-        for ( ScmFile f : files )
-        {
-            fileList.add( new ScmFile( f.getPath(), ScmFileStatus.TAGGED ) );
+        for (ScmFile f : files) {
+            fileList.add(new ScmFile(f.getPath(), ScmFileStatus.TAGGED));
         }
 
-        return new BranchScmResult( fileList, result );
+        return new BranchScmResult(fileList, result);
     }
 
-    private String joinCmd( String[] cmd )
-    {
+    private String joinCmd(String[] cmd) {
         StringBuilder result = new StringBuilder();
-        for ( int i = 0; i < cmd.length; i++ )
-        {
+        for (int i = 0; i < cmd.length; i++) {
             String s = cmd[i];
-            result.append( s );
-            if ( i < cmd.length - 1 )
-            {
-                result.append( " " );
+            result.append(s);
+            if (i < cmd.length - 1) {
+                result.append(" ");
             }
         }
         return result.toString();

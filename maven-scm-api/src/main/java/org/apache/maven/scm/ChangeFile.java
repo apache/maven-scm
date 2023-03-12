@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm;
 
 import java.io.Serializable;
 
@@ -29,9 +28,7 @@ import java.io.Serializable;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class ChangeFile
-    implements Serializable
-{
+public class ChangeFile implements Serializable {
     private static final long serialVersionUID = 6294855290542668753L;
 
     /**
@@ -68,9 +65,8 @@ public class ChangeFile
      *
      * @param name file name
      */
-    public ChangeFile( String name )
-    {
-        setName( name );
+    public ChangeFile(String name) {
+        setName(name);
     }
 
     /**
@@ -79,11 +75,10 @@ public class ChangeFile
      * @param name file name
      * @param rev  latest revision of the file
      */
-    public ChangeFile( String name, String rev )
-    {
-        setName( name );
+    public ChangeFile(String name, String rev) {
+        setName(name);
 
-        setRevision( rev );
+        setRevision(rev);
     }
 
     /**
@@ -91,8 +86,7 @@ public class ChangeFile
      *
      * @return the file name
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
@@ -101,29 +95,24 @@ public class ChangeFile
      *
      * @param name New value of property name.
      */
-    public void setName( String name )
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getOriginalName()
-    {
+    public String getOriginalName() {
         return originalName;
     }
 
-    public void setOriginalName( String originalName )
-    {
+    public void setOriginalName(String originalName) {
 
         this.originalName = originalName;
     }
 
-    public String getOriginalRevision()
-    {
+    public String getOriginalRevision() {
         return originalRevision;
     }
 
-    public void setOriginalRevision( String originalRevision )
-    {
+    public void setOriginalRevision(String originalRevision) {
         this.originalRevision = originalRevision;
     }
 
@@ -132,8 +121,7 @@ public class ChangeFile
      *
      * @return the latest revision of the file
      */
-    public String getRevision()
-    {
+    public String getRevision() {
         return revision;
     }
 
@@ -142,18 +130,15 @@ public class ChangeFile
      *
      * @param revision New value of property revision.
      */
-    public void setRevision( String revision )
-    {
+    public void setRevision(String revision) {
         this.revision = revision;
     }
 
-    public ScmFileStatus getAction()
-    {
+    public ScmFileStatus getAction() {
         return action;
     }
 
-    public void setAction( ScmFileStatus action )
-    {
+    public void setAction(ScmFileStatus action) {
         this.action = action;
     }
 
@@ -162,29 +147,24 @@ public class ChangeFile
      *
      * @return a {@link String}made up of the properties of the object
      */
-    public String toString()
-    {
-        StringBuilder buffer = new StringBuilder(  );
+    public String toString() {
+        StringBuilder buffer = new StringBuilder();
 
-        if ( getAction() != null )
-        {
-            buffer.append( "[" ).append( getAction() ).append( "]:" );
+        if (getAction() != null) {
+            buffer.append("[").append(getAction()).append("]:");
         }
 
-        buffer.append( getName() );
-        if ( getRevision() != null )
-        {
-            buffer.append( ", " ).append( getRevision() );
+        buffer.append(getName());
+        if (getRevision() != null) {
+            buffer.append(", ").append(getRevision());
         }
 
-        if ( getOriginalName() != null )
-        {
-            buffer.append( ", originalName=" ).append( getOriginalName() );
+        if (getOriginalName() != null) {
+            buffer.append(", originalName=").append(getOriginalName());
         }
 
-        if ( getOriginalRevision() != null )
-        {
-            buffer.append( ", originalRevision=" ).append( getOriginalRevision() );
+        if (getOriginalRevision() != null) {
+            buffer.append(", originalRevision=").append(getOriginalRevision());
         }
 
         return buffer.toString();

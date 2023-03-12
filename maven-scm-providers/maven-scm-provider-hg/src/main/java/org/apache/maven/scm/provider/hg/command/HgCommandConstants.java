@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.hg.command;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.hg.command;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,7 +16,7 @@ package org.apache.maven.scm.provider.hg.command;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+package org.apache.maven.scm.provider.hg.command;
 
 /**
  * Available/Used hg commands.
@@ -28,11 +26,9 @@ package org.apache.maven.scm.provider.hg.command;
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  */
-public final class HgCommandConstants
-{
+public final class HgCommandConstants {
 
-    private HgCommandConstants()
-    {
+    private HgCommandConstants() {
         // no o
     }
 
@@ -164,6 +160,6 @@ public final class HgCommandConstants
      * verbose format for log command.
      */
     public static final String TEMPLATE_FORMAT =
-        "changeset:   {rev}:{node|short}\\nbranch:      {branch}\\nuser:        {author}\\n"
-            + "date:        {date|isodatesec}\\ntag:         {tags}\\nfiles:       {files}\\ndescription:\\n{desc}\\n";
+            "changeset:   {rev}:{node|short}\\nbranch:      {branch}\\nuser:        {author}\\n"
+                    + "date:        {date|isodatesec}\\ntag:         {tags}\\nfiles:       {files}\\ndescription:\\n{desc}\\n";
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.plugin;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.plugin;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.plugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,45 +35,35 @@ import org.codehaus.plexus.util.StringUtils;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
  */
-@Mojo( name = "status", aggregator = true )
-public class StatusMojo
-    extends AbstractScmMojo
-{
+@Mojo(name = "status", aggregator = true)
+public class StatusMojo extends AbstractScmMojo {
     /** {@inheritDoc} */
-    public void execute()
-        throws MojoExecutionException
-    {
+    public void execute() throws MojoExecutionException {
         super.execute();
 
-        try
-        {
+        try {
             ScmRepository repository = getScmRepository();
 
-            StatusScmResult result = getScmManager().status( repository, getFileSet() );
+            StatusScmResult result = getScmManager().status(repository, getFileSet());
 
-            checkResult( result );
+            checkResult(result);
 
             File baseDir = getFileSet().getBasedir();
 
             // Determine the maximum length of the status column
             int maxLen = 0;
 
-            for ( ScmFile file : result.getChangedFiles() )
-            {
-                maxLen = Math.max( maxLen, file.getStatus().toString().length() );
+            for (ScmFile file : result.getChangedFiles()) {
+                maxLen = Math.max(maxLen, file.getStatus().toString().length());
             }
 
-            for ( ScmFile file : result.getChangedFiles() )
-            {
+            for (ScmFile file : result.getChangedFiles()) {
                 // right align all of the statuses
-                getLog().info(
-                               StringUtils.leftPad( file.getStatus().toString(), maxLen ) + " status for "
-                                   + getRelativePath( baseDir, file.getPath() ) );
+                getLog().info(StringUtils.leftPad(file.getStatus().toString(), maxLen) + " status for "
+                        + getRelativePath(baseDir, file.getPath()));
             }
-        }
-        catch ( IOException | ScmException e )
-        {
-            throw new MojoExecutionException( "Cannot run status command : ", e );
+        } catch (IOException | ScmException e) {
+            throw new MojoExecutionException("Cannot run status command : ", e);
         }
     }
 
@@ -85,19 +74,13 @@ public class StatusMojo
      * @param path
      * @return The relative path
      */
-    protected String getRelativePath( File baseDir, String path )
-    {
-        if ( path.equals( baseDir.getAbsolutePath() ) )
-        {
+    protected String getRelativePath(File baseDir, String path) {
+        if (path.equals(baseDir.getAbsolutePath())) {
             return ".";
-        }
-        else if ( path.indexOf( baseDir.getAbsolutePath() ) == 0 )
-        {
+        } else if (path.indexOf(baseDir.getAbsolutePath()) == 0) {
             // the + 1 gets rid of a leading file separator
-            return path.substring( baseDir.getAbsolutePath().length() + 1 );
-        }
-        else
-        {
+            return path.substring(baseDir.getAbsolutePath().length() + 1);
+        } else {
             return path;
         }
     }

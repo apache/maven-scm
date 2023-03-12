@@ -1,5 +1,3 @@
-package org.apache.maven.scm.repository;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.repository;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,43 +16,38 @@ package org.apache.maven.scm.repository;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.ScmException;
+package org.apache.maven.scm.repository;
 
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.maven.scm.ScmException;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
  *
  */
-public class ScmRepositoryException
-    extends ScmException
-{
+public class ScmRepositoryException extends ScmException {
     static final long serialVersionUID = -2191549774722212492L;
 
     private List<String> validationMessages = Collections.emptyList();
 
-    public ScmRepositoryException( String msg )
-    {
-        super( msg );
+    public ScmRepositoryException(String msg) {
+        super(msg);
     }
 
-    public ScmRepositoryException( String msg, Throwable cause )
-    {
-        super( msg, cause );
+    public ScmRepositoryException(String msg, Throwable cause) {
+        super(msg, cause);
     }
 
-    public ScmRepositoryException( String msg, List<String> validationMessages )
-    {
-        super( msg );
+    public ScmRepositoryException(String msg, List<String> validationMessages) {
+        super(msg);
 
         this.validationMessages = validationMessages;
     }
 
-    public List<String> getValidationMessages()
-    {
+    public List<String> getValidationMessages() {
         return validationMessages;
     }
 }

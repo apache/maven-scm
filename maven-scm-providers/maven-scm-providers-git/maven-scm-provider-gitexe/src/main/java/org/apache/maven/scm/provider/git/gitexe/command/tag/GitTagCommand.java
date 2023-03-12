@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.tag;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.tag;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.tag;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.tag;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,48 +44,40 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
  */
-public class GitTagCommand
-    extends AbstractTagCommand
-    implements GitCommand
-{
-    
-    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
-        throws ScmException
-    {
-        return executeTagCommand( repo, fileSet, tag, new ScmTagParameters( message ) );
+public class GitTagCommand extends AbstractTagCommand implements GitCommand {
+
+    public ScmResult executeTagCommand(ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message)
+            throws ScmException {
+        return executeTagCommand(repo, fileSet, tag, new ScmTagParameters(message));
     }
-    
+
     /** {@inheritDoc} */
-    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag,
-                                        ScmTagParameters scmTagParameters )
-        throws ScmException
-    {
-        if ( tag == null || StringUtils.isEmpty( tag.trim() ) )
-        {
-            throw new ScmException( "tag name must be specified" );
+    public ScmResult executeTagCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, String tag, ScmTagParameters scmTagParameters)
+            throws ScmException {
+        if (tag == null || StringUtils.isEmpty(tag.trim())) {
+            throw new ScmException("tag name must be specified");
         }
 
-        if ( !fileSet.getFileList().isEmpty() )
-        {
-            throw new ScmException( "This provider doesn't support tagging subsets of a directory" );
+        if (!fileSet.getFileList().isEmpty()) {
+            throw new ScmException("This provider doesn't support tagging subsets of a directory");
         }
 
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
-        File messageFile = FileUtils.createTempFile( "maven-scm-", ".commit", null );
+        File messageFile = FileUtils.createTempFile("maven-scm-", ".commit", null);
 
-        try
-        {
-            FileUtils.fileWrite( messageFile.getAbsolutePath(), "UTF-8", scmTagParameters.getMessage() );
-        }
-        catch ( IOException ex )
-        {
-            return new TagScmResult( null, "Error while making a temporary file for the commit message: "
-                + ex.getMessage(), null, false );
+        try {
+            FileUtils.fileWrite(messageFile.getAbsolutePath(), "UTF-8", scmTagParameters.getMessage());
+        } catch (IOException ex) {
+            return new TagScmResult(
+                    null,
+                    "Error while making a temporary file for the commit message: " + ex.getMessage(),
+                    null,
+                    false);
         }
 
-        try
-        {
+        try {
             CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
             CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
@@ -94,89 +85,73 @@ public class GitTagCommand
 
             boolean sign = scmTagParameters.isSign();
 
-            Commandline clTag = createCommandLine( repository, fileSet.getBasedir(), tag, messageFile, sign );
+            Commandline clTag = createCommandLine(repository, fileSet.getBasedir(), tag, messageFile, sign);
 
-            exitCode = GitCommandLineUtils.execute( clTag, stdout, stderr );
-            if ( exitCode != 0 )
-            {
-                return new TagScmResult( clTag.toString(), "The git-tag command failed.", stderr.getOutput(), false );
+            exitCode = GitCommandLineUtils.execute(clTag, stdout, stderr);
+            if (exitCode != 0) {
+                return new TagScmResult(clTag.toString(), "The git-tag command failed.", stderr.getOutput(), false);
             }
 
-            if ( repo.isPushChanges() )
-            {
+            if (repo.isPushChanges()) {
                 // and now push the tag to the configured upstream repository
-                Commandline clPush = createPushCommandLine( repository, fileSet, tag );
-    
-                exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr );
-                if ( exitCode != 0 )
-                {
-                    return new TagScmResult( clPush.toString(), "The git-push command failed.", stderr.getOutput(),
-                                             false );
+                Commandline clPush = createPushCommandLine(repository, fileSet, tag);
+
+                exitCode = GitCommandLineUtils.execute(clPush, stdout, stderr);
+                if (exitCode != 0) {
+                    return new TagScmResult(
+                            clPush.toString(), "The git-push command failed.", stderr.getOutput(), false);
                 }
             }
-            
+
             // plus search for the tagged files
-            GitListConsumer listConsumer =
-                new GitListConsumer( fileSet.getBasedir(), ScmFileStatus.TAGGED );
+            GitListConsumer listConsumer = new GitListConsumer(fileSet.getBasedir(), ScmFileStatus.TAGGED);
 
-            Commandline clList = GitListCommand.createCommandLine( repository, fileSet.getBasedir() );
+            Commandline clList = GitListCommand.createCommandLine(repository, fileSet.getBasedir());
 
-            exitCode = GitCommandLineUtils.execute( clList, listConsumer, stderr );
-            if ( exitCode != 0 )
-            {
-                return new CheckOutScmResult( clList.toString(), "The git-ls-files command failed.",
-                                              stderr.getOutput(), false );
+            exitCode = GitCommandLineUtils.execute(clList, listConsumer, stderr);
+            if (exitCode != 0) {
+                return new CheckOutScmResult(
+                        clList.toString(), "The git-ls-files command failed.", stderr.getOutput(), false);
             }
 
-            return new TagScmResult( clTag.toString(), listConsumer.getListedFiles() );
-        }
-        finally
-        {
-            try
-            {
-                FileUtils.forceDelete( messageFile );
-            }
-            catch ( IOException ex )
-            {
+            return new TagScmResult(clTag.toString(), listConsumer.getListedFiles());
+        } finally {
+            try {
+                FileUtils.forceDelete(messageFile);
+            } catch (IOException ex) {
                 // ignore
             }
         }
-
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
-                                                 String tag, File messageFile, boolean sign )
-    {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "tag" );
+    public static Commandline createCommandLine(
+            GitScmProviderRepository repository, File workingDirectory, String tag, File messageFile, boolean sign) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "tag");
 
-        if ( sign )
-        {
-            cl.createArg().setValue( "-s" );
+        if (sign) {
+            cl.createArg().setValue("-s");
         }
 
-        cl.createArg().setValue( "-F" );
-        cl.createArg().setValue( messageFile.getAbsolutePath() );
+        cl.createArg().setValue("-F");
+        cl.createArg().setValue(messageFile.getAbsolutePath());
 
         // Note: this currently assumes you have the tag base checked out too
-        cl.createArg().setValue( tag );
+        cl.createArg().setValue(tag);
 
         return cl;
     }
 
-    public static Commandline createPushCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet,
-                                                     String tag )
-        throws ScmException
-    {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
+    public static Commandline createPushCommandLine(GitScmProviderRepository repository, ScmFileSet fileSet, String tag)
+            throws ScmException {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "push");
 
-        cl.createArg().setValue( repository.getPushUrl() );
-        cl.createArg().setValue( "refs/tags/" + tag );
+        cl.createArg().setValue(repository.getPushUrl());
+        cl.createArg().setValue("refs/tags/" + tag);
 
         return cl;
     }
-
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.hg.command.inventory;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.hg.command.inventory;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.hg.command.inventory;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.hg.command.inventory;
 
 import org.apache.maven.scm.ChangeSet;
 
@@ -27,26 +26,20 @@ import org.apache.maven.scm.ChangeSet;
  * @author <a href="mailto:lperez@xebia.fr">Laurent Perez</a>
  *
  */
-public class HgChangeSet
-    extends ChangeSet
-{
+public class HgChangeSet extends ChangeSet {
 
     private static final long serialVersionUID = -4556377494055110302L;
     private String branch;
 
-    public HgChangeSet()
-    {
+    public HgChangeSet() {
         super();
     }
 
-    public HgChangeSet( String branch )
-    {
+    public HgChangeSet(String branch) {
         this.branch = branch;
     }
 
-    public String getBranch()
-    {
+    public String getBranch() {
         return branch;
     }
-
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.local.command.tag;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.local.command.tag;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.local.command.tag;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.local.command.tag;
 
 import java.util.Collections;
 
@@ -35,24 +34,18 @@ import org.apache.maven.scm.provider.local.command.LocalCommand;
  * @author Olivier Lamy
  *
  */
-public class LocalTagCommand
-    extends AbstractTagCommand
-    implements LocalCommand
-{
+public class LocalTagCommand extends AbstractTagCommand implements LocalCommand {
     /** {@inheritDoc} */
-    protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message,
-                                           ScmTagParameters scmTagParameters )
-        throws ScmException
-    {
-        return new TagScmResult( null, Collections.emptyList() );
+    protected ScmResult executeTagCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, String message, ScmTagParameters scmTagParameters)
+            throws ScmException {
+        return new TagScmResult(null, Collections.emptyList());
     }
 
-    //Satisfies deprecated interface
+    // Satisfies deprecated interface
     /** {@inheritDoc} */
-    protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tagName,
-                                           String message )
-        throws ScmException
-    {
-        return new TagScmResult( null, Collections.emptyList() );
+    protected ScmResult executeTagCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, String tagName, String message) throws ScmException {
+        return new TagScmResult(null, Collections.emptyList());
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -38,9 +37,7 @@ import org.codehaus.plexus.util.StringUtils;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class ChangeSet
-    implements Serializable
-{
+public class ChangeSet implements Serializable {
     /**
      *
      */
@@ -76,25 +73,25 @@ public class ChangeSet
     /**
      * Formatter used by the getDateFormatted method.
      */
-    private static final ThreadSafeDateFormat DATE_FORMAT = new ThreadSafeDateFormat( DATE_PATTERN );
+    private static final ThreadSafeDateFormat DATE_FORMAT = new ThreadSafeDateFormat(DATE_PATTERN);
 
     private static final String TIME_PATTERN = "HH:mm:ss";
 
     /**
      * Formatter used by the getTimeFormatted method.
      */
-    private static final ThreadSafeDateFormat TIME_FORMAT = new ThreadSafeDateFormat( TIME_PATTERN );
+    private static final ThreadSafeDateFormat TIME_FORMAT = new ThreadSafeDateFormat(TIME_PATTERN);
 
     /**
      * Formatter used to parse date/timestamp.
      */
-    private static final ThreadSafeDateFormat TIMESTAMP_FORMAT_1 = new ThreadSafeDateFormat( "yyyy/MM/dd HH:mm:ss" );
+    private static final ThreadSafeDateFormat TIMESTAMP_FORMAT_1 = new ThreadSafeDateFormat("yyyy/MM/dd HH:mm:ss");
 
-    private static final ThreadSafeDateFormat TIMESTAMP_FORMAT_2 = new ThreadSafeDateFormat( "yyyy-MM-dd HH:mm:ss" );
+    private static final ThreadSafeDateFormat TIMESTAMP_FORMAT_2 = new ThreadSafeDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    private static final ThreadSafeDateFormat TIMESTAMP_FORMAT_3 = new ThreadSafeDateFormat( "yyyy/MM/dd HH:mm:ss z" );
+    private static final ThreadSafeDateFormat TIMESTAMP_FORMAT_3 = new ThreadSafeDateFormat("yyyy/MM/dd HH:mm:ss z");
 
-    private static final ThreadSafeDateFormat TIMESTAMP_FORMAT_4 = new ThreadSafeDateFormat( "yyyy-MM-dd HH:mm:ss z" );
+    private static final ThreadSafeDateFormat TIMESTAMP_FORMAT_4 = new ThreadSafeDateFormat("yyyy-MM-dd HH:mm:ss z");
 
     /**
      * Date the changes were committed
@@ -146,12 +143,10 @@ public class ChangeSet
      * @param author          User who made changes
      * @param files           The ChangeFile list
      */
-    public ChangeSet( String strDate, String userDatePattern, String comment, String author,
-                      List<ChangeFile> files )
-    {
-        this( null, comment, author, files );
+    public ChangeSet(String strDate, String userDatePattern, String comment, String author, List<ChangeFile> files) {
+        this(null, comment, author, files);
 
-        setDate( strDate, userDatePattern );
+        setDate(strDate, userDatePattern);
     }
 
     /**
@@ -160,13 +155,12 @@ public class ChangeSet
      * @param author  User who made changes
      * @param files   The ChangeFile list
      */
-    public ChangeSet( Date date, String comment, String author, List<ChangeFile> files )
-    {
-        setDate( date );
+    public ChangeSet(Date date, String comment, String author, List<ChangeFile> files) {
+        setDate(date);
 
-        setAuthor( author );
+        setAuthor(author);
 
-        setComment( comment );
+        setComment(comment);
 
         this.files = files;
     }
@@ -174,8 +168,7 @@ public class ChangeSet
     /**
      * Constructor used when attributes aren't available until later
      */
-    public ChangeSet()
-    {
+    public ChangeSet() {
         // no op
     }
 
@@ -184,10 +177,8 @@ public class ChangeSet
      *
      * @return List of ChangeFile.
      */
-    public List<ChangeFile> getFiles()
-    {
-        if ( files == null )
-        {
+    public List<ChangeFile> getFiles() {
+        if (files == null) {
             return new ArrayList<ChangeFile>();
         }
         return files;
@@ -198,19 +189,16 @@ public class ChangeSet
      *
      * @param files List of ChangeFiles.
      */
-    public void setFiles( List<ChangeFile> files )
-    {
+    public void setFiles(List<ChangeFile> files) {
         this.files = files;
     }
 
-    public void addFile( ChangeFile file )
-    {
-        if ( files == null )
-        {
+    public void addFile(ChangeFile file) {
+        if (files == null) {
             files = new ArrayList<ChangeFile>();
         }
 
-        files.add( file );
+        files.add(file);
     }
 
     /**
@@ -219,21 +207,16 @@ public class ChangeSet
      * @param repository NOT USED
      * @return TODO
      */
-    public boolean containsFilename( String filename, ScmProviderRepository repository )
-    {
-        return containsFilename( filename );
+    public boolean containsFilename(String filename, ScmProviderRepository repository) {
+        return containsFilename(filename);
     }
 
-    public boolean containsFilename( String filename )
-    {
-        if ( files != null )
-        {
-            for ( ChangeFile file : files )
-            {
-                String f1 = FilenameUtils.normalizeFilename( file.getName() );
-                String f2 = FilenameUtils.normalizeFilename( filename );
-                if ( f1.indexOf( f2 ) >= 0 )
-                {
+    public boolean containsFilename(String filename) {
+        if (files != null) {
+            for (ChangeFile file : files) {
+                String f1 = FilenameUtils.normalizeFilename(file.getName());
+                String f2 = FilenameUtils.normalizeFilename(filename);
+                if (f1.indexOf(f2) >= 0) {
                     return true;
                 }
             }
@@ -247,8 +230,7 @@ public class ChangeSet
      *
      * @return Value of property author.
      */
-    public String getAuthor()
-    {
+    public String getAuthor() {
         return author;
     }
 
@@ -257,8 +239,7 @@ public class ChangeSet
      *
      * @param author New value of property author.
      */
-    public void setAuthor( String author )
-    {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
@@ -267,8 +248,7 @@ public class ChangeSet
      *
      * @return Value of property comment.
      */
-    public String getComment()
-    {
+    public String getComment() {
         return comment;
     }
 
@@ -277,8 +257,7 @@ public class ChangeSet
      *
      * @param comment New value of property comment.
      */
-    public void setComment( String comment )
-    {
+    public void setComment(String comment) {
         this.comment = comment;
     }
 
@@ -287,10 +266,8 @@ public class ChangeSet
      *
      * @return Value of property date.
      */
-    public Date getDate()
-    {
-        if ( date != null )
-        {
+    public Date getDate() {
+        if (date != null) {
             return (Date) date.clone();
         }
 
@@ -302,11 +279,9 @@ public class ChangeSet
      *
      * @param date New value of property date.
      */
-    public void setDate( Date date )
-    {
-        if ( date != null )
-        {
-            this.date = new Date( date.getTime() );
+    public void setDate(Date date) {
+        if (date != null) {
+            this.date = new Date(date.getTime());
         }
     }
 
@@ -315,9 +290,8 @@ public class ChangeSet
      *
      * @param date - a string in yyyy/MM/dd HH:mm:ss format
      */
-    public void setDate( String date )
-    {
-        setDate( date, null );
+    public void setDate(String date) {
+        setDate(date, null);
     }
 
     /**
@@ -326,76 +300,45 @@ public class ChangeSet
      * @param date            - a string in yyyy/MM/dd HH:mm:ss format
      * @param userDatePattern - pattern of date
      */
-    public void setDate( String date, String userDatePattern )
-    {
-        try
-        {
-            if ( !StringUtils.isEmpty( userDatePattern ) )
-            {
-                SimpleDateFormat format = new SimpleDateFormat( userDatePattern );
+    public void setDate(String date, String userDatePattern) {
+        try {
+            if (!StringUtils.isEmpty(userDatePattern)) {
+                SimpleDateFormat format = new SimpleDateFormat(userDatePattern);
 
-                this.date = format.parse( date );
+                this.date = format.parse(date);
+            } else {
+                this.date = TIMESTAMP_FORMAT_3.parse(date);
             }
-            else
-            {
-                this.date = TIMESTAMP_FORMAT_3.parse( date );
-            }
-        }
-        catch ( ParseException e )
-        {
-            if ( !StringUtils.isEmpty( userDatePattern ) )
-            {
-                try
-                {
-                    this.date = TIMESTAMP_FORMAT_3.parse( date );
-                }
-                catch ( ParseException pe )
-                {
-                    try
-                    {
-                        this.date = TIMESTAMP_FORMAT_4.parse( date );
-                    }
-                    catch ( ParseException pe1 )
-                    {
-                        try
-                        {
-                            this.date = TIMESTAMP_FORMAT_1.parse( date );
-                        }
-                        catch ( ParseException pe2 )
-                        {
-                            try
-                            {
-                                this.date = TIMESTAMP_FORMAT_2.parse( date );
-                            }
-                            catch ( ParseException pe3 )
-                            {
-                                throw new IllegalArgumentException( "Unable to parse date: " + date );
+        } catch (ParseException e) {
+            if (!StringUtils.isEmpty(userDatePattern)) {
+                try {
+                    this.date = TIMESTAMP_FORMAT_3.parse(date);
+                } catch (ParseException pe) {
+                    try {
+                        this.date = TIMESTAMP_FORMAT_4.parse(date);
+                    } catch (ParseException pe1) {
+                        try {
+                            this.date = TIMESTAMP_FORMAT_1.parse(date);
+                        } catch (ParseException pe2) {
+                            try {
+                                this.date = TIMESTAMP_FORMAT_2.parse(date);
+                            } catch (ParseException pe3) {
+                                throw new IllegalArgumentException("Unable to parse date: " + date);
                             }
                         }
                     }
                 }
-            }
-            else
-            {
-                try
-                {
-                    this.date = TIMESTAMP_FORMAT_4.parse( date );
-                }
-                catch ( ParseException pe1 )
-                {
-                    try
-                    {
-                        this.date = TIMESTAMP_FORMAT_1.parse( date );
-                    }
-                    catch ( ParseException pe2 )
-                    {
-                        try
-                        {
-                            this.date = TIMESTAMP_FORMAT_2.parse( date );
-                        }
-                        catch ( ParseException pe3 )
-                        {
-                            throw new IllegalArgumentException( "Unable to parse date: " + date );
+            } else {
+                try {
+                    this.date = TIMESTAMP_FORMAT_4.parse(date);
+                } catch (ParseException pe1) {
+                    try {
+                        this.date = TIMESTAMP_FORMAT_1.parse(date);
+                    } catch (ParseException pe2) {
+                        try {
+                            this.date = TIMESTAMP_FORMAT_2.parse(date);
+                        } catch (ParseException pe3) {
+                            throw new IllegalArgumentException("Unable to parse date: " + date);
                         }
                     }
                 }
@@ -406,17 +349,15 @@ public class ChangeSet
     /**
      * @return date in yyyy-mm-dd format
      */
-    public String getDateFormatted()
-    {
-        return DATE_FORMAT.format( getDate() );
+    public String getDateFormatted() {
+        return DATE_FORMAT.format(getDate());
     }
 
     /**
      * @return time in HH:mm:ss format
      */
-    public String getTimeFormatted()
-    {
-        return TIME_FORMAT.format( getDate() );
+    public String getTimeFormatted() {
+        return TIME_FORMAT.format(getDate());
     }
 
     /**
@@ -424,10 +365,8 @@ public class ChangeSet
      *
      * @return Value of property author.
      */
-    public List<String> getTags()
-    {
-        if ( tags == null )
-        {
+    public List<String> getTags() {
+        if (tags == null) {
             return new ArrayList<>();
         }
         return tags;
@@ -438,8 +377,7 @@ public class ChangeSet
      *
      * @param tags New value of property tags. This replaces the existing list (if any).
      */
-    public void setTags( List<String> tags )
-    {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 
@@ -448,30 +386,25 @@ public class ChangeSet
      *
      * @param tag New tag to add to the list of tags.
      */
-    public void addTag( String tag )
-    {
-        if ( tag == null )
-        {
+    public void addTag(String tag) {
+        if (tag == null) {
             return;
         }
         tag = tag.trim();
-        if ( tag.isEmpty() )
-        {
+        if (tag.isEmpty()) {
             return;
         }
-        if ( tags == null )
-        {
+        if (tags == null) {
             tags = new ArrayList<>();
         }
-        tags.add( tag );
+        tags.add(tag);
     }
 
     /**
      * @return TODO
      * @since 1.3
      */
-    public String getRevision()
-    {
+    public String getRevision() {
         return revision;
     }
 
@@ -479,70 +412,57 @@ public class ChangeSet
      * @param revision TODO
      * @since 1.3
      */
-    public void setRevision( String revision )
-    {
+    public void setRevision(String revision) {
         this.revision = revision;
     }
 
-    public String getParentRevision()
-    {
+    public String getParentRevision() {
         return parentRevision;
     }
 
-    public void setParentRevision( String parentRevision )
-    {
+    public void setParentRevision(String parentRevision) {
         this.parentRevision = parentRevision;
     }
 
-    public void addMergedRevision( String mergedRevision )
-    {
-        if ( mergedRevisions == null )
-        {
+    public void addMergedRevision(String mergedRevision) {
+        if (mergedRevisions == null) {
             mergedRevisions = new LinkedHashSet<String>();
         }
-        mergedRevisions.add( mergedRevision );
+        mergedRevisions.add(mergedRevision);
     }
 
-    public Set<String> getMergedRevisions()
-    {
+    public Set<String> getMergedRevisions() {
         return mergedRevisions == null ? Collections.<String>emptySet() : mergedRevisions;
     }
 
-    public void setMergedRevisions( Set<String> mergedRevisions )
-    {
+    public void setMergedRevisions(Set<String> mergedRevisions) {
         this.mergedRevisions = mergedRevisions;
     }
 
     /** {@inheritDoc} */
-    public String toString()
-    {
-        StringBuilder result = new StringBuilder( author == null ? " null " : author );
-        result.append( "\n" ).append( date == null ? "null " : date.toString() ).append( "\n" );
+    public String toString() {
+        StringBuilder result = new StringBuilder(author == null ? " null " : author);
+        result.append("\n").append(date == null ? "null " : date.toString()).append("\n");
         List<String> tags = getTags();
-        if ( !tags.isEmpty() )
-        {
-            result.append( "tags:" ).append( tags ).append( "\n" );
+        if (!tags.isEmpty()) {
+            result.append("tags:").append(tags).append("\n");
         }
         // parent(s)
-        if ( parentRevision != null )
-        {
-            result.append( "parent: " ).append( parentRevision );
-            if ( !getMergedRevisions().isEmpty() )
-            {
-                result.append( " + " );
-                result.append( getMergedRevisions() );
+        if (parentRevision != null) {
+            result.append("parent: ").append(parentRevision);
+            if (!getMergedRevisions().isEmpty()) {
+                result.append(" + ");
+                result.append(getMergedRevisions());
             }
-            result.append( "\n" );
+            result.append("\n");
         }
-        if ( files != null )
-        {
-            for ( ChangeFile file : files )
-            {
-                result.append( file == null ? " null " : file.toString() ).append( "\n" );
+        if (files != null) {
+            for (ChangeFile file : files) {
+                result.append(file == null ? " null " : file.toString()).append("\n");
             }
         }
 
-        result.append( comment == null ? " null " : comment );
+        result.append(comment == null ? " null " : comment);
 
         return result.toString();
     }
@@ -553,86 +473,70 @@ public class ChangeSet
      * @return a changelog-entry in xml format
      * TODO make sure comment doesn't contain CDATA tags - MAVEN114
      */
-    public String toXML()
-    {
-        StringBuilder buffer = new StringBuilder( "\t<changelog-entry>\n" );
+    public String toXML() {
+        StringBuilder buffer = new StringBuilder("\t<changelog-entry>\n");
 
-        if ( getDate() != null )
-        {
-            buffer.append( "\t\t<date pattern=\"" + DATE_PATTERN + "\">" )
-                .append( getDateFormatted() )
-                .append( "</date>\n" )
-                .append( "\t\t<time pattern=\"" + TIME_PATTERN + "\">" )
-                .append( getTimeFormatted() )
-                .append( "</time>\n" );
+        if (getDate() != null) {
+            buffer.append("\t\t<date pattern=\"" + DATE_PATTERN + "\">")
+                    .append(getDateFormatted())
+                    .append("</date>\n")
+                    .append("\t\t<time pattern=\"" + TIME_PATTERN + "\">")
+                    .append(getTimeFormatted())
+                    .append("</time>\n");
         }
 
-        buffer.append( "\t\t<author><![CDATA[" )
-            .append( author )
-            .append( "]]></author>\n" );
+        buffer.append("\t\t<author><![CDATA[").append(author).append("]]></author>\n");
 
-        if ( parentRevision != null )
-        {
-            buffer.append( "\t\t<parent>" ).append( getParentRevision() ).append( "</parent>\n" );
+        if (parentRevision != null) {
+            buffer.append("\t\t<parent>").append(getParentRevision()).append("</parent>\n");
         }
-        for ( String mergedRevision : getMergedRevisions() )
-        {
-            buffer.append( "\t\t<merge>" ).append( mergedRevision ).append( "</merge>\n" );
+        for (String mergedRevision : getMergedRevisions()) {
+            buffer.append("\t\t<merge>").append(mergedRevision).append("</merge>\n");
         }
 
-        if ( files != null )
-        {
-            for ( ChangeFile file : files )
-            {
-                buffer.append( "\t\t<file>\n" );
-                if ( file.getAction() != null )
-                {
-                    buffer.append( "\t\t\t<action>" ).append( file.getAction() ).append( "</action>\n" );
+        if (files != null) {
+            for (ChangeFile file : files) {
+                buffer.append("\t\t<file>\n");
+                if (file.getAction() != null) {
+                    buffer.append("\t\t\t<action>").append(file.getAction()).append("</action>\n");
                 }
-                buffer.append( "\t\t\t<name>" ).append( escapeValue( file.getName() ) ).append( "</name>\n" );
-                buffer.append( "\t\t\t<revision>" ).append( file.getRevision() ).append( "</revision>\n" );
-                if ( file.getOriginalName() != null )
-                {
-                    buffer.append( "\t\t\t<orig-name>" );
-                    buffer.append( escapeValue( file.getOriginalName() ) );
-                    buffer.append( "</orig-name>\n" );
+                buffer.append("\t\t\t<name>")
+                        .append(escapeValue(file.getName()))
+                        .append("</name>\n");
+                buffer.append("\t\t\t<revision>").append(file.getRevision()).append("</revision>\n");
+                if (file.getOriginalName() != null) {
+                    buffer.append("\t\t\t<orig-name>");
+                    buffer.append(escapeValue(file.getOriginalName()));
+                    buffer.append("</orig-name>\n");
                 }
-                if ( file.getOriginalRevision() != null )
-                {
-                    buffer.append( "\t\t\t<orig-revision>" );
-                    buffer.append( file.getOriginalRevision() );
-                    buffer.append( "</orig-revision>\n" );
+                if (file.getOriginalRevision() != null) {
+                    buffer.append("\t\t\t<orig-revision>");
+                    buffer.append(file.getOriginalRevision());
+                    buffer.append("</orig-revision>\n");
                 }
-                buffer.append( "\t\t</file>\n" );
+                buffer.append("\t\t</file>\n");
             }
         }
-        buffer.append( "\t\t<msg><![CDATA[" )
-            .append( removeCDataEnd( comment ) )
-            .append( "]]></msg>\n" );
+        buffer.append("\t\t<msg><![CDATA[").append(removeCDataEnd(comment)).append("]]></msg>\n");
         List<String> tags = getTags();
-        if ( !tags.isEmpty() )
-        {
-            buffer.append( "\t\t<tags>\n" );
-            for ( String tag: tags )
-            {
-                buffer.append( "\t\t\t<tag>" ).append( escapeValue( tag ) ).append( "</tag>\n" );
+        if (!tags.isEmpty()) {
+            buffer.append("\t\t<tags>\n");
+            for (String tag : tags) {
+                buffer.append("\t\t\t<tag>").append(escapeValue(tag)).append("</tag>\n");
             }
-            buffer.append( "\t\t</tags>\n" );
+            buffer.append("\t\t</tags>\n");
         }
-        buffer.append( "\t</changelog-entry>\n" );
+        buffer.append("\t</changelog-entry>\n");
 
         return buffer.toString();
     }
 
     /** {@inheritDoc} */
-    public boolean equals( Object obj )
-    {
-        if ( obj instanceof ChangeSet )
-        {
+    public boolean equals(Object obj) {
+        if (obj instanceof ChangeSet) {
             ChangeSet changeSet = (ChangeSet) obj;
 
-            if ( toString().equals( changeSet.toString() ) )
-            {
+            if (toString().equals(changeSet.toString())) {
                 return true;
             }
         }
@@ -641,16 +545,15 @@ public class ChangeSet
     }
 
     /** {@inheritDoc} */
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ( ( author == null ) ? 0 : author.hashCode() );
-        result = prime * result + ( ( comment == null ) ? 0 : comment.hashCode() );
-        result = prime * result + ( ( date == null ) ? 0 : date.hashCode() );
-        result = prime * result + ( ( parentRevision == null ) ? 0 : parentRevision.hashCode() );
-        result = prime * result + ( ( mergedRevisions == null ) ? 0 : mergedRevisions.hashCode() );
-        result = prime * result + ( ( files == null ) ? 0 : files.hashCode() );
+        result = prime * result + ((author == null) ? 0 : author.hashCode());
+        result = prime * result + ((comment == null) ? 0 : comment.hashCode());
+        result = prime * result + ((date == null) ? 0 : date.hashCode());
+        result = prime * result + ((parentRevision == null) ? 0 : parentRevision.hashCode());
+        result = prime * result + ((mergedRevisions == null) ? 0 : mergedRevisions.hashCode());
+        result = prime * result + ((files == null) ? 0 : files.hashCode());
         return result;
     }
 
@@ -660,13 +563,11 @@ public class ChangeSet
      * @param message The message to modify
      * @return a clean string
      */
-    private String removeCDataEnd( String message )
-    {
+    private String removeCDataEnd(String message) {
         // check for invalid sequence ]]>
         int endCdata;
-        while ( message != null && ( endCdata = message.indexOf( "]]>" ) ) > -1 )
-        {
-            message = message.substring( 0, endCdata ) + "] ] >" + message.substring( endCdata + 3, message.length() );
+        while (message != null && (endCdata = message.indexOf("]]>")) > -1) {
+            message = message.substring(0, endCdata) + "] ] >" + message.substring(endCdata + 3, message.length());
         }
         return message;
     }
@@ -680,35 +581,32 @@ public class ChangeSet
      * @param value escape <code>value.toString()</code>
      * @return text with characters restricted (for use in attributes) escaped
      */
-    public static String escapeValue( Object value )
-    {
-        StringBuilder buffer = new StringBuilder( value.toString() );
-        for ( int i = 0, size = buffer.length(); i < size; i++ )
-        {
-            switch ( buffer.charAt( i ) )
-            {
-                case'<':
-                    buffer.replace( i, i + 1, LESS_THAN_ENTITY );
+    public static String escapeValue(Object value) {
+        StringBuilder buffer = new StringBuilder(value.toString());
+        for (int i = 0, size = buffer.length(); i < size; i++) {
+            switch (buffer.charAt(i)) {
+                case '<':
+                    buffer.replace(i, i + 1, LESS_THAN_ENTITY);
                     size += 3;
                     i += 3;
                     break;
-                case'>':
-                    buffer.replace( i, i + 1, GREATER_THAN_ENTITY );
+                case '>':
+                    buffer.replace(i, i + 1, GREATER_THAN_ENTITY);
                     size += 3;
                     i += 3;
                     break;
-                case'&':
-                    buffer.replace( i, i + 1, AMPERSAND_ENTITY );
+                case '&':
+                    buffer.replace(i, i + 1, AMPERSAND_ENTITY);
                     size += 4;
                     i += 4;
                     break;
-                case'\'':
-                    buffer.replace( i, i + 1, APOSTROPHE_ENTITY );
+                case '\'':
+                    buffer.replace(i, i + 1, APOSTROPHE_ENTITY);
                     size += 5;
                     i += 5;
                     break;
-                case'\"':
-                    buffer.replace( i, i + 1, QUOTE_ENTITY );
+                case '\"':
+                    buffer.replace(i, i + 1, QUOTE_ENTITY);
                     size += 5;
                     i += 5;
                     break;

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.hg.command.update;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.hg.command.update;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.hg.command.update;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.hg.command.update;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,78 +47,65 @@ import org.codehaus.plexus.util.StringUtils;
  * @author Olivier Lamy
  *
  */
-public class HgUpdateCommand
-    extends AbstractUpdateCommand
-    implements Command
-{
+public class HgUpdateCommand extends AbstractUpdateCommand implements Command {
     /** {@inheritDoc} */
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion tag )
-        throws ScmException
-    {
+    protected UpdateScmResult executeUpdateCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion tag)
+            throws ScmException {
         File workingDir = fileSet.getBasedir();
 
         String[] updateCmd;
         // Update branch
-        if ( repo.isPushChanges() )
-        {
-            updateCmd =
-                new String[] { HgCommandConstants.PULL_CMD, HgCommandConstants.REVISION_OPTION,
-                    tag != null && !StringUtils.isEmpty( tag.getName() ) ? tag.getName() : "tip" };
+        if (repo.isPushChanges()) {
+            updateCmd = new String[] {
+                HgCommandConstants.PULL_CMD,
+                HgCommandConstants.REVISION_OPTION,
+                tag != null && !StringUtils.isEmpty(tag.getName()) ? tag.getName() : "tip"
+            };
+        } else {
+            updateCmd = new String[] {
+                HgCommandConstants.UPDATE_CMD,
+                tag != null && !StringUtils.isEmpty(tag.getName()) ? tag.getName() : "tip",
+                HgCommandConstants.CLEAN_OPTION
+            };
         }
-        else
-        {
-            updateCmd =
-                new String[] { HgCommandConstants.UPDATE_CMD,
-                    tag != null && !StringUtils.isEmpty( tag.getName() ) ? tag.getName() : "tip",
-                    HgCommandConstants.CLEAN_OPTION };
-        }
-        ScmResult updateResult = HgUtils.execute( new HgConsumer(), workingDir, updateCmd );
+        ScmResult updateResult = HgUtils.execute(new HgConsumer(), workingDir, updateCmd);
 
-        if ( !updateResult.isSuccess() )
-        {
-            return new UpdateScmResult( null, null, updateResult );
+        if (!updateResult.isSuccess()) {
+            return new UpdateScmResult(null, null, updateResult);
         }
 
         // Find changes from last revision
-        int currentRevision = HgUtils.getCurrentRevisionNumber( workingDir );
+        int currentRevision = HgUtils.getCurrentRevisionNumber(workingDir);
         int previousRevision = currentRevision - 1;
-        String[] diffCmd = new String[] {
-            HgCommandConstants.DIFF_CMD,
-            HgCommandConstants.REVISION_OPTION,
-            "" + previousRevision };
-        HgDiffConsumer diffConsumer = new HgDiffConsumer( workingDir );
-        ScmResult diffResult = HgUtils.execute( diffConsumer, workingDir, diffCmd );
+        String[] diffCmd =
+                new String[] {HgCommandConstants.DIFF_CMD, HgCommandConstants.REVISION_OPTION, "" + previousRevision};
+        HgDiffConsumer diffConsumer = new HgDiffConsumer(workingDir);
+        ScmResult diffResult = HgUtils.execute(diffConsumer, workingDir, diffCmd);
 
         // Now translate between diff and update file status
         List<ScmFile> updatedFiles = new ArrayList<>();
         List<CharSequence> changes = new ArrayList<>();
         List<ScmFile> diffFiles = diffConsumer.getChangedFiles();
         Map<String, CharSequence> diffChanges = diffConsumer.getDifferences();
-        for ( ScmFile file : diffFiles )
-        {
-            changes.add( diffChanges.get( file.getPath() ) );
-            if ( file.getStatus() == ScmFileStatus.MODIFIED )
-            {
-                updatedFiles.add( new ScmFile( file.getPath(), ScmFileStatus.PATCHED ) );
+        for (ScmFile file : diffFiles) {
+            changes.add(diffChanges.get(file.getPath()));
+            if (file.getStatus() == ScmFileStatus.MODIFIED) {
+                updatedFiles.add(new ScmFile(file.getPath(), ScmFileStatus.PATCHED));
+            } else {
+                updatedFiles.add(file);
             }
-            else
-            {
-                updatedFiles.add( file );
-            }
-        }
-        
-        if ( repo.isPushChanges() )
-        {
-            String[] hgUpdateCmd = new String[] { HgCommandConstants.UPDATE_CMD };
-            HgUtils.execute( new HgConsumer(), workingDir, hgUpdateCmd );
         }
 
-        return new UpdateScmResultWithRevision( updatedFiles, new ArrayList<>( 0 ),
-                                                String.valueOf( currentRevision ), diffResult );
+        if (repo.isPushChanges()) {
+            String[] hgUpdateCmd = new String[] {HgCommandConstants.UPDATE_CMD};
+            HgUtils.execute(new HgConsumer(), workingDir, hgUpdateCmd);
+        }
+
+        return new UpdateScmResultWithRevision(
+                updatedFiles, new ArrayList<>(0), String.valueOf(currentRevision), diffResult);
     }
 
-    protected ChangeLogCommand getChangeLogCommand()
-    {
+    protected ChangeLogCommand getChangeLogCommand() {
         return new HgChangeLogCommand();
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
@@ -31,42 +30,35 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:jerome@coffeebreaks.org">Jerome Lacoste</a>
  *
  */
-public class GitCommandUtils
-{
+public class GitCommandUtils {
 
-    private GitCommandUtils()
-    {
+    private GitCommandUtils() {}
+
+    public static Commandline getBaseCommand(String commandName, GitScmProviderRepository repo, ScmFileSet fileSet) {
+        return getBaseCommand(commandName, repo, fileSet, null);
     }
 
-    public static Commandline getBaseCommand( String commandName, GitScmProviderRepository repo, ScmFileSet fileSet )
-    {
-        return getBaseCommand( commandName, repo, fileSet, null );
-    }
-
-    public static Commandline getBaseCommand( String commandName, GitScmProviderRepository repo, ScmFileSet fileSet,
-                                              String options )
-    {
+    public static Commandline getBaseCommand(
+            String commandName, GitScmProviderRepository repo, ScmFileSet fileSet, String options) {
         Settings settings = GitUtil.getSettings();
 
         Commandline cl = new Commandline();
 
-        cl.setExecutable( settings.getGitCommand() );
+        cl.setExecutable(settings.getGitCommand());
 
-        cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
+        cl.setWorkingDirectory(fileSet.getBasedir().getAbsolutePath());
 
-        if ( settings.getTraceGitCommand() != null )
-        {
-            cl.addEnvironment( "GIT_TRACE", settings.getTraceGitCommand() );
+        if (settings.getTraceGitCommand() != null) {
+            cl.addEnvironment("GIT_TRACE", settings.getTraceGitCommand());
         }
 
-        cl.createArg().setLine( options );
-        cl.createArg().setValue( commandName );
+        cl.createArg().setLine(options);
+        cl.createArg().setValue(commandName);
 
         return cl;
     }
-        
-    public static String getRevParseDateFormat()
-    {
+
+    public static String getRevParseDateFormat() {
         return GitUtil.getSettings().getRevParseDateFormat();
-    }    
+    }
 }

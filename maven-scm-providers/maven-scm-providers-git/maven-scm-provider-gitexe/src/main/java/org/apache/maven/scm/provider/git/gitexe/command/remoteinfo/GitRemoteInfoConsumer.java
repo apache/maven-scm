@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,30 +16,29 @@ package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
-import org.apache.maven.scm.util.AbstractConsumer;
+package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
+import org.apache.maven.scm.util.AbstractConsumer;
+
 /**
  * @author Bertrand Paquet
  */
-public class GitRemoteInfoConsumer
-        extends AbstractConsumer
-{
+public class GitRemoteInfoConsumer extends AbstractConsumer {
 
     /**
      * The pattern used to match branches
      */
-    private static final Pattern BRANCH_PATTERN = Pattern.compile( "^(.*)\\s+refs/heads/(.*)" );
+    private static final Pattern BRANCH_PATTERN = Pattern.compile("^(.*)\\s+refs/heads/(.*)");
 
     /**
      * The pattern used to match tags
      */
-    private static final Pattern TAGS_PATTERN = Pattern.compile( "^(.*)\\s+refs/tags/(.*)" );
+    private static final Pattern TAGS_PATTERN = Pattern.compile("^(.*)\\s+refs/tags/(.*)");
 
     private final RemoteInfoScmResult remoteInfoScmResult;
 
@@ -49,10 +46,8 @@ public class GitRemoteInfoConsumer
     //
     // ----------------------------------------------------------------------
 
-    public GitRemoteInfoConsumer( String commandLine )
-    {
-        this.remoteInfoScmResult =
-            new RemoteInfoScmResult( commandLine, new HashMap<>(), new HashMap<>() );
+    public GitRemoteInfoConsumer(String commandLine) {
+        this.remoteInfoScmResult = new RemoteInfoScmResult(commandLine, new HashMap<>(), new HashMap<>());
     }
 
     // ----------------------------------------------------------------------
@@ -62,30 +57,23 @@ public class GitRemoteInfoConsumer
     /**
      * {@inheritDoc}
      */
-    public void consumeLine( String line )
-    {
-        if ( logger.isDebugEnabled() )
-        {
-            logger.debug( line );
-        }
-        
-        Matcher matcher = BRANCH_PATTERN.matcher( line );
-        if ( matcher.matches() )
-        {
-            remoteInfoScmResult.getBranches().put( matcher.group( 2 ), matcher.group( 1 ) );
-        }
-        
-        matcher = TAGS_PATTERN.matcher( line );
-        if ( matcher.matches() )
-        {
-            remoteInfoScmResult.getTags().put( matcher.group( 2 ), matcher.group( 1 ) );
+    public void consumeLine(String line) {
+        if (logger.isDebugEnabled()) {
+            logger.debug(line);
         }
 
+        Matcher matcher = BRANCH_PATTERN.matcher(line);
+        if (matcher.matches()) {
+            remoteInfoScmResult.getBranches().put(matcher.group(2), matcher.group(1));
+        }
+
+        matcher = TAGS_PATTERN.matcher(line);
+        if (matcher.matches()) {
+            remoteInfoScmResult.getTags().put(matcher.group(2), matcher.group(1));
+        }
     }
 
-    public RemoteInfoScmResult getRemoteInfoScmResult()
-    {
+    public RemoteInfoScmResult getRemoteInfoScmResult() {
         return remoteInfoScmResult;
     }
-
 }

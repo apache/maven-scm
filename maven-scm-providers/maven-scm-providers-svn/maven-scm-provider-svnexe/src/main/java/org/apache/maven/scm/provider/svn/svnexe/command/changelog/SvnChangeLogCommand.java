@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,10 +16,20 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
+import java.util.TimeZone;
+
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
@@ -39,210 +47,207 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Objects;
-import java.util.TimeZone;
-import org.apache.maven.scm.CommandParameter;
-import org.apache.maven.scm.CommandParameters;
-import org.apache.maven.scm.ScmResult;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
  *
  */
-public class SvnChangeLogCommand
-    extends AbstractChangeLogCommand
-    implements SvnCommand
-{
+public class SvnChangeLogCommand extends AbstractChangeLogCommand implements SvnCommand {
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
 
     @Override
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                     CommandParameters parameters )
-        throws ScmException
-    {
-        return executeChangeLogCommand( repository, fileSet,
-                parameters.getDate( CommandParameter.START_DATE, null ),
-                parameters.getDate( CommandParameter.END_DATE, null ),
-                (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null ),
-                parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null ),
-                parameters.getScmVersion( CommandParameter.START_SCM_VERSION, null ),
-                parameters.getScmVersion( CommandParameter.END_SCM_VERSION, null ),
-                parameters.getInt( CommandParameter.LIMIT, -1 ) );
+    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return executeChangeLogCommand(
+                repository,
+                fileSet,
+                parameters.getDate(CommandParameter.START_DATE, null),
+                parameters.getDate(CommandParameter.END_DATE, null),
+                (ScmBranch) parameters.getScmVersion(CommandParameter.BRANCH, null),
+                parameters.getString(CommandParameter.CHANGELOG_DATE_PATTERN, null),
+                parameters.getScmVersion(CommandParameter.START_SCM_VERSION, null),
+                parameters.getScmVersion(CommandParameter.END_SCM_VERSION, null),
+                parameters.getInt(CommandParameter.LIMIT, -1));
     }
 
     /** {@inheritDoc} */
     @Deprecated
     @Override
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          ScmVersion startVersion, ScmVersion endVersion,
-                                                          String datePattern )
-        throws ScmException
-    {
-        return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion, null );
+    protected ChangeLogScmResult executeChangeLogCommand(
+            ScmProviderRepository repo,
+            ScmFileSet fileSet,
+            ScmVersion startVersion,
+            ScmVersion endVersion,
+            String datePattern)
+            throws ScmException {
+        return executeChangeLogCommand(repo, fileSet, null, null, null, datePattern, startVersion, endVersion, null);
     }
 
     /** {@inheritDoc} */
     @Deprecated
     @Override
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, ScmBranch branch,
-                                                          String datePattern )
-        throws ScmException
-    {
-        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, null, null, null );
+    protected ChangeLogScmResult executeChangeLogCommand(
+            ScmProviderRepository repo,
+            ScmFileSet fileSet,
+            Date startDate,
+            Date endDate,
+            ScmBranch branch,
+            String datePattern)
+            throws ScmException {
+        return executeChangeLogCommand(repo, fileSet, startDate, endDate, branch, datePattern, null, null, null);
     }
 
     @Override
-    protected ChangeLogScmResult executeChangeLogCommand( ChangeLogScmRequest request )
-        throws ScmException
-    {
+    protected ChangeLogScmResult executeChangeLogCommand(ChangeLogScmRequest request) throws ScmException {
         final ScmVersion startVersion = request.getStartRevision();
         final ScmVersion endVersion = request.getEndRevision();
         final ScmFileSet fileSet = request.getScmFileSet();
         final String datePattern = request.getDatePattern();
-        return executeChangeLogCommand( request.getScmRepository().getProviderRepository(), fileSet,
-            request.getStartDate(), request.getEndDate(), request.getScmBranch(), datePattern, startVersion,
-                endVersion, request.getLimit() );
+        return executeChangeLogCommand(
+                request.getScmRepository().getProviderRepository(),
+                fileSet,
+                request.getStartDate(),
+                request.getEndDate(),
+                request.getScmBranch(),
+                datePattern,
+                startVersion,
+                endVersion,
+                request.getLimit());
     }
 
-    private ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, ScmBranch branch,
-                                                          String datePattern, ScmVersion startVersion,
-                                                          ScmVersion endVersion, Integer limit )
-        throws ScmException
-    {
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), branch, startDate,
-                                            endDate, startVersion, endVersion, limit );
+    private ChangeLogScmResult executeChangeLogCommand(
+            ScmProviderRepository repo,
+            ScmFileSet fileSet,
+            Date startDate,
+            Date endDate,
+            ScmBranch branch,
+            String datePattern,
+            ScmVersion startVersion,
+            ScmVersion endVersion,
+            Integer limit)
+            throws ScmException {
+        Commandline cl = createCommandLine(
+                (SvnScmProviderRepository) repo,
+                fileSet.getBasedir(),
+                branch,
+                startDate,
+                endDate,
+                startVersion,
+                endVersion,
+                limit);
 
-        SvnChangeLogConsumer consumer = new SvnChangeLogConsumer( datePattern );
+        SvnChangeLogConsumer consumer = new SvnChangeLogConsumer(datePattern);
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        if ( logger.isInfoEnabled() )
-        {
-            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+        if (logger.isInfoEnabled()) {
+            logger.info("Executing: " + SvnCommandLineUtils.cryptPassword(cl));
 
-            if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
-            {
-                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                logger.info("Working directory: " + cl.getWorkingDirectory().getAbsolutePath());
             }
         }
 
         int exitCode;
 
-        try
-        {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
-        }
-        catch ( CommandLineException ex )
-        {
-            throw new ScmException( "Error while executing svn command.", ex );
+        try {
+            exitCode = SvnCommandLineUtils.execute(cl, consumer, stderr);
+        } catch (CommandLineException ex) {
+            throw new ScmException("Error while executing svn command.", ex);
         }
 
-        if ( exitCode != 0 )
-        {
-            return new ChangeLogScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
+        if (exitCode != 0) {
+            return new ChangeLogScmResult(cl.toString(), "The svn command failed.", stderr.getOutput(), false);
         }
-        ChangeLogSet changeLogSet = new ChangeLogSet( consumer.getModifications(), startDate, endDate );
-        changeLogSet.setStartVersion( startVersion );
-        changeLogSet.setEndVersion( endVersion );
+        ChangeLogSet changeLogSet = new ChangeLogSet(consumer.getModifications(), startDate, endDate);
+        changeLogSet.setStartVersion(startVersion);
+        changeLogSet.setEndVersion(endVersion);
 
-        return new ChangeLogScmResult( cl.toString(), changeLogSet );
+        return new ChangeLogScmResult(cl.toString(), changeLogSet);
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 ScmBranch branch, Date startDate, Date endDate,
-                                                 ScmVersion startVersion, ScmVersion endVersion )
-    {
-        return createCommandLine( repository, workingDirectory, branch, startDate, endDate, startVersion, endVersion,
-                                  null );
+    public static Commandline createCommandLine(
+            SvnScmProviderRepository repository,
+            File workingDirectory,
+            ScmBranch branch,
+            Date startDate,
+            Date endDate,
+            ScmVersion startVersion,
+            ScmVersion endVersion) {
+        return createCommandLine(
+                repository, workingDirectory, branch, startDate, endDate, startVersion, endVersion, null);
     }
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 ScmBranch branch, Date startDate, Date endDate,
-                                                 ScmVersion startVersion, ScmVersion endVersion, Integer limit )
-    {
-        SimpleDateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
+    public static Commandline createCommandLine(
+            SvnScmProviderRepository repository,
+            File workingDirectory,
+            ScmBranch branch,
+            Date startDate,
+            Date endDate,
+            ScmVersion startVersion,
+            ScmVersion endVersion,
+            Integer limit) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
 
-        dateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository);
 
-        cl.createArg().setValue( "log" );
+        cl.createArg().setValue("log");
 
-        cl.createArg().setValue( "-v" );
+        cl.createArg().setValue("-v");
 
         // TODO: May want to add some kind of support for --stop-on-copy and --limit NUM
 
-        if ( limit != null && limit > 0 )
-        {
-            cl.createArg().setValue( "--limit" );
-            cl.createArg().setValue( Integer.toString( limit ) );
+        if (limit != null && limit > 0) {
+            cl.createArg().setValue("--limit");
+            cl.createArg().setValue(Integer.toString(limit));
         }
 
-        if ( startDate != null )
-        {
-            cl.createArg().setValue( "-r" );
+        if (startDate != null) {
+            cl.createArg().setValue("-r");
 
-            if ( endDate != null )
-            {
-                cl.createArg().setValue(
-                    "{" + dateFormat.format( startDate ) + "}" + ":" + "{" + dateFormat.format( endDate ) + "}" );
-            }
-            else
-            {
-                cl.createArg().setValue( "{" + dateFormat.format( startDate ) + "}:HEAD" );
+            if (endDate != null) {
+                cl.createArg()
+                        .setValue("{" + dateFormat.format(startDate) + "}" + ":" + "{" + dateFormat.format(endDate)
+                                + "}");
+            } else {
+                cl.createArg().setValue("{" + dateFormat.format(startDate) + "}:HEAD");
             }
         }
 
-        if ( startVersion != null )
-        {
-            cl.createArg().setValue( "-r" );
+        if (startVersion != null) {
+            cl.createArg().setValue("-r");
 
-            if ( endVersion != null )
-            {
-                if ( startVersion.getName().equals( endVersion.getName() ) )
-                {
-                    cl.createArg().setValue( startVersion.getName() );
+            if (endVersion != null) {
+                if (startVersion.getName().equals(endVersion.getName())) {
+                    cl.createArg().setValue(startVersion.getName());
+                } else {
+                    cl.createArg().setValue(startVersion.getName() + ":" + endVersion.getName());
                 }
-                else
-                {
-                    cl.createArg().setValue( startVersion.getName() + ":" + endVersion.getName() );
-                }
-            }
-            else
-            {
-                cl.createArg().setValue( startVersion.getName() + ":HEAD" );
+            } else {
+                cl.createArg().setValue(startVersion.getName() + ":HEAD");
             }
         }
 
-        if ( branch != null && StringUtils.isNotEmpty( branch.getName() ) )
-        {
+        if (branch != null && StringUtils.isNotEmpty(branch.getName())) {
             // By specifying a branch and this repository url below, subversion should show
             // the changelog of that branch, but limit it to paths that also occur in this repository.
-            if ( branch instanceof ScmTag )
-            {
-                String tagUrl = SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) branch );
-                cl.createArg().setValue( tagUrl + "@" );
-            }
-            else
-            {
-                String branchUrl = SvnTagBranchUtils.resolveBranchUrl( repository, branch );
-                cl.createArg().setValue( branchUrl + "@" );
+            if (branch instanceof ScmTag) {
+                String tagUrl = SvnTagBranchUtils.resolveTagUrl(repository, (ScmTag) branch);
+                cl.createArg().setValue(tagUrl + "@");
+            } else {
+                String branchUrl = SvnTagBranchUtils.resolveBranchUrl(repository, branch);
+                cl.createArg().setValue(branchUrl + "@");
             }
         }
 
-        if ( endVersion == null || !Objects.equals( "BASE", endVersion.getName() ) )
-        {
-            cl.createArg().setValue( repository.getUrl() + "@" );
+        if (endVersion == null || !Objects.equals("BASE", endVersion.getName())) {
+            cl.createArg().setValue(repository.getUrl() + "@");
         }
 
         return cl;

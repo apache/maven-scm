@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit.command.checkout;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit.command.checkout;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.jgit.command.checkout;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.jgit.command.checkout;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,56 +47,46 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 /** @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a> */
-public class JGitSshCheckOutCommandTckTest
-    extends GitSshCheckOutCommandTckTest
-{
+public class JGitSshCheckOutCommandTckTest extends GitSshCheckOutCommandTckTest {
 
-    public JGitSshCheckOutCommandTckTest() throws GeneralSecurityException, IOException
-    {
+    public JGitSshCheckOutCommandTckTest() throws GeneralSecurityException, IOException {
         super();
     }
 
     @Override
-    protected String getScmProvider()
-    {
+    protected String getScmProvider() {
         return "jgit";
     }
 
     @Override
-    public void initRepo() throws Exception
-    {
+    public void initRepo() throws Exception {
         super.initRepo();
-        JGitTestScmProvider provider = (JGitTestScmProvider) getScmManager().getProviderByRepository( getScmRepository() );
+        JGitTestScmProvider provider =
+                (JGitTestScmProvider) getScmManager().getProviderByRepository(getScmRepository());
         // accept all hosts
-        provider.registerCheckOutCommandCallback( new Consumer<JGitCheckOutCommand>()
-        {
+        provider.registerCheckOutCommandCallback(new Consumer<JGitCheckOutCommand>() {
             @Override
-            public void accept( JGitCheckOutCommand command )
-            {
-                command.setSshSessionFactorySupplier( AcceptAllHostsSshdSessionFactory::new );
+            public void accept(JGitCheckOutCommand command) {
+                command.setSshSessionFactorySupplier(AcceptAllHostsSshdSessionFactory::new);
             }
-
-        } );
+        });
     }
 
-    private static final class AcceptAllHostsSshdSessionFactory extends ScmProviderAwareSshdSessionFactory
-    {
-        public AcceptAllHostsSshdSessionFactory( GitScmProviderRepository repo, Logger logger )
-        {
-            super( repo, logger );
+    private static final class AcceptAllHostsSshdSessionFactory extends ScmProviderAwareSshdSessionFactory {
+        public AcceptAllHostsSshdSessionFactory(GitScmProviderRepository repo, Logger logger) {
+            super(repo, logger);
         }
 
         @Override
-        protected ServerKeyDatabase createServerKeyDatabase( File homeDir, File sshDir )
-        {
-            return new OpenSshServerKeyDatabase( false, null )
-            {
+        protected ServerKeyDatabase createServerKeyDatabase(File homeDir, File sshDir) {
+            return new OpenSshServerKeyDatabase(false, null) {
                 @Override
-                public boolean accept( @NonNull String connectAddress,
+                public boolean accept(
+                        @NonNull String connectAddress,
                         @NonNull InetSocketAddress remoteAddress,
                         @NonNull PublicKey serverKey,
-                        @NonNull Configuration config, CredentialsProvider provider )
-                {
+                        @NonNull Configuration config,
+                        CredentialsProvider provider) {
                     return true;
                 }
             };
@@ -105,44 +94,39 @@ public class JGitSshCheckOutCommandTckTest
     }
 
     @Override
-    protected void deleteDirectory( File directory )
-        throws IOException
-    {
-        if ( directory.exists() )
-        {
-            FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );
+    protected void deleteDirectory(File directory) throws IOException {
+        if (directory.exists()) {
+            FileUtils.delete(directory, FileUtils.RECURSIVE | FileUtils.RETRY);
         }
     }
 
     @Test
-    public void testCheckOutCommandWithPregeneratedKeysTest()
-        throws Exception
-    {
+    public void testCheckOutCommandWithPregeneratedKeysTest() throws Exception {
         // test key pairs being generated with ssh-keygen (they have a slighly different format than the ones tested
         // in testCheckOutCommandWithPassphraseTest and testCheckOutCommandTest)
-        configureKeypairFromClasspathResource( getScmRepository(), "sample_rsa", "mySecret");
+        configureKeypairFromClasspathResource(getScmRepository(), "sample_rsa", "mySecret");
         super.testCheckOutCommandTest();
     }
 
-    private void configureKeypairFromClasspathResource( ScmRepository repository, String resourceName, String passphrase )
-        throws IOException, GeneralSecurityException
-    {
+    private void configureKeypairFromClasspathResource(ScmRepository repository, String resourceName, String passphrase)
+            throws IOException, GeneralSecurityException {
         // accept public key
-        try ( InputStream publicKeyInputStream = this.getClass().getResourceAsStream( "/ssh-keypairs/" + resourceName + ".pub" ) )
-        {
-            PublicKey publicKey = PublicKeyEntry.parsePublicKeyEntry( IOUtils.toString( publicKeyInputStream, StandardCharsets.US_ASCII ) ).resolvePublicKey( null, null, null );
-            acceptedPublicKeys.add( publicKey );
+        try (InputStream publicKeyInputStream =
+                this.getClass().getResourceAsStream("/ssh-keypairs/" + resourceName + ".pub")) {
+            PublicKey publicKey = PublicKeyEntry.parsePublicKeyEntry(
+                            IOUtils.toString(publicKeyInputStream, StandardCharsets.US_ASCII))
+                    .resolvePublicKey(null, null, null);
+            acceptedPublicKeys.add(publicKey);
         }
-        Path privateKeyFile = Files.createTempFile( "privateKey", null );
+        Path privateKeyFile = Files.createTempFile("privateKey", null);
         // private key into tmp file
-        try ( InputStream privateKeyInputStream = this.getClass().getResourceAsStream( "/ssh-keypairs/" + resourceName ) )
-        {
-            Files.copy( privateKeyInputStream, privateKeyFile, StandardCopyOption.REPLACE_EXISTING );
+        try (InputStream privateKeyInputStream = this.getClass().getResourceAsStream("/ssh-keypairs/" + resourceName)) {
+            Files.copy(privateKeyInputStream, privateKeyFile, StandardCopyOption.REPLACE_EXISTING);
         }
         // configure provider repository with private key details
         ScmProviderRepositoryWithHost providerRepository =
-                        ScmProviderRepositoryWithHost.class.cast( repository.getProviderRepository() );
-        providerRepository.setPassphrase( passphrase ); // may be null
-        providerRepository.setPrivateKey( privateKeyFile.toString() );
+                ScmProviderRepositoryWithHost.class.cast(repository.getProviderRepository());
+        providerRepository.setPassphrase(passphrase); // may be null
+        providerRepository.setPrivateKey(privateKeyFile.toString());
     }
 }

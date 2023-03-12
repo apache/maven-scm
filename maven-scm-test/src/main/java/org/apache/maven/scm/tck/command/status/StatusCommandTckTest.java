@@ -1,5 +1,3 @@
-package org.apache.maven.scm.tck.command.status;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.tck.command.status;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,12 @@ package org.apache.maven.scm.tck.command.status;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.tck.command.status;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -29,11 +33,6 @@ import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.junit.Test;
-
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -58,35 +57,27 @@ import static org.junit.Assert.assertTrue;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
  */
-public abstract class StatusCommandTckTest
-    extends ScmTckTestCase
-{
+public abstract class StatusCommandTckTest extends ScmTckTestCase {
 
-    protected void commit( File workingDirectory, ScmRepository repository )
-        throws Exception
-    {
-        CheckInScmResult result = getScmManager().checkIn( repository, new ScmFileSet( workingDirectory ), "No msg" );
+    protected void commit(File workingDirectory, ScmRepository repository) throws Exception {
+        CheckInScmResult result = getScmManager().checkIn(repository, new ScmFileSet(workingDirectory), "No msg");
 
-        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
+        assertTrue("Check result was successful, output: " + result.getCommandOutput(), result.isSuccess());
 
         List<ScmFile> committedFiles = result.getCheckedInFiles();
 
-        assertEquals( "Expected 2 files in the committed files list " + committedFiles, 2, committedFiles.size() );
+        assertEquals("Expected 2 files in the committed files list " + committedFiles, 2, committedFiles.size());
     }
 
-    protected boolean commitUpdateCopy()
-    {
+    protected boolean commitUpdateCopy() {
         return false;
     }
 
-
     @Test
-    public void testStatusCommand()
-        throws Exception
-    {
-        ScmRepository repository = makeScmRepository( getScmUrl() );
+    public void testStatusCommand() throws Exception {
+        ScmRepository repository = makeScmRepository(getScmUrl());
 
-        checkOut( getUpdatingCopy(), repository );
+        checkOut(getUpdatingCopy(), repository);
 
         // ----------------------------------------------------------------------
         // Change the files
@@ -98,32 +89,32 @@ public abstract class StatusCommandTckTest
          */
 
         // /readme.txt
-        this.edit( getWorkingCopy(), "readme.txt", null, getScmRepository() );
-        ScmTestCase.makeFile( getWorkingCopy(), "/readme.txt", "changed readme.txt" );
+        this.edit(getWorkingCopy(), "readme.txt", null, getScmRepository());
+        ScmTestCase.makeFile(getWorkingCopy(), "/readme.txt", "changed readme.txt");
 
         // /project.xml
-        ScmTestCase.makeFile( getWorkingCopy(), "/project.xml", "changed project.xml" );
+        ScmTestCase.makeFile(getWorkingCopy(), "/project.xml", "changed project.xml");
 
-        addToWorkingTree( getWorkingCopy(), new File( "project.xml" ), getScmRepository() );
+        addToWorkingTree(getWorkingCopy(), new File("project.xml"), getScmRepository());
 
-        commit( getWorkingCopy(), getScmRepository() );
+        commit(getWorkingCopy(), getScmRepository());
 
         // /pom.xml
-        this.edit( getUpdatingCopy(), "pom.xml", null, repository );
-        ScmTestCase.makeFile( getUpdatingCopy(), "/pom.xml", "changed pom.xml" );
+        this.edit(getUpdatingCopy(), "pom.xml", null, repository);
+        ScmTestCase.makeFile(getUpdatingCopy(), "/pom.xml", "changed pom.xml");
 
         // /src/test/java/org
-        ScmTestCase.makeDirectory( getUpdatingCopy(), "/src/test/java/org" );
+        ScmTestCase.makeDirectory(getUpdatingCopy(), "/src/test/java/org");
 
-        addToWorkingTree( getUpdatingCopy(), new File( "src/test/java/org" ), repository );
+        addToWorkingTree(getUpdatingCopy(), new File("src/test/java/org"), repository);
 
         // /src/main/java/org/Foo.java
-        ScmTestCase.makeFile( getUpdatingCopy(), "/src/main/java/org/Foo.java" );
+        ScmTestCase.makeFile(getUpdatingCopy(), "/src/main/java/org/Foo.java");
 
-        addToWorkingTree( getUpdatingCopy(), new File( "src/main/java/org" ), repository );
+        addToWorkingTree(getUpdatingCopy(), new File("src/main/java/org"), repository);
 
         // src/main/java/org/Foo.java
-        addToWorkingTree( getUpdatingCopy(), new File( "src/main/java/org/Foo.java" ), repository );
+        addToWorkingTree(getUpdatingCopy(), new File("src/main/java/org/Foo.java"), repository);
 
         ScmManager scmManager = getScmManager();
 
@@ -134,39 +125,38 @@ public abstract class StatusCommandTckTest
         // check that readme and project.xml are not updated/created
         // ----------------------------------------------------------------------
 
-        StatusScmResult result = scmManager.getProviderByUrl( getScmUrl() )
-            .status( repository, new ScmFileSet( getUpdatingCopy() ) );
+        StatusScmResult result =
+                scmManager.getProviderByUrl(getScmUrl()).status(repository, new ScmFileSet(getUpdatingCopy()));
 
-        if ( this.commitUpdateCopy() )
-        {
-          //this is needed for perforce so that teardown can remove its client workspace, no harm for cvs/svn/git
-            commit( getUpdatingCopy(), repository );
+        if (this.commitUpdateCopy()) {
+            // this is needed for perforce so that teardown can remove its client workspace, no harm for cvs/svn/git
+            commit(getUpdatingCopy(), repository);
         }
 
-        assertNotNull( "The command returned a null result.", result );
+        assertNotNull("The command returned a null result.", result);
 
-        assertResultIsSuccess( result );
+        assertResultIsSuccess(result);
 
         List<ScmFile> changedFiles = result.getChangedFiles();
 
-        assertEquals( "Expected 2 files in the updated files list " + changedFiles, 2, changedFiles.size() );
+        assertEquals("Expected 2 files in the updated files list " + changedFiles, 2, changedFiles.size());
 
         // ----------------------------------------------------------------------
         // Assert the files in the updated files list
         // ----------------------------------------------------------------------
 
-        Iterator<ScmFile> files = new TreeSet<ScmFile>( changedFiles ).iterator();
+        Iterator<ScmFile> files = new TreeSet<ScmFile>(changedFiles).iterator();
 
         ScmFile file = files.next();
-        assertPath( "src/main/java/org/Foo.java", file.getPath() );
-        assertEquals( ScmFileStatus.ADDED, file.getStatus() );
+        assertPath("src/main/java/org/Foo.java", file.getPath());
+        assertEquals(ScmFileStatus.ADDED, file.getStatus());
 
         file = files.next();
-        assertPath( "pom.xml", file.getPath() );
-        assertEquals( ScmFileStatus.MODIFIED, file.getStatus() );
+        assertPath("pom.xml", file.getPath());
+        assertEquals(ScmFileStatus.MODIFIED, file.getStatus());
 
-        assertFile( getUpdatingCopy(), "/readme.txt" );
+        assertFile(getUpdatingCopy(), "/readme.txt");
 
-        assertFalse( "project.xml created incorrectly", new File( getUpdatingCopy(), "/project.xml" ).exists() );
+        assertFalse("project.xml created incorrectly", new File(getUpdatingCopy(), "/project.xml").exists());
     }
 }

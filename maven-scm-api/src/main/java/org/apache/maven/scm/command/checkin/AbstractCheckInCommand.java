@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.checkin;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.checkin;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.checkin;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.checkin;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -34,23 +33,19 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author Olivier Lamy
  *
  */
-public abstract class AbstractCheckInCommand
-    extends AbstractCommand
-{
+public abstract class AbstractCheckInCommand extends AbstractCommand {
     public static final String NAME = "check-in";
 
-    protected abstract CheckInScmResult executeCheckInCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                               String message, ScmVersion scmVersion )
-        throws ScmException;
+    protected abstract CheckInScmResult executeCheckInCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, String message, ScmVersion scmVersion)
+            throws ScmException;
 
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                     CommandParameters parameters )
-        throws ScmException
-    {
-        String message = parameters.getString( CommandParameter.MESSAGE );
+    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        String message = parameters.getString(CommandParameter.MESSAGE);
 
-        ScmVersion scmVersion = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
+        ScmVersion scmVersion = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
 
-        return executeCheckInCommand( repository, fileSet, message, scmVersion );
+        return executeCheckInCommand(repository, fileSet, message, scmVersion);
     }
 }

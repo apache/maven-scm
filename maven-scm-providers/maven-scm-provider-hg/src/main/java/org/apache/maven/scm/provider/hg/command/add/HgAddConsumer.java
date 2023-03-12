@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.hg.command.add;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.hg.command.add;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,59 +16,49 @@ package org.apache.maven.scm.provider.hg.command.add;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.provider.hg.command.HgConsumer;
+package org.apache.maven.scm.provider.hg.command.add;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.provider.hg.command.HgConsumer;
+
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  *
  */
-public class HgAddConsumer
-    extends HgConsumer
-{
+public class HgAddConsumer extends HgConsumer {
     private final File workingDir;
 
     private final List<ScmFile> addedFiles = new ArrayList<ScmFile>();
 
-    public HgAddConsumer( File workingDir )
-    {
+    public HgAddConsumer(File workingDir) {
         this.workingDir = workingDir;
     }
 
     /** {@inheritDoc} */
-    public void doConsume( ScmFileStatus status, String trimmedLine )
-    {
-        if ( status != null && status == ScmFileStatus.ADDED )
-        {
-            //Only include real files (not directories)
-            File tmpFile = new File( workingDir, trimmedLine );
-            if ( !tmpFile.exists() )
-            {
-                if ( logger.isWarnEnabled() )
-                {
-                    logger.warn( "Not a file: " + tmpFile + ". Ignored" );
+    public void doConsume(ScmFileStatus status, String trimmedLine) {
+        if (status != null && status == ScmFileStatus.ADDED) {
+            // Only include real files (not directories)
+            File tmpFile = new File(workingDir, trimmedLine);
+            if (!tmpFile.exists()) {
+                if (logger.isWarnEnabled()) {
+                    logger.warn("Not a file: " + tmpFile + ". Ignored");
                 }
-            }
-            else
-            {
-                ScmFile scmFile = new ScmFile( trimmedLine, ScmFileStatus.ADDED );
-                if ( logger.isInfoEnabled() )
-                {
-                    logger.info( scmFile.toString() );
+            } else {
+                ScmFile scmFile = new ScmFile(trimmedLine, ScmFileStatus.ADDED);
+                if (logger.isInfoEnabled()) {
+                    logger.info(scmFile.toString());
                 }
-                addedFiles.add( scmFile );
+                addedFiles.add(scmFile);
             }
         }
     }
 
-    public List<ScmFile> getAddedFiles()
-    {
+    public List<ScmFile> getAddedFiles() {
         return addedFiles;
     }
 }

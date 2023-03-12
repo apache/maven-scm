@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,15 +36,13 @@ import org.codehaus.plexus.util.StringUtils;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
  */
-public class ScmFileSet
-    implements Serializable
-{
+public class ScmFileSet implements Serializable {
     private static final long serialVersionUID = -5978597349974797556L;
 
     private static final String DELIMITER = ",";
 
     /** @see DirectoryScanner#DEFAULTEXCLUDES */
-    private static final String DEFAULT_EXCLUDES = StringUtils.join( DirectoryScanner.DEFAULTEXCLUDES, DELIMITER );
+    private static final String DEFAULT_EXCLUDES = StringUtils.join(DirectoryScanner.DEFAULTEXCLUDES, DELIMITER);
 
     private final File basedir;
 
@@ -63,9 +60,8 @@ public class ScmFileSet
      *
      * @param basedir directory files in the set are relative to
      */
-    public ScmFileSet( File basedir )
-    {
-        this( basedir, new ArrayList<File>( 0 ) );
+    public ScmFileSet(File basedir) {
+        this(basedir, new ArrayList<File>(0));
     }
 
     /**
@@ -74,9 +70,8 @@ public class ScmFileSet
      * @param basedir directory file is relative to
      * @param file    file that the set will contain, has to be relative to basedir
      */
-    public ScmFileSet( File basedir, File file )
-    {
-        this( basedir, new File[]{file} );
+    public ScmFileSet(File basedir, File file) {
+        this(basedir, new File[] {file});
     }
 
     /**
@@ -89,20 +84,15 @@ public class ScmFileSet
      *                 if null DEFAULT_EXCLUDES is used, else DEFAULT_EXCLUDES is added.
      * @throws IOException if any
      */
-    public ScmFileSet( File basedir, String includes, String excludes )
-        throws IOException
-    {
+    public ScmFileSet(File basedir, String includes, String excludes) throws IOException {
         this.basedir = basedir;
 
-        if ( excludes != null && excludes.length() > 0 )
-        {
+        if (excludes != null && excludes.length() > 0) {
             excludes += DELIMITER + DEFAULT_EXCLUDES;
-        }
-        else
-        {
+        } else {
             excludes = DEFAULT_EXCLUDES;
         }
-        this.files = FileUtils.getFiles( basedir, includes, excludes, false );
+        this.files = FileUtils.getFiles(basedir, includes, excludes, false);
         this.includes = includes;
         this.excludes = excludes;
     }
@@ -115,10 +105,8 @@ public class ScmFileSet
      * @throws IOException if any
      * @since 1.0
      */
-    public ScmFileSet( File basedir, String includes )
-        throws IOException
-    {
-        this( basedir, includes, null );
+    public ScmFileSet(File basedir, String includes) throws IOException {
+        this(basedir, includes, null);
     }
 
     /**
@@ -128,9 +116,8 @@ public class ScmFileSet
      * @param files   files that the set will contain, have to be relative to basedir
      * @deprecated use ScmFileSet( File, List )
      */
-    public ScmFileSet( File basedir, File[] files )
-    {
-        this( basedir, Arrays.asList( files ) );
+    public ScmFileSet(File basedir, File[] files) {
+        this(basedir, Arrays.asList(files));
     }
 
     /**
@@ -139,16 +126,13 @@ public class ScmFileSet
      * @param basedir directory files are relative to
      * @param files   list of File objects, files that the set will contain, have to be relative to basedir
      */
-    public ScmFileSet( File basedir, List<File> files )
-    {
-        if ( basedir == null )
-        {
-            throw new NullPointerException( "basedir must not be null" );
+    public ScmFileSet(File basedir, List<File> files) {
+        if (basedir == null) {
+            throw new NullPointerException("basedir must not be null");
         }
 
-        if ( files == null )
-        {
-            throw new NullPointerException( "files must not be null" );
+        if (files == null) {
+            throw new NullPointerException("files must not be null");
         }
 
         this.basedir = basedir;
@@ -160,8 +144,7 @@ public class ScmFileSet
      *
      * @return base directory
      */
-    public File getBasedir()
-    {
+    public File getBasedir() {
         return basedir;
     }
 
@@ -171,9 +154,8 @@ public class ScmFileSet
      * @return files in this set
      * @deprecated use getFileList() instead
      */
-    public File[] getFiles()
-    {
-        return this.files.toArray( new File[this.files.size()] );
+    public File[] getFiles() {
+        return this.files.toArray(new File[this.files.size()]);
     }
 
     /**
@@ -181,32 +163,26 @@ public class ScmFileSet
      *
      * @return List of File objects
      */
-    public List<File> getFileList()
-    {
+    public List<File> getFileList() {
         return this.files;
     }
-
 
     /**
      * @return the includes files as a comma separated string
      */
-    public String getIncludes()
-    {
+    public String getIncludes() {
         return this.includes;
     }
-
 
     /**
      * @return the excludes files as a comma separated string
      */
-    public String getExcludes()
-    {
+    public String getExcludes() {
         return this.excludes;
     }
 
     /** {@inheritDoc} */
-    public String toString()
-    {
+    public String toString() {
         return "basedir = " + basedir + "; files = " + files;
     }
 }

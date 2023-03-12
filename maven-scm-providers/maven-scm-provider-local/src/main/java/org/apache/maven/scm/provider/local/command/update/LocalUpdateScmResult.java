@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.local.command.update;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.local.command.update;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.local.command.update;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.local.command.update;
 
 import java.util.List;
 
@@ -28,13 +27,10 @@ import org.apache.maven.scm.command.update.UpdateScmResult;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public class LocalUpdateScmResult
-    extends UpdateScmResult
-{
+public class LocalUpdateScmResult extends UpdateScmResult {
     private static final long serialVersionUID = -932254303678432167L;
 
-    public LocalUpdateScmResult( String commandLine, List<ScmFile> files )
-    {
-        super( commandLine, files );
+    public LocalUpdateScmResult(String commandLine, List<ScmFile> files) {
+        super(commandLine, files);
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.blame;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.blame;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,9 +16,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.blame;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.command.blame.BlameLine;
-import org.apache.maven.scm.util.AbstractConsumer;
+package org.apache.maven.scm.provider.svn.svnexe.command.blame;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,33 +27,32 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.maven.scm.command.blame.BlameLine;
+import org.apache.maven.scm.util.AbstractConsumer;
+
 /**
  * @author Evgeny Mandrikov
  * @author Olivier Lamy
  * @since 1.4
  */
-public class SvnBlameConsumer
-    extends AbstractConsumer
-{
+public class SvnBlameConsumer extends AbstractConsumer {
     private static final String SVN_TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
-    private static final Pattern LINE_PATTERN = Pattern.compile( "line-number=\"(.*)\"" );
+    private static final Pattern LINE_PATTERN = Pattern.compile("line-number=\"(.*)\"");
 
-    private static final Pattern REVISION_PATTERN = Pattern.compile( "revision=\"(.*)\"" );
+    private static final Pattern REVISION_PATTERN = Pattern.compile("revision=\"(.*)\"");
 
-    private static final Pattern AUTHOR_PATTERN = Pattern.compile( "<author>(.*)</author>" );
+    private static final Pattern AUTHOR_PATTERN = Pattern.compile("<author>(.*)</author>");
 
-    private static final Pattern DATE_PATTERN = Pattern.compile( "<date>(.*)T(.*)\\.(.*)Z</date>" );
-
+    private static final Pattern DATE_PATTERN = Pattern.compile("<date>(.*)T(.*)\\.(.*)Z</date>");
 
     private final SimpleDateFormat dateFormat;
 
     private final List<BlameLine> lines = new ArrayList<>();
 
-    public SvnBlameConsumer()
-    {
-        dateFormat = new SimpleDateFormat( SVN_TIMESTAMP_PATTERN );
-        dateFormat.setTimeZone( TimeZone.getTimeZone( "UTC" ) );
+    public SvnBlameConsumer() {
+        dateFormat = new SimpleDateFormat(SVN_TIMESTAMP_PATTERN);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
     private int lineNumber;
@@ -66,50 +61,36 @@ public class SvnBlameConsumer
 
     private String author;
 
-    public void consumeLine( String line )
-    {
+    public void consumeLine(String line) {
         Matcher matcher;
-        if ( ( matcher = LINE_PATTERN.matcher( line ) ).find() )
-        {
-            String lineNumberStr = matcher.group( 1 );
-            lineNumber = Integer.parseInt( lineNumberStr );
-        }
-        else if ( ( matcher = REVISION_PATTERN.matcher( line ) ).find() )
-        {
-            revision = matcher.group( 1 );
-        }
-        else if ( ( matcher = AUTHOR_PATTERN.matcher( line ) ).find() )
-        {
-            author = matcher.group( 1 );
-        }
-        else if ( ( matcher = DATE_PATTERN.matcher( line ) ).find() )
-        {
-            String date = matcher.group( 1 );
-            String time = matcher.group( 2 );
-            Date dateTime = parseDateTime( date + " " + time );
-            lines.add( new BlameLine( dateTime, revision, author ) );
-            if ( logger.isDebugEnabled() )
-            {
-                logger.debug( "Author of line " + lineNumber + ": " + author + " (" + date + ")" );
+        if ((matcher = LINE_PATTERN.matcher(line)).find()) {
+            String lineNumberStr = matcher.group(1);
+            lineNumber = Integer.parseInt(lineNumberStr);
+        } else if ((matcher = REVISION_PATTERN.matcher(line)).find()) {
+            revision = matcher.group(1);
+        } else if ((matcher = AUTHOR_PATTERN.matcher(line)).find()) {
+            author = matcher.group(1);
+        } else if ((matcher = DATE_PATTERN.matcher(line)).find()) {
+            String date = matcher.group(1);
+            String time = matcher.group(2);
+            Date dateTime = parseDateTime(date + " " + time);
+            lines.add(new BlameLine(dateTime, revision, author));
+            if (logger.isDebugEnabled()) {
+                logger.debug("Author of line " + lineNumber + ": " + author + " (" + date + ")");
             }
         }
     }
 
-    protected Date parseDateTime( String dateTimeStr )
-    {
-        try
-        {
-            return dateFormat.parse( dateTimeStr );
-        }
-        catch ( ParseException e )
-        {
-            logger.error( "skip ParseException: " + e.getMessage() + " during parsing date " + dateTimeStr, e );
+    protected Date parseDateTime(String dateTimeStr) {
+        try {
+            return dateFormat.parse(dateTimeStr);
+        } catch (ParseException e) {
+            logger.error("skip ParseException: " + e.getMessage() + " during parsing date " + dateTimeStr, e);
             return null;
         }
     }
 
-    public List<BlameLine> getLines()
-    {
+    public List<BlameLine> getLines() {
         return lines;
     }
 }

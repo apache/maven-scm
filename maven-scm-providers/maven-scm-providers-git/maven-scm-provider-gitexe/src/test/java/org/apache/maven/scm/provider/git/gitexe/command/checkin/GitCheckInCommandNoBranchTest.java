@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.checkin;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkin;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,9 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkin;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.checkin;
+
+import java.io.File;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
@@ -31,79 +32,69 @@ import org.codehaus.plexus.util.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
-
 import static org.junit.Assert.assertEquals;
 
 /**
  * @author Bertrand Paquet
  */
-public class GitCheckInCommandNoBranchTest
-    extends ScmTestCase
-{
+public class GitCheckInCommandNoBranchTest extends ScmTestCase {
 
     private File workingDirectory;
 
     @Before
     @Override
-    public void setUp()
-        throws Exception
-    {
+    public void setUp() throws Exception {
         super.setUp();
 
-        workingDirectory = new File( "target/checkin-nobranch" );
+        workingDirectory = new File("target/checkin-nobranch");
     }
 
     @Test
-    public void testCheckinNoBranch()
-        throws Exception
-    {
-        checkScmPresence( GIT_COMMAND_LINE );
+    public void testCheckinNoBranch() throws Exception {
+        checkScmPresence(GIT_COMMAND_LINE);
 
-        File repo_orig = new File( "src/test/resources/repository_no_branch" );
-        File repo = getTestFile( "target/git_copy" );
-        FileUtils.deleteDirectory( repo );
-        FileUtils.copyDirectoryStructure( repo_orig, repo );
+        File repo_orig = new File("src/test/resources/repository_no_branch");
+        File repo = getTestFile("target/git_copy");
+        FileUtils.deleteDirectory(repo);
+        FileUtils.copyDirectoryStructure(repo_orig, repo);
 
-        ScmRepository scmRepository = getScmManager().makeScmRepository(
-            "scm:git:" + repo.toPath().toAbsolutePath().toUri().toASCIIString() );
+        ScmRepository scmRepository = getScmManager()
+                .makeScmRepository(
+                        "scm:git:" + repo.toPath().toAbsolutePath().toUri().toASCIIString());
 
-        CheckOutScmResult checkOutScmResult = checkoutRepo( scmRepository );
+        CheckOutScmResult checkOutScmResult = checkoutRepo(scmRepository);
 
         // Add a default user to the config
-        GitScmTestUtils.setDefaultUser( workingDirectory );
+        GitScmTestUtils.setDefaultUser(workingDirectory);
 
-        assertEquals( 0, checkOutScmResult.getCheckedOutFiles().size() );
+        assertEquals(0, checkOutScmResult.getCheckedOutFiles().size());
 
-        File f = new File( workingDirectory.getAbsolutePath() + File.separator + "pom.xml" );
-        FileUtils.fileWrite( f.getAbsolutePath(), "toto" );
+        File f = new File(workingDirectory.getAbsolutePath() + File.separator + "pom.xml");
+        FileUtils.fileWrite(f.getAbsolutePath(), "toto");
 
-        ScmFileSet scmFileSet = new ScmFileSet( workingDirectory, new File( "pom.xml" ) );
-        AddScmResult addResult = getScmManager().add( scmRepository, scmFileSet );
-        assertResultIsSuccess( addResult );
+        ScmFileSet scmFileSet = new ScmFileSet(workingDirectory, new File("pom.xml"));
+        AddScmResult addResult = getScmManager().add(scmRepository, scmFileSet);
+        assertResultIsSuccess(addResult);
 
-        CheckInScmResult checkInScmResult = getScmManager().checkIn( scmRepository, scmFileSet, "commit" );
-        assertResultIsSuccess( checkInScmResult );
-        assertEquals( 1, checkInScmResult.getCheckedInFiles().size() );
-        assertEquals( "pom.xml", checkInScmResult.getCheckedInFiles().get( 0 ).getPath() );
+        CheckInScmResult checkInScmResult = getScmManager().checkIn(scmRepository, scmFileSet, "commit");
+        assertResultIsSuccess(checkInScmResult);
+        assertEquals(1, checkInScmResult.getCheckedInFiles().size());
+        assertEquals("pom.xml", checkInScmResult.getCheckedInFiles().get(0).getPath());
 
-        checkOutScmResult = checkoutRepo( scmRepository );
-        assertResultIsSuccess( checkOutScmResult );
-        assertEquals( 1, checkOutScmResult.getCheckedOutFiles().size() );
-        assertEquals( "pom.xml", checkOutScmResult.getCheckedOutFiles().get( 0 ).getPath() );
+        checkOutScmResult = checkoutRepo(scmRepository);
+        assertResultIsSuccess(checkOutScmResult);
+        assertEquals(1, checkOutScmResult.getCheckedOutFiles().size());
+        assertEquals("pom.xml", checkOutScmResult.getCheckedOutFiles().get(0).getPath());
     }
 
-    protected CheckOutScmResult checkoutRepo( ScmRepository scmRepository )
-        throws Exception
-    {
-        FileUtils.deleteDirectory( workingDirectory );
+    protected CheckOutScmResult checkoutRepo(ScmRepository scmRepository) throws Exception {
+        FileUtils.deleteDirectory(workingDirectory);
 
         CheckOutScmResult result =
-            getScmManager().checkOut( scmRepository, new ScmFileSet( workingDirectory ), (ScmVersion) null );
+                getScmManager().checkOut(scmRepository, new ScmFileSet(workingDirectory), (ScmVersion) null);
 
-        assertResultIsSuccess( result );
+        assertResultIsSuccess(result);
         return result;
     }
 }

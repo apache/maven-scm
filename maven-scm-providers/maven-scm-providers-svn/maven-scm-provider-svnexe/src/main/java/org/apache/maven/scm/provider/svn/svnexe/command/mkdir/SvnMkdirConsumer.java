@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.mkdir;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.mkdir;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.mkdir;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command.mkdir;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,60 +30,48 @@ import org.codehaus.plexus.util.StringUtils;
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  *
  */
-public class SvnMkdirConsumer
-        extends AbstractConsumer
-{
+public class SvnMkdirConsumer extends AbstractConsumer {
     private static final String COMMITTED_REVISION_TOKEN = "Committed revision";
 
     private int revision;
-    
+
     private final List<ScmFile> createdDirs = new ArrayList<>();
 
     /** {@inheritDoc} */
-    public void consumeLine( String line )
-    {
-        if ( StringUtils.isBlank( line ) )
-        {
+    public void consumeLine(String line) {
+        if (StringUtils.isBlank(line)) {
             return;
         }
-        
-        String statusString = line.substring( 0, 1 );
-        ScmFileStatus status;
-       
-        if ( line.startsWith( COMMITTED_REVISION_TOKEN ) )
-        {
-            String revisionString = line.substring( COMMITTED_REVISION_TOKEN.length() + 1, line.length() - 1 );
 
-            revision = Integer.parseInt( revisionString );
-            
+        String statusString = line.substring(0, 1);
+        ScmFileStatus status;
+
+        if (line.startsWith(COMMITTED_REVISION_TOKEN)) {
+            String revisionString = line.substring(COMMITTED_REVISION_TOKEN.length() + 1, line.length() - 1);
+
+            revision = Integer.parseInt(revisionString);
+
             return;
-        }
-        else if ( statusString.equals( "A" ) )
-        {
-            String file = line.substring( 3 );
-            
+        } else if (statusString.equals("A")) {
+            String file = line.substring(3);
+
             status = ScmFileStatus.ADDED;
-            
-            createdDirs.add( new ScmFile( file, status ) );
-        }        
-        else
-        {
-            if ( logger.isInfoEnabled() )
-            {
-                logger.info( "Unknown line: '" + line + "'" );
+
+            createdDirs.add(new ScmFile(file, status));
+        } else {
+            if (logger.isInfoEnabled()) {
+                logger.info("Unknown line: '" + line + "'");
             }
 
             return;
         }
     }
 
-    public int getRevision()
-    {
+    public int getRevision() {
         return revision;
     }
-    
-    public List<ScmFile> getCreatedDirs()
-    {
+
+    public List<ScmFile> getCreatedDirs() {
         return createdDirs;
     }
 }

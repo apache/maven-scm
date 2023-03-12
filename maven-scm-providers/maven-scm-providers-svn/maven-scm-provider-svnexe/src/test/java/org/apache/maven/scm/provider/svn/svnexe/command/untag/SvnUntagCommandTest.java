@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.untag;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.untag;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,23 +16,22 @@ package org.apache.maven.scm.provider.svn.svnexe.command.untag;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command.untag;
 
+import java.io.File;
+
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
-import org.apache.maven.scm.ScmFileSet;
 import org.junit.Test;
 
 /**
  * test the subversion untag implementation
  *
  */
-public class SvnUntagCommandTest
-    extends ScmTestCase
-{
+public class SvnUntagCommandTest extends ScmTestCase {
 
     /**
      * test with http repo and user
@@ -42,16 +39,19 @@ public class SvnUntagCommandTest
      * @throws Exception in case of error
      */
     @Test
-    public void testUntagHttp()
-        throws Exception
-    {
+    public void testUntagHttp() throws Exception {
 
-        File messageFile = File.createTempFile( "maven-scm", "untag" );
+        File messageFile = File.createTempFile("maven-scm", "untag");
         messageFile.deleteOnExit();
 
-        testCommandLine( "scm:svn:http://foo.com/svn/tags", new ScmFileSet( getUntagTestFile() ), "svntag", "user",
-                messageFile, "svn --username user --no-auth-cache --non-interactive "
-                + "--file " +  messageFile.getAbsolutePath() + " remove http://foo.com/svn/tags/svntag@" );
+        testCommandLine(
+                "scm:svn:http://foo.com/svn/tags",
+                new ScmFileSet(getUntagTestFile()),
+                "svntag",
+                "user",
+                messageFile,
+                "svn --username user --no-auth-cache --non-interactive " + "--file " + messageFile.getAbsolutePath()
+                        + " remove http://foo.com/svn/tags/svntag@");
     }
 
     /**
@@ -60,16 +60,19 @@ public class SvnUntagCommandTest
      * @throws Exception in case of error
      */
     @Test
-    public void testUntagSsh()
-        throws Exception
-    {
+    public void testUntagSsh() throws Exception {
 
-        File messageFile = File.createTempFile( "maven-scm", "untag" );
+        File messageFile = File.createTempFile("maven-scm", "untag");
         messageFile.deleteOnExit();
 
-        testCommandLine( "scm:svn:svn+ssh://foo.com/svn/tags", new ScmFileSet( getUntagTestFile() ), "svntag", "user",
-                messageFile, "svn --username user --no-auth-cache --non-interactive "
-                + "--file " +  messageFile.getAbsolutePath() + " remove svn+ssh://user@foo.com/svn/tags/svntag@" );
+        testCommandLine(
+                "scm:svn:svn+ssh://foo.com/svn/tags",
+                new ScmFileSet(getUntagTestFile()),
+                "svntag",
+                "user",
+                messageFile,
+                "svn --username user --no-auth-cache --non-interactive " + "--file " + messageFile.getAbsolutePath()
+                        + " remove svn+ssh://user@foo.com/svn/tags/svntag@");
     }
 
     /**
@@ -77,9 +80,8 @@ public class SvnUntagCommandTest
      *
      * @return local dir
      */
-    private File getUntagTestFile()
-    {
-        return getTestFile( "target/svn-untag-command-test" );
+    private File getUntagTestFile() {
+        return getTestFile("target/svn-untag-command-test");
     }
 
     /**
@@ -89,10 +91,8 @@ public class SvnUntagCommandTest
      * @return           svn repo instance
      * @throws Exception in case of error
      */
-    private SvnScmProviderRepository getSvnRepository( String scmUrl )
-        throws Exception
-    {
-        ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
+    private SvnScmProviderRepository getSvnRepository(String scmUrl) throws Exception {
+        ScmRepository repository = getScmManager().makeScmRepository(scmUrl);
 
         return (SvnScmProviderRepository) repository.getProviderRepository();
     }
@@ -108,13 +108,13 @@ public class SvnUntagCommandTest
      * @param commandline set command line to compare actual to
      * @throws Exception  in case of error
      */
-    private void testCommandLine( String scmUrl, ScmFileSet scmFileSet, String tag, String user, File messageFile,
-            String commandline ) throws Exception
-    {
-        SvnScmProviderRepository repo = getSvnRepository( scmUrl );
+    private void testCommandLine(
+            String scmUrl, ScmFileSet scmFileSet, String tag, String user, File messageFile, String commandline)
+            throws Exception {
+        SvnScmProviderRepository repo = getSvnRepository(scmUrl);
         repo.setUser(user);
-        Commandline cl = new SvnUntagCommand().createCommandline( repo, scmFileSet, tag, messageFile );
+        Commandline cl = new SvnUntagCommand().createCommandline(repo, scmFileSet, tag, messageFile);
 
-        assertCommandLine( commandline, scmFileSet.getBasedir(), cl );
+        assertCommandLine(commandline, scmFileSet.getBasedir(), cl);
     }
 }

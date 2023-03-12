@@ -1,5 +1,3 @@
-package org.apache.maven.scm.tck.command.update;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.tck.command.update;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.tck.command.update;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.tck.command.update;
 
 import java.io.File;
 import java.util.Date;
@@ -61,40 +60,36 @@ import static org.junit.Assert.assertTrue;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public abstract class UpdateCommandTckTest
-    extends ScmTckTestCase
-{
+public abstract class UpdateCommandTckTest extends ScmTckTestCase {
 
-    private void commit( File workingDirectory, ScmRepository repository )
-        throws Exception
-    {
-        CheckInScmResult result = getScmManager().checkIn( repository, new ScmFileSet( workingDirectory ), "No msg" );
+    private void commit(File workingDirectory, ScmRepository repository) throws Exception {
+        CheckInScmResult result = getScmManager().checkIn(repository, new ScmFileSet(workingDirectory), "No msg");
 
-        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
+        assertTrue("Check result was successful, output: " + result.getCommandOutput(), result.isSuccess());
 
         List<ScmFile> committedFiles = result.getCheckedInFiles();
 
         assertEquals(
-            "Expected 3 files in the committed files list:\n  " + StringUtils.join( committedFiles.iterator(), "\n  " ),
-            3, committedFiles.size() );
+                "Expected 3 files in the committed files list:\n  "
+                        + StringUtils.join(committedFiles.iterator(), "\n  "),
+                3,
+                committedFiles.size());
     }
 
     @Test
-    public void testUpdateCommand()
-        throws Exception
-    {
+    public void testUpdateCommand() throws Exception {
 
-        deleteDirectory( getUpdatingCopy() );
+        deleteDirectory(getUpdatingCopy());
 
-        assertFalse( getUpdatingCopy().exists() );
+        assertFalse(getUpdatingCopy().exists());
 
-        //deleteDirectory( getWorkingCopy() );
+        // deleteDirectory( getWorkingCopy() );
 
-        //assertFalse( getUpdatingCopy().exists() );
+        // assertFalse( getUpdatingCopy().exists() );
 
-        ScmRepository repository = makeScmRepository( getScmUrl() );
+        ScmRepository repository = makeScmRepository(getScmUrl());
 
-        checkOut( getUpdatingCopy(), repository );
+        checkOut(getUpdatingCopy(), repository);
 
         // ----------------------------------------------------------------------
         // Change the files
@@ -110,82 +105,80 @@ public abstract class UpdateCommandTckTest
          */
 
         // /readme.txt
-        this.edit( getWorkingCopy(), "readme.txt", null, getScmRepository() );
-        ScmTestCase.makeFile( getWorkingCopy(), "/readme.txt", "changed readme.txt" );
+        this.edit(getWorkingCopy(), "readme.txt", null, getScmRepository());
+        ScmTestCase.makeFile(getWorkingCopy(), "/readme.txt", "changed readme.txt");
 
         // /project.xml
-        ScmTestCase.makeFile( getWorkingCopy(), "/project.xml", "changed project.xml" );
+        ScmTestCase.makeFile(getWorkingCopy(), "/project.xml", "changed project.xml");
 
-        addToWorkingTree( getWorkingCopy(), new File( "project.xml" ), getScmRepository() );
+        addToWorkingTree(getWorkingCopy(), new File("project.xml"), getScmRepository());
 
         // /src/test/java/org
-        ScmTestCase.makeDirectory( getWorkingCopy(), "/src/test/java/org" );
+        ScmTestCase.makeDirectory(getWorkingCopy(), "/src/test/java/org");
 
-        addToWorkingTree( getWorkingCopy(), new File( "src/test/java/org" ), getScmRepository() );
+        addToWorkingTree(getWorkingCopy(), new File("src/test/java/org"), getScmRepository());
 
         // /src/main/java/org/Foo.java
-        ScmTestCase.makeFile( getWorkingCopy(), "/src/main/java/org/Foo.java" );
+        ScmTestCase.makeFile(getWorkingCopy(), "/src/main/java/org/Foo.java");
 
-        addToWorkingTree( getWorkingCopy(), new File( "src/main/java/org" ), getScmRepository() );
+        addToWorkingTree(getWorkingCopy(), new File("src/main/java/org"), getScmRepository());
 
         // src/main/java/org/Foo.java
-        addToWorkingTree( getWorkingCopy(), new File( "src/main/java/org/Foo.java" ), getScmRepository() );
+        addToWorkingTree(getWorkingCopy(), new File("src/main/java/org/Foo.java"), getScmRepository());
 
         ScmManager scmManager = getScmManager();
 
-        Date lastUpdate = new Date( System.currentTimeMillis() - 1000000 );
+        Date lastUpdate = new Date(System.currentTimeMillis() - 1000000);
 
-        commit( getWorkingCopy(), getScmRepository() );
+        commit(getWorkingCopy(), getScmRepository());
 
-        Thread.sleep( 5000 );
+        Thread.sleep(5000);
 
         // ----------------------------------------------------------------------
         // Update the project
         // ----------------------------------------------------------------------
 
-        UpdateScmResult result = scmManager.update( repository, new ScmFileSet( getUpdatingCopy() ), lastUpdate );
+        UpdateScmResult result = scmManager.update(repository, new ScmFileSet(getUpdatingCopy()), lastUpdate);
 
-        assertNotNull( "The command returned a null result.", result );
+        assertNotNull("The command returned a null result.", result);
 
-        assertResultIsSuccess( result );
+        assertResultIsSuccess(result);
 
         List<ScmFile> updatedFiles = result.getUpdatedFiles();
 
         List<ChangeSet> changedSets = result.getChanges();
 
-        assertEquals( "Expected 3 files in the updated files list " + updatedFiles, 3, updatedFiles.size() );
+        assertEquals("Expected 3 files in the updated files list " + updatedFiles, 3, updatedFiles.size());
 
-        assertNotNull( "The changed files list is null", changedSets );
+        assertNotNull("The changed files list is null", changedSets);
 
-        assertFalse( "The changed files list is empty ", changedSets.isEmpty() );
+        assertFalse("The changed files list is empty ", changedSets.isEmpty());
 
-        for ( ChangeSet changeSet : changedSets )
-        {
-            System.out.println( changeSet.toXML() );
+        for (ChangeSet changeSet : changedSets) {
+            System.out.println(changeSet.toXML());
         }
 
         // ----------------------------------------------------------------------
         // Assert the files in the updated files list
         // ----------------------------------------------------------------------
 
-        Iterator<ScmFile> files = new TreeSet<ScmFile>( updatedFiles ).iterator();
+        Iterator<ScmFile> files = new TreeSet<ScmFile>(updatedFiles).iterator();
 
-        //Foo.java
+        // Foo.java
         ScmFile file = files.next();
-        assertPath( "src/main/java/org/Foo.java", file.getPath() );
-        //TODO : Consolidate file status so that we can remove "|| ADDED" term
-        assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED );
+        assertPath("src/main/java/org/Foo.java", file.getPath());
+        // TODO : Consolidate file status so that we can remove "|| ADDED" term
+        assertTrue(file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED);
 
-        //readme.txt
+        // readme.txt
         file = files.next();
-        assertPath( "readme.txt", file.getPath() );
-        assertTrue( file.getStatus().isUpdate() );
+        assertPath("readme.txt", file.getPath());
+        assertTrue(file.getStatus().isUpdate());
 
-        //project.xml
+        // project.xml
         file = files.next();
-        assertPath( "project.xml", file.getPath() );
-        //TODO : Consolidate file status so that we can remove "|| ADDED" term
-        assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED );
+        assertPath("project.xml", file.getPath());
+        // TODO : Consolidate file status so that we can remove "|| ADDED" term
+        assertTrue(file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED);
     }
-
 }

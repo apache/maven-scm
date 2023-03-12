@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.local.command.mkdir;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.local.command.mkdir;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.local.command.mkdir;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.local.command.mkdir;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,57 +40,46 @@ import org.codehaus.plexus.util.FileUtils;
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  *
  */
-public class LocalMkdirCommand
-    extends AbstractMkdirCommand
-{
-    protected MkdirScmResult executeMkdirCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message,
-                                                  boolean createInLocal )
-        throws ScmException
-    {
+public class LocalMkdirCommand extends AbstractMkdirCommand {
+    protected MkdirScmResult executeMkdirCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean createInLocal)
+            throws ScmException {
         LocalScmProviderRepository repo = (LocalScmProviderRepository) repository;
         List<ScmFile> createdDirs = new ArrayList<>();
 
         // create/commit the directory directly in the repository
-        if ( !createInLocal )
-        {
-            File file = fileSet.getFileList().get( 0 );
-            File modulePath = new File( repo.getRoot(), repo.getModule() );
-            File dir = new File( modulePath, file.getName() );
+        if (!createInLocal) {
+            File file = fileSet.getFileList().get(0);
+            File modulePath = new File(repo.getRoot(), repo.getModule());
+            File dir = new File(modulePath, file.getName());
 
-            if ( dir.exists() )
-            {
-                return new MkdirScmResult( null, "Directory already exists!", "Directory already exists.", false );
-            }
-            else
-            {
-                if ( logger.isInfoEnabled() )
-                {
-                    logger.info( "Creating directory in '" + modulePath.getAbsolutePath() + "'" );
+            if (dir.exists()) {
+                return new MkdirScmResult(null, "Directory already exists!", "Directory already exists.", false);
+            } else {
+                if (logger.isInfoEnabled()) {
+                    logger.info("Creating directory in '" + modulePath.getAbsolutePath() + "'");
                 }
 
-                FileUtils.mkdir( dir.getAbsolutePath() );
-                createdDirs.add( new ScmFile( dir.getPath(), ScmFileStatus.ADDED ) );
+                FileUtils.mkdir(dir.getAbsolutePath());
+                createdDirs.add(new ScmFile(dir.getPath(), ScmFileStatus.ADDED));
             }
-        }
-        else
-        {
+        } else {
             // add the directory, but not commit
             LocalAddCommand addCmd = new LocalAddCommand();
 
             CommandParameters parameters = new CommandParameters();
-            parameters.setString( CommandParameter.MESSAGE, message );
-            parameters.setString( CommandParameter.BINARY, "false" );
+            parameters.setString(CommandParameter.MESSAGE, message);
+            parameters.setString(CommandParameter.BINARY, "false");
 
-            String path = ( fileSet.getFileList().get( 0 ) ).getPath();
-            if ( repo.isFileAdded( path ) )
-            {
-                return new MkdirScmResult( null, "Directory already exists!", "Directory already exists.", false );
+            String path = (fileSet.getFileList().get(0)).getPath();
+            if (repo.isFileAdded(path)) {
+                return new MkdirScmResult(null, "Directory already exists!", "Directory already exists.", false);
             }
 
-            AddScmResult result = (AddScmResult) addCmd.execute( repository, fileSet, parameters );
-            createdDirs.addAll( result.getAddedFiles() );
+            AddScmResult result = (AddScmResult) addCmd.execute(repository, fileSet, parameters);
+            createdDirs.addAll(result.getAddedFiles());
         }
 
-        return new MkdirScmResult( null, createdDirs );
+        return new MkdirScmResult(null, createdDirs);
     }
 }

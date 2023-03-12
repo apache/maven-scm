@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.blame;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.blame;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.blame;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.blame;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -26,9 +25,7 @@ import java.util.Date;
  * @author Evgeny Mandrikov
  * @since 1.4
  */
-public class BlameLine
-    implements Serializable
-{
+public class BlameLine implements Serializable {
 
     private static final long serialVersionUID = 2675122069344705612L;
 
@@ -45,9 +42,8 @@ public class BlameLine
      * @param revision of the commit
      * @param author will also be used as committer identification
      */
-    public BlameLine( Date date, String revision, String author )
-    {
-        this( date, revision, author, author );
+    public BlameLine(Date date, String revision, String author) {
+        this(date, revision, author, author);
     }
 
     /**
@@ -57,64 +53,51 @@ public class BlameLine
      * @param author the person who wrote the line
      * @param committer the person who committed the change
      */
-    public BlameLine( Date date, String revision, String author, String committer )
-    {
-        setDate( date );
-        setRevision( revision );
-        setAuthor( author );
-        setCommitter( committer );
+    public BlameLine(Date date, String revision, String author, String committer) {
+        setDate(date);
+        setRevision(revision);
+        setAuthor(author);
+        setCommitter(committer);
     }
 
-    public String getRevision()
-    {
+    public String getRevision() {
         return revision;
     }
 
-    public void setRevision( String revision )
-    {
+    public void setRevision(String revision) {
         this.revision = revision;
     }
 
-    public String getAuthor()
-    {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor( String author )
-    {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
-    public String getCommitter()
-    {
+    public String getCommitter() {
         return committer;
     }
 
-    public void setCommitter( String committer )
-    {
+    public void setCommitter(String committer) {
         this.committer = committer;
     }
 
     /**
      * @return the commit date
      */
-    public Date getDate()
-    {
-        if ( date != null )
-        {
+    public Date getDate() {
+        if (date != null) {
             return (Date) date.clone();
         }
         return null;
     }
 
-    public void setDate( Date date )
-    {
-        if ( date != null )
-        {
-            this.date = new Date( date.getTime() );
-        }
-        else
-        {
+    public void setDate(Date date) {
+        if (date != null) {
+            this.date = new Date(date.getTime());
+        } else {
             this.date = null;
         }
     }

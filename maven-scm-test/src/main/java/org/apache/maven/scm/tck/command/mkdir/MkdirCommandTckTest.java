@@ -1,5 +1,3 @@
-package org.apache.maven.scm.tck.command.mkdir;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.tck.command.mkdir;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.tck.command.mkdir;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.tck.command.mkdir;
 
 import java.io.File;
 
@@ -31,30 +30,26 @@ import static org.junit.Assert.assertNotNull;
 
 /**
  * This test tests the mkdir command.
- * 
+ *
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  *
  */
-public abstract class MkdirCommandTckTest
-    extends ScmTckTestCase
-{
+public abstract class MkdirCommandTckTest extends ScmTckTestCase {
     @Test
-    public void testMkdirCommandMkdirLocal()
-        throws Exception
-    {
-        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( getMissingDirectory() ) );
+    public void testMkdirCommandMkdirLocal() throws Exception {
+        ScmFileSet fileSet = new ScmFileSet(getWorkingCopy(), new File(getMissingDirectory()));
 
-        MkdirScmResult result = getScmManager().mkdir( getScmRepository(), fileSet, null, true );
+        MkdirScmResult result = getScmManager().mkdir(getScmRepository(), fileSet, null, true);
 
-        assertResultIsSuccess( result );
+        assertResultIsSuccess(result);
 
-        assertNotNull( result.getCreatedDirs() );
+        assertNotNull(result.getCreatedDirs());
 
-        assertEquals( "Directory should have been added.", 1, result.getCreatedDirs().size() );
+        assertEquals(
+                "Directory should have been added.", 1, result.getCreatedDirs().size());
     }
 
-    protected String getMissingDirectory()
-    {
+    protected String getMissingDirectory() {
         return "missing";
     }
 }

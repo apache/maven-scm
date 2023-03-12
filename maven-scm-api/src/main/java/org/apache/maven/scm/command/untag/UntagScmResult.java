@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.untag;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.untag;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,27 +16,23 @@ package org.apache.maven.scm.command.untag;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.untag;
 
 import org.apache.maven.scm.ScmResult;
 
 /** {@inheritDoc} */
-public class UntagScmResult
-    extends ScmResult
-{
+public class UntagScmResult extends ScmResult {
     private static final long serialVersionUID = -5068975000282095635L;
 
-    public UntagScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
-    {
-        super( commandLine, providerMessage, commandOutput, success );
+    public UntagScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
+        super(commandLine, providerMessage, commandOutput, success);
     }
 
-    public UntagScmResult( String commandLine )
-    {
-        super( commandLine, null, null, true );
+    public UntagScmResult(String commandLine) {
+        super(commandLine, null, null, true);
     }
 
-    public UntagScmResult( ScmResult result )
-    {
-        super( result );
+    public UntagScmResult(ScmResult result) {
+        super(result);
     }
 }

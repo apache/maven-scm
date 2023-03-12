@@ -1,5 +1,3 @@
-package org.apache.maven.scm.plugin;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.plugin;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -26,10 +25,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 /**
  * Validate scm connection string recursively for all projects
  */
-@Mojo( name = "validate-recursively", requiresProject = true )
-@Execute( phase = LifecyclePhase.VALIDATE )
-public class ValidateRecursively
-    extends ValidateMojo
-{
+@Mojo(name = "validate-recursively", requiresProject = true)
+@Execute(phase = LifecyclePhase.VALIDATE)
+public class ValidateRecursively extends ValidateMojo {
     // no op
 }

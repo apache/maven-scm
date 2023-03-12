@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit.command.info;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit.command.info;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,7 +16,7 @@ package org.apache.maven.scm.provider.git.jgit.command.info;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+package org.apache.maven.scm.provider.git.jgit.command.info;
 
 import java.io.File;
 import java.util.Collections;
@@ -40,38 +38,29 @@ import org.eclipse.jgit.lib.ObjectId;
 /**
  * @since 1.9.5
  */
-public class JGitInfoCommand
-    extends AbstractCommand
-    implements GitCommand
-{
+public class JGitInfoCommand extends AbstractCommand implements GitCommand {
     @Override
-    protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                        CommandParameters parameters )
-        throws ScmException
-    {
+    protected ScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         Git git = null;
-        try
-        {
+        try {
             File basedir = fileSet.getBasedir();
 
-            git = Git.open( basedir );
+            git = Git.open(basedir);
 
-            ObjectId objectId = git.getRepository().resolve( "HEAD" );
+            ObjectId objectId = git.getRepository().resolve("HEAD");
 
             InfoItem infoItem = new InfoItem();
-            infoItem.setRevision( StringUtils.trim( objectId.name() ) );
-            infoItem.setURL( basedir.toPath().toUri().toASCIIString() );
+            infoItem.setRevision(StringUtils.trim(objectId.name()));
+            infoItem.setURL(basedir.toPath().toUri().toASCIIString());
 
-            return new InfoScmResult( Collections.singletonList( infoItem ),
-                                      new ScmResult( "JGit.resolve(HEAD)", "", objectId.toString(), true ) );
-        }
-        catch ( Exception e )
-        {
-            throw new ScmException( "JGit resolve failure!", e );
-        }
-        finally
-        {
-            JGitUtils.closeRepo( git );
+            return new InfoScmResult(
+                    Collections.singletonList(infoItem),
+                    new ScmResult("JGit.resolve(HEAD)", "", objectId.toString(), true));
+        } catch (Exception e) {
+            throw new ScmException("JGit resolve failure!", e);
+        } finally {
+            JGitUtils.closeRepo(git);
         }
     }
 }

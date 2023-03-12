@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm;
 
 import java.io.Serializable;
 
@@ -25,9 +24,7 @@ import java.io.Serializable;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public class ScmFile
-    implements Comparable<ScmFile>, Serializable
-{
+public class ScmFile implements Comparable<ScmFile>, Serializable {
     private static final long serialVersionUID = -9133015730693522690L;
 
     private String path;
@@ -38,8 +35,7 @@ public class ScmFile
      * @param path   The relative path of the file, should <b>never</b> start with any {@link java.io.File#separator}.
      * @param status The file status
      */
-    public ScmFile( String path, ScmFileStatus status )
-    {
+    public ScmFile(String path, ScmFileStatus status) {
         this.path = path;
 
         this.status = status;
@@ -47,19 +43,17 @@ public class ScmFile
 
     /**
      * Returns the relative path of the file.
-     * 
+     *
      * @return the file path
      */
-    public String getPath()
-    {
+    public String getPath() {
         return path;
     }
 
     /**
      * @return The file status
      */
-    public ScmFileStatus getStatus()
-    {
+    public ScmFileStatus getStatus() {
         return status;
     }
 
@@ -68,9 +62,8 @@ public class ScmFile
     // ----------------------------------------------------------------------
 
     /** {@inheritDoc} */
-    public int compareTo( ScmFile other )
-    {
-        return other.getPath().compareTo( path );
+    public int compareTo(ScmFile other) {
+        return other.getPath().compareTo(path);
     }
 
     // ----------------------------------------------------------------------
@@ -78,25 +71,21 @@ public class ScmFile
     // ----------------------------------------------------------------------
 
     /** {@inheritDoc} */
-    public boolean equals( Object other )
-    {
-        if ( !( other instanceof ScmFile ) )
-        {
+    public boolean equals(Object other) {
+        if (!(other instanceof ScmFile)) {
             return false;
         }
 
-        return ( (ScmFile) other ).getPath().equals( path );
+        return ((ScmFile) other).getPath().equals(path);
     }
 
     /** {@inheritDoc} */
-    public int hashCode()
-    {
+    public int hashCode() {
         return path.hashCode();
     }
 
     /** {@inheritDoc} */
-    public String toString()
-    {
+    public String toString() {
         return "[" + path + ":" + status + "]";
     }
 }

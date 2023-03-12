@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.hg.command.remove;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.hg.command.remove;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,9 @@ package org.apache.maven.scm.provider.hg.command.remove;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.hg.command.remove;
+
+import java.io.File;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -29,28 +30,22 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 
-import java.io.File;
-
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  *
  */
-public class HgRemoveCommand
-    extends AbstractRemoveCommand
-    implements Command
-{
+public class HgRemoveCommand extends AbstractRemoveCommand implements Command {
     /** {@inheritDoc} */
-    protected ScmResult executeRemoveCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message )
-        throws ScmException
-    {
+    protected ScmResult executeRemoveCommand(ScmProviderRepository repository, ScmFileSet fileSet, String message)
+            throws ScmException {
 
-        String[] command = new String[] { HgCommandConstants.REMOVE_CMD };
-        command = HgUtils.expandCommandLine( command, fileSet );
+        String[] command = new String[] {HgCommandConstants.REMOVE_CMD};
+        command = HgUtils.expandCommandLine(command, fileSet);
 
         File workingDir = fileSet.getBasedir();
-        HgRemoveConsumer consumer = new HgRemoveConsumer( workingDir );
+        HgRemoveConsumer consumer = new HgRemoveConsumer(workingDir);
 
-        ScmResult result = HgUtils.execute( consumer, workingDir, command );
-        return new RemoveScmResult( consumer.getRemovedFiles(), result );
+        ScmResult result = HgUtils.execute(consumer, workingDir, command);
+        return new RemoveScmResult(consumer.getRemovedFiles(), result);
     }
 }

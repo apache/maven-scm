@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.hg;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,49 +16,40 @@ package org.apache.maven.scm.provider.hg;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+package org.apache.maven.scm.provider.hg;
 
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.Test;
 
-public class HgUtilsTest
-{
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+public class HgUtilsTest {
 
     @Test
-    public void testNullWorkingDirectory()
-        throws Exception
-    {
-        Commandline cmd = HgUtils.buildCmd( null, new String[] {} );
-        assertNull( cmd.getWorkingDirectory() );
+    public void testNullWorkingDirectory() throws Exception {
+        Commandline cmd = HgUtils.buildCmd(null, new String[] {});
+        assertNull(cmd.getWorkingDirectory());
     }
 
     @Test
-    public void testCryptPassword()
-        throws Exception
-    {
-        Commandline cmdHttps = HgUtils.buildCmd( null, new String[] {
-                HgCommandConstants.PUSH_CMD,
-                null,
-                "https://username:password@example.com/foobar"
-        } );
-        Commandline cmd = new Commandline( HgUtils.maskPassword( cmdHttps ) );
-        
+    public void testCryptPassword() throws Exception {
+        Commandline cmdHttps = HgUtils.buildCmd(
+                null, new String[] {HgCommandConstants.PUSH_CMD, null, "https://username:password@example.com/foobar"});
+        Commandline cmd = new Commandline(HgUtils.maskPassword(cmdHttps));
+
         String[] shellArgs = cmd.getShell().getShellArgs();
         // Watch it: Shell would return null, whereas BourneShell would return an empty array
-        if ( shellArgs != null &&  shellArgs.length > 0 )
-        {
+        if (shellArgs != null && shellArgs.length > 0) {
             // [/C, hg push https://username:*****@example.com/foobar]
             // [/X, /C, hg push https://username:*****@example.com/foobar]
-            assertEquals( "https://username:*****@example.com/foobar",
-                          StringUtils.split( cmd.getArguments()[shellArgs.length] )[2] );
-        }
-        else
-        {
-            assertEquals( "https://username:*****@example.com/foobar", cmd.getArguments()[3] );
+            assertEquals(
+                    "https://username:*****@example.com/foobar",
+                    StringUtils.split(cmd.getArguments()[shellArgs.length])[2]);
+        } else {
+            assertEquals("https://username:*****@example.com/foobar", cmd.getArguments()[3]);
         }
     }
 }

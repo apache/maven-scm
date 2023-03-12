@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.untag;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.untag;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.untag;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.untag;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -29,9 +28,7 @@ import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /** {@inheritDoc} */
-public abstract class AbstractUntagCommand
-    extends AbstractCommand
-{
+public abstract class AbstractUntagCommand extends AbstractCommand {
     /**
      * execute untag command
      *
@@ -41,21 +38,18 @@ public abstract class AbstractUntagCommand
      * @return result of untag command
      * @throws ScmException  in case of error
      */
-    protected abstract ScmResult executeUntagCommand( ScmProviderRepository repository,
-                                                      ScmFileSet fileSet, ScmUntagParameters scmUntagParameters )
-        throws ScmException;
+    protected abstract ScmResult executeUntagCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, ScmUntagParameters scmUntagParameters)
+            throws ScmException;
 
     /** {@inheritDoc} */
     @Override
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                     CommandParameters parameters )
-        throws ScmException
-    {
-        String tagName = parameters.getString( CommandParameter.TAG_NAME );
-        String message = parameters.getString( CommandParameter.MESSAGE, "[maven-scm] remove tag " + tagName );
-        ScmUntagParameters scmUntagParameters = new ScmUntagParameters( tagName, message );
+    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        String tagName = parameters.getString(CommandParameter.TAG_NAME);
+        String message = parameters.getString(CommandParameter.MESSAGE, "[maven-scm] remove tag " + tagName);
+        ScmUntagParameters scmUntagParameters = new ScmUntagParameters(tagName, message);
 
-        return executeUntagCommand( repository, fileSet, scmUntagParameters );
+        return executeUntagCommand(repository, fileSet, scmUntagParameters);
     }
-
 }

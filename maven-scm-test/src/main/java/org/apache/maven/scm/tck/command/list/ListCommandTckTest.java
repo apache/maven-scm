@@ -1,5 +1,3 @@
-package org.apache.maven.scm.tck.command.list;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.tck.command.list;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.tck.command.list;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.tck.command.list;
 
 import java.io.File;
 import java.util.List;
@@ -40,53 +39,45 @@ import static org.junit.Assert.assertTrue;
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  *
  */
-public abstract class ListCommandTckTest
-    extends ScmTckTestCase
-{
+public abstract class ListCommandTckTest extends ScmTckTestCase {
     @Test
-    public void testListCommandTest()
-        throws Exception
-    {
-        ScmFileSet fileSet = new ScmFileSet( new File( "." ), new File( "." ) );
+    public void testListCommandTest() throws Exception {
+        ScmFileSet fileSet = new ScmFileSet(new File("."), new File("."));
 
-        List<ScmFile> files = runList( fileSet, false );
+        List<ScmFile> files = runList(fileSet, false);
 
-        assertEquals( "The result of the list command doesn't have all the files in SCM: " + files, 3, files.size() );
+        assertEquals("The result of the list command doesn't have all the files in SCM: " + files, 3, files.size());
     }
 
     @Test
-    public void testListCommandRecursiveTest()
-        throws Exception
-    {
-        ScmFileSet fileSet = new ScmFileSet( new File( "." ), new File( "." ) );
+    public void testListCommandRecursiveTest() throws Exception {
+        ScmFileSet fileSet = new ScmFileSet(new File("."), new File("."));
 
-        List<ScmFile> files = runList( fileSet, true );
+        List<ScmFile> files = runList(fileSet, true);
 
-        assertEquals( "The result of the list command doesn't have all the files in SCM: " + files, 10, files.size() );
+        assertEquals("The result of the list command doesn't have all the files in SCM: " + files, 10, files.size());
     }
 
     @Test
-    public void testListCommandUnexistantFileTest()
-        throws Exception
-    {
-        ScmFileSet fileSet = new ScmFileSet( new File( "." ), new File( "/void" ) );
+    public void testListCommandUnexistantFileTest() throws Exception {
+        ScmFileSet fileSet = new ScmFileSet(new File("."), new File("/void"));
 
-        ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
+        ScmProvider provider = getScmManager().getProviderByUrl(getScmUrl());
 
-        ListScmResult result = provider.list( getScmRepository(), fileSet, false, (ScmVersion) null );
+        ListScmResult result = provider.list(getScmRepository(), fileSet, false, (ScmVersion) null);
 
-        assertFalse( "Found file when shouldn't", result.isSuccess() );
+        assertFalse("Found file when shouldn't", result.isSuccess());
     }
 
-    private List<ScmFile> runList( ScmFileSet fileSet, boolean recursive )
-        throws Exception
-    {
-        ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
+    private List<ScmFile> runList(ScmFileSet fileSet, boolean recursive) throws Exception {
+        ScmProvider provider = getScmManager().getProviderByUrl(getScmUrl());
 
-        ListScmResult result = provider.list( getScmRepository(), fileSet, recursive, (ScmVersion) null );
+        ListScmResult result = provider.list(getScmRepository(), fileSet, recursive, (ScmVersion) null);
 
-        assertTrue( "SCM command failed: " + result.getCommandLine() + " : " + result.getProviderMessage()
-            + ( result.getCommandOutput() == null ? "" : ": " + result.getCommandOutput() ), result.isSuccess() );
+        assertTrue(
+                "SCM command failed: " + result.getCommandLine() + " : " + result.getProviderMessage()
+                        + (result.getCommandOutput() == null ? "" : ": " + result.getCommandOutput()),
+                result.isSuccess());
 
         return result.getFiles();
     }

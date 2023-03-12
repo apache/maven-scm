@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.info;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.info;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.info;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command.info;
 
 import java.io.File;
 
@@ -28,28 +27,22 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.Test;
 
-public class SvnInfoCommandTest
-    extends ScmTestCase
-{
+public class SvnInfoCommandTest extends ScmTestCase {
 
     @Test
-    public void testGetInfoOnEmptyFileSet()
-        throws Exception
-    {
-        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ) );
-        
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", fileSet, "svn --non-interactive info" );
+    public void testGetInfoOnEmptyFileSet() throws Exception {
+        ScmFileSet fileSet = new ScmFileSet(new File(getBasedir()));
+
+        testCommandLine("scm:svn:http://foo.com/svn/trunk", fileSet, "svn --non-interactive info");
     }
-    
-    private void testCommandLine( String scmUrl, ScmFileSet fileSet, String commandLine )
-        throws Exception
-    {
-        ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
+
+    private void testCommandLine(String scmUrl, ScmFileSet fileSet, String commandLine) throws Exception {
+        ScmRepository repository = getScmManager().makeScmRepository(scmUrl);
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnInfoCommand.createCommandLine( svnRepository, fileSet, false, null );
-        
-        assertCommandLine( commandLine, fileSet.getBasedir(), cl );
+        Commandline cl = SvnInfoCommand.createCommandLine(svnRepository, fileSet, false, null);
+
+        assertCommandLine(commandLine, fileSet.getBasedir(), cl);
     }
 }

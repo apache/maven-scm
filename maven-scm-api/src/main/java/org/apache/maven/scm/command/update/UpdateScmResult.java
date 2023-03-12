@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.update;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.update;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,43 +16,38 @@ package org.apache.maven.scm.command.update;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.update;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmResult;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public class UpdateScmResult
-    extends ScmResult
-{
+public class UpdateScmResult extends ScmResult {
     private static final long serialVersionUID = -1578149496089492585L;
 
     private List<ScmFile> updatedFiles;
 
     private List<ChangeSet> changes;
 
-    public UpdateScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
-    {
-        super( commandLine, providerMessage, commandOutput, success );
+    public UpdateScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
+        super(commandLine, providerMessage, commandOutput, success);
     }
 
-    public UpdateScmResult( String commandLine, List<ScmFile> updatedFiles )
-    {
-        super( commandLine, null, null, true );
+    public UpdateScmResult(String commandLine, List<ScmFile> updatedFiles) {
+        super(commandLine, null, null, true);
 
         this.updatedFiles = updatedFiles;
-
     }
 
-    public UpdateScmResult( List<ScmFile> updatedFiles, List<ChangeSet> changes, ScmResult result )
-    {
-        super( result );
+    public UpdateScmResult(List<ScmFile> updatedFiles, List<ChangeSet> changes, ScmResult result) {
+        super(result);
 
         this.updatedFiles = updatedFiles;
 
@@ -65,25 +58,21 @@ public class UpdateScmResult
      *
      * @return List of {@link ScmFile}
      */
-    public List<ScmFile> getUpdatedFiles()
-    {
+    public List<ScmFile> getUpdatedFiles() {
         return updatedFiles;
     }
 
     /**
      * @return {@link List} of {@link ChangeSet}
      */
-    public List<ChangeSet> getChanges()
-    {
-        if ( changes == null )
-        {
+    public List<ChangeSet> getChanges() {
+        if (changes == null) {
             return new ArrayList<ChangeSet>();
         }
         return changes;
     }
 
-    public void setChanges( List<ChangeSet> changes )
-    {
+    public void setChanges(List<ChangeSet> changes) {
         this.changes = changes;
     }
 }

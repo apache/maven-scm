@@ -1,5 +1,3 @@
-package org.apache.maven.scm.plugin;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.plugin;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,9 @@ package org.apache.maven.scm.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.plugin;
+
+import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -28,80 +29,69 @@ import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
 import org.apache.maven.scm.repository.ScmRepository;
 
-import java.io.IOException;
-
 /**
  * Update the local working copy with the latest source from the configured scm url.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  */
-@Mojo( name = "update", aggregator = true )
-public class UpdateMojo
-    extends AbstractScmMojo
-{
+@Mojo(name = "update", aggregator = true)
+public class UpdateMojo extends AbstractScmMojo {
     /**
      * The version type (branch/tag/revision) of scmVersion.
      */
-    @Parameter( property = "scmVersionType" )
+    @Parameter(property = "scmVersionType")
     private String scmVersionType;
 
     /**
      * The version (revision number/branch name/tag name).
      */
-    @Parameter( property = "scmVersion" )
+    @Parameter(property = "scmVersion")
     private String scmVersion;
 
     /**
      * The project property where to store the revision name.
      */
-    @Parameter( property = "revisionKey", defaultValue = "scm.revision" )
+    @Parameter(property = "revisionKey", defaultValue = "scm.revision")
     private String revisionKey;
 
     /**
      * The Maven project.
      */
-    @Parameter( defaultValue = "${project}", required = true, readonly = true )
+    @Parameter(defaultValue = "${project}", required = true, readonly = true)
     private MavenProject project;
 
     /**
      * Run Changelog after update.
      */
-    @Parameter( property = "runChangelog", defaultValue = "false" )
+    @Parameter(property = "runChangelog", defaultValue = "false")
     private boolean runChangelog = false;
 
     /** {@inheritDoc} */
-    public void execute()
-        throws MojoExecutionException
-    {
+    public void execute() throws MojoExecutionException {
         super.execute();
 
-        try
-        {
+        try {
             ScmRepository repository = getScmRepository();
 
-            UpdateScmResult result = getScmManager().update( repository, getFileSet(),
-                                                             getScmVersion( scmVersionType, scmVersion ),
-                                                             runChangelog );
+            UpdateScmResult result = getScmManager()
+                    .update(repository, getFileSet(), getScmVersion(scmVersionType, scmVersion), runChangelog);
 
-            checkResult( result );
+            checkResult(result);
 
-            if ( result instanceof UpdateScmResultWithRevision )
-            {
-                String revision = ( (UpdateScmResultWithRevision) result ).getRevision();
+            if (result instanceof UpdateScmResultWithRevision) {
+                String revision = ((UpdateScmResultWithRevision) result).getRevision();
 
-                getLog().info( "Storing revision in '" + revisionKey + "' project property." );
+                getLog().info("Storing revision in '" + revisionKey + "' project property.");
 
-                if ( project.getProperties() != null ) // Remove the test when we'll use plugin-test-harness 1.0-alpha-2
+                if (project.getProperties() != null) // Remove the test when we'll use plugin-test-harness 1.0-alpha-2
                 {
-                    project.getProperties().put( revisionKey, revision );
+                    project.getProperties().put(revisionKey, revision);
                 }
 
-                getLog().info( "Project at revision " + revision );
+                getLog().info("Project at revision " + revision);
             }
-        }
-        catch ( IOException | ScmException e )
-        {
-            throw new MojoExecutionException( "Cannot run update command : ", e );
+        } catch (IOException | ScmException e) {
+            throw new MojoExecutionException("Cannot run update command : ", e);
         }
     }
 }

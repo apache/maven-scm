@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.export;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.export;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.export;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.export;
 
 import java.util.List;
 
@@ -27,30 +26,25 @@ import org.apache.maven.scm.ScmFile;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class ExportScmResultWithRevision
-    extends ExportScmResult
-{
+public class ExportScmResultWithRevision extends ExportScmResult {
     private static final long serialVersionUID = -7962912849216079039L;
 
     private String revision;
 
-    public ExportScmResultWithRevision( String commandLine, String providerMessage, String commandOutput,
-                                        String revision, boolean success )
-    {
-        super( commandLine, providerMessage, commandOutput, success );
+    public ExportScmResultWithRevision(
+            String commandLine, String providerMessage, String commandOutput, String revision, boolean success) {
+        super(commandLine, providerMessage, commandOutput, success);
 
         this.revision = revision;
     }
 
-    public ExportScmResultWithRevision( String commandLine, List<ScmFile> exportedFiles, String revision )
-    {
-        super( commandLine, exportedFiles );
+    public ExportScmResultWithRevision(String commandLine, List<ScmFile> exportedFiles, String revision) {
+        super(commandLine, exportedFiles);
 
         this.revision = revision;
     }
 
-    public String getRevision()
-    {
+    public String getRevision() {
         return revision;
     }
 }

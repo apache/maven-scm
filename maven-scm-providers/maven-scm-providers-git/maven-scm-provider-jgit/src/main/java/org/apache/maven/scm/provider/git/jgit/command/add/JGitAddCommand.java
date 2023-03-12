@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit.command.add;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit.command.add;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,9 @@ package org.apache.maven.scm.provider.git.jgit.command.add;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.jgit.command.add;
+
+import java.util.List;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -30,56 +31,39 @@ import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.eclipse.jgit.api.Git;
 
-import java.util.List;
-
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitAddCommand
-    extends AbstractAddCommand
-    implements GitCommand
-{
+public class JGitAddCommand extends AbstractAddCommand implements GitCommand {
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
-                                           boolean binary )
-        throws ScmException
-    {
+    protected ScmResult executeAddCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, String message, boolean binary) throws ScmException {
 
-        if ( fileSet.getFileList().isEmpty() )
-        {
-            throw new ScmException( "You must provide at least one file/directory to add (e.g. -Dincludes=...)" );
+        if (fileSet.getFileList().isEmpty()) {
+            throw new ScmException("You must provide at least one file/directory to add (e.g. -Dincludes=...)");
         }
         Git git = null;
-        try
-        {
-            git = JGitUtils.openRepo( fileSet.getBasedir() );
+        try {
+            git = JGitUtils.openRepo(fileSet.getBasedir());
 
-            List<ScmFile> addedFiles = JGitUtils.addAllFiles( git, fileSet );
+            List<ScmFile> addedFiles = JGitUtils.addAllFiles(git, fileSet);
 
-            if ( logger.isDebugEnabled() )
-            {
-                for ( ScmFile scmFile : addedFiles )
-                {
-                    logger.info( "added file: " + scmFile );
+            if (logger.isDebugEnabled()) {
+                for (ScmFile scmFile : addedFiles) {
+                    logger.info("added file: " + scmFile);
                 }
             }
 
-            return new AddScmResult( "JGit add", addedFiles );
+            return new AddScmResult("JGit add", addedFiles);
 
+        } catch (Exception e) {
+            throw new ScmException("JGit add failure!", e);
+        } finally {
+            JGitUtils.closeRepo(git);
         }
-        catch ( Exception e )
-        {
-            throw new ScmException( "JGit add failure!", e );
-        }
-        finally
-        {
-            JGitUtils.closeRepo( git );
-        }
-
     }
-
 }

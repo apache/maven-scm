@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.changelog;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.changelog;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,11 +16,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.changelog;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.ChangeFile;
-import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.util.AbstractConsumer;
+package org.apache.maven.scm.provider.git.gitexe.command.changelog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,14 +27,17 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.util.AbstractConsumer;
+
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Olivier Lamy
  *
  */
-public class GitChangeLogConsumer
-    extends AbstractConsumer
-{
+public class GitChangeLogConsumer extends AbstractConsumer {
     /**
      * Date formatter for git timestamp
      * we use iso format cli git log --date=iso sample : 2008-08-06 01:37:18 +0200
@@ -95,43 +92,43 @@ public class GitChangeLogConsumer
     /**
      * The pattern used to match git header lines
      */
-    private static final Pattern HEADER_PATTERN = Pattern.compile( "^commit ([A-Fa-f0-9]+)(?: \\((.*)\\))?$" );
+    private static final Pattern HEADER_PATTERN = Pattern.compile("^commit ([A-Fa-f0-9]+)(?: \\((.*)\\))?$");
 
     /**
      * The pattern used to match git author lines
      */
-    private static final Pattern AUTHOR_PATTERN = Pattern.compile( "^Author: (.*)" );
+    private static final Pattern AUTHOR_PATTERN = Pattern.compile("^Author: (.*)");
 
     /**
      * The pattern used to match git tree hash lines (raw mode)
      */
-    private static final Pattern RAW_TREE_PATTERN = Pattern.compile( "^tree ([A-Fa-f0-9]+)" ); 
+    private static final Pattern RAW_TREE_PATTERN = Pattern.compile("^tree ([A-Fa-f0-9]+)");
 
     /**
      * The pattern used to match git parent hash lines (raw mode)
      */
-    private static final Pattern RAW_PARENT_PATTERN = Pattern.compile( "^parent ([A-Fa-f0-9]+)" );
+    private static final Pattern RAW_PARENT_PATTERN = Pattern.compile("^parent ([A-Fa-f0-9]+)");
 
     /**
      * The pattern used to match git author lines (raw mode)
      */
-    private static final Pattern RAW_AUTHOR_PATTERN = Pattern.compile( "^author (.+ <.+>) ([0-9]+) (.*)" );
+    private static final Pattern RAW_AUTHOR_PATTERN = Pattern.compile("^author (.+ <.+>) ([0-9]+) (.*)");
 
     /**
      * The pattern used to match git author lines (raw mode)
      */
-    private static final Pattern RAW_COMMITTER_PATTERN = Pattern.compile( "^committer (.+ <.+>) ([0-9]+) (.*)" );
+    private static final Pattern RAW_COMMITTER_PATTERN = Pattern.compile("^committer (.+ <.+>) ([0-9]+) (.*)");
 
     /**
      * The pattern used to match git date lines
      */
-    private static final Pattern DATE_PATTERN = Pattern.compile( "^Date:\\s*(.*)" );
+    private static final Pattern DATE_PATTERN = Pattern.compile("^Date:\\s*(.*)");
 
     /**
      * The pattern used to match git file lines
      */
     private static final Pattern FILE_PATTERN =
-        Pattern.compile( "^:\\d* \\d* [A-Fa-f0-9]*\\.* [A-Fa-f0-9]*\\.* ([A-Z])[0-9]*\\t([^\\t]*)(\\t(.*))?" );
+            Pattern.compile("^:\\d* \\d* [A-Fa-f0-9]*\\.* [A-Fa-f0-9]*\\.* ([A-Z])[0-9]*\\t([^\\t]*)(\\t(.*))?");
 
     /**
      * Current status of the parser
@@ -163,15 +160,13 @@ public class GitChangeLogConsumer
     /**
      * Default constructor.
      */
-    public GitChangeLogConsumer( String userDateFormat )
-    {
+    public GitChangeLogConsumer(String userDateFormat) {
         this.userDateFormat = userDateFormat;
     }
 
-    public List<ChangeSet> getModifications()
-    {
+    public List<ChangeSet> getModifications() {
         // this is needed since the processFile does not always get a the end-sequence correctly.
-        processGetFile( "" );
+        processGetFile("");
 
         return entries;
     }
@@ -183,39 +178,37 @@ public class GitChangeLogConsumer
     /**
      * {@inheritDoc}
      */
-    public void consumeLine( String line )
-    {
-        switch ( status )
-        {
+    public void consumeLine(String line) {
+        switch (status) {
             case STATUS_GET_HEADER:
-                processGetHeader( line );
+                processGetHeader(line);
                 break;
             case STATUS_GET_AUTHOR:
-                processGetAuthor( line );
+                processGetAuthor(line);
                 break;
             case STATUS_GET_DATE:
-                processGetDate( line, null );
+                processGetDate(line, null);
                 break;
             case STATUS_GET_COMMENT:
-                processGetComment( line );
+                processGetComment(line);
                 break;
             case STATUS_GET_FILE:
-                processGetFile( line );
+                processGetFile(line);
                 break;
             case STATUS_RAW_TREE:
-                processGetRawTree( line );
+                processGetRawTree(line);
                 break;
             case STATUS_RAW_PARENT:
-                processGetRawParent( line );
+                processGetRawParent(line);
                 break;
             case STATUS_RAW_AUTHOR:
-                processGetRawAuthor( line );
+                processGetRawAuthor(line);
                 break;
             case STATUS_RAW_COMMITTER:
-                processGetRawCommitter( line );
+                processGetRawCommitter(line);
                 break;
             default:
-                throw new IllegalStateException( "Unknown state: " + status );
+                throw new IllegalStateException("Unknown state: " + status);
         }
     }
 
@@ -232,31 +225,26 @@ public class GitChangeLogConsumer
      *
      * @param line A line of text from the git log output
      */
-    private void processGetHeader( String line )
-    {
-        Matcher matcher = HEADER_PATTERN.matcher( line );
-        if ( !matcher.matches() )
-        {
+    private void processGetHeader(String line) {
+        Matcher matcher = HEADER_PATTERN.matcher(line);
+        if (!matcher.matches()) {
             return;
         }
 
-        currentRevision = matcher.group( 1 );
+        currentRevision = matcher.group(1);
 
         currentChange = new ChangeSet();
 
-        currentChange.setRevision( currentRevision );
+        currentChange.setRevision(currentRevision);
 
         // Extract the tags (if present)
-        String tagList = matcher.group( 2 );
-        if ( tagList != null )
-        {
-            String[] rawTags = tagList.split( "," );
-            for ( String rawTag : rawTags )
-            {
-                String[] tagParts = rawTag.trim().split( ":" );
-                if ( tagParts.length == 2 && "tag".equals( tagParts[0] ) )
-                {
-                    currentChange.addTag( tagParts[1].trim() );
+        String tagList = matcher.group(2);
+        if (tagList != null) {
+            String[] rawTags = tagList.split(",");
+            for (String rawTag : rawTags) {
+                String[] tagParts = rawTag.trim().split(":");
+                if (tagParts.length == 2 && "tag".equals(tagParts[0])) {
+                    currentChange.addTag(tagParts[1].trim());
                 }
             }
         }
@@ -270,24 +258,21 @@ public class GitChangeLogConsumer
      *
      * @param line a line of text from the git log output
      */
-    private void processGetAuthor( String line )
-    {
+    private void processGetAuthor(String line) {
         // this autodetects 'raw' format
-        if ( RAW_TREE_PATTERN.matcher( line ).matches() )
-        {
+        if (RAW_TREE_PATTERN.matcher(line).matches()) {
             status = STATUS_RAW_TREE;
-            processGetRawTree( line );
+            processGetRawTree(line);
             return;
         }
 
-        Matcher matcher = AUTHOR_PATTERN.matcher( line );
-        if ( !matcher.matches() )
-        {
+        Matcher matcher = AUTHOR_PATTERN.matcher(line);
+        if (!matcher.matches()) {
             return;
         }
-        String author = matcher.group( 1 );
+        String author = matcher.group(1);
 
-        currentChange.setAuthor( author );
+        currentChange.setAuthor(author);
 
         status = STATUS_GET_DATE;
     }
@@ -298,13 +283,11 @@ public class GitChangeLogConsumer
      *
      * @param line a line of text from the git log output
      */
-    private void processGetRawTree( String line )
-    {
-        if ( !RAW_TREE_PATTERN.matcher( line ).matches() )
-        {
+    private void processGetRawTree(String line) {
+        if (!RAW_TREE_PATTERN.matcher(line).matches()) {
             return;
         }
-        //here we could set treeHash if it appears in the model: currentChange.setTreeHash( matcher.group( 1 ) );
+        // here we could set treeHash if it appears in the model: currentChange.setTreeHash( matcher.group( 1 ) );
         status = STATUS_RAW_PARENT;
     }
 
@@ -314,18 +297,16 @@ public class GitChangeLogConsumer
      *
      * @param line a line of text from the git log output
      */
-    private void processGetRawParent( String line )
-    {
-        Matcher matcher = RAW_PARENT_PATTERN.matcher( line );
-        if ( !matcher.matches() )
-        {
+    private void processGetRawParent(String line) {
+        Matcher matcher = RAW_PARENT_PATTERN.matcher(line);
+        if (!matcher.matches()) {
             status = STATUS_RAW_AUTHOR;
-            processGetRawAuthor( line );
+            processGetRawAuthor(line);
             return;
         }
-        String parentHash = matcher.group( 1 );
+        String parentHash = matcher.group(1);
 
-        addParentRevision( parentHash );
+        addParentRevision(parentHash);
     }
 
     /**
@@ -334,15 +315,11 @@ public class GitChangeLogConsumer
      *
      * @param hash -
      */
-    private void addParentRevision( String hash )
-    {
-        if ( currentChange.getParentRevision() == null )
-        {
-            currentChange.setParentRevision( hash );
-        }
-        else
-        {
-            currentChange.addMergedRevision( hash );
+    private void addParentRevision(String hash) {
+        if (currentChange.getParentRevision() == null) {
+            currentChange.setParentRevision(hash);
+        } else {
+            currentChange.addMergedRevision(hash);
         }
     }
 
@@ -352,24 +329,22 @@ public class GitChangeLogConsumer
      *
      * @param line a line of text from the git log output
      */
-    private void processGetRawAuthor( String line )
-    {
-        Matcher matcher = RAW_AUTHOR_PATTERN.matcher( line );
-        if ( !matcher.matches() )
-        {
+    private void processGetRawAuthor(String line) {
+        Matcher matcher = RAW_AUTHOR_PATTERN.matcher(line);
+        if (!matcher.matches()) {
             return;
         }
-        String author = matcher.group( 1 );
-        currentChange.setAuthor( author );
+        String author = matcher.group(1);
+        currentChange.setAuthor(author);
 
-        String datestring = matcher.group( 2 );
-        String tz = matcher.group( 3 );
+        String datestring = matcher.group(2);
+        String tz = matcher.group(3);
 
         // with --format=raw option (which gets us to this methods), date is always in seconds since beginning of time
         // even explicit --date=iso is ignored, so we ignore both userDateFormat and GIT_TIMESTAMP_PATTERN here
-        Calendar c = Calendar.getInstance( TimeZone.getTimeZone( tz ) );
-        c.setTimeInMillis( Long.parseLong( datestring ) * 1000 );
-        currentChange.setDate( c.getTime() );
+        Calendar c = Calendar.getInstance(TimeZone.getTimeZone(tz));
+        c.setTimeInMillis(Long.parseLong(datestring) * 1000);
+        currentChange.setDate(c.getTime());
 
         status = STATUS_RAW_COMMITTER;
     }
@@ -380,10 +355,8 @@ public class GitChangeLogConsumer
      *
      * @param line a line of text from the git log output
      */
-    private void processGetRawCommitter( String line )
-    {
-        if ( !RAW_COMMITTER_PATTERN.matcher( line ).matches() )
-        {
+    private void processGetRawCommitter(String line) {
+        if (!RAW_COMMITTER_PATTERN.matcher(line).matches()) {
             return;
         }
         // here we could set committer and committerDate, the same way as in processGetRawAuthor
@@ -396,19 +369,17 @@ public class GitChangeLogConsumer
      *
      * @param line a line of text from the git log output
      */
-    private void processGetDate( String line, Locale locale )
-    {
-        Matcher matcher = DATE_PATTERN.matcher( line );
-        if ( !matcher.matches() )
-        {
+    private void processGetDate(String line, Locale locale) {
+        Matcher matcher = DATE_PATTERN.matcher(line);
+        if (!matcher.matches()) {
             return;
         }
 
-        String datestring = matcher.group( 1 );
+        String datestring = matcher.group(1);
 
-        Date date = parseDate( datestring.trim(), userDateFormat, GIT_TIMESTAMP_PATTERN, locale );
+        Date date = parseDate(datestring.trim(), userDateFormat, GIT_TIMESTAMP_PATTERN, locale);
 
-        currentChange.setDate( date );
+        currentChange.setDate(date);
 
         status = STATUS_GET_COMMENT;
     }
@@ -419,28 +390,20 @@ public class GitChangeLogConsumer
      *
      * @param line a line of text from the git log output
      */
-    private void processGetComment( String line )
-    {
-        if ( line.length() < 4 )
-        {
-            if ( currentComment == null )
-            {
+    private void processGetComment(String line) {
+        if (line.length() < 4) {
+            if (currentComment == null) {
                 currentComment = new StringBuilder();
-            }
-            else
-            {
-                currentChange.setComment( currentComment.toString() );
+            } else {
+                currentChange.setComment(currentComment.toString());
                 status = STATUS_GET_FILE;
             }
-        }
-        else
-        {
-            if ( currentComment.length() > 0 )
-            {
-                currentComment.append( '\n' );
+        } else {
+            if (currentComment.length() > 0) {
+                currentComment.append('\n');
             }
 
-            currentComment.append( line.substring( 4 ) );
+            currentComment.append(line.substring(4));
         }
     }
 
@@ -452,73 +415,55 @@ public class GitChangeLogConsumer
      *
      * @param line A line of text from the git log output
      */
-    private void processGetFile( String line )
-    {
-        if ( line.length() == 0 )
-        {
-            if ( currentChange != null )
-            {
-                entries.add( currentChange );
+    private void processGetFile(String line) {
+        if (line.length() == 0) {
+            if (currentChange != null) {
+                entries.add(currentChange);
             }
 
             resetChangeLog();
 
             status = STATUS_GET_HEADER;
-        }
-        else
-        {
-            Matcher matcher = FILE_PATTERN.matcher( line );
-            if ( !matcher.matches() )
-            {
+        } else {
+            Matcher matcher = FILE_PATTERN.matcher(line);
+            if (!matcher.matches()) {
                 return;
             }
-            final String actionChar = matcher.group( 1 );
+            final String actionChar = matcher.group(1);
             // action is currently not used
             final ScmFileStatus action;
-            String name = matcher.group( 2 );
+            String name = matcher.group(2);
             String originalName = null;
             String originalRevision = null;
-            if ( "A".equals( actionChar ) )
-            {
+            if ("A".equals(actionChar)) {
                 action = ScmFileStatus.ADDED;
-            }
-            else if ( "M".equals( actionChar ) )
-            {
+            } else if ("M".equals(actionChar)) {
                 action = ScmFileStatus.MODIFIED;
-            }
-            else if ( "D".equals( actionChar ) )
-            {
+            } else if ("D".equals(actionChar)) {
                 action = ScmFileStatus.DELETED;
-            }
-            else if ( "R".equals( actionChar ) )
-            {
+            } else if ("R".equals(actionChar)) {
                 action = ScmFileStatus.RENAMED;
                 originalName = name;
-                name = matcher.group( 4 );
+                name = matcher.group(4);
                 originalRevision = currentChange.getParentRevision();
-            }
-            else if ( "C".equals( actionChar ) )
-            {
+            } else if ("C".equals(actionChar)) {
                 action = ScmFileStatus.COPIED;
                 originalName = name;
-                name = matcher.group( 4 );
+                name = matcher.group(4);
                 originalRevision = currentChange.getParentRevision();
-            }
-            else
-            {
+            } else {
                 action = ScmFileStatus.UNKNOWN;
             }
 
-            final ChangeFile changeFile = new ChangeFile( name, currentRevision );
-            changeFile.setAction( action );
-            changeFile.setOriginalName( originalName );
-            changeFile.setOriginalRevision( originalRevision );
-            currentChange.addFile( changeFile );
+            final ChangeFile changeFile = new ChangeFile(name, currentRevision);
+            changeFile.setAction(action);
+            changeFile.setOriginalName(originalName);
+            changeFile.setOriginalRevision(originalRevision);
+            currentChange.addFile(changeFile);
         }
     }
 
-    private void resetChangeLog()
-    {
+    private void resetChangeLog() {
         currentComment = null;
         currentChange = null;
     }

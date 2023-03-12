@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm;
 
 import org.junit.Test;
 
@@ -27,32 +26,28 @@ import static org.junit.Assert.assertNull;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
  */
-public class ChangeFileTest
-{
+public class ChangeFileTest {
     @Test
-    public void testNewFile()
-    {
-        ChangeFile f = new ChangeFile( "test.java" );
-        assertEquals( "test.java", f.getName() );
-        assertNull( f.getRevision() );
-        assertEquals( "test.java", f.toString() );
+    public void testNewFile() {
+        ChangeFile f = new ChangeFile("test.java");
+        assertEquals("test.java", f.getName());
+        assertNull(f.getRevision());
+        assertEquals("test.java", f.toString());
     }
 
     @Test
-    public void testNewFileRevision()
-    {
-        ChangeFile f = new ChangeFile( "test.java", "1.2.3" );
-        assertEquals( "test.java", f.getName() );
-        assertEquals( "1.2.3", f.getRevision() );
-        assertEquals( "test.java, 1.2.3", f.toString() );
+    public void testNewFileRevision() {
+        ChangeFile f = new ChangeFile("test.java", "1.2.3");
+        assertEquals("test.java", f.getName());
+        assertEquals("1.2.3", f.getRevision());
+        assertEquals("test.java, 1.2.3", f.toString());
     }
 
     @Test
-    public void testNewRevisionFile()
-    {
-        ChangeFile f = new ChangeFile( "test.java", "revision1" );
-        assertEquals( "test.java", f.getName() );
-        assertEquals( "revision1", f.getRevision() );
-        assertEquals( "test.java, revision1", f.toString() );
+    public void testNewRevisionFile() {
+        ChangeFile f = new ChangeFile("test.java", "revision1");
+        assertEquals("test.java", f.getName());
+        assertEquals("revision1", f.getRevision());
+        assertEquals("test.java, revision1", f.toString());
     }
 }

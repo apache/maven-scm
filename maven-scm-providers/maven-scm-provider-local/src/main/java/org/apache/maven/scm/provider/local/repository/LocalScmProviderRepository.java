@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.local.repository;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.local.repository;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,19 +16,18 @@ package org.apache.maven.scm.provider.local.repository;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.provider.ScmProviderRepository;
+package org.apache.maven.scm.provider.local.repository;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public class LocalScmProviderRepository
-    extends ScmProviderRepository
-{
+public class LocalScmProviderRepository extends ScmProviderRepository {
     private String root;
 
     private String module;
@@ -41,8 +38,7 @@ public class LocalScmProviderRepository
      * @param root
      * @param module
      */
-    public LocalScmProviderRepository( String root, String module )
-    {
+    public LocalScmProviderRepository(String root, String module) {
         this.root = root;
 
         this.module = module;
@@ -51,26 +47,22 @@ public class LocalScmProviderRepository
     /**
      * @return Returns the root.
      */
-    public String getRoot()
-    {
+    public String getRoot() {
         return root;
     }
 
     /**
      * @return Returns the module.
      */
-    public String getModule()
-    {
+    public String getModule() {
         return module;
     }
 
-    public void addFile( String path )
-    {
-        addedFiles.add( path );
+    public void addFile(String path) {
+        addedFiles.add(path);
     }
 
-    public boolean isFileAdded( String path )
-    {
-        return addedFiles.contains( path );
+    public boolean isFileAdded(String path) {
+        return addedFiles.contains(path);
     }
 }

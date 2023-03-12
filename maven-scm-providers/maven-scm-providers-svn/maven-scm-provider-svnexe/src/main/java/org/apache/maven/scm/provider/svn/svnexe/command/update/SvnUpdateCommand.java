@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.update;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.update;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.update;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command.update;
 
 import java.io.File;
 
@@ -48,54 +47,43 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class SvnUpdateCommand
-    extends AbstractUpdateCommand
-    implements SvnCommand
-{
+public class SvnUpdateCommand extends AbstractUpdateCommand implements SvnCommand {
     /** {@inheritDoc} */
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
-        throws ScmException
-    {
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), version );
+    protected UpdateScmResult executeUpdateCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version)
+            throws ScmException {
+        Commandline cl = createCommandLine((SvnScmProviderRepository) repo, fileSet.getBasedir(), version);
 
-        SvnUpdateConsumer consumer = new SvnUpdateConsumer( fileSet.getBasedir() );
+        SvnUpdateConsumer consumer = new SvnUpdateConsumer(fileSet.getBasedir());
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        if ( logger.isInfoEnabled() )
-        {
-            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+        if (logger.isInfoEnabled()) {
+            logger.info("Executing: " + SvnCommandLineUtils.cryptPassword(cl));
 
-            if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
-            {
-                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                logger.info("Working directory: " + cl.getWorkingDirectory().getAbsolutePath());
             }
         }
 
         int exitCode;
 
-        try
-        {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
-        }
-        catch ( CommandLineException ex )
-        {
-            throw new ScmException( "Error while executing command.", ex );
+        try {
+            exitCode = SvnCommandLineUtils.execute(cl, consumer, stderr);
+        } catch (CommandLineException ex) {
+            throw new ScmException("Error while executing command.", ex);
         }
 
-        if ( exitCode != 0 )
-        {
-            return new UpdateScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
+        if (exitCode != 0) {
+            return new UpdateScmResult(cl.toString(), "The svn command failed.", stderr.getOutput(), false);
         }
 
-        UpdateScmResultWithRevision result = new UpdateScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(),
-                                                String.valueOf( consumer.getRevision() ) );
+        UpdateScmResultWithRevision result = new UpdateScmResultWithRevision(
+                cl.toString(), consumer.getUpdatedFiles(), String.valueOf(consumer.getRevision()));
 
-        result.setChanges( consumer.getChangeSets() );
+        result.setChanges(consumer.getChangeSets());
 
-        if ( logger.isDebugEnabled() )
-        {
-            logger.debug( "changeSets " + consumer.getChangeSets() );
+        if (logger.isDebugEnabled()) {
+            logger.debug("changeSets " + consumer.getChangeSets());
         }
 
         return result;
@@ -105,57 +93,46 @@ public class SvnUpdateCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 ScmVersion version )
-    {
+    public static Commandline createCommandLine(
+            SvnScmProviderRepository repository, File workingDirectory, ScmVersion version) {
         Settings settings = SvnUtil.getSettings();
 
         String workingDir = workingDirectory.getAbsolutePath();
 
-        if ( settings.isUseCygwinPath() )
-        {
+        if (settings.isUseCygwinPath()) {
             workingDir = settings.getCygwinMountPath() + "/" + workingDir;
-            workingDir = StringUtils.replace( workingDir, ":", "" );
-            workingDir = StringUtils.replace( workingDir, "\\", "/" );
+            workingDir = StringUtils.replace(workingDir, ":", "");
+            workingDir = StringUtils.replace(workingDir, "\\", "/");
         }
 
-        if ( version != null && StringUtils.isEmpty( version.getName() ) )
-        {
+        if (version != null && StringUtils.isEmpty(version.getName())) {
             version = null;
         }
 
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository);
 
-        if ( version == null || SvnTagBranchUtils.isRevisionSpecifier( version ) )
-        {
-            cl.createArg().setValue( "update" );
+        if (version == null || SvnTagBranchUtils.isRevisionSpecifier(version)) {
+            cl.createArg().setValue("update");
 
-            if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
-            {
-                cl.createArg().setValue( "-r" );
-                cl.createArg().setValue( version.getName() );
+            if (version != null && StringUtils.isNotEmpty(version.getName())) {
+                cl.createArg().setValue("-r");
+                cl.createArg().setValue(version.getName());
             }
 
-            cl.createArg().setValue( workingDir + "@" );
-        }
-        else
-        {
-            if ( version instanceof ScmBranch )
-            {
+            cl.createArg().setValue(workingDir + "@");
+        } else {
+            if (version instanceof ScmBranch) {
                 // The tag specified does not appear to be numeric, so assume it refers
                 // to a branch/tag url and perform a switch operation rather than update
-                cl.createArg().setValue( "switch" );
-                if ( version instanceof ScmTag )
-                {
-                    String tagUrl = SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) version );
-                    cl.createArg().setValue( tagUrl + "@" );
+                cl.createArg().setValue("switch");
+                if (version instanceof ScmTag) {
+                    String tagUrl = SvnTagBranchUtils.resolveTagUrl(repository, (ScmTag) version);
+                    cl.createArg().setValue(tagUrl + "@");
+                } else {
+                    String branchUrl = SvnTagBranchUtils.resolveBranchUrl(repository, (ScmBranch) version);
+                    cl.createArg().setValue(branchUrl + "@");
                 }
-                else
-                {
-                    String branchUrl = SvnTagBranchUtils.resolveBranchUrl( repository, (ScmBranch) version );
-                    cl.createArg().setValue( branchUrl + "@" );
-                }
-                cl.createArg().setValue( workingDir + "@" );
+                cl.createArg().setValue(workingDir + "@");
             }
         }
 
@@ -163,10 +140,7 @@ public class SvnUpdateCommand
     }
 
     /** {@inheritDoc} */
-    protected ChangeLogCommand getChangeLogCommand()
-    {
+    protected ChangeLogCommand getChangeLogCommand() {
         return new SvnChangeLogCommand();
     }
-
-
 }

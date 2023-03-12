@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.hg.command.inventory;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.hg.command.inventory;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.hg.command.inventory;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.hg.command.inventory;
 
 import java.io.File;
 
@@ -38,45 +37,36 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
  *
  */
-public class HgListCommand
-    extends AbstractListCommand
-    implements Command
-{
+public class HgListCommand extends AbstractListCommand implements Command {
     /** {@inheritDoc} */
-    protected ListScmResult executeListCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                boolean recursive, ScmVersion scmVersion )
-        throws ScmException
-    {
+    protected ListScmResult executeListCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion scmVersion)
+            throws ScmException {
 
         //
         File workingDir = fileSet.getBasedir();
 
         // build the command
-        String[] listCmd = new String[] { HgCommandConstants.INVENTORY_CMD };
+        String[] listCmd = new String[] {HgCommandConstants.INVENTORY_CMD};
 
         // keep the command about in string form for reporting
         StringBuilder cmd = new StringBuilder();
-        for ( int i = 0; i < listCmd.length; i++ )
-        {
+        for (int i = 0; i < listCmd.length; i++) {
             String s = listCmd[i];
-            cmd.append( s );
-            if ( i < listCmd.length - 1 )
-            {
-                cmd.append( " " );
+            cmd.append(s);
+            if (i < listCmd.length - 1) {
+                cmd.append(" ");
             }
         }
 
         HgListConsumer consumer = new HgListConsumer();
 
-        ScmResult result = HgUtils.execute( consumer, workingDir, listCmd );
+        ScmResult result = HgUtils.execute(consumer, workingDir, listCmd);
 
-        if ( result.isSuccess() )
-        {
-            return new ListScmResult( consumer.getFiles(), result );
-        }
-        else
-        {
-            throw new ScmException( "Error while executing command " + cmd.toString() );
+        if (result.isSuccess()) {
+            return new ListScmResult(consumer.getFiles(), result);
+        } else {
+            throw new ScmException("Error while executing command " + cmd.toString());
         }
     }
 }

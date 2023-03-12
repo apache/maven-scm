@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm;
 
 import java.io.Serializable;
 
@@ -26,9 +25,7 @@ import java.io.Serializable;
  *
  * @since 1.11.2
  */
-public class ScmUntagParameters
-    implements Serializable
-{
+public class ScmUntagParameters implements Serializable {
     /**
      * serial version id
      */
@@ -50,8 +47,7 @@ public class ScmUntagParameters
      * @param tag     tag id
      * @param message commit message
      */
-    public ScmUntagParameters( String tag, String message )
-    {
+    public ScmUntagParameters(String tag, String message) {
         this.tag = tag;
         this.message = message;
     }
@@ -61,8 +57,7 @@ public class ScmUntagParameters
      *
      * @return tag id
      */
-    public String getTag()
-    {
+    public String getTag() {
         return tag;
     }
 
@@ -71,8 +66,7 @@ public class ScmUntagParameters
      *
      * @param tag tag id
      */
-    public void setTag( String tag )
-    {
+    public void setTag(String tag) {
         this.tag = tag;
     }
 
@@ -81,8 +75,7 @@ public class ScmUntagParameters
      *
      * @return commit message
      */
-    public String getMessage()
-    {
+    public String getMessage() {
         return message;
     }
 
@@ -91,14 +84,12 @@ public class ScmUntagParameters
      *
      * @param message commit message
      */
-    public void setMessage( String message )
-    {
+    public void setMessage(String message) {
         this.message = message;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ScmUntagParameters.class.getSimpleName() + " [tag=" + tag + ", message=" + message + "]";
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.jgit;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.jgit;
 
 import javax.annotation.Priority;
 import javax.inject.Inject;
@@ -38,67 +37,54 @@ import org.eclipse.jgit.api.TransportCommand;
  * Allows to register callbacks for all commands leveraging {@link TransportCommand}.
  */
 @Singleton
-@Named( "jgit" )
-@Priority( 1 ) // must have higher priority than default JGitScmProvider
-public class JGitTestScmProvider
-    extends JGitScmProvider implements ScmProvider
-{
+@Named("jgit")
+@Priority(1) // must have higher priority than default JGitScmProvider
+public class JGitTestScmProvider extends JGitScmProvider implements ScmProvider {
     private Consumer<JGitCheckInCommand> checkInCommandCallback;
     private Consumer<JGitCheckOutCommand> checkOutCommandCallback;
     private Consumer<JGitRemoteInfoCommand> remoteInfoCommandCallback;
 
     @Inject
-    public JGitTestScmProvider( Prompter prompter )
-    {
-        super( prompter );
+    public JGitTestScmProvider(Prompter prompter) {
+        super(prompter);
     }
 
-    public void registerCheckInCommandCallback( Consumer<JGitCheckInCommand> gitCommandConsumer )
-    {
+    public void registerCheckInCommandCallback(Consumer<JGitCheckInCommand> gitCommandConsumer) {
         checkInCommandCallback = gitCommandConsumer;
     }
 
-    public void registerCheckOutCommandCallback( Consumer<JGitCheckOutCommand> gitCommandConsumer )
-    {
+    public void registerCheckOutCommandCallback(Consumer<JGitCheckOutCommand> gitCommandConsumer) {
         checkOutCommandCallback = gitCommandConsumer;
     }
 
-    public void registerRemoteInfoCommandCallback( Consumer<JGitRemoteInfoCommand> gitCommandConsumer )
-    {
+    public void registerRemoteInfoCommandCallback(Consumer<JGitRemoteInfoCommand> gitCommandConsumer) {
         remoteInfoCommandCallback = gitCommandConsumer;
     }
 
     @Override
-    protected GitCommand getCheckInCommand()
-    {
+    protected GitCommand getCheckInCommand() {
         JGitCheckInCommand command = (JGitCheckInCommand) super.getCheckInCommand();
-        if ( checkInCommandCallback != null )
-        {
-            checkInCommandCallback.accept( command );
+        if (checkInCommandCallback != null) {
+            checkInCommandCallback.accept(command);
         }
         return command;
     }
 
     @Override
-    protected GitCommand getCheckOutCommand()
-    {
+    protected GitCommand getCheckOutCommand() {
         JGitCheckOutCommand command = (JGitCheckOutCommand) super.getCheckOutCommand();
-        if ( checkOutCommandCallback != null )
-        {
-            checkOutCommandCallback.accept( command );
+        if (checkOutCommandCallback != null) {
+            checkOutCommandCallback.accept(command);
         }
         return command;
     }
 
     @Override
-    protected GitCommand getRemoteInfoCommand()
-    {
+    protected GitCommand getRemoteInfoCommand() {
         JGitRemoteInfoCommand command = (JGitRemoteInfoCommand) super.getRemoteInfoCommand();
-        if ( remoteInfoCommandCallback != null )
-        {
-            remoteInfoCommandCallback.accept( command );
+        if (remoteInfoCommandCallback != null) {
+            remoteInfoCommandCallback.accept(command);
         }
         return command;
     }
-
 }

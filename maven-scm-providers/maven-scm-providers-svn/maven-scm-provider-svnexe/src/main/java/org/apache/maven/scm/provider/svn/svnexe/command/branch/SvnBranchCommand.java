@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.branch;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.branch;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.branch;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command.branch;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,167 +51,139 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  * TODO since this is just a copy, use that instead.
  */
-public class SvnBranchCommand
-    extends AbstractBranchCommand
-    implements SvnCommand
-{
+public class SvnBranchCommand extends AbstractBranchCommand implements SvnCommand {
 
-    public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch,
-                                           ScmBranchParameters scmBranchParameters )
-    throws ScmException
-    {
-        if ( branch == null || StringUtils.isEmpty( branch.trim() ) )
-        {
-            throw new ScmException( "branch name must be specified" );
+    public ScmResult executeBranchCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, String branch, ScmBranchParameters scmBranchParameters)
+            throws ScmException {
+        if (branch == null || StringUtils.isEmpty(branch.trim())) {
+            throw new ScmException("branch name must be specified");
         }
 
-        if ( !fileSet.getFileList().isEmpty() )
-        {
-            throw new ScmException( "This provider doesn't support branching subsets of a directory" );
+        if (!fileSet.getFileList().isEmpty()) {
+            throw new ScmException("This provider doesn't support branching subsets of a directory");
         }
 
         SvnScmProviderRepository repository = (SvnScmProviderRepository) repo;
 
-        File messageFile = FileUtils.createTempFile( "maven-scm-", ".commit", null );
+        File messageFile = FileUtils.createTempFile("maven-scm-", ".commit", null);
 
-        try
-        {
-            FileUtils.fileWrite( messageFile.getAbsolutePath(), "UTF-8", scmBranchParameters.getMessage() );
-        }
-        catch ( IOException ex )
-        {
-            return new BranchScmResult( null, "Error while making a temporary file for the commit message: "
-                + ex.getMessage(), null, false );
+        try {
+            FileUtils.fileWrite(messageFile.getAbsolutePath(), "UTF-8", scmBranchParameters.getMessage());
+        } catch (IOException ex) {
+            return new BranchScmResult(
+                    null,
+                    "Error while making a temporary file for the commit message: " + ex.getMessage(),
+                    null,
+                    false);
         }
 
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), branch, messageFile,
-                                            scmBranchParameters );
+        Commandline cl = createCommandLine(repository, fileSet.getBasedir(), branch, messageFile, scmBranchParameters);
 
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        if ( logger.isInfoEnabled() )
-        {
-            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+        if (logger.isInfoEnabled()) {
+            logger.info("Executing: " + SvnCommandLineUtils.cryptPassword(cl));
 
-            if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
-            {
-                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                logger.info("Working directory: " + cl.getWorkingDirectory().getAbsolutePath());
             }
         }
 
         int exitCode;
 
-        try
-        {
-            exitCode = SvnCommandLineUtils.execute( cl, stdout, stderr );
-        }
-        catch ( CommandLineException ex )
-        {
-            throw new ScmException( "Error while executing command.", ex );
-        }
-        finally
-        {
-            try
-            {
-                FileUtils.forceDelete( messageFile );
-            }
-            catch ( IOException ex )
-            {
+        try {
+            exitCode = SvnCommandLineUtils.execute(cl, stdout, stderr);
+        } catch (CommandLineException ex) {
+            throw new ScmException("Error while executing command.", ex);
+        } finally {
+            try {
+                FileUtils.forceDelete(messageFile);
+            } catch (IOException ex) {
                 // ignore
             }
         }
 
-        if ( exitCode != 0 )
-        {
-            return new BranchScmResult( cl.toString(), "The svn branch command failed.", stderr.getOutput(), false );
+        if (exitCode != 0) {
+            return new BranchScmResult(cl.toString(), "The svn branch command failed.", stderr.getOutput(), false);
         }
 
         List<ScmFile> fileList = new ArrayList<>();
 
         List<File> files = null;
 
-        try
-        {
-            files = FileUtils.getFiles( fileSet.getBasedir(), "**", "**/.svn/**", false );
-        }
-        catch ( IOException e )
-        {
-            throw new ScmException( "Error while executing command.", e );
+        try {
+            files = FileUtils.getFiles(fileSet.getBasedir(), "**", "**/.svn/**", false);
+        } catch (IOException e) {
+            throw new ScmException("Error while executing command.", e);
         }
 
-        for ( File f : files )
-        {
-            fileList.add( new ScmFile( f.getPath(), ScmFileStatus.TAGGED ) );
+        for (File f : files) {
+            fileList.add(new ScmFile(f.getPath(), ScmFileStatus.TAGGED));
         }
 
-        return new BranchScmResult( cl.toString(), fileList );
+        return new BranchScmResult(cl.toString(), fileList);
     }
 
     /** {@inheritDoc} */
-    public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch,
-                                           String message )
-        throws ScmException
-    {
-        ScmBranchParameters scmBranchParameters = new ScmBranchParameters( message );
-        return executeBranchCommand( repo, fileSet, branch, scmBranchParameters );
+    public ScmResult executeBranchCommand(ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message)
+            throws ScmException {
+        ScmBranchParameters scmBranchParameters = new ScmBranchParameters(message);
+        return executeBranchCommand(repo, fileSet, branch, scmBranchParameters);
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 String branch, File messageFile )
-    {
+    public static Commandline createCommandLine(
+            SvnScmProviderRepository repository, File workingDirectory, String branch, File messageFile) {
         ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
-        scmBranchParameters.setRemoteBranching( false );
-        scmBranchParameters.setPinExternals( false );
-        return createCommandLine( repository, workingDirectory, branch, messageFile, scmBranchParameters );
+        scmBranchParameters.setRemoteBranching(false);
+        scmBranchParameters.setPinExternals(false);
+        return createCommandLine(repository, workingDirectory, branch, messageFile, scmBranchParameters);
     }
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 String branch, File messageFile,
-                                                 ScmBranchParameters scmBranchParameters )
-    {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
+    public static Commandline createCommandLine(
+            SvnScmProviderRepository repository,
+            File workingDirectory,
+            String branch,
+            File messageFile,
+            ScmBranchParameters scmBranchParameters) {
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository);
 
-        cl.createArg().setValue( "copy" );
+        cl.createArg().setValue("copy");
 
-        cl.createArg().setValue( "--parents" );
+        cl.createArg().setValue("--parents");
 
-        cl.createArg().setValue( "--file" );
+        cl.createArg().setValue("--file");
 
-        cl.createArg().setValue( messageFile.getAbsolutePath() );
+        cl.createArg().setValue(messageFile.getAbsolutePath());
 
-        cl.createArg().setValue( "--encoding" );
+        cl.createArg().setValue("--encoding");
 
-        cl.createArg().setValue( "UTF-8" );
+        cl.createArg().setValue("UTF-8");
 
-        if ( scmBranchParameters != null && scmBranchParameters.isPinExternals() )
-        {
-            cl.createArg().setValue( "--pin-externals" );
+        if (scmBranchParameters != null && scmBranchParameters.isPinExternals()) {
+            cl.createArg().setValue("--pin-externals");
         }
 
-        if ( scmBranchParameters != null && scmBranchParameters.isRemoteBranching() )
-        {
-            if ( StringUtils.isNotBlank( scmBranchParameters.getScmRevision() ) )
-            {
-                cl.createArg().setValue( "--revision" );
-                cl.createArg().setValue( scmBranchParameters.getScmRevision() );
+        if (scmBranchParameters != null && scmBranchParameters.isRemoteBranching()) {
+            if (StringUtils.isNotBlank(scmBranchParameters.getScmRevision())) {
+                cl.createArg().setValue("--revision");
+                cl.createArg().setValue(scmBranchParameters.getScmRevision());
             }
-            String url = SvnCommandUtils.fixUrl( repository.getUrl(), repository.getUser() );
-            cl.createArg().setValue( url + "@" );
-        }
-        else
-        {
-            cl.createArg().setValue( "." );
+            String url = SvnCommandUtils.fixUrl(repository.getUrl(), repository.getUser());
+            cl.createArg().setValue(url + "@");
+        } else {
+            cl.createArg().setValue(".");
         }
         // Note: this currently assumes you have the branch base checked out too
-        String branchUrl = SvnTagBranchUtils.resolveBranchUrl( repository, new ScmBranch( branch ) );
-        branchUrl = SvnCommandUtils.fixUrl( branchUrl, repository.getUser() );
-        cl.createArg().setValue( branchUrl + "@" );
+        String branchUrl = SvnTagBranchUtils.resolveBranchUrl(repository, new ScmBranch(branch));
+        branchUrl = SvnCommandUtils.fixUrl(branchUrl, repository.getUser());
+        cl.createArg().setValue(branchUrl + "@");
 
         return cl;
     }

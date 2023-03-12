@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.remoteinfo;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,19 +16,18 @@ package org.apache.maven.scm.command.remoteinfo;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.ScmResult;
+package org.apache.maven.scm.command.remoteinfo;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.maven.scm.ScmResult;
 
 /**
  * @author Olivier Lamy
  * @since 1.6
  */
-public class RemoteInfoScmResult
-    extends ScmResult
-{
+public class RemoteInfoScmResult extends ScmResult {
     private static final long serialVersionUID = -5571403202068311222L;
 
     /**
@@ -45,46 +42,39 @@ public class RemoteInfoScmResult
      */
     private Map<String, String> tags = new HashMap<String, String>();
 
-    public RemoteInfoScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
-    {
-        super( commandLine, providerMessage, commandOutput, success );
+    public RemoteInfoScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
+        super(commandLine, providerMessage, commandOutput, success);
     }
 
-    public RemoteInfoScmResult( String commandLine, Map<String, String> branches, Map<String, String> tags )
-    {
-        super( commandLine, null, null, true );
+    public RemoteInfoScmResult(String commandLine, Map<String, String> branches, Map<String, String> tags) {
+        super(commandLine, null, null, true);
         this.branches = branches;
         this.tags = tags;
     }
 
-    public Map<String, String> getBranches()
-    {
+    public Map<String, String> getBranches() {
         return branches;
     }
 
-    public void setBranches( Map<String, String> branches )
-    {
+    public void setBranches(Map<String, String> branches) {
         this.branches = branches;
     }
 
-    public Map<String, String> getTags()
-    {
+    public Map<String, String> getTags() {
         return tags;
     }
 
-    public void setTags( Map<String, String> tags )
-    {
+    public void setTags(Map<String, String> tags) {
         this.tags = tags;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append( "RemoteInfoScmResult" );
-        sb.append( "{branches=" ).append( branches );
-        sb.append( ", tags=" ).append( tags );
-        sb.append( '}' );
+        sb.append("RemoteInfoScmResult");
+        sb.append("{branches=").append(branches);
+        sb.append(", tags=").append(tags);
+        sb.append('}');
         return sb.toString();
     }
 }

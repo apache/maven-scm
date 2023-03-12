@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.command.diff;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.command.diff;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,30 +16,25 @@ package org.apache.maven.scm.provider.svn.command.diff;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.command.diff;
+
+import java.io.File;
 
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.tck.command.diff.DiffCommandTckTest;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
  */
-public class SvnDiffCommandTckTest
-    extends DiffCommandTckTest
-{
+public class SvnDiffCommandTckTest extends DiffCommandTckTest {
     /** {@inheritDoc} */
-    public String getScmUrl()
-        throws Exception
-    {
-        return SvnScmTestUtils.getScmUrl( new File( getRepositoryRoot(), "trunk" ) );
+    public String getScmUrl() throws Exception {
+        return SvnScmTestUtils.getScmUrl(new File(getRepositoryRoot(), "trunk"));
     }
 
     /** {@inheritDoc} */
-    public void initRepo()
-        throws Exception
-    {
-        SvnScmTestUtils.initializeRepository( getRepositoryRoot() );
+    public void initRepo() throws Exception {
+        SvnScmTestUtils.initializeRepository(getRepositoryRoot());
     }
 }

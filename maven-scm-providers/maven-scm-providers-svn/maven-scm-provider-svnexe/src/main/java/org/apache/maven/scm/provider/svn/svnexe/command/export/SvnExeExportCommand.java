@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.export;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.export;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.export;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command.export;
 
 import java.io.File;
 
@@ -47,18 +46,13 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class SvnExeExportCommand
-    extends AbstractExportCommand
-    implements SvnCommand
-{
+public class SvnExeExportCommand extends AbstractExportCommand implements SvnCommand {
     /** {@inheritDoc} */
-    protected ExportScmResult executeExportCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version,
-                                                    String outputDirectory )
-        throws ScmException
-    {
+    protected ExportScmResult executeExportCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version, String outputDirectory)
+            throws ScmException {
 
-        if ( outputDirectory == null )
-        {
+        if (outputDirectory == null) {
             outputDirectory = fileSet.getBasedir().getAbsolutePath();
         }
 
@@ -66,91 +60,80 @@ public class SvnExeExportCommand
 
         String url = repository.getUrl();
 
-        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
-        {
-            if ( version instanceof ScmTag )
-            {
-                url = SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) version );
-            }
-            else if ( version instanceof ScmBranch )
-            {
-                url = SvnTagBranchUtils.resolveBranchUrl( repository, (ScmBranch) version );
+        if (version != null && StringUtils.isNotEmpty(version.getName())) {
+            if (version instanceof ScmTag) {
+                url = SvnTagBranchUtils.resolveTagUrl(repository, (ScmTag) version);
+            } else if (version instanceof ScmBranch) {
+                url = SvnTagBranchUtils.resolveBranchUrl(repository, (ScmBranch) version);
             }
         }
 
-        url = SvnCommandUtils.fixUrl( url, repository.getUser() );
+        url = SvnCommandUtils.fixUrl(url, repository.getUser());
 
         Commandline cl =
-            createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), version, url, outputDirectory );
+                createCommandLine((SvnScmProviderRepository) repo, fileSet.getBasedir(), version, url, outputDirectory);
 
-        SvnUpdateConsumer consumer = new SvnUpdateConsumer( fileSet.getBasedir() );
+        SvnUpdateConsumer consumer = new SvnUpdateConsumer(fileSet.getBasedir());
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        if ( logger.isInfoEnabled() )
-        {
-            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+        if (logger.isInfoEnabled()) {
+            logger.info("Executing: " + SvnCommandLineUtils.cryptPassword(cl));
 
-            if ( cl.getWorkingDirectory() != null && Os.isFamily( Os.FAMILY_WINDOWS ) )
-            {
-                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            if (cl.getWorkingDirectory() != null && Os.isFamily(Os.FAMILY_WINDOWS)) {
+                logger.info("Working directory: " + cl.getWorkingDirectory().getAbsolutePath());
             }
         }
 
         int exitCode;
 
-        try
-        {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
-        }
-        catch ( CommandLineException ex )
-        {
-            throw new ScmException( "Error while executing command.", ex );
+        try {
+            exitCode = SvnCommandLineUtils.execute(cl, consumer, stderr);
+        } catch (CommandLineException ex) {
+            throw new ScmException("Error while executing command.", ex);
         }
 
-        if ( exitCode != 0 )
-        {
-            return new ExportScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
+        if (exitCode != 0) {
+            return new ExportScmResult(cl.toString(), "The svn command failed.", stderr.getOutput(), false);
         }
 
-        return new ExportScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(),
-                                                String.valueOf( consumer.getRevision() ) );
+        return new ExportScmResultWithRevision(
+                cl.toString(), consumer.getUpdatedFiles(), String.valueOf(consumer.getRevision()));
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 ScmVersion version, String url, String outputSirectory )
-    {
-        if ( version != null && StringUtils.isEmpty( version.getName() ) )
-        {
+    public static Commandline createCommandLine(
+            SvnScmProviderRepository repository,
+            File workingDirectory,
+            ScmVersion version,
+            String url,
+            String outputSirectory) {
+        if (version != null && StringUtils.isEmpty(version.getName())) {
             version = null;
         }
 
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository);
 
-        cl.createArg().setValue( "export" );
+        cl.createArg().setValue("export");
 
-        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
-        {
-            if ( version instanceof ScmRevision )
-            {
-                cl.createArg().setValue( "-r" );
+        if (version != null && StringUtils.isNotEmpty(version.getName())) {
+            if (version instanceof ScmRevision) {
+                cl.createArg().setValue("-r");
 
-                cl.createArg().setValue( version.getName() );
+                cl.createArg().setValue(version.getName());
             }
         }
 
-        //support exporting to an existing directory
-        cl.createArg().setValue( "--force" );
+        // support exporting to an existing directory
+        cl.createArg().setValue("--force");
 
-        cl.createArg().setValue( url + "@" );
+        cl.createArg().setValue(url + "@");
 
-        if ( StringUtils.isNotEmpty( outputSirectory ) )
-        {
-            cl.createArg().setValue( outputSirectory + "@" );
+        if (StringUtils.isNotEmpty(outputSirectory)) {
+            cl.createArg().setValue(outputSirectory + "@");
         }
 
         return cl;

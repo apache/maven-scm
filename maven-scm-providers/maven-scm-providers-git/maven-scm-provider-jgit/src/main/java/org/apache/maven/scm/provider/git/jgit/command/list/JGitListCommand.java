@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit.command.list;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit.command.list;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,12 @@ package org.apache.maven.scm.provider.git.jgit.command.list;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.jgit.command.list;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.BiFunction;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -37,67 +41,51 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.slf4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.function.BiFunction;
-
 /**
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitListCommand
-    extends AbstractListCommand
-    implements GitCommand
-{
+public class JGitListCommand extends AbstractListCommand implements GitCommand {
 
     private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
 
-    public JGitListCommand()
-    {
+    public JGitListCommand() {
         sshSessionFactorySupplier = ScmProviderAwareSshdSessionFactory::new;
     }
 
     public void setSshSessionFactorySupplier(
-        BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier )
-    {
+            BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory>
+                    sshSessionFactorySupplier) {
         this.sshSessionFactorySupplier = sshSessionFactorySupplier;
     }
 
     @Override
-    protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
-                                                ScmVersion scmVersion )
-        throws ScmException
-    {
+    protected ListScmResult executeListCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive, ScmVersion scmVersion)
+            throws ScmException {
 
         Git git = null;
-        try
-        {
-            git = JGitUtils.openRepo( fileSet.getBasedir() );
-            CredentialsProvider credentials =
-                JGitUtils.prepareSession( git, (GitScmProviderRepository) repo );
+        try {
+            git = JGitUtils.openRepo(fileSet.getBasedir());
+            CredentialsProvider credentials = JGitUtils.prepareSession(git, (GitScmProviderRepository) repo);
 
             List<ScmFile> list = new ArrayList<>();
-            Collection<Ref> lsResult = git.lsRemote().setCredentialsProvider( credentials )
-                    .setTransportConfigCallback(
-                            new JGitTransportConfigCallback(
-                                sshSessionFactorySupplier.apply( (GitScmProviderRepository) repo, logger ) ) )
+            Collection<Ref> lsResult = git.lsRemote()
+                    .setCredentialsProvider(credentials)
+                    .setTransportConfigCallback(new JGitTransportConfigCallback(
+                            sshSessionFactorySupplier.apply((GitScmProviderRepository) repo, logger)))
                     .call();
-            for ( Ref ref : lsResult )
-            {
-                logger.debug( ref.getObjectId().getName() + "  " + ref.getTarget().getName() );
-                list.add( new ScmFile( ref.getName(), ScmFileStatus.CHECKED_IN ) );
+            for (Ref ref : lsResult) {
+                logger.debug(
+                        ref.getObjectId().getName() + "  " + ref.getTarget().getName());
+                list.add(new ScmFile(ref.getName(), ScmFileStatus.CHECKED_IN));
             }
 
-            return new ListScmResult( "JGit ls-remote", list );
-        }
-        catch ( Exception e )
-        {
-            throw new ScmException( "JGit ls-remote failure!", e );
-        }
-        finally
-        {
-            JGitUtils.closeRepo( git );
+            return new ListScmResult("JGit ls-remote", list);
+        } catch (Exception e) {
+            throw new ScmException("JGit ls-remote failure!", e);
+        } finally {
+            JGitUtils.closeRepo(git);
         }
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider;
 
 /**
  * Stub for ScmProviderRepository for unit testing purposes.
@@ -27,29 +26,22 @@ package org.apache.maven.scm.provider;
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  *
  */
-public class ScmProviderRepositoryStub
-    extends ScmProviderRepository
-{
+public class ScmProviderRepositoryStub extends ScmProviderRepository {
 
     private boolean persistCheckout = false;
 
     /**
      * Creates a ScmProviderRepositoryStub with null user and password, and persistCheckout false
      */
-    public ScmProviderRepositoryStub()
-    {
-    }
+    public ScmProviderRepositoryStub() {}
 
     /** {@inheritDoc} */
-    public boolean isPersistCheckout()
-    {
+    public boolean isPersistCheckout() {
         return persistCheckout;
     }
 
     /** {@inheritDoc} */
-    public void setPersistCheckout( boolean persistCheckout )
-    {
+    public void setPersistCheckout(boolean persistCheckout) {
         this.persistCheckout = persistCheckout;
     }
-
 }

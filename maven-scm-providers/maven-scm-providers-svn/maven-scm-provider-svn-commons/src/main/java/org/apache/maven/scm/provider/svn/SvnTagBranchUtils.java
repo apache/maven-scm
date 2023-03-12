@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.svn;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn;
 
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmTag;
@@ -28,14 +27,11 @@ import org.codehaus.plexus.util.StringUtils;
 /**
  *
  */
-public final class SvnTagBranchUtils
-{
+public final class SvnTagBranchUtils {
 
-    private SvnTagBranchUtils()
-    {
-    }
+    private SvnTagBranchUtils() {}
 
-    public static final String[] REVISION_SPECIFIERS = new String[]{"HEAD", "BASE", "COMMITTED", "PREV"};
+    public static final String[] REVISION_SPECIFIERS = new String[] {"HEAD", "BASE", "COMMITTED", "PREV"};
 
     public static final String SVN_TRUNK = "trunk";
 
@@ -43,24 +39,20 @@ public final class SvnTagBranchUtils
 
     public static final String SVN_TAGS = "tags";
 
-    public static final String[] SVN_BASE_DIRS = new String[]{SVN_TRUNK, SVN_BRANCHES, SVN_TAGS};
+    public static final String[] SVN_BASE_DIRS = new String[] {SVN_TRUNK, SVN_BRANCHES, SVN_TAGS};
 
     /**
      * Simple helper function to concatenate two paths together with a "/".
      * Handles trailing / on basePath.
      * Returns no trailing "/" if the addlPath is null
      */
-    static String appendPath( String basePath, String addlPath )
-    {
-        basePath = StringUtils.stripEnd( basePath, "/" );
+    static String appendPath(String basePath, String addlPath) {
+        basePath = StringUtils.stripEnd(basePath, "/");
 
-        if ( StringUtils.isEmpty( addlPath ) )
-        {
+        if (StringUtils.isEmpty(addlPath)) {
             return basePath;
-        }
-        else
-        {
-            return basePath + "/" + StringUtils.stripStart( addlPath, "/" );
+        } else {
+            return basePath + "/" + StringUtils.stripStart(addlPath, "/");
         }
     }
 
@@ -72,45 +64,36 @@ public final class SvnTagBranchUtils
      * @param repoPath Repository path/url to be searched
      * @return TODO
      */
-    public static String getProjectRoot( String repoPath )
-    {
-        for ( int i = 0; i < SVN_BASE_DIRS.length; i++ )
-        {
+    public static String getProjectRoot(String repoPath) {
+        for (int i = 0; i < SVN_BASE_DIRS.length; i++) {
             String base = "/" + SVN_BASE_DIRS[i];
-            int pos = repoPath.lastIndexOf( base + "/" );
-            if ( repoPath.endsWith( base ) )
-            {
-                return repoPath.substring( 0, repoPath.length() - base.length() );
-            }
-            else if ( pos >= 0 )
-            {
-                return repoPath.substring( 0, pos );
+            int pos = repoPath.lastIndexOf(base + "/");
+            if (repoPath.endsWith(base)) {
+                return repoPath.substring(0, repoPath.length() - base.length());
+            } else if (pos >= 0) {
+                return repoPath.substring(0, pos);
             }
         }
 
         // At this point we were unable to locate the project root of this url
         // so assume that the repository url specified is the project root
-        return appendPath( repoPath, null );
+        return appendPath(repoPath, null);
     }
 
-    public static String resolveTagBase( SvnScmProviderRepository repository )
-    {
-        return resolveTagBase( repository.getUrl() );
+    public static String resolveTagBase(SvnScmProviderRepository repository) {
+        return resolveTagBase(repository.getUrl());
     }
 
-    public static String resolveTagBase( String repositoryUrl )
-    {
-        return appendPath( getProjectRoot( repositoryUrl ), SVN_TAGS );
+    public static String resolveTagBase(String repositoryUrl) {
+        return appendPath(getProjectRoot(repositoryUrl), SVN_TAGS);
     }
 
-    public static String resolveBranchBase( SvnScmProviderRepository repository )
-    {
-        return resolveBranchBase( repository.getUrl() );
+    public static String resolveBranchBase(SvnScmProviderRepository repository) {
+        return resolveBranchBase(repository.getUrl());
     }
 
-    public static String resolveBranchBase( String repositoryUrl )
-    {
-        return appendPath( getProjectRoot( repositoryUrl ), SVN_BRANCHES );
+    public static String resolveBranchBase(String repositoryUrl) {
+        return appendPath(getProjectRoot(repositoryUrl), SVN_BRANCHES);
     }
 
     /**
@@ -123,9 +106,8 @@ public final class SvnTagBranchUtils
      * @return TODO
      * @see #resolveUrl(String,String,String,ScmBranch)
      */
-    public static String resolveTagUrl( SvnScmProviderRepository repository, ScmTag tag )
-    {
-        return resolveUrl( repository.getUrl(), repository.getTagBase(), SVN_TAGS, tag );
+    public static String resolveTagUrl(SvnScmProviderRepository repository, ScmTag tag) {
+        return resolveUrl(repository.getUrl(), repository.getTagBase(), SVN_TAGS, tag);
     }
 
     /**
@@ -137,9 +119,8 @@ public final class SvnTagBranchUtils
      * @return TODO
      * @see #resolveUrl(String,String,String,ScmBranch)
      */
-    public static String resolveTagUrl( String repositoryUrl, ScmTag tag )
-    {
-        return resolveUrl( repositoryUrl, null, SVN_TAGS, tag );
+    public static String resolveTagUrl(String repositoryUrl, ScmTag tag) {
+        return resolveUrl(repositoryUrl, null, SVN_TAGS, tag);
     }
 
     /**
@@ -152,9 +133,8 @@ public final class SvnTagBranchUtils
      * @return TODO
      * @see #resolveUrl(String,String,String,ScmBranch)
      */
-    public static String resolveBranchUrl( SvnScmProviderRepository repository, ScmBranch branch )
-    {
-        return resolveUrl( repository.getUrl(), repository.getBranchBase(), SVN_BRANCHES, branch );
+    public static String resolveBranchUrl(SvnScmProviderRepository repository, ScmBranch branch) {
+        return resolveUrl(repository.getUrl(), repository.getBranchBase(), SVN_BRANCHES, branch);
     }
 
     /**
@@ -166,16 +146,13 @@ public final class SvnTagBranchUtils
      * @return TODO
      * @see #resolveUrl(String,String,String,ScmBranch)
      */
-    public static String resolveBranchUrl( String repositoryUrl, ScmBranch branch )
-    {
-        return resolveUrl( repositoryUrl, resolveBranchBase( repositoryUrl ), SVN_BRANCHES, branch );
+    public static String resolveBranchUrl(String repositoryUrl, ScmBranch branch) {
+        return resolveUrl(repositoryUrl, resolveBranchBase(repositoryUrl), SVN_BRANCHES, branch);
     }
 
-    private static String addSuffix( String baseString, String suffix )
-    {
-        return ( suffix != null ) ? baseString + suffix : baseString;
+    private static String addSuffix(String baseString, String suffix) {
+        return (suffix != null) ? baseString + suffix : baseString;
     }
-
 
     /**
      * Resolves a tag or branch name to a repository url.<br>
@@ -198,65 +175,55 @@ public final class SvnTagBranchUtils
      *                      or even contain a relative path to the root like "branches/my-branch"
      * @return TODO
      */
-    public static String resolveUrl( String repositoryUrl, String tagBase, String subdir, ScmBranch branchTag )
-    {
+    public static String resolveUrl(String repositoryUrl, String tagBase, String subdir, ScmBranch branchTag) {
         String branchTagName = branchTag.getName();
-        String projectRoot = getProjectRoot( repositoryUrl );
-        branchTagName = StringUtils.strip( branchTagName, "/" );
+        String projectRoot = getProjectRoot(repositoryUrl);
+        branchTagName = StringUtils.strip(branchTagName, "/");
 
-        if ( StringUtils.isEmpty( branchTagName ) )
-        {
+        if (StringUtils.isEmpty(branchTagName)) {
             return null;
         }
 
         // Look for a query string as in ViewSVN urls
         String queryString = null;
-        if ( repositoryUrl.indexOf( '?' ) >= 0 )
-        {
-            queryString = repositoryUrl.substring( repositoryUrl.indexOf( '?' ) );
+        if (repositoryUrl.indexOf('?') >= 0) {
+            queryString = repositoryUrl.substring(repositoryUrl.indexOf('?'));
             // if repositoryUrl contains a query string, remove it from repositoryUrlRoot; will be re-appended later
-            projectRoot = StringUtils.replace( projectRoot, queryString, "" );
+            projectRoot = StringUtils.replace(projectRoot, queryString, "");
         }
 
-        if ( branchTagName.indexOf( "://" ) >= 0 )
-        {
+        if (branchTagName.indexOf("://") >= 0) {
             // branch/tag is already an absolute url so just return it.
             return branchTagName;
         }
 
         // User has a tagBase specified so just return the name appended to the tagBase
-        if ( StringUtils.isNotEmpty( tagBase ) && !tagBase.equals( resolveTagBase( repositoryUrl ) )
-            && !tagBase.equals( resolveBranchBase( repositoryUrl ) ) )
-        {
-            return appendPath( tagBase, branchTagName );
+        if (StringUtils.isNotEmpty(tagBase)
+                && !tagBase.equals(resolveTagBase(repositoryUrl))
+                && !tagBase.equals(resolveBranchBase(repositoryUrl))) {
+            return appendPath(tagBase, branchTagName);
         }
 
         // Look for any "branches/" or "tags/" specifiers in the branchTagName. If one occurs,
         // don't append the subdir to the projectRoot when appending the name
-        for ( int i = 0; i < SVN_BASE_DIRS.length; i++ )
-        {
-            if ( branchTagName.startsWith( SVN_BASE_DIRS[i] + "/" ) )
-            {
-                return addSuffix( appendPath( projectRoot, branchTagName ), queryString );
+        for (int i = 0; i < SVN_BASE_DIRS.length; i++) {
+            if (branchTagName.startsWith(SVN_BASE_DIRS[i] + "/")) {
+                return addSuffix(appendPath(projectRoot, branchTagName), queryString);
             }
         }
 
-        return addSuffix( appendPath( appendPath( projectRoot, subdir ), branchTagName ), queryString );
+        return addSuffix(appendPath(appendPath(projectRoot, subdir), branchTagName), queryString);
     }
 
     /* Helper function that does the checking for {@link #isRevisionSpecifier}
      */
-    private static boolean checkRevisionArg( String arg )
-    {
-        if ( StringUtils.isNumeric( arg ) || ( arg.startsWith( "{" ) && arg.endsWith( "}" ) ) )
-        {
+    private static boolean checkRevisionArg(String arg) {
+        if (StringUtils.isNumeric(arg) || (arg.startsWith("{") && arg.endsWith("}"))) {
             return true;
         }
 
-        for ( int i = 0; i < REVISION_SPECIFIERS.length; i++ )
-        {
-            if ( REVISION_SPECIFIERS[i].equalsIgnoreCase( arg ) )
-            {
+        for (int i = 0; i < REVISION_SPECIFIERS.length; i++) {
+            if (REVISION_SPECIFIERS[i].equalsIgnoreCase(arg)) {
                 return true;
             }
         }
@@ -278,29 +245,24 @@ public final class SvnTagBranchUtils
      * For command such as diff, the revision argument can be in the format of:
      * IDENTIFIER:IDENTIFIER   where IDENTIFIER is one of the args listed above
      */
-    public static boolean isRevisionSpecifier( ScmVersion version )
-    {
-        if ( version == null )
-        {
+    public static boolean isRevisionSpecifier(ScmVersion version) {
+        if (version == null) {
             return false;
         }
 
         String versionName = version.getName();
 
-        if ( StringUtils.isEmpty( versionName ) )
-        {
+        if (StringUtils.isEmpty(versionName)) {
             return false;
         }
 
-        if ( checkRevisionArg( versionName ) )
-        {
+        if (checkRevisionArg(versionName)) {
             return true;
         }
 
-        String[] parts = StringUtils.split( versionName, ":" );
-        if ( parts.length == 2 && StringUtils.isNotEmpty( parts[0] ) && StringUtils.isNotEmpty( parts[1] ) )
-        {
-            return checkRevisionArg( parts[0] ) && checkRevisionArg( parts[1] );
+        String[] parts = StringUtils.split(versionName, ":");
+        if (parts.length == 2 && StringUtils.isNotEmpty(parts[0]) && StringUtils.isNotEmpty(parts[1])) {
+            return checkRevisionArg(parts[0]) && checkRevisionArg(parts[1]);
         }
 
         return false;

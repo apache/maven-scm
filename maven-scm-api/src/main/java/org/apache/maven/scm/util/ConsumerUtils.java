@@ -1,5 +1,3 @@
-package org.apache.maven.scm.util;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.util;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.util;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,12 +28,9 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 /**
  * @author <a href="mailto:davide.angelocola+apache@gmail.com">Davide Angelocola</a>
  */
-public class ConsumerUtils
-{
+public class ConsumerUtils {
 
-    private ConsumerUtils()
-    {
-    }
+    private ConsumerUtils() {}
 
     /**
      * Read file f, sending each line to the consumer.
@@ -43,21 +39,16 @@ public class ConsumerUtils
      * @param consumer TODO
      * @throws IOException if any
      */
-    public static void consumeFile( File f, StreamConsumer consumer ) throws IOException
-    {
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
+    public static void consumeFile(File f, StreamConsumer consumer) throws IOException {
+        BufferedReader r = new BufferedReader(new FileReader(f));
 
-        try
-        {
+        try {
             String line;
-            while ( ( line = r.readLine() ) != null )
-            {
-                consumer.consumeLine( line );
+            while ((line = r.readLine()) != null) {
+                consumer.consumeLine(line);
             }
 
-        }
-        finally
-        {
+        } finally {
             r.close();
         }
     }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.blame;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.blame;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.blame;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.blame;
 
 import java.util.List;
 
@@ -28,34 +27,28 @@ import org.apache.maven.scm.ScmResult;
  * @author Olivier Lamy
  * @since 1.4
  */
-public class BlameScmResult
-    extends ScmResult
-{
+public class BlameScmResult extends ScmResult {
     private static final long serialVersionUID = -3877526036464636595L;
 
     private List<BlameLine> lines;
 
-    public BlameScmResult( String commandLine, List<BlameLine> lines )
-    {
-        this( commandLine, null, null, true );
+    public BlameScmResult(String commandLine, List<BlameLine> lines) {
+        this(commandLine, null, null, true);
 
         this.lines = lines;
     }
 
-    public BlameScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
-    {
-        super( commandLine, providerMessage, commandOutput, success );
+    public BlameScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
+        super(commandLine, providerMessage, commandOutput, success);
     }
 
-    public BlameScmResult( List<BlameLine> lines, ScmResult scmResult )
-    {
-        super( scmResult );
+    public BlameScmResult(List<BlameLine> lines, ScmResult scmResult) {
+        super(scmResult);
 
         this.lines = lines;
     }
 
-    public List<BlameLine> getLines()
-    {
+    public List<BlameLine> getLines() {
         return lines;
     }
 }

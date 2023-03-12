@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.command.info;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.command.info;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.svn.command.info;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.command.info;
 
 import java.util.List;
 
@@ -29,33 +28,26 @@ import org.apache.maven.scm.command.info.InfoScmResult;
  *
  * @deprecated use {@link InfoScmResult}
  */
-public class SvnInfoScmResult
-    extends InfoScmResult
-{
+public class SvnInfoScmResult extends InfoScmResult {
 
     private static final long serialVersionUID = 955993340040530451L;
-    
-    public SvnInfoScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
-    {
-        super( commandLine, providerMessage, commandOutput, success );
+
+    public SvnInfoScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
+        super(commandLine, providerMessage, commandOutput, success);
     }
 
-    public SvnInfoScmResult( String commandLine, List<SvnInfoItem> files )
-    {
-        super( commandLine, null, null, true );
-        if ( files != null )
-        {
-            getInfoItems().addAll( files );
+    public SvnInfoScmResult(String commandLine, List<SvnInfoItem> files) {
+        super(commandLine, null, null, true);
+        if (files != null) {
+            getInfoItems().addAll(files);
         }
     }
 
-    public SvnInfoScmResult( List<SvnInfoItem> files, ScmResult result )
-    {
-        super( result );
+    public SvnInfoScmResult(List<SvnInfoItem> files, ScmResult result) {
+        super(result);
 
-        if ( files != null )
-        {
-            getInfoItems().addAll( files );
+        if (files != null) {
+            getInfoItems().addAll(files);
         }
     }
 }

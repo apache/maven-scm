@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,7 +38,6 @@ import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import static org.junit.Assume.assumeTrue;
 
 /**
@@ -56,9 +54,7 @@ import static org.junit.Assume.assumeTrue;
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
  *
  */
-public abstract class ScmTckTestCase
-    extends ScmTestCase
-{
+public abstract class ScmTckTestCase extends ScmTestCase {
     private ScmRepository scmRepository;
 
     private List<String> scmFileNames;
@@ -68,8 +64,7 @@ public abstract class ScmTckTestCase
      * If the provided name is not a runnable application all tests in the class are skipped.
      * @return The commandline command for the specific scm provider. Or null if none is needed.
      */
-    public String getScmProviderCommand()
-    {
+    public String getScmProviderCommand() {
         return null;
     }
 
@@ -77,8 +72,7 @@ public abstract class ScmTckTestCase
      * @return A provider specific and valid url for the repository
      * @throws Exception if any
      */
-    public abstract String getScmUrl()
-        throws Exception;
+    public abstract String getScmUrl() throws Exception;
 
     /**
      * <p>
@@ -93,8 +87,7 @@ public abstract class ScmTckTestCase
      *
      * @return {@link List} of {@link String} objects
      */
-    protected List<String> getScmFileNames()
-    {
+    protected List<String> getScmFileNames() {
         return scmFileNames;
     }
 
@@ -110,16 +103,14 @@ public abstract class ScmTckTestCase
      *
      * @throws Exception if any
      */
-    public abstract void initRepo()
-        throws Exception;
+    public abstract void initRepo() throws Exception;
 
-    public void checkScmPresence()
-    {
+    public void checkScmPresence() {
         String scmProviderCommand = getScmProviderCommand();
-        if ( scmProviderCommand != null )
-        {
-            assumeTrue( "Skipping tests because the required command '" + scmProviderCommand + "' is not available.",
-                ScmTestCase.isSystemCmd( scmProviderCommand ) );
+        if (scmProviderCommand != null) {
+            assumeTrue(
+                    "Skipping tests because the required command '" + scmProviderCommand + "' is not available.",
+                    ScmTestCase.isSystemCmd(scmProviderCommand));
         }
     }
 
@@ -128,28 +119,25 @@ public abstract class ScmTckTestCase
      */
     @Before
     @Override
-    public void setUp()
-        throws Exception
-    {
+    public void setUp() throws Exception {
         checkScmPresence();
         super.setUp();
 
         scmRepository = null;
 
-        scmFileNames = new ArrayList<>( 4 );
-        scmFileNames.add( "/pom.xml" );
-        scmFileNames.add( "/readme.txt" );
-        scmFileNames.add( "/src/main/java/Application.java" );
-        scmFileNames.add( "/src/test/java/Test.java" );
+        scmFileNames = new ArrayList<>(4);
+        scmFileNames.add("/pom.xml");
+        scmFileNames.add("/readme.txt");
+        scmFileNames.add("/src/main/java/Application.java");
+        scmFileNames.add("/src/test/java/Test.java");
 
         initRepo();
 
-        checkOut( getWorkingCopy(), getScmRepository() );
+        checkOut(getWorkingCopy(), getScmRepository());
 
         Iterator<String> it = getScmFileNames().iterator();
-        while ( it.hasNext() )
-        {
-            assertFile( getWorkingCopy(), it.next() );
+        while (it.hasNext()) {
+            assertFile(getWorkingCopy(), it.next());
         }
     }
 
@@ -159,19 +147,14 @@ public abstract class ScmTckTestCase
      * operations are performed, or the check out dirs are outside
      * of the normal target directory.
      */
-    public void removeRepo()
-        throws Exception
-    {
-    }
+    public void removeRepo() throws Exception {}
 
     /**
      * Provided to allow removeRepo() to be called.
      */
     @After
     @Override
-    public void tearDown()
-        throws Exception
-    {
+    public void tearDown() throws Exception {
         super.tearDown();
         removeRepo();
     }
@@ -179,12 +162,9 @@ public abstract class ScmTckTestCase
     /**
      * Convenience method to get the ScmRepository for this provider
      */
-    protected ScmRepository getScmRepository()
-        throws Exception
-    {
-        if ( scmRepository == null )
-        {
-            scmRepository = getScmManager().makeScmRepository( getScmUrl() );
+    protected ScmRepository getScmRepository() throws Exception {
+        if (scmRepository == null) {
+            scmRepository = getScmManager().makeScmRepository(getScmUrl());
         }
 
         return scmRepository;
@@ -193,14 +173,12 @@ public abstract class ScmTckTestCase
     /**
      * Convenience method to check out files from the repository
      */
-    protected CheckOutScmResult checkOut( File workingDirectory, ScmRepository repository )
-        throws Exception
-    {
-        CheckOutScmResult result =
-            getScmManager().getProviderByUrl( getScmUrl() ).checkOut( repository, new ScmFileSet( workingDirectory ),
-                                                                      (ScmVersion) null );
+    protected CheckOutScmResult checkOut(File workingDirectory, ScmRepository repository) throws Exception {
+        CheckOutScmResult result = getScmManager()
+                .getProviderByUrl(getScmUrl())
+                .checkOut(repository, new ScmFileSet(workingDirectory), (ScmVersion) null);
 
-        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
+        assertTrue("Check result was successful, output: " + result.getCommandOutput(), result.isSuccess());
 
         return result;
     }
@@ -208,13 +186,12 @@ public abstract class ScmTckTestCase
     /**
      * Convenience method to check in files to the repository
      */
-    protected CheckInScmResult checkIn( File workingDirectory, ScmRepository repository )
-        throws Exception
-    {
-        CheckInScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkIn( repository, new ScmFileSet( workingDirectory ), (ScmVersion) null, "Initial Checkin" );
+    protected CheckInScmResult checkIn(File workingDirectory, ScmRepository repository) throws Exception {
+        CheckInScmResult result = getScmManager()
+                .getProviderByUrl(getScmUrl())
+                .checkIn(repository, new ScmFileSet(workingDirectory), (ScmVersion) null, "Initial Checkin");
 
-        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
+        assertTrue("Check result was successful, output: " + result.getCommandOutput(), result.isSuccess());
 
         return result;
     }
@@ -222,13 +199,12 @@ public abstract class ScmTckTestCase
     /**
      * Convenience method to remove files from the repository
      */
-    protected RemoveScmResult remove( File workingDirectory, ScmRepository repository )
-            throws Exception
-    {
-        RemoveScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
-            .remove( repository, new ScmFileSet( workingDirectory ), "Initial Checkin" );
+    protected RemoveScmResult remove(File workingDirectory, ScmRepository repository) throws Exception {
+        RemoveScmResult result = getScmManager()
+                .getProviderByUrl(getScmUrl())
+                .remove(repository, new ScmFileSet(workingDirectory), "Initial Checkin");
 
-        assertTrue( "Remove result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
+        assertTrue("Remove result was successful, output: " + result.getCommandOutput(), result.isSuccess());
 
         return result;
     }
@@ -236,24 +212,21 @@ public abstract class ScmTckTestCase
     /**
      * Convenience method to add a file to the working tree at the working directory
      */
-    protected void addToWorkingTree( File workingDirectory, File file, ScmRepository repository )
-        throws Exception
-    {
-        ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
+    protected void addToWorkingTree(File workingDirectory, File file, ScmRepository repository) throws Exception {
+        ScmProvider provider = getScmManager().getProviderByUrl(getScmUrl());
 
         CommandParameters commandParameters = new CommandParameters();
-        commandParameters.setString( CommandParameter.FORCE_ADD, Boolean.TRUE.toString() );
+        commandParameters.setString(CommandParameter.FORCE_ADD, Boolean.TRUE.toString());
 
-        AddScmResult result = provider.add( repository, new ScmFileSet( workingDirectory, file ), commandParameters );
+        AddScmResult result = provider.add(repository, new ScmFileSet(workingDirectory, file), commandParameters);
 
-        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
+        assertTrue("Check result was successful, output: " + result.getCommandOutput(), result.isSuccess());
 
         List<ScmFile> addedFiles = result.getAddedFiles();
 
-        if ( new File( workingDirectory, file.getPath() ).isFile() )
-        {
+        if (new File(workingDirectory, file.getPath()).isFile()) {
             // Don't check directory add because some SCM tools ignore it
-            assertEquals( "Expected 1 file in the added files list " + addedFiles, 1, addedFiles.size() );
+            assertEquals("Expected 1 file in the added files list " + addedFiles, 1, addedFiles.size());
         }
     }
 
@@ -269,32 +242,28 @@ public abstract class ScmTckTestCase
      * @param files List with {@code ScmFile}s
      * @return Map key=pathName, value=ScmFile
      */
-    protected Map<String, ScmFile> mapFilesByPath( List<ScmFile> files )
-    {
-        if ( files == null )
-        {
+    protected Map<String, ScmFile> mapFilesByPath(List<ScmFile> files) {
+        if (files == null) {
             return null;
         }
 
         Map<String, ScmFile> mappedFiles = new TreeMap<>();
-        for ( ScmFile scmFile : files )
-        {
-            String path = StringUtils.replace( scmFile.getPath(), "\\", "/" );
-            mappedFiles.put( path, scmFile );
+        for (ScmFile scmFile : files) {
+            String path = StringUtils.replace(scmFile.getPath(), "\\", "/");
+            mappedFiles.put(path, scmFile);
         }
 
         return mappedFiles;
     }
 
-    protected EditScmResult edit( File basedir, String includes, String excludes, ScmRepository repository )
-        throws Exception
-    {
-        if ( this.getScmManager().getProviderByRepository( this.getScmRepository() ).requiresEditMode() )
-        {
-            ScmFileSet fileSet = new ScmFileSet( basedir, includes, excludes );
-            return getScmManager().edit( getScmRepository(), fileSet );
+    protected EditScmResult edit(File basedir, String includes, String excludes, ScmRepository repository)
+            throws Exception {
+        if (this.getScmManager()
+                .getProviderByRepository(this.getScmRepository())
+                .requiresEditMode()) {
+            ScmFileSet fileSet = new ScmFileSet(basedir, includes, excludes);
+            return getScmManager().edit(getScmRepository(), fileSet);
         }
-        return new EditScmResult( "", "", "", true );
+        return new EditScmResult("", "", "", true);
     }
-
 }

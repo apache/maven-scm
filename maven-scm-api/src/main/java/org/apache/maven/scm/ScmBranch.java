@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,27 +16,24 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class ScmBranch
-    extends AbstractScmVersion
-{
+public class ScmBranch extends AbstractScmVersion {
     private static final long serialVersionUID = 6305050785257168739L;
 
     /** {@inheritDoc} */
-    public String getType()
-    {
+    public String getType() {
         return "Branch";
     }
 
     /**
      * @param name the branch name
      */
-    public ScmBranch( String name )
-    {
-        super( name );
+    public ScmBranch(String name) {
+        super(name);
     }
 }

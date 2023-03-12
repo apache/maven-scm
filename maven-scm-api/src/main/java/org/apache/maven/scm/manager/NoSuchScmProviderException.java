@@ -1,5 +1,3 @@
-package org.apache.maven.scm.manager;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.manager;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.manager;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.manager;
 
 import org.apache.maven.scm.ScmException;
 
@@ -28,21 +27,17 @@ import static java.util.Objects.requireNonNull;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class NoSuchScmProviderException
-    extends ScmException
-{
+public class NoSuchScmProviderException extends ScmException {
     static final long serialVersionUID = 4770645185214496323L;
 
     private final String providerName;
 
-    public NoSuchScmProviderException( String providerName )
-    {
-        super( "No such provider: '" + providerName + "'." );
-        this.providerName = requireNonNull( providerName );
+    public NoSuchScmProviderException(String providerName) {
+        super("No such provider: '" + providerName + "'.");
+        this.providerName = requireNonNull(providerName);
     }
 
-    public String getProviderName()
-    {
+    public String getProviderName() {
         return providerName;
     }
 }

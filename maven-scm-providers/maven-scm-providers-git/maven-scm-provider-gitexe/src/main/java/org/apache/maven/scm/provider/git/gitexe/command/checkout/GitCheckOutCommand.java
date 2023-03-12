@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.checkout;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkout;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkout;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.checkout;
 
 import java.io.File;
 import java.util.Map;
@@ -49,14 +48,10 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
  */
-public class GitCheckOutCommand
-    extends AbstractCheckOutCommand
-    implements GitCommand
-{
+public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCommand {
     private final Map<String, String> environmentVariables;
 
-    public GitCheckOutCommand( Map<String, String> environmentVariables )
-    {
+    public GitCheckOutCommand(Map<String, String> environmentVariables) {
         super();
         this.environmentVariables = environmentVariables;
     }
@@ -70,20 +65,22 @@ public class GitCheckOutCommand
      * {@inheritDoc}
      */
     @Override
-    public ScmResult executeCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                     CommandParameters parameters )
-        throws ScmException
-    {
-        ScmVersion version = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
-        boolean binary = parameters.getBoolean( CommandParameter.BINARY, false );
-        boolean shallow = parameters.getBoolean( CommandParameter.SHALLOW, false );
+    public ScmResult executeCommand(ScmProviderRepository repo, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        ScmVersion version = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
+        boolean binary = parameters.getBoolean(CommandParameter.BINARY, false);
+        boolean shallow = parameters.getBoolean(CommandParameter.SHALLOW, false);
 
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
-        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getFetchInfo().getProtocol() )
-            && repository.getFetchInfo().getPath().indexOf( fileSet.getBasedir().getPath() ) >= 0 )
-        {
-            throw new ScmException( "remote repository must not be the working directory" );
+        if (GitScmProviderRepository.PROTOCOL_FILE.equals(
+                        repository.getFetchInfo().getProtocol())
+                && repository
+                                .getFetchInfo()
+                                .getPath()
+                                .indexOf(fileSet.getBasedir().getPath())
+                        >= 0) {
+            throw new ScmException("remote repository must not be the working directory");
         }
 
         int exitCode;
@@ -93,84 +90,75 @@ public class GitCheckOutCommand
 
         String lastCommandLine = "git-nothing-to-do";
 
-        if ( !fileSet.getBasedir().exists() || !( new File( fileSet.getBasedir(), ".git" ).exists() ) )
-        {
-            if ( fileSet.getBasedir().exists() )
-            {
+        if (!fileSet.getBasedir().exists() || !(new File(fileSet.getBasedir(), ".git").exists())) {
+            if (fileSet.getBasedir().exists()) {
                 // git refuses to clone otherwise
                 fileSet.getBasedir().delete();
             }
 
             // no git repo seems to exist, let's clone the original repo
-            Commandline clClone = createCloneCommand( repository, fileSet.getBasedir(), version, binary, shallow );
+            Commandline clClone = createCloneCommand(repository, fileSet.getBasedir(), version, binary, shallow);
 
-            exitCode = GitCommandLineUtils.execute( clClone, stdout, stderr );
-            if ( exitCode != 0 )
-            {
-                return new CheckOutScmResult( clClone.toString(), "The git-clone command failed.", stderr.getOutput(),
-                                              false );
+            exitCode = GitCommandLineUtils.execute(clClone, stdout, stderr);
+            if (exitCode != 0) {
+                return new CheckOutScmResult(
+                        clClone.toString(), "The git-clone command failed.", stderr.getOutput(), false);
             }
             lastCommandLine = clClone.toString();
         }
 
-        GitRemoteInfoCommand gitRemoteInfoCommand = new GitRemoteInfoCommand( environmentVariables );
+        GitRemoteInfoCommand gitRemoteInfoCommand = new GitRemoteInfoCommand(environmentVariables);
 
-        RemoteInfoScmResult result = gitRemoteInfoCommand.executeRemoteInfoCommand( repository, null, null );
+        RemoteInfoScmResult result = gitRemoteInfoCommand.executeRemoteInfoCommand(repository, null, null);
 
-        if ( fileSet.getBasedir().exists() && new File( fileSet.getBasedir(), ".git" ).exists()
-            && result.getBranches().size() > 0 )
-        {
+        if (fileSet.getBasedir().exists()
+                && new File(fileSet.getBasedir(), ".git").exists()
+                && result.getBranches().size() > 0) {
             // git repo exists, so we must git-pull the changes
-            Commandline clPull = createPullCommand( repository, fileSet.getBasedir(), version );
+            Commandline clPull = createPullCommand(repository, fileSet.getBasedir(), version);
 
-            exitCode = GitCommandLineUtils.execute( clPull, stdout, stderr );
-            if ( exitCode != 0 )
-            {
-                return new CheckOutScmResult( clPull.toString(), "The git-pull command failed.", stderr.getOutput(),
-                                              false );
+            exitCode = GitCommandLineUtils.execute(clPull, stdout, stderr);
+            if (exitCode != 0) {
+                return new CheckOutScmResult(
+                        clPull.toString(), "The git-pull command failed.", stderr.getOutput(), false);
             }
             lastCommandLine = clPull.toString();
 
             // and now lets do the git-checkout itself
-            Commandline clCheckout = createCommandLine( repository, fileSet.getBasedir(), version );
+            Commandline clCheckout = createCommandLine(repository, fileSet.getBasedir(), version);
 
-            exitCode = GitCommandLineUtils.execute( clCheckout, stdout, stderr );
-            if ( exitCode != 0 )
-            {
-                return new CheckOutScmResult( clCheckout.toString(), "The git-checkout command failed.",
-                                              stderr.getOutput(), false );
+            exitCode = GitCommandLineUtils.execute(clCheckout, stdout, stderr);
+            if (exitCode != 0) {
+                return new CheckOutScmResult(
+                        clCheckout.toString(), "The git-checkout command failed.", stderr.getOutput(), false);
             }
             lastCommandLine = clCheckout.toString();
         }
 
         // and now search for the files
-        GitListConsumer listConsumer =
-            new GitListConsumer( fileSet.getBasedir(), ScmFileStatus.CHECKED_IN );
+        GitListConsumer listConsumer = new GitListConsumer(fileSet.getBasedir(), ScmFileStatus.CHECKED_IN);
 
-        Commandline clList = GitListCommand.createCommandLine( repository, fileSet.getBasedir() );
+        Commandline clList = GitListCommand.createCommandLine(repository, fileSet.getBasedir());
 
-        exitCode = GitCommandLineUtils.execute( clList, listConsumer, stderr );
-        if ( exitCode != 0 )
-        {
-            return new CheckOutScmResult( clList.toString(), "The git-ls-files command failed.", stderr.getOutput(),
-                                          false );
+        exitCode = GitCommandLineUtils.execute(clList, listConsumer, stderr);
+        if (exitCode != 0) {
+            return new CheckOutScmResult(
+                    clList.toString(), "The git-ls-files command failed.", stderr.getOutput(), false);
         }
 
-        return new CheckOutScmResult( lastCommandLine, listConsumer.getListedFiles() );
+        return new CheckOutScmResult(lastCommandLine, listConsumer.getListedFiles());
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
-                                                 ScmVersion version )
-    {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "checkout" );
+    public static Commandline createCommandLine(
+            GitScmProviderRepository repository, File workingDirectory, ScmVersion version) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "checkout");
 
-        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
-        {
-            cl.createArg().setValue( version.getName() );
+        if (version != null && StringUtils.isNotEmpty(version.getName())) {
+            cl.createArg().setValue(version.getName());
         }
 
         return cl;
@@ -179,84 +167,75 @@ public class GitCheckOutCommand
     /**
      * create a git-clone repository command
      */
-    private Commandline createCloneCommand( GitScmProviderRepository repository, File workingDirectory,
-                                            ScmVersion version, boolean binary, boolean shallow )
-    {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory.getParentFile(), "clone",
-                repository, environmentVariables );
+    private Commandline createCloneCommand(
+            GitScmProviderRepository repository,
+            File workingDirectory,
+            ScmVersion version,
+            boolean binary,
+            boolean shallow) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(
+                workingDirectory.getParentFile(), "clone", repository, environmentVariables);
 
-        forceBinary( cl, binary );
+        forceBinary(cl, binary);
 
-        if ( shallow )
-        {
-            cl.createArg().setValue( "--depth" );
+        if (shallow) {
+            cl.createArg().setValue("--depth");
 
-            cl.createArg().setValue( "1" );
+            cl.createArg().setValue("1");
         }
 
-        if ( version != null && ( version instanceof ScmBranch ) )
-        {
+        if (version != null && (version instanceof ScmBranch)) {
 
-            cl.createArg().setValue( "--branch" );
+            cl.createArg().setValue("--branch");
 
-            cl.createArg().setValue( version.getName() );
+            cl.createArg().setValue(version.getName());
         }
 
-        cl.createArg().setValue( repository.getFetchUrl() );
+        cl.createArg().setValue(repository.getFetchUrl());
 
-        cl.createArg().setValue( workingDirectory.getName() );
+        cl.createArg().setValue(workingDirectory.getName());
 
         return cl;
     }
 
-    private void forceBinary( Commandline cl, boolean binary )
-    {
-        if ( binary )
-        {
-            cl.createArg().setValue( "-c" );
-            cl.createArg().setValue( "core.autocrlf=false" );
+    private void forceBinary(Commandline cl, boolean binary) {
+        if (binary) {
+            cl.createArg().setValue("-c");
+            cl.createArg().setValue("core.autocrlf=false");
         }
     }
 
     /**
      * create a git-pull repository command
      */
-    private Commandline createPullCommand( GitScmProviderRepository repository, File workingDirectory,
-                                           ScmVersion version )
-    {
+    private Commandline createPullCommand(
+            GitScmProviderRepository repository, File workingDirectory, ScmVersion version) {
         Commandline cl;
 
-        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
-        {
-            if ( version instanceof ScmTag )
-            {
+        if (version != null && StringUtils.isNotEmpty(version.getName())) {
+            if (version instanceof ScmTag) {
                 // A tag will not be pulled but we only fetch all the commits from the upstream repo
                 // This is done because checking out a tag might not happen on the current branch
                 // but create a 'detached HEAD'.
                 // In fact, a tag in git may be in multiple branches. This occurs if
                 // you create a branch after the tag has been created
-                cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "fetch", repository,
-                                                                environmentVariables );
+                cl = GitCommandLineUtils.getBaseGitCommandLine(
+                        workingDirectory, "fetch", repository, environmentVariables);
 
-                cl.createArg().setValue( repository.getFetchUrl() );
+                cl.createArg().setValue(repository.getFetchUrl());
+            } else {
+                cl = GitCommandLineUtils.getBaseGitCommandLine(
+                        workingDirectory, "pull", repository, environmentVariables);
+
+                cl.createArg().setValue(repository.getFetchUrl());
+
+                cl.createArg().setValue(version.getName() + ":" + version.getName());
             }
-            else
-            {
-                cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull", repository,
-                                                                environmentVariables );
+        } else {
+            cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "pull", repository, environmentVariables);
 
-                cl.createArg().setValue( repository.getFetchUrl() );
-
-                cl.createArg().setValue( version.getName() + ":" + version.getName() );
-            }
-        }
-        else
-        {
-            cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull", repository,
-                                                            environmentVariables );
-
-            cl.createArg().setValue( repository.getFetchUrl() );
-            cl.createArg().setValue( "master" );
+            cl.createArg().setValue(repository.getFetchUrl());
+            cl.createArg().setValue("master");
         }
         return cl;
     }
@@ -267,10 +246,9 @@ public class GitCheckOutCommand
      * <p>
      * {@inheritDoc}
      */
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                        ScmVersion version, boolean recursive, boolean shallow )
-         throws ScmException
-     {
-         throw new UnsupportedOperationException( "Should not get here" );
-     }
+    protected CheckOutScmResult executeCheckOutCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version, boolean recursive, boolean shallow)
+            throws ScmException {
+        throw new UnsupportedOperationException("Should not get here");
+    }
 }

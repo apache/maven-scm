@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,95 +16,79 @@ package org.apache.maven.scm.provider.git;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.maven.scm.provider.git.command.GitCommand;
-
 import java.io.File;
 
+import org.apache.maven.scm.provider.git.command.GitCommand;
+
 @Singleton
-@Named( "git" )
-public class TestGitScmProvider
-    extends AbstractGitScmProvider
-{
-    protected GitCommand getAddCommand()
-    {
+@Named("git")
+public class TestGitScmProvider extends AbstractGitScmProvider {
+    protected GitCommand getAddCommand() {
         return null;
     }
 
-    protected GitCommand getBranchCommand()
-    {
+    protected GitCommand getBranchCommand() {
         return null;
     }
 
-    protected GitCommand getChangeLogCommand()
-    {
+    protected GitCommand getChangeLogCommand() {
         return null;
     }
 
-    protected GitCommand getCheckInCommand()
-    {
+    protected GitCommand getCheckInCommand() {
         return null;
     }
 
-    protected GitCommand getCheckOutCommand()
-    {
+    protected GitCommand getCheckOutCommand() {
         return null;
     }
 
-    protected GitCommand getDiffCommand()
-    {
+    protected GitCommand getDiffCommand() {
         return null;
     }
 
-    protected GitCommand getExportCommand()
-    {
+    protected GitCommand getExportCommand() {
         return null;
     }
 
-    protected GitCommand getRemoveCommand()
-    {
+    protected GitCommand getRemoveCommand() {
         return null;
     }
 
-    protected GitCommand getStatusCommand()
-    {
+    protected GitCommand getStatusCommand() {
         return null;
     }
 
-    protected GitCommand getTagCommand()
-    {
+    protected GitCommand getTagCommand() {
         return null;
     }
 
-    protected GitCommand getUntagCommand()
-    {
+    protected GitCommand getUntagCommand() {
         return null;
     }
 
-    protected GitCommand getUpdateCommand()
-    {
+    protected GitCommand getUpdateCommand() {
         return null;
     }
 
-    protected GitCommand getInfoCommand()
-    {
+    protected GitCommand getInfoCommand() {
         return null;
     }
 
-    protected GitCommand getBlameCommand()
-    {
+    protected GitCommand getBlameCommand() {
         return null;
     }
-    
+
     public GitCommand getRemoteInfoCommand() {
-    	return null;
+        return null;
     }
 
-    protected String getRepositoryURL( File path )
-    {
+    protected String getRepositoryURL(File path) {
         return null;
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.jgit;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.jgit;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -55,31 +54,26 @@ import org.eclipse.jgit.transport.CredentialsProvider;
  * @since 1.9
  */
 @Singleton
-@Named( "jgit" )
-public class JGitScmProvider
-    extends AbstractGitScmProvider
-{
+@Named("jgit")
+public class JGitScmProvider extends AbstractGitScmProvider {
     private final PlexusInteractivityCredentialsProvider credentialsProvider;
 
     @Inject
-    public JGitScmProvider( Prompter prompter )
-    {
-        credentialsProvider = new PlexusInteractivityCredentialsProvider( prompter );
-        CredentialsProvider.setDefault( credentialsProvider );
+    public JGitScmProvider(Prompter prompter) {
+        credentialsProvider = new PlexusInteractivityCredentialsProvider(prompter);
+        CredentialsProvider.setDefault(credentialsProvider);
     }
 
     @Override
-    public void setInteractive( boolean interactive )
-    {
-        credentialsProvider.setInteractive( interactive );
+    public void setInteractive(boolean interactive) {
+        credentialsProvider.setInteractive(interactive);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getAddCommand()
-    {
+    protected GitCommand getAddCommand() {
         return new JGitAddCommand();
     }
 
@@ -87,8 +81,7 @@ public class JGitScmProvider
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getBranchCommand()
-    {
+    protected GitCommand getBranchCommand() {
         return new JGitBranchCommand();
     }
 
@@ -96,8 +89,7 @@ public class JGitScmProvider
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getChangeLogCommand()
-    {
+    protected GitCommand getChangeLogCommand() {
         return new JGitChangeLogCommand();
     }
 
@@ -105,8 +97,7 @@ public class JGitScmProvider
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getCheckInCommand()
-    {
+    protected GitCommand getCheckInCommand() {
         return new JGitCheckInCommand();
     }
 
@@ -114,8 +105,7 @@ public class JGitScmProvider
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getCheckOutCommand()
-    {
+    protected GitCommand getCheckOutCommand() {
         return new JGitCheckOutCommand();
     }
 
@@ -123,8 +113,7 @@ public class JGitScmProvider
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getDiffCommand()
-    {
+    protected GitCommand getDiffCommand() {
         return new JGitDiffCommand();
     }
 
@@ -132,17 +121,15 @@ public class JGitScmProvider
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getExportCommand()
-    {
-        throw new UnsupportedOperationException( "getExportCommand" );
+    protected GitCommand getExportCommand() {
+        throw new UnsupportedOperationException("getExportCommand");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getRemoveCommand()
-    {
+    protected GitCommand getRemoveCommand() {
         return new JGitRemoveCommand();
     }
 
@@ -150,8 +137,7 @@ public class JGitScmProvider
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getStatusCommand()
-    {
+    protected GitCommand getStatusCommand() {
         return new JGitStatusCommand();
     }
 
@@ -159,8 +145,7 @@ public class JGitScmProvider
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getTagCommand()
-    {
+    protected GitCommand getTagCommand() {
         return new JGitTagCommand();
     }
 
@@ -168,8 +153,7 @@ public class JGitScmProvider
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getUntagCommand()
-    {
+    protected GitCommand getUntagCommand() {
         return new JGitUntagCommand();
     }
 
@@ -177,16 +161,14 @@ public class JGitScmProvider
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getUpdateCommand()
-    {
-        throw new UnsupportedOperationException( "getUpdateCommand" );
+    protected GitCommand getUpdateCommand() {
+        throw new UnsupportedOperationException("getUpdateCommand");
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getListCommand()
-    {
+    protected GitCommand getListCommand() {
         return new JGitListCommand();
     }
 
@@ -194,8 +176,7 @@ public class JGitScmProvider
      * {@inheritDoc}
      */
     @Override
-    public GitCommand getInfoCommand()
-    {
+    public GitCommand getInfoCommand() {
         return new JGitInfoCommand();
     }
 
@@ -203,30 +184,25 @@ public class JGitScmProvider
      * {@inheritDoc}
      */
     @Override
-    protected String getRepositoryURL( File path )
-        throws ScmException
-    {
+    protected String getRepositoryURL(File path) throws ScmException {
         // Note: I need to supply just 1 absolute path, but ScmFileSet won't let
         // me without
         // a basedir (which isn't used here anyway), so use a dummy file.
-        InfoScmResult result = info( null, new ScmFileSet( new File( "" ), path ), null );
+        InfoScmResult result = info(null, new ScmFileSet(new File(""), path), null);
 
-        if ( result.getInfoItems().size() != 1 )
-        {
-            throw new ScmRepositoryException(
-                "Cannot find URL: " + ( result.getInfoItems().size() == 0 ? "no" : "multiple" )
-                    + " items returned by the info command" );
+        if (result.getInfoItems().size() != 1) {
+            throw new ScmRepositoryException("Cannot find URL: "
+                    + (result.getInfoItems().size() == 0 ? "no" : "multiple") + " items returned by the info command");
         }
 
-        return ( result.getInfoItems().get( 0 ) ).getURL();
+        return (result.getInfoItems().get(0)).getURL();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getBlameCommand()
-    {
+    protected GitCommand getBlameCommand() {
         return new JGitBlameCommand();
     }
 
@@ -234,8 +210,7 @@ public class JGitScmProvider
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getRemoteInfoCommand()
-    {
+    protected GitCommand getRemoteInfoCommand() {
         return new JGitRemoteInfoCommand();
     }
 }

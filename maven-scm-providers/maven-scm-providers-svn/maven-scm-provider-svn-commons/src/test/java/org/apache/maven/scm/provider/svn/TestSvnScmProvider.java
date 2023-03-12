@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,111 +16,91 @@ package org.apache.maven.scm.provider.svn;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
+
+import java.io.File;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 
-import java.io.File;
-
 @Singleton
-@Named( "svn" )
-public class TestSvnScmProvider
-    extends AbstractSvnScmProvider
-{
-    protected SvnCommand getAddCommand()
-    {
+@Named("svn")
+public class TestSvnScmProvider extends AbstractSvnScmProvider {
+    protected SvnCommand getAddCommand() {
         return null;
     }
 
-    protected SvnCommand getBranchCommand()
-    {
+    protected SvnCommand getBranchCommand() {
         return null;
     }
 
-    protected SvnCommand getChangeLogCommand()
-    {
+    protected SvnCommand getChangeLogCommand() {
         return null;
     }
 
-    protected SvnCommand getCheckInCommand()
-    {
+    protected SvnCommand getCheckInCommand() {
         return null;
     }
 
-    protected SvnCommand getCheckOutCommand()
-    {
+    protected SvnCommand getCheckOutCommand() {
         return null;
     }
 
-    protected SvnCommand getDiffCommand()
-    {
+    protected SvnCommand getDiffCommand() {
         return null;
     }
 
-    protected SvnCommand getExportCommand()
-    {
+    protected SvnCommand getExportCommand() {
         return null;
     }
 
-    protected SvnCommand getRemoveCommand()
-    {
+    protected SvnCommand getRemoveCommand() {
         return null;
     }
 
-    protected SvnCommand getStatusCommand()
-    {
+    protected SvnCommand getStatusCommand() {
         return null;
     }
 
-    protected SvnCommand getTagCommand()
-    {
+    protected SvnCommand getTagCommand() {
         return null;
     }
 
-    protected SvnCommand getUntagCommand()
-    {
+    protected SvnCommand getUntagCommand() {
         return null;
     }
 
-    protected SvnCommand getUpdateCommand()
-    {
+    protected SvnCommand getUpdateCommand() {
         return null;
     }
 
-    protected SvnCommand getListCommand()
-    {
+    protected SvnCommand getListCommand() {
         return null;
     }
 
-    protected SvnCommand getInfoCommand()
-    {
+    protected SvnCommand getInfoCommand() {
         return null;
     }
 
-    protected SvnCommand getBlameCommand()
-    {
+    protected SvnCommand getBlameCommand() {
         return null;
     }
 
-    protected SvnCommand getMkdirCommand()
-    {
+    protected SvnCommand getMkdirCommand() {
         return null;
     }
 
-    protected String getRepositoryURL( File path )
-    {
+    protected String getRepositoryURL(File path) {
         return null;
     }
 
     @Override
-    public boolean remoteUrlExist( ScmProviderRepository repository, CommandParameters parameters )
-        throws ScmException
-    {
+    public boolean remoteUrlExist(ScmProviderRepository repository, CommandParameters parameters) throws ScmException {
         return false;
     }
 }

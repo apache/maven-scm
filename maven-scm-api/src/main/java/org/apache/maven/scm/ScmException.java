@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,30 +16,27 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm;
 
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class ScmException
-    extends Exception
-{
+public class ScmException extends Exception {
     static final long serialVersionUID = 5041965569154385323L;
 
     /**
      * @param message the message could be null
      */
-    public ScmException( String message )
-    {
-        super( message );
+    public ScmException(String message) {
+        super(message);
     }
 
     /**
      * @param message the message could be null
      * @param cause the cause could be null
      */
-    public ScmException( String message, Throwable cause )
-    {
-        super( message, cause );
+    public ScmException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

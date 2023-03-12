@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.list;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.list;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,21 +16,20 @@ package org.apache.maven.scm.provider.svn.svnexe.command.list;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command.list;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.util.AbstractConsumer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  *
  */
-public class SvnListConsumer
-        extends AbstractConsumer
-{
+public class SvnListConsumer extends AbstractConsumer {
     private final List<ScmFile> files = new ArrayList<>();
 
     // ----------------------------------------------------------------------
@@ -40,14 +37,11 @@ public class SvnListConsumer
     // ----------------------------------------------------------------------
 
     /** {@inheritDoc} */
-    public void consumeLine( String line )
-    {
-        files.add( new ScmFile( line, ScmFileStatus.CHECKED_IN ) );
+    public void consumeLine(String line) {
+        files.add(new ScmFile(line, ScmFileStatus.CHECKED_IN));
     }
 
-    public List<ScmFile> getFiles()
-    {
+    public List<ScmFile> getFiles() {
         return files;
     }
-
 }

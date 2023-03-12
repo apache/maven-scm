@@ -1,5 +1,3 @@
-package org.apache.maven.scm.manager;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.manager;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.manager;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.manager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -66,21 +65,18 @@ import static java.util.Objects.requireNonNull;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  */
-public abstract class AbstractScmManager
-        implements ScmManager
-{
-    protected final Logger logger = LoggerFactory.getLogger( getClass() );
+public abstract class AbstractScmManager implements ScmManager {
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final Map<String, ScmProvider> scmProviders = new ConcurrentHashMap<>();
 
     private final Map<String, String> userProviderTypes = new ConcurrentHashMap<>();
 
-    protected void setScmProviders( Map<String, ScmProvider> providers )
-    {
-        requireNonNull( providers );
+    protected void setScmProviders(Map<String, ScmProvider> providers) {
+        requireNonNull(providers);
         this.scmProviders.clear();
         // first provider must not be overwritten by subsequent ones if they are registered for the same key
-        providers.forEach( this.scmProviders::putIfAbsent );
+        providers.forEach(this.scmProviders::putIfAbsent);
     }
 
     /**
@@ -89,9 +85,8 @@ public abstract class AbstractScmManager
      * @deprecated use {@link #setScmProvider(String, ScmProvider)} instead
      */
     @Deprecated
-    protected void addScmProvider( String providerType, ScmProvider provider )
-    {
-        setScmProvider( providerType, provider );
+    protected void addScmProvider(String providerType, ScmProvider provider) {
+        setScmProvider(providerType, provider);
     }
 
     /**
@@ -102,11 +97,10 @@ public abstract class AbstractScmManager
      * @param provider     the provider that will be used for that SCM type
      */
     @Override
-    public void setScmProvider( String providerType, ScmProvider provider )
-    {
-        requireNonNull( providerType );
-        requireNonNull( provider );
-        scmProviders.put( providerType, provider );
+    public void setScmProvider(String providerType, ScmProvider provider) {
+        requireNonNull(providerType);
+        requireNonNull(provider);
+        scmProviders.put(providerType, provider);
     }
 
     // ----------------------------------------------------------------------
@@ -117,46 +111,39 @@ public abstract class AbstractScmManager
      * {@inheritDoc}
      */
     @Override
-    public ScmProvider getProviderByUrl( String scmUrl )
-            throws ScmRepositoryException, NoSuchScmProviderException
-    {
-        requireNonNull( scmUrl, "The scm url cannot be null." );
+    public ScmProvider getProviderByUrl(String scmUrl) throws ScmRepositoryException, NoSuchScmProviderException {
+        requireNonNull(scmUrl, "The scm url cannot be null.");
 
-        String providerType = ScmUrlUtils.getProvider( scmUrl );
+        String providerType = ScmUrlUtils.getProvider(scmUrl);
 
-        return getProviderByType( providerType );
+        return getProviderByType(providerType);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setScmProviderImplementation( String providerType, String providerImplementation )
-    {
-        requireNonNull( providerType );
-        requireNonNull( providerImplementation );
-        userProviderTypes.put( providerType, providerImplementation );
+    public void setScmProviderImplementation(String providerType, String providerImplementation) {
+        requireNonNull(providerType);
+        requireNonNull(providerImplementation);
+        userProviderTypes.put(providerType, providerImplementation);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ScmProvider getProviderByType( String providerType )
-            throws NoSuchScmProviderException
-    {
-        String usedProviderType = System.getProperty( "maven.scm.provider." + providerType + ".implementation" );
+    public ScmProvider getProviderByType(String providerType) throws NoSuchScmProviderException {
+        String usedProviderType = System.getProperty("maven.scm.provider." + providerType + ".implementation");
 
-        if ( usedProviderType == null )
-        {
-            usedProviderType = userProviderTypes.getOrDefault( providerType, providerType );
+        if (usedProviderType == null) {
+            usedProviderType = userProviderTypes.getOrDefault(providerType, providerType);
         }
 
-        ScmProvider scmProvider = scmProviders.get( usedProviderType );
+        ScmProvider scmProvider = scmProviders.get(usedProviderType);
 
-        if ( scmProvider == null )
-        {
-            throw new NoSuchScmProviderException( usedProviderType );
+        if (scmProvider == null) {
+            throw new NoSuchScmProviderException(usedProviderType);
         }
 
         return scmProvider;
@@ -166,10 +153,8 @@ public abstract class AbstractScmManager
      * {@inheritDoc}
      */
     @Override
-    public ScmProvider getProviderByRepository( ScmRepository repository )
-            throws NoSuchScmProviderException
-    {
-        return getProviderByType( repository.getProvider() );
+    public ScmProvider getProviderByRepository(ScmRepository repository) throws NoSuchScmProviderException {
+        return getProviderByType(repository.getProvider());
     }
 
     // ----------------------------------------------------------------------
@@ -180,22 +165,20 @@ public abstract class AbstractScmManager
      * {@inheritDoc}
      */
     @Override
-    public ScmRepository makeScmRepository( String scmUrl )
-            throws ScmRepositoryException, NoSuchScmProviderException
-    {
-        requireNonNull( scmUrl, "The scm url cannot be null." );
+    public ScmRepository makeScmRepository(String scmUrl) throws ScmRepositoryException, NoSuchScmProviderException {
+        requireNonNull(scmUrl, "The scm url cannot be null.");
 
-        char delimiter = ScmUrlUtils.getDelimiter( scmUrl ).charAt( 0 );
+        char delimiter = ScmUrlUtils.getDelimiter(scmUrl).charAt(0);
 
-        String providerType = ScmUrlUtils.getProvider( scmUrl );
+        String providerType = ScmUrlUtils.getProvider(scmUrl);
 
-        ScmProvider provider = getProviderByType( providerType );
+        ScmProvider provider = getProviderByType(providerType);
 
-        String scmSpecificUrl = cleanScmUrl( scmUrl.substring( providerType.length() + 5 ) );
+        String scmSpecificUrl = cleanScmUrl(scmUrl.substring(providerType.length() + 5));
 
-        ScmProviderRepository providerRepository = provider.makeProviderScmRepository( scmSpecificUrl, delimiter );
+        ScmProviderRepository providerRepository = provider.makeProviderScmRepository(scmSpecificUrl, delimiter);
 
-        return new ScmRepository( providerType, providerRepository );
+        return new ScmRepository(providerType, providerRepository);
     }
 
     /**
@@ -204,48 +187,42 @@ public abstract class AbstractScmManager
      * @param scmUrl the SCM url
      * @return the cleaned SCM url
      */
-    protected String cleanScmUrl( String scmUrl )
-    {
-        requireNonNull( scmUrl, "The scm url cannot be null." );
+    protected String cleanScmUrl(String scmUrl) {
+        requireNonNull(scmUrl, "The scm url cannot be null.");
 
         String pathSeparator = "";
 
         int indexOfDoubleDot = -1;
 
         // Clean Unix path
-        if ( scmUrl.indexOf( "../" ) > 1 )
-        {
+        if (scmUrl.indexOf("../") > 1) {
             pathSeparator = "/";
 
-            indexOfDoubleDot = scmUrl.indexOf( "../" );
+            indexOfDoubleDot = scmUrl.indexOf("../");
         }
 
         // Clean windows path
-        if ( scmUrl.indexOf( "..\\" ) > 1 )
-        {
+        if (scmUrl.indexOf("..\\") > 1) {
             pathSeparator = "\\";
 
-            indexOfDoubleDot = scmUrl.indexOf( "..\\" );
+            indexOfDoubleDot = scmUrl.indexOf("..\\");
         }
 
-        if ( indexOfDoubleDot > 1 )
-        {
-            int startOfTextToRemove = scmUrl.substring( 0, indexOfDoubleDot - 1 ).lastIndexOf( pathSeparator );
+        if (indexOfDoubleDot > 1) {
+            int startOfTextToRemove = scmUrl.substring(0, indexOfDoubleDot - 1).lastIndexOf(pathSeparator);
 
             String beginUrl = "";
-            if ( startOfTextToRemove >= 0 )
-            {
-                beginUrl = scmUrl.substring( 0, startOfTextToRemove );
+            if (startOfTextToRemove >= 0) {
+                beginUrl = scmUrl.substring(0, startOfTextToRemove);
             }
 
-            String endUrl = scmUrl.substring( indexOfDoubleDot + 3 );
+            String endUrl = scmUrl.substring(indexOfDoubleDot + 3);
 
             scmUrl = beginUrl + pathSeparator + endUrl;
 
             // Check if we have other double dot
-            if ( scmUrl.indexOf( "../" ) > 1 || scmUrl.indexOf( "..\\" ) > 1 )
-            {
-                scmUrl = cleanScmUrl( scmUrl );
+            if (scmUrl.indexOf("../") > 1 || scmUrl.indexOf("..\\") > 1) {
+                scmUrl = cleanScmUrl(scmUrl);
             }
         }
 
@@ -256,49 +233,44 @@ public abstract class AbstractScmManager
      * {@inheritDoc}
      */
     @Override
-    public ScmRepository makeProviderScmRepository( String providerType, File path )
-            throws ScmRepositoryException, UnknownRepositoryStructure, NoSuchScmProviderException
-    {
-        requireNonNull( providerType, "The provider type cannot be null." );
+    public ScmRepository makeProviderScmRepository(String providerType, File path)
+            throws ScmRepositoryException, UnknownRepositoryStructure, NoSuchScmProviderException {
+        requireNonNull(providerType, "The provider type cannot be null.");
 
-        ScmProvider provider = getProviderByType( providerType );
+        ScmProvider provider = getProviderByType(providerType);
 
-        ScmProviderRepository providerRepository = provider.makeProviderScmRepository( path );
+        ScmProviderRepository providerRepository = provider.makeProviderScmRepository(path);
 
-        return new ScmRepository( providerType, providerRepository );
+        return new ScmRepository(providerType, providerRepository);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<String> validateScmRepository( String scmUrl )
-    {
-        List<String> messages = new ArrayList<>( ScmUrlUtils.validate( scmUrl ) );
+    public List<String> validateScmRepository(String scmUrl) {
+        List<String> messages = new ArrayList<>(ScmUrlUtils.validate(scmUrl));
 
-        String providerType = ScmUrlUtils.getProvider( scmUrl );
+        String providerType = ScmUrlUtils.getProvider(scmUrl);
 
         ScmProvider provider;
 
-        try
-        {
-            provider = getProviderByType( providerType );
-        }
-        catch ( NoSuchScmProviderException e )
-        {
-            messages.add( "No such provider installed '" + providerType + "'." );
+        try {
+            provider = getProviderByType(providerType);
+        } catch (NoSuchScmProviderException e) {
+            messages.add("No such provider installed '" + providerType + "'.");
 
             return messages;
         }
 
-        String scmSpecificUrl = cleanScmUrl( scmUrl.substring( providerType.length() + 5 ) );
+        String scmSpecificUrl = cleanScmUrl(scmUrl.substring(providerType.length() + 5));
 
-        List<String> providerMessages =
-                provider.validateScmUrl( scmSpecificUrl, ScmUrlUtils.getDelimiter( scmUrl ).charAt( 0 ) );
+        List<String> providerMessages = provider.validateScmUrl(
+                scmSpecificUrl, ScmUrlUtils.getDelimiter(scmUrl).charAt(0));
 
-        requireNonNull( providerMessages, "The SCM provider cannot return null from validateScmUrl()." );
+        requireNonNull(providerMessages, "The SCM provider cannot return null from validateScmUrl().");
 
-        messages.addAll( providerMessages );
+        messages.addAll(providerMessages);
 
         return messages;
     }
@@ -307,417 +279,365 @@ public abstract class AbstractScmManager
      * {@inheritDoc}
      */
     @Override
-    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).add( repository, fileSet );
+    public AddScmResult add(ScmRepository repository, ScmFileSet fileSet) throws ScmException {
+        return this.getProviderByRepository(repository).add(repository, fileSet);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, String message )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).add( repository, fileSet, message );
+    public AddScmResult add(ScmRepository repository, ScmFileSet fileSet, String message) throws ScmException {
+        return this.getProviderByRepository(repository).add(repository, fileSet, message);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName )
-            throws ScmException
-    {
-        ScmBranchParameters scmBranchParameters = new ScmBranchParameters( "" );
-        return this.getProviderByRepository( repository ).branch( repository, fileSet, branchName,
-                scmBranchParameters );
+    public BranchScmResult branch(ScmRepository repository, ScmFileSet fileSet, String branchName) throws ScmException {
+        ScmBranchParameters scmBranchParameters = new ScmBranchParameters("");
+        return this.getProviderByRepository(repository).branch(repository, fileSet, branchName, scmBranchParameters);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
-            throws ScmException
-    {
-        ScmBranchParameters scmBranchParameters = new ScmBranchParameters( message );
-        return this.getProviderByRepository( repository ).branch( repository, fileSet, branchName,
-                scmBranchParameters );
+    public BranchScmResult branch(ScmRepository repository, ScmFileSet fileSet, String branchName, String message)
+            throws ScmException {
+        ScmBranchParameters scmBranchParameters = new ScmBranchParameters(message);
+        return this.getProviderByRepository(repository).branch(repository, fileSet, branchName, scmBranchParameters);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                         int numDays, ScmBranch branch )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startDate, endDate, numDays,
-                branch );
+    public ChangeLogScmResult changeLog(
+            ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate, int numDays, ScmBranch branch)
+            throws ScmException {
+        return this.getProviderByRepository(repository)
+                .changeLog(repository, fileSet, startDate, endDate, numDays, branch);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                         int numDays, ScmBranch branch, String datePattern )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startDate, endDate, numDays,
-                branch, datePattern );
+    public ChangeLogScmResult changeLog(
+            ScmRepository repository,
+            ScmFileSet fileSet,
+            Date startDate,
+            Date endDate,
+            int numDays,
+            ScmBranch branch,
+            String datePattern)
+            throws ScmException {
+        return this.getProviderByRepository(repository)
+                .changeLog(repository, fileSet, startDate, endDate, numDays, branch, datePattern);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ChangeLogScmResult changeLog( ChangeLogScmRequest scmRequest )
-            throws ScmException
-    {
-        return this.getProviderByRepository( scmRequest.getScmRepository() ).changeLog( scmRequest );
+    public ChangeLogScmResult changeLog(ChangeLogScmRequest scmRequest) throws ScmException {
+        return this.getProviderByRepository(scmRequest.getScmRepository()).changeLog(scmRequest);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
-                                         ScmVersion endVersion )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startVersion, endVersion );
+    public ChangeLogScmResult changeLog(
+            ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion, ScmVersion endVersion)
+            throws ScmException {
+        return this.getProviderByRepository(repository).changeLog(repository, fileSet, startVersion, endVersion);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startRevision,
-                                         ScmVersion endRevision, String datePattern )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startRevision, endRevision,
-                datePattern );
+    public ChangeLogScmResult changeLog(
+            ScmRepository repository,
+            ScmFileSet fileSet,
+            ScmVersion startRevision,
+            ScmVersion endRevision,
+            String datePattern)
+            throws ScmException {
+        return this.getProviderByRepository(repository)
+                .changeLog(repository, fileSet, startRevision, endRevision, datePattern);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String message )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).checkIn( repository, fileSet, message );
+    public CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, String message) throws ScmException {
+        return this.getProviderByRepository(repository).checkIn(repository, fileSet, message);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, ScmVersion revision, String message )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).checkIn( repository, fileSet, revision, message );
+    public CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, ScmVersion revision, String message)
+            throws ScmException {
+        return this.getProviderByRepository(repository).checkIn(repository, fileSet, revision, message);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).checkOut( repository, fileSet );
+    public CheckOutScmResult checkOut(ScmRepository repository, ScmFileSet fileSet) throws ScmException {
+        return this.getProviderByRepository(repository).checkOut(repository, fileSet);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).checkOut( repository, fileSet, version );
+    public CheckOutScmResult checkOut(ScmRepository repository, ScmFileSet fileSet, ScmVersion version)
+            throws ScmException {
+        return this.getProviderByRepository(repository).checkOut(repository, fileSet, version);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, boolean recursive )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).checkOut( repository, fileSet, recursive );
+    public CheckOutScmResult checkOut(ScmRepository repository, ScmFileSet fileSet, boolean recursive)
+            throws ScmException {
+        return this.getProviderByRepository(repository).checkOut(repository, fileSet, recursive);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion version,
-                                       boolean recursive )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).checkOut( repository, fileSet, version, recursive );
+    public CheckOutScmResult checkOut(
+            ScmRepository repository, ScmFileSet fileSet, ScmVersion version, boolean recursive) throws ScmException {
+        return this.getProviderByRepository(repository).checkOut(repository, fileSet, version, recursive);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
-                               ScmVersion endVersion )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).diff( repository, fileSet, startVersion, endVersion );
+    public DiffScmResult diff(
+            ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion, ScmVersion endVersion)
+            throws ScmException {
+        return this.getProviderByRepository(repository).diff(repository, fileSet, startVersion, endVersion);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).edit( repository, fileSet );
+    public EditScmResult edit(ScmRepository repository, ScmFileSet fileSet) throws ScmException {
+        return this.getProviderByRepository(repository).edit(repository, fileSet);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).export( repository, fileSet );
+    public ExportScmResult export(ScmRepository repository, ScmFileSet fileSet) throws ScmException {
+        return this.getProviderByRepository(repository).export(repository, fileSet);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).export( repository, fileSet, version );
+    public ExportScmResult export(ScmRepository repository, ScmFileSet fileSet, ScmVersion version)
+            throws ScmException {
+        return this.getProviderByRepository(repository).export(repository, fileSet, version);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String outputDirectory )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).export( repository, fileSet, (ScmVersion) null,
-                outputDirectory );
+    public ExportScmResult export(ScmRepository repository, ScmFileSet fileSet, String outputDirectory)
+            throws ScmException {
+        return this.getProviderByRepository(repository).export(repository, fileSet, (ScmVersion) null, outputDirectory);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion version,
-                                   String outputDirectory )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).export( repository, fileSet, version, outputDirectory );
+    public ExportScmResult export(
+            ScmRepository repository, ScmFileSet fileSet, ScmVersion version, String outputDirectory)
+            throws ScmException {
+        return this.getProviderByRepository(repository).export(repository, fileSet, version, outputDirectory);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion version )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).list( repository, fileSet, recursive, version );
+    public ListScmResult list(ScmRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion version)
+            throws ScmException {
+        return this.getProviderByRepository(repository).list(repository, fileSet, recursive, version);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).mkdir( repository, fileSet, message, createInLocal );
+    public MkdirScmResult mkdir(ScmRepository repository, ScmFileSet fileSet, String message, boolean createInLocal)
+            throws ScmException {
+        return this.getProviderByRepository(repository).mkdir(repository, fileSet, message, createInLocal);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, String message )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).remove( repository, fileSet, message );
+    public RemoveScmResult remove(ScmRepository repository, ScmFileSet fileSet, String message) throws ScmException {
+        return this.getProviderByRepository(repository).remove(repository, fileSet, message);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).status( repository, fileSet );
+    public StatusScmResult status(ScmRepository repository, ScmFileSet fileSet) throws ScmException {
+        return this.getProviderByRepository(repository).status(repository, fileSet);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName )
-            throws ScmException
-    {
-        return this.tag( repository, fileSet, tagName, "" );
+    public TagScmResult tag(ScmRepository repository, ScmFileSet fileSet, String tagName) throws ScmException {
+        return this.tag(repository, fileSet, tagName, "");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, String message )
-            throws ScmException
-    {
-        ScmTagParameters scmTagParameters = new ScmTagParameters( message );
-        return this.getProviderByRepository( repository ).tag( repository, fileSet, tagName, scmTagParameters );
+    public TagScmResult tag(ScmRepository repository, ScmFileSet fileSet, String tagName, String message)
+            throws ScmException {
+        ScmTagParameters scmTagParameters = new ScmTagParameters(message);
+        return this.getProviderByRepository(repository).tag(repository, fileSet, tagName, scmTagParameters);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).unedit( repository, fileSet );
+    public UnEditScmResult unedit(ScmRepository repository, ScmFileSet fileSet) throws ScmException {
+        return this.getProviderByRepository(repository).unedit(repository, fileSet);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).update( repository, fileSet );
+    public UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet) throws ScmException {
+        return this.getProviderByRepository(repository).update(repository, fileSet);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).update( repository, fileSet, version );
+    public UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, ScmVersion version)
+            throws ScmException {
+        return this.getProviderByRepository(repository).update(repository, fileSet, version);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, boolean runChangelog )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).update( repository, fileSet, runChangelog );
+    public UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, boolean runChangelog)
+            throws ScmException {
+        return this.getProviderByRepository(repository).update(repository, fileSet, runChangelog);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version,
-                                   boolean runChangelog )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).update( repository, fileSet, version, runChangelog );
+    public UpdateScmResult update(
+            ScmRepository repository, ScmFileSet fileSet, ScmVersion version, boolean runChangelog)
+            throws ScmException {
+        return this.getProviderByRepository(repository).update(repository, fileSet, version, runChangelog);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String datePattern )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).update( repository, fileSet, (ScmVersion) null, datePattern );
+    public UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, String datePattern)
+            throws ScmException {
+        return this.getProviderByRepository(repository).update(repository, fileSet, (ScmVersion) null, datePattern);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version,
-                                   String datePattern )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).update( repository, fileSet, version, datePattern );
+    public UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, ScmVersion version, String datePattern)
+            throws ScmException {
+        return this.getProviderByRepository(repository).update(repository, fileSet, version, datePattern);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, Date lastUpdate )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).update( repository, fileSet, (ScmVersion) null, lastUpdate );
+    public UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, Date lastUpdate) throws ScmException {
+        return this.getProviderByRepository(repository).update(repository, fileSet, (ScmVersion) null, lastUpdate);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).update( repository, fileSet, version, lastUpdate );
+    public UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate)
+            throws ScmException {
+        return this.getProviderByRepository(repository).update(repository, fileSet, version, lastUpdate);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, Date lastUpdate, String datePattern )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).update( repository, fileSet, (ScmVersion) null, lastUpdate,
-                datePattern );
+    public UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, Date lastUpdate, String datePattern)
+            throws ScmException {
+        return this.getProviderByRepository(repository)
+                .update(repository, fileSet, (ScmVersion) null, lastUpdate, datePattern);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate,
-                                   String datePattern )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).update( repository, fileSet, version, lastUpdate,
-                datePattern );
+    public UpdateScmResult update(
+            ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate, String datePattern)
+            throws ScmException {
+        return this.getProviderByRepository(repository).update(repository, fileSet, version, lastUpdate, datePattern);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public BlameScmResult blame( ScmRepository repository, ScmFileSet fileSet, String filename )
-            throws ScmException
-    {
-        return this.getProviderByRepository( repository ).blame( repository, fileSet, filename );
+    public BlameScmResult blame(ScmRepository repository, ScmFileSet fileSet, String filename) throws ScmException {
+        return this.getProviderByRepository(repository).blame(repository, fileSet, filename);
     }
 
     @Override
-    public BlameScmResult blame( BlameScmRequest blameScmRequest )
-            throws ScmException
-    {
-        return this.getProviderByRepository( blameScmRequest.getScmRepository() ).blame( blameScmRequest );
+    public BlameScmResult blame(BlameScmRequest blameScmRequest) throws ScmException {
+        return this.getProviderByRepository(blameScmRequest.getScmRepository()).blame(blameScmRequest);
     }
 }

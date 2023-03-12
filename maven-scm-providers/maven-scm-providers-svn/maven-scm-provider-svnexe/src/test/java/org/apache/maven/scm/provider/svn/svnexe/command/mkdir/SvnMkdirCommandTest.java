@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.mkdir;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.mkdir;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.mkdir;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command.mkdir;
 
 import java.io.File;
 
@@ -37,27 +36,22 @@ import static org.junit.Assert.assertTrue;
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  *
  */
-public class SvnMkdirCommandTest
-    extends ScmTestCase
-{
+public class SvnMkdirCommandTest extends ScmTestCase {
     private File messageFile;
 
     String messageFileString;
 
     @Before
     @Override
-    public void setUp()
-        throws Exception
-    {
+    public void setUp() throws Exception {
         super.setUp();
 
-        messageFile = new File( "mkdir-message" );
+        messageFile = new File("mkdir-message");
 
         String path = messageFile.getAbsolutePath();
-        FileUtils.fileWrite( path, "create missing directory" );
+        FileUtils.fileWrite(path, "create missing directory");
 
-        if ( path.indexOf( ' ' ) >= 0 )
-        {
+        if (path.indexOf(' ') >= 0) {
             path = "\"" + path + "\"";
         }
         messageFileString = "--file " + path + " --encoding UTF-8";
@@ -65,51 +59,45 @@ public class SvnMkdirCommandTest
 
     @After
     @Override
-    public void tearDown()
-        throws Exception
-    {
-        assertTrue( messageFile.delete() );
+    public void tearDown() throws Exception {
+        assertTrue(messageFile.delete());
 
         super.tearDown();
     }
 
     @Test
-    public void testCommandLineMkdirUrl()
-        throws Exception
-    {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk",
-                         "svn --non-interactive mkdir --parents http://foo.com/svn/trunk/missing@ " + messageFileString, false );
+    public void testCommandLineMkdirUrl() throws Exception {
+        testCommandLine(
+                "scm:svn:http://foo.com/svn/trunk",
+                "svn --non-interactive mkdir --parents http://foo.com/svn/trunk/missing@ " + messageFileString,
+                false);
     }
 
     @Test
-    public void testCommandLineMkdirUrlWithUsername()
-        throws Exception
-    {
-        testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk",
-                         "svn --username anonymous --no-auth-cache --non-interactive mkdir --parents http://foo.com/svn/trunk/missing@ " +
-                             messageFileString, false );
+    public void testCommandLineMkdirUrlWithUsername() throws Exception {
+        testCommandLine(
+                "scm:svn:http://anonymous@foo.com/svn/trunk",
+                "svn --username anonymous --no-auth-cache --non-interactive mkdir --parents http://foo.com/svn/trunk/missing@ "
+                        + messageFileString,
+                false);
     }
 
     @Test
-    public void testCommandLineMkdirLocalPath()
-        throws Exception
-    {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "svn --non-interactive mkdir --parents missing ", true );
+    public void testCommandLineMkdirLocalPath() throws Exception {
+        testCommandLine("scm:svn:http://foo.com/svn/trunk", "svn --non-interactive mkdir --parents missing ", true);
     }
 
-    private void testCommandLine( String scmUrl, String commandLine, boolean createInLocal )
-        throws Exception
-    {
-        File workingDirectory = getTestFile( "target/svn-mkdir-command-test" );
+    private void testCommandLine(String scmUrl, String commandLine, boolean createInLocal) throws Exception {
+        File workingDirectory = getTestFile("target/svn-mkdir-command-test");
 
-        ScmFileSet fileSet = new ScmFileSet( workingDirectory, new File( "missing" ) );
+        ScmFileSet fileSet = new ScmFileSet(workingDirectory, new File("missing"));
 
-        ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
+        ScmRepository repository = getScmManager().makeScmRepository(scmUrl);
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnMkdirCommand.createCommandLine( svnRepository, fileSet, messageFile, createInLocal );
+        Commandline cl = SvnMkdirCommand.createCommandLine(svnRepository, fileSet, messageFile, createInLocal);
 
-        assertCommandLine( commandLine, workingDirectory, cl );
+        assertCommandLine(commandLine, workingDirectory, cl);
     }
 }

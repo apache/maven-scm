@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.local.command.update;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.local.command.update;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.local.command.update;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.local.command.update;
 
 import java.io.File;
 import java.io.FileReader;
@@ -49,21 +48,15 @@ import static org.junit.Assert.assertTrue;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public class LocalUpdateCommandTckTest
-    extends UpdateCommandTckTest
-{
+public class LocalUpdateCommandTckTest extends UpdateCommandTckTest {
     private static final String moduleName = "update-tck";
 
-    public String getScmUrl()
-        throws Exception
-    {
+    public String getScmUrl() throws Exception {
         return "scm:local|" + getRepositoryRoot() + "|" + moduleName;
     }
 
-    public void initRepo()
-        throws Exception
-    {
-        makeRepo( getRepositoryRoot() );
+    public void initRepo() throws Exception {
+        makeRepo(getRepositoryRoot());
     }
 
     /**
@@ -71,103 +64,94 @@ public class LocalUpdateCommandTckTest
      * additions must not be deleted.
      */
     @Test
-    public void testDeletion()
-        throws Exception
-    {
-        FileUtils.deleteDirectory( getUpdatingCopy() );
+    public void testDeletion() throws Exception {
+        FileUtils.deleteDirectory(getUpdatingCopy());
 
-        ScmRepository repository = makeScmRepository( getScmUrl() );
+        ScmRepository repository = makeScmRepository(getScmUrl());
 
-        checkOut( getUpdatingCopy(), repository );
+        checkOut(getUpdatingCopy(), repository);
 
         // Check preconditions
-        File readmeFileLocal = new File( getUpdatingCopy(), "readme.txt" );
-        assertTrue( readmeFileLocal.exists() );
-        File newFileLocal = new File( getUpdatingCopy(), "newfile.xml" );
-        assertFalse( newFileLocal.exists() );
+        File readmeFileLocal = new File(getUpdatingCopy(), "readme.txt");
+        assertTrue(readmeFileLocal.exists());
+        File newFileLocal = new File(getUpdatingCopy(), "newfile.xml");
+        assertFalse(newFileLocal.exists());
 
         // Delete readme.txt from repository
-        File readmeFileRepo = new File( getRepositoryRoot(), moduleName + "/readme.txt" );
-        assertTrue( readmeFileRepo.exists() );
-        assertTrue( "Could not delete", readmeFileRepo.delete() );
-        assertFalse( readmeFileRepo.exists() );
+        File readmeFileRepo = new File(getRepositoryRoot(), moduleName + "/readme.txt");
+        assertTrue(readmeFileRepo.exists());
+        assertTrue("Could not delete", readmeFileRepo.delete());
+        assertFalse(readmeFileRepo.exists());
 
         // Make local addition to updating copy - this one must not be touched
-        ScmTestCase.makeFile( getUpdatingCopy(), "newfile.xml", "added newfile.xml locally" );
-        assertTrue( newFileLocal.exists() );
+        ScmTestCase.makeFile(getUpdatingCopy(), "newfile.xml", "added newfile.xml locally");
+        assertTrue(newFileLocal.exists());
 
         // ----------------------------------------------------------------------
         // Update the project
         // ----------------------------------------------------------------------
 
         ScmManager scmManager = getScmManager();
-        Date lastUpdate = new Date( System.currentTimeMillis() );
-        Thread.sleep( 1000 );
-        UpdateScmResult result =
-            scmManager.update( repository, new ScmFileSet( getUpdatingCopy() ), lastUpdate );
+        Date lastUpdate = new Date(System.currentTimeMillis());
+        Thread.sleep(1000);
+        UpdateScmResult result = scmManager.update(repository, new ScmFileSet(getUpdatingCopy()), lastUpdate);
 
-        assertNotNull( "The command returned a null result.", result );
+        assertNotNull("The command returned a null result.", result);
 
-        assertResultIsSuccess( result );
+        assertResultIsSuccess(result);
 
         List<ScmFile> updatedFiles = result.getUpdatedFiles();
 
-        assertEquals( "Expected 1 files in the updated files list " + updatedFiles, 1, updatedFiles.size() );
+        assertEquals("Expected 1 files in the updated files list " + updatedFiles, 1, updatedFiles.size());
 
         // ----------------------------------------------------------------------
         // Assert the files in the updated files list
         // ----------------------------------------------------------------------
 
-        Iterator<ScmFile> files = new TreeSet<ScmFile>( updatedFiles ).iterator();
+        Iterator<ScmFile> files = new TreeSet<ScmFile>(updatedFiles).iterator();
 
         // readme.txt
         ScmFile file = (ScmFile) files.next();
-        assertPath( "/readme.txt", file.getPath() );
-        assertTrue( file.getStatus().isUpdate() );
+        assertPath("/readme.txt", file.getPath());
+        assertTrue(file.getStatus().isUpdate());
 
         // ----------------------------------------------------------------------
         // Assert working directory contents
         // ----------------------------------------------------------------------
 
         // readme.txt
-        assertFalse( "Expected local copy of readme.txt to be deleted", readmeFileLocal.exists() );
+        assertFalse("Expected local copy of readme.txt to be deleted", readmeFileLocal.exists());
 
         // newfile.xml
-        assertTrue( "Expected local copy of newfile.xml NOT to be deleted", newFileLocal.exists() );
+        assertTrue("Expected local copy of newfile.xml NOT to be deleted", newFileLocal.exists());
 
         // ----------------------------------------------------------------------
         // Assert metadata file
         // ----------------------------------------------------------------------
-        File metadataFile = new File( getUpdatingCopy(), ".maven-scm-local" );
-        assertTrue( "Expected metadata file .maven-scm-local does not exist", metadataFile.exists() );
-        Reader reader = new FileReader( metadataFile );
+        File metadataFile = new File(getUpdatingCopy(), ".maven-scm-local");
+        assertTrue("Expected metadata file .maven-scm-local does not exist", metadataFile.exists());
+        Reader reader = new FileReader(metadataFile);
         LocalScmMetadata metadata;
-        try
-        {
-            metadata = new LocalScmMetadataXpp3Reader().read( reader );
+        try {
+            metadata = new LocalScmMetadataXpp3Reader().read(reader);
+        } finally {
+            IOUtil.close(reader);
         }
-        finally
-        {
-            IOUtil.close( reader );
-        }
-        File root = new File( getRepositoryRoot() + "/" + moduleName );
-        @SuppressWarnings( "unchecked" )
-        List<String> fileNames = FileUtils.getFileNames( root, "**", null, false );
-        assertEquals( fileNames, metadata.getRepositoryFileNames() );
-
+        File root = new File(getRepositoryRoot() + "/" + moduleName);
+        @SuppressWarnings("unchecked")
+        List<String> fileNames = FileUtils.getFileNames(root, "**", null, false);
+        assertEquals(fileNames, metadata.getRepositoryFileNames());
     }
 
-    private void makeRepo( File workingDirectory )
-        throws Exception
-    {
-        makeFile( workingDirectory, moduleName + "/pom.xml", "/pom.xml" );
+    private void makeRepo(File workingDirectory) throws Exception {
+        makeFile(workingDirectory, moduleName + "/pom.xml", "/pom.xml");
 
-        makeFile( workingDirectory, moduleName + "/readme.txt", "/readme.txt" );
+        makeFile(workingDirectory, moduleName + "/readme.txt", "/readme.txt");
 
-        makeFile( workingDirectory, moduleName + "/src/main/java/Application.java", "/src/main/java/Application.java" );
+        makeFile(workingDirectory, moduleName + "/src/main/java/Application.java", "/src/main/java/Application.java");
 
-        makeFile( workingDirectory, moduleName + "/src/test/java/Test.java", "/src/test/java/Test.java" );
+        makeFile(workingDirectory, moduleName + "/src/test/java/Test.java", "/src/test/java/Test.java");
 
-        makeDirectory( workingDirectory, moduleName + "/src/test/resources" );
+        makeDirectory(workingDirectory, moduleName + "/src/test/resources");
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm;
 
 import java.io.Serializable;
 
@@ -25,9 +24,7 @@ import java.io.Serializable;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public abstract class AbstractScmVersion
-    implements ScmVersion, Serializable
-{
+public abstract class AbstractScmVersion implements ScmVersion, Serializable {
     private static final long serialVersionUID = -3388495744009098066L;
 
     private String name;
@@ -35,30 +32,25 @@ public abstract class AbstractScmVersion
     /**
      * @param name could be null
      */
-    public AbstractScmVersion( String name )
-    {
-        setName( name );
+    public AbstractScmVersion(String name) {
+        setName(name);
     }
 
     /** {@inheritDoc} */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     /** {@inheritDoc} */
-    public void setName( String name )
-    {
-        if ( name != null )
-        {
+    public void setName(String name) {
+        if (name != null) {
             name = name.trim();
         }
         this.name = name;
     }
 
     /** {@inheritDoc} */
-    public String toString()
-    {
+    public String toString() {
         return getName();
     }
 }

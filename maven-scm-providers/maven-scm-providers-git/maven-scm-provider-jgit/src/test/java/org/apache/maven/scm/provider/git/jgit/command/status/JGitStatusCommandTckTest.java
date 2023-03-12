@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit.command.status;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit.command.status;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.jgit.command.status;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.jgit.command.status;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,23 +28,16 @@ import org.eclipse.jgit.util.FileUtils;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Strubergr</a>
  */
-public class JGitStatusCommandTckTest
-    extends GitStatusCommandTckTest
-{
+public class JGitStatusCommandTckTest extends GitStatusCommandTckTest {
 
-    public String getScmUrl()
-        throws Exception
-    {
-        return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "jgit" );
+    public String getScmUrl() throws Exception {
+        return GitScmTestUtils.getScmUrl(getRepositoryRoot(), "jgit");
     }
 
     @Override
-    protected void deleteDirectory( File directory )
-        throws IOException
-    {
-        if ( directory.exists() )
-        {
-            FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );    
+    protected void deleteDirectory(File directory) throws IOException {
+        if (directory.exists()) {
+            FileUtils.delete(directory, FileUtils.RECURSIVE | FileUtils.RETRY);
         }
     }
 }

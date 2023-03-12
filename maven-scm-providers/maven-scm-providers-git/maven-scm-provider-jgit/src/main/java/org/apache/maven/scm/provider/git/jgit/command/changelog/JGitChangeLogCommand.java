@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit.command.changelog;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit.command.changelog;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,13 @@ package org.apache.maven.scm.provider.git.jgit.command.changelog;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.jgit.command.changelog;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
@@ -37,12 +42,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import static org.apache.maven.scm.provider.git.jgit.command.JGitUtils.getTags;
 
 /**
@@ -50,159 +49,156 @@ import static org.apache.maven.scm.provider.git.jgit.command.JGitUtils.getTags;
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitChangeLogCommand
-    extends AbstractChangeLogCommand
-    implements GitCommand
-{
+public class JGitChangeLogCommand extends AbstractChangeLogCommand implements GitCommand {
 
     /**
      * {@inheritDoc}
      */
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          ScmVersion startVersion, ScmVersion endVersion,
-                                                          String datePattern )
-        throws ScmException
-    {
-        return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion );
+    protected ChangeLogScmResult executeChangeLogCommand(
+            ScmProviderRepository repo,
+            ScmFileSet fileSet,
+            ScmVersion startVersion,
+            ScmVersion endVersion,
+            String datePattern)
+            throws ScmException {
+        return executeChangeLogCommand(repo, fileSet, null, null, null, datePattern, startVersion, endVersion);
     }
 
     @Override
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          ScmVersion version, String datePattern )
-            throws ScmException
-    {
-        return executeChangeLogCommand( repository, fileSet, null, null, null, datePattern, null, null, version );
+    protected ChangeLogScmResult executeChangeLogCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, ScmVersion version, String datePattern)
+            throws ScmException {
+        return executeChangeLogCommand(repository, fileSet, null, null, null, datePattern, null, null, version);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, ScmBranch branch,
-                                                          String datePattern )
-        throws ScmException
-    {
-        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, null, null );
+    protected ChangeLogScmResult executeChangeLogCommand(
+            ScmProviderRepository repo,
+            ScmFileSet fileSet,
+            Date startDate,
+            Date endDate,
+            ScmBranch branch,
+            String datePattern)
+            throws ScmException {
+        return executeChangeLogCommand(repo, fileSet, startDate, endDate, branch, datePattern, null, null);
     }
 
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, ScmBranch branch,
-                                                          String datePattern, ScmVersion startVersion,
-                                                          ScmVersion endVersion )
-        throws ScmException
-    {
-        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern,
-                                        startVersion, endVersion, null );
+    protected ChangeLogScmResult executeChangeLogCommand(
+            ScmProviderRepository repo,
+            ScmFileSet fileSet,
+            Date startDate,
+            Date endDate,
+            ScmBranch branch,
+            String datePattern,
+            ScmVersion startVersion,
+            ScmVersion endVersion)
+            throws ScmException {
+        return executeChangeLogCommand(
+                repo, fileSet, startDate, endDate, branch, datePattern, startVersion, endVersion, null);
     }
 
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, ScmBranch branch,
-                                                          String datePattern, ScmVersion startVersion,
-                                                          ScmVersion endVersion, ScmVersion version )
-        throws ScmException
-    {
+    protected ChangeLogScmResult executeChangeLogCommand(
+            ScmProviderRepository repo,
+            ScmFileSet fileSet,
+            Date startDate,
+            Date endDate,
+            ScmBranch branch,
+            String datePattern,
+            ScmVersion startVersion,
+            ScmVersion endVersion,
+            ScmVersion version)
+            throws ScmException {
         Git git = null;
         boolean isARangeChangeLog = startVersion != null || endVersion != null;
 
-        try
-        {
-            git = JGitUtils.openRepo( fileSet.getBasedir() );
+        try {
+            git = JGitUtils.openRepo(fileSet.getBasedir());
 
             boolean versionOnly = startVersion == null && endVersion == null && version != null;
 
             String startRev;
             String endRev;
 
-            if ( versionOnly )
-            {
+            if (versionOnly) {
                 startRev = null;
                 endRev = version.getName();
-            }
-            else
-            {
-                startRev = startVersion != null ? startVersion.getName() : ( isARangeChangeLog ? "HEAD" : null );
-                endRev = endVersion != null ? endVersion.getName() : ( isARangeChangeLog ? "HEAD" : null );
+            } else {
+                startRev = startVersion != null ? startVersion.getName() : (isARangeChangeLog ? "HEAD" : null);
+                endRev = endVersion != null ? endVersion.getName() : (isARangeChangeLog ? "HEAD" : null);
             }
 
             List<ChangeEntry> gitChanges =
-                this.whatchanged( git.getRepository(), null, startRev, endRev, startDate, endDate, -1 );
+                    this.whatchanged(git.getRepository(), null, startRev, endRev, startDate, endDate, -1);
 
-            List<ChangeSet> modifications = new ArrayList<>( gitChanges.size() );
+            List<ChangeSet> modifications = new ArrayList<>(gitChanges.size());
 
-            for ( ChangeEntry change : gitChanges )
-            {
+            for (ChangeEntry change : gitChanges) {
                 ChangeSet scmChange = new ChangeSet();
 
-                scmChange.setAuthor( change.getAuthorName() );
-                scmChange.setComment( change.getBody() );
-                scmChange.setDate( change.getAuthorDate() );
-                scmChange.setRevision( change.getCommitHash() );
-                scmChange.setTags( change.getTags() );
+                scmChange.setAuthor(change.getAuthorName());
+                scmChange.setComment(change.getBody());
+                scmChange.setDate(change.getAuthorDate());
+                scmChange.setRevision(change.getCommitHash());
+                scmChange.setTags(change.getTags());
                 // X TODO scmChange.setFiles( change.get )
 
-                modifications.add( scmChange );
+                modifications.add(scmChange);
             }
 
-            ChangeLogSet changeLogSet = new ChangeLogSet( modifications, startDate, endDate );
-            changeLogSet.setStartVersion( startVersion );
-            changeLogSet.setEndVersion( endVersion );
+            ChangeLogSet changeLogSet = new ChangeLogSet(modifications, startDate, endDate);
+            changeLogSet.setStartVersion(startVersion);
+            changeLogSet.setEndVersion(endVersion);
 
-            return new ChangeLogScmResult( "JGit changelog", changeLogSet );
-        }
-        catch ( Exception e )
-        {
-            throw new ScmException( "JGit changelog failure!", e );
-        }
-        finally
-        {
-            JGitUtils.closeRepo( git );
+            return new ChangeLogScmResult("JGit changelog", changeLogSet);
+        } catch (Exception e) {
+            throw new ScmException("JGit changelog failure!", e);
+        } finally {
+            JGitUtils.closeRepo(git);
         }
     }
 
-    public List<ChangeEntry> whatchanged( Repository repo, RevSort[] sortings, String fromRev, String toRev,
-                                          Date fromDate, Date toDate, int maxLines )
-        throws MissingObjectException, IncorrectObjectTypeException, IOException
-    {
-        List<RevCommit> revs = JGitUtils.getRevCommits( repo, sortings, fromRev, toRev, fromDate, toDate, maxLines );
-        List<ChangeEntry> changes = new ArrayList<>( revs.size() );
+    public List<ChangeEntry> whatchanged(
+            Repository repo, RevSort[] sortings, String fromRev, String toRev, Date fromDate, Date toDate, int maxLines)
+            throws MissingObjectException, IncorrectObjectTypeException, IOException {
+        List<RevCommit> revs = JGitUtils.getRevCommits(repo, sortings, fromRev, toRev, fromDate, toDate, maxLines);
+        List<ChangeEntry> changes = new ArrayList<>(revs.size());
 
-        if ( fromRev != null && fromRev.equals( toRev ) )
-        {
+        if (fromRev != null && fromRev.equals(toRev)) {
             // there are no changes between 2 identical versions
             return changes;
         }
 
-        for ( RevCommit c : revs )
-        {
+        for (RevCommit c : revs) {
             ChangeEntry ce = new ChangeEntry();
 
-            ce.setAuthorDate( c.getAuthorIdent().getWhen() );
-            ce.setAuthorEmail( c.getAuthorIdent().getEmailAddress() );
-            ce.setAuthorName( c.getAuthorIdent().getName() );
-            ce.setCommitterDate( c.getCommitterIdent().getWhen() );
-            ce.setCommitterEmail( c.getCommitterIdent().getEmailAddress() );
-            ce.setCommitterName( c.getCommitterIdent().getName() );
+            ce.setAuthorDate(c.getAuthorIdent().getWhen());
+            ce.setAuthorEmail(c.getAuthorIdent().getEmailAddress());
+            ce.setAuthorName(c.getAuthorIdent().getName());
+            ce.setCommitterDate(c.getCommitterIdent().getWhen());
+            ce.setCommitterEmail(c.getCommitterIdent().getEmailAddress());
+            ce.setCommitterName(c.getCommitterIdent().getName());
 
-            ce.setSubject( c.getShortMessage() );
-            ce.setBody( c.getFullMessage() );
+            ce.setSubject(c.getShortMessage());
+            ce.setBody(c.getFullMessage());
 
-            ce.setCommitHash( c.getId().name() );
-            ce.setTreeHash( c.getTree().getId().name() );
+            ce.setCommitHash(c.getId().name());
+            ce.setTreeHash(c.getTree().getId().name());
 
-            ce.setTags( getTags( repo, c ) );
+            ce.setTags(getTags(repo, c));
             // X TODO missing: file list
 
-            changes.add( ce );
+            changes.add(ce);
         }
 
         return changes;
     }
 
     /**
-     * 
+     *
      */
-    public static final class ChangeEntry
-    {
+    public static final class ChangeEntry {
         private String commitHash;
 
         private String treeHash;
@@ -224,126 +220,102 @@ public class JGitChangeLogCommand
         private String body;
 
         private List<File> files;
-        
+
         private List<String> tags;
 
-        public String getCommitHash()
-        {
+        public String getCommitHash() {
             return commitHash;
         }
 
-        public void setCommitHash( String commitHash )
-        {
+        public void setCommitHash(String commitHash) {
             this.commitHash = commitHash;
         }
 
-        public String getTreeHash()
-        {
+        public String getTreeHash() {
             return treeHash;
         }
 
-        public void setTreeHash( String treeHash )
-        {
+        public void setTreeHash(String treeHash) {
             this.treeHash = treeHash;
         }
 
-        public String getAuthorName()
-        {
+        public String getAuthorName() {
             return authorName;
         }
 
-        public void setAuthorName( String authorName )
-        {
+        public void setAuthorName(String authorName) {
             this.authorName = authorName;
         }
 
-        public String getAuthorEmail()
-        {
+        public String getAuthorEmail() {
             return authorEmail;
         }
 
-        public void setAuthorEmail( String authorEmail )
-        {
+        public void setAuthorEmail(String authorEmail) {
             this.authorEmail = authorEmail;
         }
 
-        public Date getAuthorDate()
-        {
+        public Date getAuthorDate() {
             return authorDate;
         }
 
-        public void setAuthorDate( Date authorDate )
-        {
+        public void setAuthorDate(Date authorDate) {
             this.authorDate = authorDate;
         }
 
-        public String getCommitterName()
-        {
+        public String getCommitterName() {
             return committerName;
         }
 
-        public void setCommitterName( String committerName )
-        {
+        public void setCommitterName(String committerName) {
             this.committerName = committerName;
         }
 
-        public String getCommitterEmail()
-        {
+        public String getCommitterEmail() {
             return committerEmail;
         }
 
-        public void setCommitterEmail( String committerEmail )
-        {
+        public void setCommitterEmail(String committerEmail) {
             this.committerEmail = committerEmail;
         }
 
-        public Date getCommitterDate()
-        {
+        public Date getCommitterDate() {
             return committerDate;
         }
 
-        public void setCommitterDate( Date committerDate )
-        {
+        public void setCommitterDate(Date committerDate) {
             this.committerDate = committerDate;
         }
 
-        public String getSubject()
-        {
+        public String getSubject() {
             return subject;
         }
 
-        public void setSubject( String subject )
-        {
+        public void setSubject(String subject) {
             this.subject = subject;
         }
 
-        public String getBody()
-        {
+        public String getBody() {
             return body;
         }
 
-        public void setBody( String body )
-        {
+        public void setBody(String body) {
             this.body = body;
         }
 
-        public List<File> getFiles()
-        {
+        public List<File> getFiles() {
             return files;
         }
 
-        public void setFiles( List<File> files )
-        {
+        public void setFiles(List<File> files) {
             this.files = files;
         }
 
-        public List<String> getTags()
-        {
+        public List<String> getTags() {
             return tags;
         }
 
-        public void setTags( List<String> tags )
-        {
+        public void setTags(List<String> tags) {
             this.tags = tags;
         }
     }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.gitexe;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -52,128 +51,106 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  */
 @Singleton
-@Named( "git" )
-public class GitExeScmProvider
-    extends AbstractGitScmProvider
-{
+@Named("git")
+public class GitExeScmProvider extends AbstractGitScmProvider {
     private final Map<String, String> environmentVariables;
 
-    public GitExeScmProvider()
-    {
+    public GitExeScmProvider() {
         environmentVariables = new HashMap<>();
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getAddCommand()
-    {
+    protected GitCommand getAddCommand() {
         return new GitAddCommand();
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getBranchCommand()
-    {
+    protected GitCommand getBranchCommand() {
         return new GitBranchCommand();
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getChangeLogCommand()
-    {
+    protected GitCommand getChangeLogCommand() {
         return new GitChangeLogCommand();
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getCheckInCommand()
-    {
-        return new GitCheckInCommand( environmentVariables );
+    protected GitCommand getCheckInCommand() {
+        return new GitCheckInCommand(environmentVariables);
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getCheckOutCommand()
-    {
-        return new GitCheckOutCommand( environmentVariables );
+    protected GitCommand getCheckOutCommand() {
+        return new GitCheckOutCommand(environmentVariables);
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getDiffCommand()
-    {
+    protected GitCommand getDiffCommand() {
         return new GitDiffCommand();
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getExportCommand()
-    {
-        return null; //X TODO
+    protected GitCommand getExportCommand() {
+        return null; // X TODO
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getRemoveCommand()
-    {
+    protected GitCommand getRemoveCommand() {
         return new GitRemoveCommand();
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getStatusCommand()
-    {
+    protected GitCommand getStatusCommand() {
         return new GitStatusCommand();
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getTagCommand()
-    {
+    protected GitCommand getTagCommand() {
         return new GitTagCommand();
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getUntagCommand()
-    {
+    protected GitCommand getUntagCommand() {
         return new GitUntagCommand();
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getUpdateCommand()
-    {
+    protected GitCommand getUpdateCommand() {
         return new GitUpdateCommand();
     }
 
     /** {@inheritDoc} */
-    public GitCommand getInfoCommand()
-    {
+    public GitCommand getInfoCommand() {
         return new GitInfoCommand();
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getBlameCommand()
-    {
+    protected GitCommand getBlameCommand() {
         return new GitBlameCommand();
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getRemoteInfoCommand()
-    {
-        return new GitRemoteInfoCommand( environmentVariables );
+    protected GitCommand getRemoteInfoCommand() {
+        return new GitRemoteInfoCommand(environmentVariables);
     }
 
     /** {@inheritDoc} */
-    protected String getRepositoryURL( File path )
-        throws ScmException
-    {
+    protected String getRepositoryURL(File path) throws ScmException {
         // Note: I need to supply just 1 absolute path, but ScmFileSet won't let me without
         // a basedir (which isn't used here anyway), so use a dummy file.
         // and a dummy ScmProviderRepository
-        InfoScmResult result = info( new GitScmProviderRepository( path.toPath().toUri().toASCIIString() ),
-                                     new ScmFileSet( path ), null );
+        InfoScmResult result =
+                info(new GitScmProviderRepository(path.toPath().toUri().toASCIIString()), new ScmFileSet(path), null);
 
-        if ( result.getInfoItems().size() != 1 )
-        {
-            throw new ScmRepositoryException( "Cannot find URL: "
-                + ( result.getInfoItems().size() == 0 ? "no" : "multiple" ) + " items returned by the info command" );
+        if (result.getInfoItems().size() != 1) {
+            throw new ScmRepositoryException("Cannot find URL: "
+                    + (result.getInfoItems().size() == 0 ? "no" : "multiple") + " items returned by the info command");
         }
 
-        return result.getInfoItems().get( 0 ).getURL();
+        return result.getInfoItems().get(0).getURL();
     }
 
-    public void setEnvironmentVariable( String key, String value )
-    {
-        environmentVariables.put( key, value );
+    public void setEnvironmentVariable(String key, String value) {
+        environmentVariables.put(key, value);
     }
 }

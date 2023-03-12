@@ -1,5 +1,3 @@
-package org.apache.maven.scm.repository;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.repository;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.repository;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.repository;
 
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
@@ -26,16 +25,14 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  *
  * TODO clarify need - should be able to merge with ScmProviderRepository?
  */
-public class ScmRepository
-{
+public class ScmRepository {
     /** */
     private String provider;
 
     /** */
     private ScmProviderRepository providerRepository;
 
-    public ScmRepository( String provider, ScmProviderRepository providerRepository )
-    {
+    public ScmRepository(String provider, ScmProviderRepository providerRepository) {
         this.provider = provider;
 
         this.providerRepository = providerRepository;
@@ -44,23 +41,19 @@ public class ScmRepository
     /**
      * @return Returns the provider.
      */
-    public String getProvider()
-    {
+    public String getProvider() {
         return provider;
     }
 
     /**
      * @return Returns the provider repository.
      */
-    public ScmProviderRepository getProviderRepository()
-    {
+    public ScmProviderRepository getProviderRepository() {
         return providerRepository;
     }
 
     /** {@inheritDoc} */
-    public String toString()
-    {
+    public String toString() {
         return provider.toString() + ":" + providerRepository.toString();
     }
 }
-

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.checkout;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.checkout;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.checkout;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.checkout;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -34,9 +33,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author Olivier Lamy
  *
  */
-public abstract class AbstractCheckOutCommand
-    extends AbstractCommand
-{
+public abstract class AbstractCheckOutCommand extends AbstractCommand {
     /**
      * Execute Check out command line in a recursive check out way.
      *
@@ -47,11 +44,9 @@ public abstract class AbstractCheckOutCommand
      * @throws ScmException if any
      * @see #executeCheckOutCommand(ScmProviderRepository, ScmFileSet, ScmVersion, boolean, boolean)
      */
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                                 ScmVersion scmVersion )
-        throws ScmException
-    {
-        return executeCheckOutCommand( repository, fileSet, scmVersion, true, false );
+    protected CheckOutScmResult executeCheckOutCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, ScmVersion scmVersion) throws ScmException {
+        return executeCheckOutCommand(repository, fileSet, scmVersion, true, false);
     }
 
     /**
@@ -66,19 +61,20 @@ public abstract class AbstractCheckOutCommand
      * @throws ScmException if any
      * @since 1.1.1
      */
-    protected abstract CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                                ScmVersion scmVersion, boolean recursive,
-                                                                boolean shallow )
-        throws ScmException;
+    protected abstract CheckOutScmResult executeCheckOutCommand(
+            ScmProviderRepository repository,
+            ScmFileSet fileSet,
+            ScmVersion scmVersion,
+            boolean recursive,
+            boolean shallow)
+            throws ScmException;
 
     /** {@inheritDoc} */
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                     CommandParameters parameters )
-        throws ScmException
-    {
-        ScmVersion scmVersion = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
-        boolean recursive = parameters.getBoolean( CommandParameter.RECURSIVE, true );
-        boolean shallow = parameters.getBoolean( CommandParameter.SHALLOW, false );
-        return executeCheckOutCommand( repository, fileSet, scmVersion, recursive, shallow );
+    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        ScmVersion scmVersion = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
+        boolean recursive = parameters.getBoolean(CommandParameter.RECURSIVE, true);
+        boolean shallow = parameters.getBoolean(CommandParameter.SHALLOW, false);
+        return executeCheckOutCommand(repository, fileSet, scmVersion, recursive, shallow);
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.blame;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.blame;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.blame;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.ScmException;
@@ -29,9 +28,7 @@ import org.apache.maven.scm.repository.ScmRepository;
  * @author Olivier Lamy
  * @since 1.8
  */
-public class BlameScmRequest
-    extends ScmRequest
-{
+public class BlameScmRequest extends ScmRequest {
     private static final long serialVersionUID = 8257038591897128936L;
 
     /**
@@ -39,41 +36,29 @@ public class BlameScmRequest
      */
     private boolean ignoreWhitespace;
 
-
-    public BlameScmRequest( ScmRepository scmRepository, ScmFileSet scmFileSet )
-    {
-        super( scmRepository, scmFileSet );
+    public BlameScmRequest(ScmRepository scmRepository, ScmFileSet scmFileSet) {
+        super(scmRepository, scmFileSet);
     }
 
-    public void setFilename( String filename )
-        throws ScmException
-    {
-        this.getCommandParameters().setString( CommandParameter.FILE, filename );
+    public void setFilename(String filename) throws ScmException {
+        this.getCommandParameters().setString(CommandParameter.FILE, filename);
     }
 
-    public String getFilename()
-        throws ScmException
-    {
-        return this.getCommandParameters().getString( CommandParameter.FILE );
+    public String getFilename() throws ScmException {
+        return this.getCommandParameters().getString(CommandParameter.FILE);
     }
 
-    public boolean isIgnoreWhitespace()
-    {
+    public boolean isIgnoreWhitespace() {
         return ignoreWhitespace;
     }
 
-    public void setIgnoreWhitespace( boolean ignoreWhitespace )
-        throws ScmException
-    {
+    public void setIgnoreWhitespace(boolean ignoreWhitespace) throws ScmException {
         this.ignoreWhitespace = ignoreWhitespace;
 
-        if ( ignoreWhitespace )
-        {
-            this.getCommandParameters().setString( CommandParameter.IGNORE_WHITESPACE, "TRUE" );
-        }
-        else
-        {
-            this.getCommandParameters().setString( CommandParameter.IGNORE_WHITESPACE, "FALSE" );
+        if (ignoreWhitespace) {
+            this.getCommandParameters().setString(CommandParameter.IGNORE_WHITESPACE, "TRUE");
+        } else {
+            this.getCommandParameters().setString(CommandParameter.IGNORE_WHITESPACE, "FALSE");
         }
     }
 }

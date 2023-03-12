@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.info;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.info;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.info;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.info;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -36,45 +35,37 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  * @since 1.5
  */
-public class GitInfoCommand
-    extends AbstractCommand
-    implements GitCommand
-{
+public class GitInfoCommand extends AbstractCommand implements GitCommand {
 
     public static final int NO_REVISION_LENGTH = -1;
 
     @Override
-    protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                        CommandParameters parameters )
-        throws ScmException
-    {
+    protected ScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
 
-        GitInfoConsumer consumer = new GitInfoConsumer( fileSet );
+        GitInfoConsumer consumer = new GitInfoConsumer(fileSet);
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        Commandline cli = createCommandLine( repository, fileSet, parameters );
+        Commandline cli = createCommandLine(repository, fileSet, parameters);
 
-        int exitCode = GitCommandLineUtils.execute( cli, consumer, stderr );
-        if ( exitCode != 0 )
-        {
-            return new InfoScmResult( cli.toString(), "The git rev-parse command failed.", stderr.getOutput(), false );
+        int exitCode = GitCommandLineUtils.execute(cli, consumer, stderr);
+        if (exitCode != 0) {
+            return new InfoScmResult(cli.toString(), "The git rev-parse command failed.", stderr.getOutput(), false);
         }
-        return new InfoScmResult( cli.toString(), consumer.getInfoItems() );
+        return new InfoScmResult(cli.toString(), consumer.getInfoItems());
     }
 
-    public static Commandline createCommandLine( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                 CommandParameters parameters )
-        throws ScmException
-    {
-        Commandline cli = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "rev-parse" );
-        cli.createArg().setValue( "--verify" );
-        final int revLength = getRevisionLength( parameters );
-        if ( revLength > NO_REVISION_LENGTH )// set the --short key only if revision length parameter is passed and
-                                             // different from -1
+    public static Commandline createCommandLine(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
+        Commandline cli = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "rev-parse");
+        cli.createArg().setValue("--verify");
+        final int revLength = getRevisionLength(parameters);
+        if (revLength > NO_REVISION_LENGTH) // set the --short key only if revision length parameter is passed and
+        // different from -1
         {
-            cli.createArg().setValue( "--short=" + revLength );
+            cli.createArg().setValue("--short=" + revLength);
         }
-        cli.createArg().setValue( "HEAD" );
+        cli.createArg().setValue("HEAD");
 
         return cli;
     }
@@ -88,18 +79,11 @@ public class GitInfoCommand
      * @throws ScmException
      * @since 1.7
      */
-    private static int getRevisionLength( final CommandParameters parameters )
-        throws ScmException
-    {
-        if ( parameters == null )
-        {
+    private static int getRevisionLength(final CommandParameters parameters) throws ScmException {
+        if (parameters == null) {
             return NO_REVISION_LENGTH;
-        }
-        else
-        {
-            return parameters.getInt( CommandParameter.SCM_SHORT_REVISION_LENGTH, NO_REVISION_LENGTH );
+        } else {
+            return parameters.getInt(CommandParameter.SCM_SHORT_REVISION_LENGTH, NO_REVISION_LENGTH);
         }
     }
-
-
 }

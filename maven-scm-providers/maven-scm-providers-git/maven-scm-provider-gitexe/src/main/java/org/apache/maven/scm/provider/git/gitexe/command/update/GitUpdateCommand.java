@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.update;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.update;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.update;
 
 import java.io.File;
 
@@ -45,21 +44,20 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @since 10 august 2008
  *
  */
-public class GitUpdateCommand
-    extends AbstractUpdateCommand
-    implements GitCommand
-{
+public class GitUpdateCommand extends AbstractUpdateCommand implements GitCommand {
     /** {@inheritDoc} */
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                    ScmVersion scmVersion )
-        throws ScmException
-    {
+    protected UpdateScmResult executeUpdateCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion scmVersion) throws ScmException {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
-        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getFetchInfo().getProtocol() )
-            && repository.getFetchInfo().getPath().indexOf( fileSet.getBasedir().getPath() ) >= 0 )
-        {
-            throw new ScmException( "remote repository must not be the working directory" );
+        if (GitScmProviderRepository.PROTOCOL_FILE.equals(
+                        repository.getFetchInfo().getProtocol())
+                && repository
+                                .getFetchInfo()
+                                .getPath()
+                                .indexOf(fileSet.getBasedir().getPath())
+                        >= 0) {
+            throw new ScmException("remote repository must not be the working directory");
         }
 
         int exitCode;
@@ -68,68 +66,57 @@ public class GitUpdateCommand
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         // fir we need to get the current reversion
-        Commandline clRev = createLatestRevisionCommandLine( repository, fileSet.getBasedir(), scmVersion );
+        Commandline clRev = createLatestRevisionCommandLine(repository, fileSet.getBasedir(), scmVersion);
         GitLatestRevisionCommandConsumer consumerRev = new GitLatestRevisionCommandConsumer();
-        exitCode = GitCommandLineUtils.execute( clRev, consumerRev, stderr );
-        if ( exitCode != 0 )
-        {
-            return new UpdateScmResult( clRev.toString(), "The git-log command failed.",
-                    stderr.getOutput(), false );
+        exitCode = GitCommandLineUtils.execute(clRev, consumerRev, stderr);
+        if (exitCode != 0) {
+            return new UpdateScmResult(clRev.toString(), "The git-log command failed.", stderr.getOutput(), false);
         }
         String origSha1 = consumerRev.getLatestRevision();
 
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), scmVersion );
-        exitCode = GitCommandLineUtils.execute( cl, stdout, stderr );
-        if ( exitCode != 0 )
-        {
-            return new UpdateScmResult( cl.toString(), "The git-pull command failed.",
-                                        stderr.getOutput(), false );
+        Commandline cl = createCommandLine(repository, fileSet.getBasedir(), scmVersion);
+        exitCode = GitCommandLineUtils.execute(cl, stdout, stderr);
+        if (exitCode != 0) {
+            return new UpdateScmResult(cl.toString(), "The git-pull command failed.", stderr.getOutput(), false);
         }
 
         // we also need to log exactly what has been updated
         GitDiffRawConsumer diffRawConsumer = new GitDiffRawConsumer();
-        Commandline clDiffRaw = GitDiffCommand.createDiffRawCommandLine( fileSet.getBasedir(), origSha1 );
-        exitCode = GitCommandLineUtils.execute( clDiffRaw, diffRawConsumer, stderr );
-        if ( exitCode != 0 )
-        {
-            return new UpdateScmResult( clDiffRaw.toString(), "The git-diff --raw command failed.",
-                    stderr.getOutput(), false );
+        Commandline clDiffRaw = GitDiffCommand.createDiffRawCommandLine(fileSet.getBasedir(), origSha1);
+        exitCode = GitCommandLineUtils.execute(clDiffRaw, diffRawConsumer, stderr);
+        if (exitCode != 0) {
+            return new UpdateScmResult(
+                    clDiffRaw.toString(), "The git-diff --raw command failed.", stderr.getOutput(), false);
         }
-
 
         // now let's get the latest version
         consumerRev = new GitLatestRevisionCommandConsumer();
-        exitCode = GitCommandLineUtils.execute( clRev, consumerRev, stderr );
-        if ( exitCode != 0 )
-        {
-            return new UpdateScmResult( clRev.toString(), "The git-log command failed.",
-                                        stderr.getOutput(), false );
+        exitCode = GitCommandLineUtils.execute(clRev, consumerRev, stderr);
+        if (exitCode != 0) {
+            return new UpdateScmResult(clRev.toString(), "The git-log command failed.", stderr.getOutput(), false);
         }
         String latestRevision = consumerRev.getLatestRevision();
 
-        return new UpdateScmResultWithRevision( cl.toString(), diffRawConsumer.getChangedFiles(), latestRevision );
+        return new UpdateScmResultWithRevision(cl.toString(), diffRawConsumer.getChangedFiles(), latestRevision);
     }
 
     /** {@inheritDoc} */
-    protected ChangeLogCommand getChangeLogCommand()
-    {
+    protected ChangeLogCommand getChangeLogCommand() {
         return new GitChangeLogCommand();
     }
 
     /**
      * create the command line for updating the current branch with the info from the foreign repository.
      */
-    public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
-                                                 ScmVersion scmVersion )
-    {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull" );
+    public static Commandline createCommandLine(
+            GitScmProviderRepository repository, File workingDirectory, ScmVersion scmVersion) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "pull");
 
-        cl.createArg().setLine( repository.getFetchUrl() );
+        cl.createArg().setLine(repository.getFetchUrl());
 
         // now set the branch where we would like to pull from
-        if ( scmVersion instanceof ScmBranch )
-        {
-            cl.createArg().setLine( scmVersion.getName() );
+        if (scmVersion instanceof ScmBranch) {
+            cl.createArg().setLine(scmVersion.getName());
         }
 
         return cl;
@@ -139,22 +126,22 @@ public class GitUpdateCommand
      * @param scmVersion a valid branch or <code>null</code> if the master branch should be taken
      * @return CommandLine for getting the latest commit on the given branch
      */
-    public static Commandline createLatestRevisionCommandLine( GitScmProviderRepository repository,
-                                                               File workingDirectory, ScmVersion scmVersion )
-    {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "log" );
+    public static Commandline createLatestRevisionCommandLine(
+            GitScmProviderRepository repository, File workingDirectory, ScmVersion scmVersion) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "log");
 
         // only show exactly 1 commit
-        cl.createArg().setValue( "-n1" );
+        cl.createArg().setValue("-n1");
 
         // same as --topo-order, but ensure ordering of merges
-        cl.createArg().setValue( "--date-order" );
+        cl.createArg().setValue("--date-order");
 
-        if ( scmVersion != null && scmVersion instanceof ScmBranch && scmVersion.getName() != null
-            && scmVersion.getName().length() > 0 )
-        {
+        if (scmVersion != null
+                && scmVersion instanceof ScmBranch
+                && scmVersion.getName() != null
+                && scmVersion.getName().length() > 0) {
             // if any branch is given, lets take em
-            cl.createArg().setValue( scmVersion.getName() );
+            cl.createArg().setValue(scmVersion.getName());
         }
         // otherwise we work on HEAD/current branch
 

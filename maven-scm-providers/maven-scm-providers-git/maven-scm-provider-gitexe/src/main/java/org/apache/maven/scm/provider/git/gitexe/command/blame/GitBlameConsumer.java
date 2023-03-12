@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.blame;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.blame;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,9 +16,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.blame;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.command.blame.BlameLine;
-import org.apache.maven.scm.util.AbstractConsumer;
+package org.apache.maven.scm.provider.git.gitexe.command.blame;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,6 +25,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.maven.scm.command.blame.BlameLine;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * Parses the --porcelain format of git-blame
@@ -42,14 +41,11 @@ import java.util.Map;
  * @author Mark Struberg
  * @since 1.4
  */
-public class GitBlameConsumer
-    extends AbstractConsumer
-{
+public class GitBlameConsumer extends AbstractConsumer {
     private static final String GIT_COMMITTER_PREFIX = "committer";
-    private static final String GIT_COMMITTER      = GIT_COMMITTER_PREFIX + " ";
+    private static final String GIT_COMMITTER = GIT_COMMITTER_PREFIX + " ";
     private static final String GIT_COMMITTER_TIME = GIT_COMMITTER_PREFIX + "-time ";
-    private static final String GIT_AUTHOR         = "author ";
-
+    private static final String GIT_AUTHOR = "author ";
 
     private final List<BlameLine> lines = new ArrayList<>();
 
@@ -65,86 +61,71 @@ public class GitBlameConsumer
 
     private boolean expectRevisionLine = true;
 
-    private String revision  = null;
-    private String author    = null;
+    private String revision = null;
+    private String author = null;
     private String committer = null;
-    private Date   time      = null;
+    private Date time = null;
 
-    public void consumeLine( String line )
-    {
-        if ( line == null )
-        {
+    public void consumeLine(String line) {
+        if (line == null) {
             return;
         }
 
-        if ( expectRevisionLine )
-        {
+        if (expectRevisionLine) {
             // this is the revision line
-            String parts[] = line.split( "\\s", 4 );
+            String parts[] = line.split("\\s", 4);
 
-            if ( parts.length >= 1 )
-            {
+            if (parts.length >= 1) {
                 revision = parts[0];
 
-                BlameLine oldLine = commitInfo.get( revision );
+                BlameLine oldLine = commitInfo.get(revision);
 
-                if ( oldLine != null )
-                {
+                if (oldLine != null) {
                     // restore the commit info
-                    author    = oldLine.getAuthor();
+                    author = oldLine.getAuthor();
                     committer = oldLine.getCommitter();
-                    time      = oldLine.getDate();
+                    time = oldLine.getDate();
                 }
 
                 expectRevisionLine = false;
             }
-        }
-        else
-        {
-            if ( line.startsWith( GIT_AUTHOR ) )
-            {
-                author = line.substring( GIT_AUTHOR.length() );
+        } else {
+            if (line.startsWith(GIT_AUTHOR)) {
+                author = line.substring(GIT_AUTHOR.length());
                 return;
             }
 
-            if ( line.startsWith( GIT_COMMITTER ) )
-            {
-                committer = line.substring( GIT_COMMITTER.length() );
+            if (line.startsWith(GIT_COMMITTER)) {
+                committer = line.substring(GIT_COMMITTER.length());
                 return;
             }
 
-            if ( line.startsWith( GIT_COMMITTER_TIME ) )
-            {
-                String timeStr = line.substring( GIT_COMMITTER_TIME.length() );
-                time = new Date( Long.parseLong( timeStr ) * 1000L );
+            if (line.startsWith(GIT_COMMITTER_TIME)) {
+                String timeStr = line.substring(GIT_COMMITTER_TIME.length());
+                time = new Date(Long.parseLong(timeStr) * 1000L);
                 return;
             }
 
-
-            if ( line.startsWith( "\t" ) )
-            {
+            if (line.startsWith("\t")) {
                 // this is the content line.
                 // we actually don't need the content, but this is the right time to add the blame line
-                BlameLine blameLine = new BlameLine( time, revision, author, committer );
-                getLines().add( blameLine );
+                BlameLine blameLine = new BlameLine(time, revision, author, committer);
+                getLines().add(blameLine);
 
                 // keep commitinfo for this sha-1
-                commitInfo.put( revision, blameLine );
+                commitInfo.put(revision, blameLine);
 
-                if ( logger.isDebugEnabled() )
-                {
+                if (logger.isDebugEnabled()) {
                     DateFormat df = SimpleDateFormat.getDateTimeInstance();
-                    logger.debug( author + " " + df.format( time ) );
+                    logger.debug(author + " " + df.format(time));
                 }
 
                 expectRevisionLine = true;
             }
-
         }
     }
 
-    public List<BlameLine> getLines()
-    {
+    public List<BlameLine> getLines() {
         return lines;
     }
 }

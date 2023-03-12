@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.untag;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.untag;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.untag;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.untag;
 
 import java.io.File;
 
@@ -36,20 +35,14 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /** {@inheritDoc} */
-public class GitUntagCommand
-    extends AbstractUntagCommand
-    implements GitCommand
-{
+public class GitUntagCommand extends AbstractUntagCommand implements GitCommand {
 
     /** {@inheritDoc} */
-    public ScmResult executeUntagCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                          ScmUntagParameters scmUntagParameters )
-        throws ScmException
-    {
+    public ScmResult executeUntagCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, ScmUntagParameters scmUntagParameters) throws ScmException {
         String tag = scmUntagParameters.getTag();
-        if ( tag == null || StringUtils.isEmpty( tag.trim() ) )
-        {
-            throw new ScmException( "tag name must be specified" );
+        if (tag == null || StringUtils.isEmpty(tag.trim())) {
+            throw new ScmException("tag name must be specified");
         }
 
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
@@ -59,55 +52,48 @@ public class GitUntagCommand
 
         int exitCode;
 
-        Commandline clTag = createCommandLine( repository, fileSet.getBasedir(), tag );
+        Commandline clTag = createCommandLine(repository, fileSet.getBasedir(), tag);
 
-        exitCode = GitCommandLineUtils.execute( clTag, stdout, stderr );
-        if ( exitCode != 0 )
-        {
-            return new UntagScmResult( clTag.toString(), "The git-tag command failed.", stderr.getOutput(), false );
+        exitCode = GitCommandLineUtils.execute(clTag, stdout, stderr);
+        if (exitCode != 0) {
+            return new UntagScmResult(clTag.toString(), "The git-tag command failed.", stderr.getOutput(), false);
         }
 
-        if ( repo.isPushChanges() )
-        {
+        if (repo.isPushChanges()) {
             // and now push the tag to the configured upstream repository
-            Commandline clPush = createPushCommandLine( repository, fileSet, tag );
+            Commandline clPush = createPushCommandLine(repository, fileSet, tag);
 
-            exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr );
-            if ( exitCode != 0 )
-            {
-                return new UntagScmResult( clPush.toString(), "The git-push command failed.", stderr.getOutput(),
-                                         false );
+            exitCode = GitCommandLineUtils.execute(clPush, stdout, stderr);
+            if (exitCode != 0) {
+                return new UntagScmResult(clPush.toString(), "The git-push command failed.", stderr.getOutput(), false);
             }
         }
 
-        return new UntagScmResult( clTag.toString() );
+        return new UntagScmResult(clTag.toString());
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
-                                                 String tag )
-    {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "tag" );
+    public static Commandline createCommandLine(
+            GitScmProviderRepository repository, File workingDirectory, String tag) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "tag");
 
-        cl.createArg().setValue( "-d" );
-        cl.createArg().setValue( tag );
-
-        return cl;
-    }
-
-    public static Commandline createPushCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet,
-                                                     String tag )
-    {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
-
-        cl.createArg().setValue( "--delete" );
-        cl.createArg().setValue( repository.getPushUrl() );
-        cl.createArg().setValue( "refs/tags/" + tag );
+        cl.createArg().setValue("-d");
+        cl.createArg().setValue(tag);
 
         return cl;
     }
 
+    public static Commandline createPushCommandLine(
+            GitScmProviderRepository repository, ScmFileSet fileSet, String tag) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "push");
+
+        cl.createArg().setValue("--delete");
+        cl.createArg().setValue(repository.getPushUrl());
+        cl.createArg().setValue("refs/tags/" + tag);
+
+        return cl;
+    }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.remoteinfo;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,6 +16,10 @@ package org.apache.maven.scm.provider.svn.svnexe.command.remoteinfo;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command.remoteinfo;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
@@ -34,153 +36,125 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author Olivier Lamy
  * @since 1.6
  */
-public class SvnRemoteInfoCommand
-    extends AbstractRemoteInfoCommand
-    implements SvnCommand
-{
+public class SvnRemoteInfoCommand extends AbstractRemoteInfoCommand implements SvnCommand {
     @Override
-    public RemoteInfoScmResult executeRemoteInfoCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                         CommandParameters parameters )
-        throws ScmException
-    {
+    public RemoteInfoScmResult executeRemoteInfoCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
 
-        String url = ( (SvnScmProviderRepository) repository ).getUrl();
+        String url = ((SvnScmProviderRepository) repository).getUrl();
         // use a default svn layout, url is here http://svn.apache.org/repos/asf/maven/maven-3/trunk
         // so as we presume we have good users using standard svn layout, we calculate tags and branches url
-        url = StringUtils.stripEnd( url, "/" );
-        int idx = url.lastIndexOf( "/" );
-        String baseUrl = url.substring( 0, idx );
+        url = StringUtils.stripEnd(url, "/");
+        int idx = url.lastIndexOf("/");
+        String baseUrl = url.substring(0, idx);
 
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( fileSet == null ? null : fileSet.getBasedir(),
-                                                                    (SvnScmProviderRepository) repository );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(
+                fileSet == null ? null : fileSet.getBasedir(), (SvnScmProviderRepository) repository);
 
-        cl.createArg().setValue( "ls" );
+        cl.createArg().setValue("ls");
 
-        cl.createArg().setValue( baseUrl + "/tags" + "@" );
+        cl.createArg().setValue(baseUrl + "/tags" + "@");
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        LsConsumer consumer = new LsConsumer( baseUrl + "/tags" );
+        LsConsumer consumer = new LsConsumer(baseUrl + "/tags");
 
         int exitCode = 0;
 
         Map<String, String> tagsInfos = null;
 
-        try
-        {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
+        try {
+            exitCode = SvnCommandLineUtils.execute(cl, consumer, stderr);
             tagsInfos = consumer.infos;
 
-        }
-        catch ( CommandLineException ex )
-        {
-            throw new ScmException( "Error while executing svn command.", ex );
+        } catch (CommandLineException ex) {
+            throw new ScmException("Error while executing svn command.", ex);
         }
 
-        if ( exitCode != 0 )
-        {
-            return new RemoteInfoScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
+        if (exitCode != 0) {
+            return new RemoteInfoScmResult(cl.toString(), "The svn command failed.", stderr.getOutput(), false);
         }
 
-        cl = SvnCommandLineUtils.getBaseSvnCommandLine( fileSet == null ? null : fileSet.getBasedir(),
-                                                        (SvnScmProviderRepository) repository );
+        cl = SvnCommandLineUtils.getBaseSvnCommandLine(
+                fileSet == null ? null : fileSet.getBasedir(), (SvnScmProviderRepository) repository);
 
-        cl.createArg().setValue( "ls" );
+        cl.createArg().setValue("ls");
 
-        cl.createArg().setValue( baseUrl + "/branches" + "@" );
+        cl.createArg().setValue(baseUrl + "/branches" + "@");
 
         stderr = new CommandLineUtils.StringStreamConsumer();
 
-        consumer = new LsConsumer( baseUrl + "/branches" );
+        consumer = new LsConsumer(baseUrl + "/branches");
 
         Map<String, String> branchesInfos = null;
 
-        try
-        {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
+        try {
+            exitCode = SvnCommandLineUtils.execute(cl, consumer, stderr);
             branchesInfos = consumer.infos;
 
-        }
-        catch ( CommandLineException ex )
-        {
-            throw new ScmException( "Error while executing svn command.", ex );
+        } catch (CommandLineException ex) {
+            throw new ScmException("Error while executing svn command.", ex);
         }
 
-        if ( exitCode != 0 )
-        {
-            return new RemoteInfoScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
+        if (exitCode != 0) {
+            return new RemoteInfoScmResult(cl.toString(), "The svn command failed.", stderr.getOutput(), false);
         }
 
-        return new RemoteInfoScmResult( cl.toString(), branchesInfos, tagsInfos );
+        return new RemoteInfoScmResult(cl.toString(), branchesInfos, tagsInfos);
     }
 
-    public boolean remoteUrlExist( ScmProviderRepository repository, CommandParameters parameters )
-        throws ScmException
-    {
-        String url = ( (SvnScmProviderRepository) repository ).getUrl();
+    public boolean remoteUrlExist(ScmProviderRepository repository, CommandParameters parameters) throws ScmException {
+        String url = ((SvnScmProviderRepository) repository).getUrl();
 
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( null, (SvnScmProviderRepository) repository );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(null, (SvnScmProviderRepository) repository);
 
-        cl.createArg().setValue( "ls" );
+        cl.createArg().setValue("ls");
 
-        cl.createArg().setValue( url + "@" );
+        cl.createArg().setValue(url + "@");
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        LsConsumer consumer = new LsConsumer( url );
+        LsConsumer consumer = new LsConsumer(url);
 
         int exitCode = 0;
 
-        try
-        {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
-        }
-        catch ( CommandLineException ex )
-        {
-            throw new ScmException( "Error while executing svn command.", ex );
+        try {
+            exitCode = SvnCommandLineUtils.execute(cl, consumer, stderr);
+        } catch (CommandLineException ex) {
+            throw new ScmException("Error while executing svn command.", ex);
         }
 
-        if ( exitCode != 0 )
-        {
+        if (exitCode != 0) {
             String output = stderr.getOutput();
-            //olamy: a bit ugly but....
+            // olamy: a bit ugly but....
             // trying to parse error from svn cli which indicate no remote path
-            if ( output.contains( "W160013" ) || output.contains( "svn: URL" ) )
-            {
+            if (output.contains("W160013") || output.contains("svn: URL")) {
                 return false;
             }
-            throw new ScmException( cl + ".The svn command failed:" + stderr.getOutput() );
+            throw new ScmException(cl + ".The svn command failed:" + stderr.getOutput());
         }
 
         return true;
     }
 
-    private static class LsConsumer
-        extends AbstractConsumer
-    {
+    private static class LsConsumer extends AbstractConsumer {
         Map<String, String> infos = new HashMap<>();
 
         String url;
 
-        LsConsumer( String url )
-        {
+        LsConsumer(String url) {
             this.url = url;
         }
 
-        public void consumeLine( String s )
-        {
-            infos.put( StringUtils.stripEnd( s, "/" ), url + "/" + s );
+        public void consumeLine(String s) {
+            infos.put(StringUtils.stripEnd(s, "/"), url + "/" + s);
         }
 
-        Map<String, String> getInfos()
-        {
+        Map<String, String> getInfos() {
             return infos;
         }
     }

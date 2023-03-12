@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.tag;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.tag;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.tag;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.tag;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -33,9 +32,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public abstract class AbstractTagCommand
-    extends AbstractCommand
-{
+public abstract class AbstractTagCommand extends AbstractCommand {
     /**
      * @deprecated use method {@link #executeTagCommand(ScmProviderRepository, ScmFileSet, String, ScmTagParameters)}
      * @param repository TODO
@@ -45,41 +42,34 @@ public abstract class AbstractTagCommand
      * @return TODO
      * @throws ScmException if any
      */
-    protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tagName,
-                                           String message )
-        throws ScmException
-    {
-        return executeTagCommand( repository, fileSet, tagName, new ScmTagParameters( message ) );
+    protected ScmResult executeTagCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, String tagName, String message) throws ScmException {
+        return executeTagCommand(repository, fileSet, tagName, new ScmTagParameters(message));
     }
 
-    protected abstract ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                    String tagName, ScmTagParameters scmTagParameters )
-        throws ScmException;
+    protected abstract ScmResult executeTagCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, String tagName, ScmTagParameters scmTagParameters)
+            throws ScmException;
 
     /** {@inheritDoc} */
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                     CommandParameters parameters )
-        throws ScmException
-    {
-        String tagName = parameters.getString( CommandParameter.TAG_NAME );
+    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        String tagName = parameters.getString(CommandParameter.TAG_NAME);
 
-        ScmTagParameters scmTagParameters = parameters.getScmTagParameters( CommandParameter.SCM_TAG_PARAMETERS );
+        ScmTagParameters scmTagParameters = parameters.getScmTagParameters(CommandParameter.SCM_TAG_PARAMETERS);
 
-        String message = parameters.getString( CommandParameter.MESSAGE, null );
+        String message = parameters.getString(CommandParameter.MESSAGE, null);
 
-        if ( message != null )
-        {
+        if (message != null) {
             // if message was passed by CommandParameter.MESSAGE then use it.
-            scmTagParameters.setMessage( message );
+            scmTagParameters.setMessage(message);
         }
 
-        if ( scmTagParameters.getMessage() == null )
-        {
+        if (scmTagParameters.getMessage() == null) {
             // if message hasn't been passed nor by ScmTagParameters nor by CommandParameter.MESSAGE then use default.
-            scmTagParameters.setMessage( "[maven-scm] copy for tag " + tagName );
+            scmTagParameters.setMessage("[maven-scm] copy for tag " + tagName);
         }
 
-        return executeTagCommand( repository, fileSet, tagName, scmTagParameters );
+        return executeTagCommand(repository, fileSet, tagName, scmTagParameters);
     }
-
 }

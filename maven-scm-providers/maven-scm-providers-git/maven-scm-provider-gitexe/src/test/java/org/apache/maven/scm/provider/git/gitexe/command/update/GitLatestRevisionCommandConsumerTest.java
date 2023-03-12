@@ -1,16 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.update;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.Reader;
-
-import org.apache.maven.scm.ScmTestCase;
-import org.codehaus.plexus.util.ReaderFactory;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -29,53 +16,56 @@ import static org.junit.Assert.assertNotNull;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.update;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.Reader;
+
+import org.apache.maven.scm.ScmTestCase;
+import org.codehaus.plexus.util.ReaderFactory;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @since 1.2
  *
  */
-public class GitLatestRevisionCommandConsumerTest
-        extends ScmTestCase
-{
+public class GitLatestRevisionCommandConsumerTest extends ScmTestCase {
     @Test
-    public void testUpToDate()
-        throws Exception
-    {
+    public void testUpToDate() throws Exception {
 
-        GitLatestRevisionCommandConsumer consumer = buildGitLatestRevisionCommandConsumer( "/src/test/resources/git/update/git-update-latest-rev.out" );
+        GitLatestRevisionCommandConsumer consumer =
+                buildGitLatestRevisionCommandConsumer("/src/test/resources/git/update/git-update-latest-rev.out");
 
         String latestRev = consumer.getLatestRevision();
 
-        assertNotNull( latestRev );
-        assertEquals( "a300c56a341bae8d0eb5ec4ed5551a11c75a5a6e", latestRev );
+        assertNotNull(latestRev);
+        assertEquals("a300c56a341bae8d0eb5ec4ed5551a11c75a5a6e", latestRev);
     }
 
-    
     // utils methods
 
-    private GitLatestRevisionCommandConsumer buildGitLatestRevisionCommandConsumer( String fileName )
-        throws Exception
-    {
+    private GitLatestRevisionCommandConsumer buildGitLatestRevisionCommandConsumer(String fileName) throws Exception {
         GitLatestRevisionCommandConsumer consumer = new GitLatestRevisionCommandConsumer();
 
-        BufferedReader r = getGitLogBufferedReader( fileName );
+        BufferedReader r = getGitLogBufferedReader(fileName);
 
         String line;
 
-        while ( ( line = r.readLine() ) != null )
-        {
-            //System.out.println(" line " + line );
-            consumer.consumeLine( line );
+        while ((line = r.readLine()) != null) {
+            // System.out.println(" line " + line );
+            consumer.consumeLine(line);
         }
         return consumer;
     }
 
-    private BufferedReader getGitLogBufferedReader( String fileName )
-        throws Exception
-    {
-        File f = getTestFile( fileName );
-        Reader reader = ReaderFactory.newReader( f, "UTF-8" );
-        return new BufferedReader( reader );
+    private BufferedReader getGitLogBufferedReader(String fileName) throws Exception {
+        File f = getTestFile(fileName);
+        Reader reader = ReaderFactory.newReader(f, "UTF-8");
+        return new BufferedReader(reader);
     }
 }

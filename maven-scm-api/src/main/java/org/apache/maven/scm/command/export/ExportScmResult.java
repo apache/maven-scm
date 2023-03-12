@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.export;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.export;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.export;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.export;
 
 import java.util.List;
 
@@ -28,27 +27,22 @@ import org.apache.maven.scm.ScmResult;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class ExportScmResult
-    extends ScmResult
-{
+public class ExportScmResult extends ScmResult {
     private static final long serialVersionUID = 8564643361304165292L;
 
     private List<ScmFile> exportedFiles;
 
-    public ExportScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
-    {
-        super( commandLine, providerMessage, commandOutput, success );
+    public ExportScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
+        super(commandLine, providerMessage, commandOutput, success);
     }
 
-    public ExportScmResult( String commandLine, List<ScmFile> updatedFiles )
-    {
-        super( commandLine, null, null, true );
+    public ExportScmResult(String commandLine, List<ScmFile> updatedFiles) {
+        super(commandLine, null, null, true);
 
         this.exportedFiles = updatedFiles;
     }
 
-    public List<ScmFile> getExportedFiles()
-    {
+    public List<ScmFile> getExportedFiles() {
         return exportedFiles;
     }
 }

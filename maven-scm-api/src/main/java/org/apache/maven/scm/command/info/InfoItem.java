@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.info;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.info;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.info;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.info;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
@@ -25,8 +24,7 @@ package org.apache.maven.scm.command.info;
  *
  * @since 1.5
  */
-public class InfoItem
-{
+public class InfoItem {
     private String path;
 
     private String url;
@@ -47,103 +45,83 @@ public class InfoItem
 
     private String lastChangedDate;
 
-    public String getPath()
-    {
+    public String getPath() {
         return path;
     }
 
-    public void setPath( String path )
-    {
+    public void setPath(String path) {
         this.path = path;
     }
 
-    public String getURL()
-    {
+    public String getURL() {
         return url;
     }
 
-    public void setURL( String url )
-    {
+    public void setURL(String url) {
         this.url = url;
     }
 
-    public String getRepositoryRoot()
-    {
+    public String getRepositoryRoot() {
         return repositoryRoot;
     }
 
-    public void setRepositoryRoot( String repositoryRoot )
-    {
+    public void setRepositoryRoot(String repositoryRoot) {
         this.repositoryRoot = repositoryRoot;
     }
 
-    public String getRepositoryUUID()
-    {
+    public String getRepositoryUUID() {
         return repositoryUUID;
     }
 
-    public void setRepositoryUUID( String repositoryUUID )
-    {
+    public void setRepositoryUUID(String repositoryUUID) {
         this.repositoryUUID = repositoryUUID;
     }
 
-    public String getRevision()
-    {
+    public String getRevision() {
         return revision;
     }
 
-    public void setRevision( String revision )
-    {
+    public void setRevision(String revision) {
         this.revision = revision;
     }
 
-    public String getNodeKind()
-    {
+    public String getNodeKind() {
         return nodeKind;
     }
 
-    public void setNodeKind( String nodeKind )
-    {
+    public void setNodeKind(String nodeKind) {
         this.nodeKind = nodeKind;
     }
 
-    public String getSchedule()
-    {
+    public String getSchedule() {
         return schedule;
     }
 
-    public void setSchedule( String schedule )
-    {
+    public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
 
-    public String getLastChangedAuthor()
-    {
+    public String getLastChangedAuthor() {
         return lastChangedAuthor;
     }
 
-    public void setLastChangedAuthor( String lastChangedAuthor )
-    {
+    public void setLastChangedAuthor(String lastChangedAuthor) {
         this.lastChangedAuthor = lastChangedAuthor;
     }
 
-    public String getLastChangedRevision()
-    {
+    public String getLastChangedRevision() {
         return lastChangedRevision;
     }
 
-    public void setLastChangedRevision( String lastChangedRevision )
-    {
+    public void setLastChangedRevision(String lastChangedRevision) {
         this.lastChangedRevision = lastChangedRevision;
     }
 
-    public String getLastChangedDate()
-    {
+    public String getLastChangedDate() {
         return lastChangedDate;
     }
 
-    public void setLastChangedDate( String lastChangedDate )
-    {
+    public void setLastChangedDate(String lastChangedDate) {
         this.lastChangedDate = lastChangedDate;
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.hg.command.inventory;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.hg.command.inventory;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,11 +16,12 @@ package org.apache.maven.scm.provider.hg.command.inventory;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.provider.hg.command.HgConsumer;
+package org.apache.maven.scm.provider.hg.command.inventory;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 /**
  * Get a list of outgoing changes
@@ -30,28 +29,21 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author <a href="mailto:lperez@xebia.fr">Laurent Perez</a>
  *
  */
-public class HgOutgoingConsumer
-    extends HgConsumer
-{
+public class HgOutgoingConsumer extends HgConsumer {
     private List<HgChangeSet> changes = new CopyOnWriteArrayList<HgChangeSet>();
 
     private static final String BRANCH = "branch";
 
-    public void consumeLine( String line )
-    {
+    public void consumeLine(String line) {
         String branch = null;
 
-        if ( line.startsWith( BRANCH ) )
-        {
-            branch = line.substring( BRANCH.length() + 7 );
+        if (line.startsWith(BRANCH)) {
+            branch = line.substring(BRANCH.length() + 7);
         }
-        changes.add( new HgChangeSet( branch ) );
-
+        changes.add(new HgChangeSet(branch));
     }
 
-    public List<HgChangeSet> getChanges()
-    {
+    public List<HgChangeSet> getChanges() {
         return changes;
     }
-
 }

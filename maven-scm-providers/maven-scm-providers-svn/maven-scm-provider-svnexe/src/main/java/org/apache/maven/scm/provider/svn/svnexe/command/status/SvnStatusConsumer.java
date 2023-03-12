@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.status;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.status;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,23 +16,22 @@ package org.apache.maven.scm.provider.svn.svnexe.command.status;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command.status;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.util.AbstractConsumer;
 import org.codehaus.plexus.util.StringUtils;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public class SvnStatusConsumer
-        extends AbstractConsumer
-{
+public class SvnStatusConsumer extends AbstractConsumer {
     private final File workingDirectory;
 
     private final List<ScmFile> changedFiles = new ArrayList<>();
@@ -43,8 +40,7 @@ public class SvnStatusConsumer
     //
     // ----------------------------------------------------------------------
 
-    public SvnStatusConsumer( File workingDirectory )
-    {
+    public SvnStatusConsumer(File workingDirectory) {
         this.workingDirectory = workingDirectory;
     }
 
@@ -53,31 +49,25 @@ public class SvnStatusConsumer
     // ----------------------------------------------------------------------
 
     /** {@inheritDoc} */
-    public void consumeLine( String line )
-    {
-        if ( logger.isDebugEnabled() )
-        {
-            logger.debug( line );
+    public void consumeLine(String line) {
+        if (logger.isDebugEnabled()) {
+            logger.debug(line);
         }
-        if ( StringUtils.isEmpty( line.trim() ) )
-        {
+        if (StringUtils.isEmpty(line.trim())) {
             return;
         }
 
-        if ( line.length() <= 7 )
-        {
-            if ( logger.isWarnEnabled() )
-            {
-                logger.warn( "Unexpected input, the line must be at least seven characters long. Line: '"
-                             + line + "'." );
+        if (line.length() <= 7) {
+            if (logger.isWarnEnabled()) {
+                logger.warn("Unexpected input, the line must be at least seven characters long. Line: '" + line + "'.");
             }
 
             return;
         }
 
-        String statusString = line.substring( 0, 1 );
+        String statusString = line.substring(0, 1);
 
-        String file = line.substring( 7 ).trim();
+        String file = line.substring(7).trim();
 
         ScmFileStatus status;
 
@@ -121,65 +111,44 @@ public class SvnStatusConsumer
         //  The out-of-date information appears in the eighth column (with -u):
         //      '*' a newer revision exists on the server
         //      ' ' the working copy is up to date
-        if ( statusString.equals( "A" ) )
-        {
+        if (statusString.equals("A")) {
             status = ScmFileStatus.ADDED;
-        }
-        else if ( statusString.equals( "M" ) || statusString.equals( "R" ) || statusString.equals( "~" ) )
-        {
+        } else if (statusString.equals("M") || statusString.equals("R") || statusString.equals("~")) {
             status = ScmFileStatus.MODIFIED;
-        }
-        else if ( statusString.equals( "D" ) )
-        {
+        } else if (statusString.equals("D")) {
             status = ScmFileStatus.DELETED;
-        }
-        else if ( statusString.equals( "?" ) )
-        {
+        } else if (statusString.equals("?")) {
             status = ScmFileStatus.UNKNOWN;
-        }
-        else if ( statusString.equals( "!" ) )
-        {
+        } else if (statusString.equals("!")) {
             status = ScmFileStatus.MISSING;
-        }
-        else if ( statusString.equals( "C" ) )
-        {
+        } else if (statusString.equals("C")) {
             status = ScmFileStatus.CONFLICT;
-        }
-        else if ( statusString.equals( "L" ) )
-        {
+        } else if (statusString.equals("L")) {
             status = ScmFileStatus.LOCKED;
-        }
-        else if ( statusString.equals( "X" ) )
-        {
-            //skip svn:external entries
+        } else if (statusString.equals("X")) {
+            // skip svn:external entries
             return;
-        }
-        else if ( statusString.equals( "I" ) )
-        {
-            //skip svn:external entries
+        } else if (statusString.equals("I")) {
+            // skip svn:external entries
             return;
-        }
-        else
-        {
-            //Parse the second column
-            statusString = line.substring( 1, 1 );
+        } else {
+            // Parse the second column
+            statusString = line.substring(1, 1);
 
-            //The line isn't a status line, ie something like 'Performing status on external item at...'
-            //or a status defined in next columns
+            // The line isn't a status line, ie something like 'Performing status on external item at...'
+            // or a status defined in next columns
             return;
         }
 
         // If the file isn't a file; don't add it.
-        if ( !status.equals( ScmFileStatus.DELETED ) && !new File( workingDirectory, file ).isFile() )
-        {
+        if (!status.equals(ScmFileStatus.DELETED) && !new File(workingDirectory, file).isFile()) {
             return;
         }
 
-        changedFiles.add( new ScmFile( file, status ) );
+        changedFiles.add(new ScmFile(file, status));
     }
 
-    public List<ScmFile> getChangedFiles()
-    {
+    public List<ScmFile> getChangedFiles() {
         return changedFiles;
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.util;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.util;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,11 +16,7 @@ package org.apache.maven.scm.util;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.codehaus.plexus.util.StringUtils;
-import org.codehaus.plexus.util.cli.StreamConsumer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package org.apache.maven.scm.util;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -30,14 +24,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.codehaus.plexus.util.StringUtils;
+import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public abstract class AbstractConsumer
-    implements StreamConsumer
-{
-    protected final Logger logger = LoggerFactory.getLogger( getClass() );
+public abstract class AbstractConsumer implements StreamConsumer {
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Converts the date timestamp from the output into a date object.
@@ -47,9 +44,8 @@ public abstract class AbstractConsumer
      * @param defaultPattern TODO
      * @return A date representing the timestamp of the log entry.
      */
-    protected Date parseDate( String date, String userPattern, String defaultPattern )
-    {
-        return parseDate( date, userPattern, defaultPattern, null );
+    protected Date parseDate(String date, String userPattern, String defaultPattern) {
+        return parseDate(date, userPattern, defaultPattern, null);
     }
 
     /**
@@ -61,64 +57,48 @@ public abstract class AbstractConsumer
      * @param locale TODO
      * @return A date representing the timestamp of the log entry.
      */
-    protected Date parseDate( String date, String userPattern, String defaultPattern, Locale locale )
-    {
+    protected Date parseDate(String date, String userPattern, String defaultPattern, Locale locale) {
         DateFormat format;
 
         String patternUsed = null;
         Locale localeUsed = null;
 
-        if ( StringUtils.isNotEmpty( userPattern ) )
-        {
-            if ( locale != null )
-            {
-                format = new SimpleDateFormat( userPattern, locale );
+        if (StringUtils.isNotEmpty(userPattern)) {
+            if (locale != null) {
+                format = new SimpleDateFormat(userPattern, locale);
                 localeUsed = locale;
-            }
-            else
-            {
-                format = new SimpleDateFormat( userPattern );
+            } else {
+                format = new SimpleDateFormat(userPattern);
                 localeUsed = Locale.getDefault();
             }
             patternUsed = userPattern;
-        }
-        else
-        {
-            if ( StringUtils.isNotEmpty( defaultPattern ) )
-            {
-                if ( locale != null )
-                {
-                    format = new SimpleDateFormat( defaultPattern, locale );
+        } else {
+            if (StringUtils.isNotEmpty(defaultPattern)) {
+                if (locale != null) {
+                    format = new SimpleDateFormat(defaultPattern, locale);
                     localeUsed = locale;
-                }
-                else
-                {
-                    format = new SimpleDateFormat( defaultPattern );
+                } else {
+                    format = new SimpleDateFormat(defaultPattern);
                     localeUsed = Locale.getDefault();
                 }
                 patternUsed = defaultPattern;
-            }
-            else
-            {
+            } else {
                 // Use the English short date pattern if no pattern is specified
-                format = DateFormat.getDateInstance( DateFormat.SHORT, Locale.ENGLISH );
+                format = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ENGLISH);
                 patternUsed = "DateFormat.SHORT";
                 localeUsed = Locale.ENGLISH;
             }
         }
 
-        try
-        {
-            return format.parse( date );
-        }
-        catch ( ParseException e )
-        {
-            if ( logger.isWarnEnabled() )
-            {
+        try {
+            return format.parse(date);
+        } catch (ParseException e) {
+            if (logger.isWarnEnabled()) {
                 logger.warn(
-                                   "skip ParseException: " + e.getMessage() + " during parsing date '" + date
-                                       + "' with pattern '" + patternUsed + "' and locale '"
-                                       + localeUsed + "'", e );
+                        "skip ParseException: " + e.getMessage() + " during parsing date '" + date
+                                + "' with pattern '" + patternUsed + "' and locale '"
+                                + localeUsed + "'",
+                        e);
             }
 
             return null;

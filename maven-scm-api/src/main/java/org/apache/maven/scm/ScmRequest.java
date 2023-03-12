@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,10 +16,11 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.repository.ScmRepository;
+package org.apache.maven.scm;
 
 import java.io.Serializable;
+
+import org.apache.maven.scm.repository.ScmRepository;
 
 /**
  * Base class for SCM wrapped parameters.
@@ -35,9 +34,7 @@ import java.io.Serializable;
  * @author Petr Kozelka
  * @since 1.8
  */
-public class ScmRequest
-    implements Serializable
-{
+public class ScmRequest implements Serializable {
     private static final long serialVersionUID = 20120620L;
 
     private ScmRepository scmRepository;
@@ -46,32 +43,27 @@ public class ScmRequest
 
     protected final CommandParameters parameters = new CommandParameters();
 
-    public ScmRequest()
-    {
+    public ScmRequest() {
         // no op
     }
 
-    public ScmRequest( ScmRepository scmRepository, ScmFileSet scmFileSet )
-    {
+    public ScmRequest(ScmRepository scmRepository, ScmFileSet scmFileSet) {
         this.scmRepository = scmRepository;
         this.scmFileSet = scmFileSet;
     }
 
-    public ScmRepository getScmRepository()
-    {
+    public ScmRepository getScmRepository() {
         return scmRepository;
     }
 
     /**
      * @param scmRepository the source control system
      */
-    public void setScmRepository( ScmRepository scmRepository )
-    {
+    public void setScmRepository(ScmRepository scmRepository) {
         this.scmRepository = scmRepository;
     }
 
-    public ScmFileSet getScmFileSet()
-    {
+    public ScmFileSet getScmFileSet() {
         return scmFileSet;
     }
 
@@ -80,8 +72,7 @@ public class ScmRequest
      *      {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param scmFileSet working copy and its selected files
      */
-    public void setScmFileSet( ScmFileSet scmFileSet )
-    {
+    public void setScmFileSet(ScmFileSet scmFileSet) {
         this.scmFileSet = scmFileSet;
     }
 
@@ -90,8 +81,7 @@ public class ScmRequest
      * These parameters are usually translated to commandline options or arguments.
      * @return command parameters
      */
-    public CommandParameters getCommandParameters()
-    {
+    public CommandParameters getCommandParameters() {
         return parameters;
     }
 }

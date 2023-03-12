@@ -1,5 +1,3 @@
-package org.apache.maven.scm.tck.command.branch;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.tck.command.branch;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,10 @@ package org.apache.maven.scm.tck.command.branch;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.tck.command.branch;
+
+import java.io.File;
+import java.io.FileWriter;
 
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmFileSet;
@@ -29,9 +31,6 @@ import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileWriter;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -41,76 +40,67 @@ import static org.junit.Assert.assertFalse;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public abstract class BranchCommandTckTest
-    extends ScmTckTestCase
-{
+public abstract class BranchCommandTckTest extends ScmTckTestCase {
 
-    protected String getBranch()
-    {
+    protected String getBranch() {
         return "test-branch";
     }
 
     @Test
-    public void testBranchCommandTest()
-        throws Exception
-    {
+    public void testBranchCommandTest() throws Exception {
         String branch = getBranch();
 
-        @SuppressWarnings( "deprecation" ) BranchScmResult branchResult =
-            getScmManager().getProviderByUrl( getScmUrl() ).branch( getScmRepository(),
-                                                                    new ScmFileSet( getWorkingCopy() ), branch );
+        @SuppressWarnings("deprecation")
+        BranchScmResult branchResult = getScmManager()
+                .getProviderByUrl(getScmUrl())
+                .branch(getScmRepository(), new ScmFileSet(getWorkingCopy()), branch);
 
-        assertResultIsSuccess( branchResult );
+        assertResultIsSuccess(branchResult);
 
         // see https://issues.apache.org/jira/browse/SCM-754
-        //assertEquals( "check all 4 files branched", 4, branchResult.getBranchedFiles().size() );
+        // assertEquals( "check all 4 files branched", 4, branchResult.getBranchedFiles().size() );
 
-        File readmeTxt = new File( getWorkingCopy(), "readme.txt" );
+        File readmeTxt = new File(getWorkingCopy(), "readme.txt");
 
-        assertEquals( "check readme.txt contents", "/readme.txt", FileUtils.fileRead( readmeTxt ) );
+        assertEquals("check readme.txt contents", "/readme.txt", FileUtils.fileRead(readmeTxt));
 
-        this.edit( getWorkingCopy(), "readme.txt", null, getScmRepository() );
-        changeReadmeTxt( readmeTxt );
+        this.edit(getWorkingCopy(), "readme.txt", null, getScmRepository());
+        changeReadmeTxt(readmeTxt);
 
         CheckInScmResult checkinResult =
-            getScmManager().checkIn( getScmRepository(), new ScmFileSet( getWorkingCopy() ), "commit message" );
+                getScmManager().checkIn(getScmRepository(), new ScmFileSet(getWorkingCopy()), "commit message");
 
-        assertResultIsSuccess( checkinResult );
+        assertResultIsSuccess(checkinResult);
 
         CheckOutScmResult checkoutResult =
-            getScmManager().checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ) );
+                getScmManager().checkOut(getScmRepository(), new ScmFileSet(getAssertionCopy()));
 
-        assertResultIsSuccess( checkoutResult );
+        assertResultIsSuccess(checkoutResult);
 
-        readmeTxt = new File( getAssertionCopy(), "readme.txt" );
+        readmeTxt = new File(getAssertionCopy(), "readme.txt");
 
-        assertEquals( "check readme.txt contents", "changed file", FileUtils.fileRead( readmeTxt ) );
+        assertEquals("check readme.txt contents", "changed file", FileUtils.fileRead(readmeTxt));
 
-        deleteDirectory( getAssertionCopy() );
+        deleteDirectory(getAssertionCopy());
 
-        assertFalse( "check previous assertion copy deleted", getAssertionCopy().exists() );
+        assertFalse("check previous assertion copy deleted", getAssertionCopy().exists());
 
-        checkoutResult = getScmManager().getProviderByUrl( getScmUrl() ).checkOut( getScmRepository(),
-                                                                                   new ScmFileSet( getAssertionCopy() ),
-                                                                                   new ScmBranch( branch ) );
+        checkoutResult = getScmManager()
+                .getProviderByUrl(getScmUrl())
+                .checkOut(getScmRepository(), new ScmFileSet(getAssertionCopy()), new ScmBranch(branch));
 
-        assertResultIsSuccess( checkoutResult );
+        assertResultIsSuccess(checkoutResult);
 
-        assertEquals( "check readme.txt contents is from branched version", "/readme.txt",
-                      FileUtils.fileRead( readmeTxt ) );
+        assertEquals(
+                "check readme.txt contents is from branched version", "/readme.txt", FileUtils.fileRead(readmeTxt));
     }
 
-    private void changeReadmeTxt( File readmeTxt )
-        throws Exception
-    {
-        FileWriter output = new FileWriter( readmeTxt );
-        try
-        {
-            output.write( "changed file" );
-        }
-        finally
-        {
-            IOUtil.close( output );
+    private void changeReadmeTxt(File readmeTxt) throws Exception {
+        FileWriter output = new FileWriter(readmeTxt);
+        try {
+            output.write("changed file");
+        } finally {
+            IOUtil.close(output);
         }
     }
 }

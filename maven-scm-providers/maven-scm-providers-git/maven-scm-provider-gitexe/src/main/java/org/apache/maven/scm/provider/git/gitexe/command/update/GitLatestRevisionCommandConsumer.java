@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.update;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,45 +16,40 @@ package org.apache.maven.scm.provider.git.gitexe.command.update;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.util.AbstractConsumer;
-import org.codehaus.plexus.util.StringUtils;
+package org.apache.maven.scm.provider.git.gitexe.command.update;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.maven.scm.util.AbstractConsumer;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
  */
-public class GitLatestRevisionCommandConsumer
-    extends AbstractConsumer
-{
+public class GitLatestRevisionCommandConsumer extends AbstractConsumer {
 
     /**
      * The pattern used to match git log latest revision lines
      */
-    private static final Pattern LATESTREV_PATTERN = Pattern.compile( "^commit \\s*(.*)" );
+    private static final Pattern LATESTREV_PATTERN = Pattern.compile("^commit \\s*(.*)");
 
     private String latestRevision;
 
     /** {@inheritDoc} */
-    public void consumeLine( String line )
-    {
-        if ( logger.isDebugEnabled() )
-        {
-            logger.debug( "GitLatestRevisionCommandConsumer consumeLine : " + line );
+    public void consumeLine(String line) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("GitLatestRevisionCommandConsumer consumeLine : " + line);
         }
-        if ( line == null || StringUtils.isEmpty( line ) )
-        {
+        if (line == null || StringUtils.isEmpty(line)) {
             return;
         }
 
-        processGetLatestRevision( line );
+        processGetLatestRevision(line);
     }
 
-    public String getLatestRevision()
-    {
+    public String getLatestRevision() {
         return latestRevision;
     }
 
@@ -65,14 +58,10 @@ public class GitLatestRevisionCommandConsumer
      *
      * @param line A line of text from the git log output
      */
-    private void processGetLatestRevision( String line )
-    {
-        Matcher matcher = LATESTREV_PATTERN.matcher( line );
-        if ( matcher.matches() )
-        {
-            latestRevision = matcher.group( 1 );
-
+    private void processGetLatestRevision(String line) {
+        Matcher matcher = LATESTREV_PATTERN.matcher(line);
+        if (matcher.matches()) {
+            latestRevision = matcher.group(1);
         }
     }
-
 }

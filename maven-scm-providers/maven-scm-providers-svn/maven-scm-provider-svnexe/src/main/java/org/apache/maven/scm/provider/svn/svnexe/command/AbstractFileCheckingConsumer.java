@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,9 +31,7 @@ import org.apache.maven.scm.util.AbstractConsumer;
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
  *
  */
-public abstract class AbstractFileCheckingConsumer
-        extends AbstractConsumer
-{
+public abstract class AbstractFileCheckingConsumer extends AbstractConsumer {
     protected File workingDirectory;
 
     private final List<ScmFile> files = new ArrayList<>();
@@ -43,48 +40,37 @@ public abstract class AbstractFileCheckingConsumer
 
     private boolean filtered;
 
-    public AbstractFileCheckingConsumer( File workingDirectory )
-    {
+    public AbstractFileCheckingConsumer(File workingDirectory) {
         this.workingDirectory = workingDirectory;
     }
 
     /** {@inheritDoc} */
-    public final void consumeLine( String line )
-    {
-        if ( line.length() <= 3 )
-        {
+    public final void consumeLine(String line) {
+        if (line.length() <= 3) {
             return;
         }
 
-        if ( logger.isDebugEnabled() )
-        {
-            logger.debug( line );
+        if (logger.isDebugEnabled()) {
+            logger.debug(line);
         }
 
-        try
-        {
-            parseLine( line );
-        }
-        catch ( RuntimeException re )
-        {
-            logger.warn( "RuntimeException while parsing: " + line , re );
+        try {
+            parseLine(line);
+        } catch (RuntimeException re) {
+            logger.warn("RuntimeException while parsing: " + line, re);
             throw re;
         }
     }
 
-    protected abstract void parseLine( String line );
+    protected abstract void parseLine(String line);
 
-    protected List<ScmFile> getFiles()
-    {
-        
-        if ( !filtered )
-        {
-            for ( Iterator<ScmFile> ite = files.iterator(); ite.hasNext(); )
-            {
+    protected List<ScmFile> getFiles() {
+
+        if (!filtered) {
+            for (Iterator<ScmFile> ite = files.iterator(); ite.hasNext(); ) {
                 ScmFile file = ite.next();
-                if ( !file.getStatus().equals( ScmFileStatus.DELETED )
-                    && !new File( workingDirectory, file.getPath() ).isFile() )
-                {
+                if (!file.getStatus().equals(ScmFileStatus.DELETED)
+                        && !new File(workingDirectory, file.getPath()).isFile()) {
                     ite.remove();
                 }
             }
@@ -95,31 +81,23 @@ public abstract class AbstractFileCheckingConsumer
         return files;
     }
 
-    protected final int parseInt( String revisionString )
-    {
-        try
-        {
-            return Integer.parseInt( revisionString );
-        }
-        catch ( NumberFormatException ex )
-        {
+    protected final int parseInt(String revisionString) {
+        try {
+            return Integer.parseInt(revisionString);
+        } catch (NumberFormatException ex) {
             return 0;
         }
     }
 
-    protected void addFile( ScmFile file )
-    {
-        files.add( file );
+    protected void addFile(ScmFile file) {
+        files.add(file);
     }
 
-    public final int getRevision()
-    {
+    public final int getRevision() {
         return revision;
     }
 
-    public File getWorkingDirectory()
-    {
+    public File getWorkingDirectory() {
         return workingDirectory;
     }
-
 }

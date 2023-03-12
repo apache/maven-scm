@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.local.command.changelog;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.local.command.changelog;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.local.command.changelog;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.local.command.changelog;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,120 +41,100 @@ import org.codehaus.plexus.util.FileUtils;
  * @author Olivier Lamy
  *
  */
-public class LocalChangeLogCommand
-    extends AbstractChangeLogCommand
-{
+public class LocalChangeLogCommand extends AbstractChangeLogCommand {
     /** {@inheritDoc} */
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, ScmBranch branch,
-                                                          String datePattern )
-        throws ScmException
-    {
+    protected ChangeLogScmResult executeChangeLogCommand(
+            ScmProviderRepository repository,
+            ScmFileSet fileSet,
+            Date startDate,
+            Date endDate,
+            ScmBranch branch,
+            String datePattern)
+            throws ScmException {
         LocalScmProviderRepository repo = (LocalScmProviderRepository) repository;
 
-        if ( branch != null )
-        {
-            throw new ScmException( "The local scm doesn't support tags." );
+        if (branch != null) {
+            throw new ScmException("The local scm doesn't support tags.");
         }
 
-        File root = new File( repo.getRoot() );
+        File root = new File(repo.getRoot());
 
         String module = repo.getModule();
 
-        File source = new File( root, module );
+        File source = new File(root, module);
 
         File baseDestination = fileSet.getBasedir();
 
-        if ( !baseDestination.exists() )
-        {
-            throw new ScmException(
-                "The working directory doesn't exist (" + baseDestination.getAbsolutePath() + ")." );
+        if (!baseDestination.exists()) {
+            throw new ScmException("The working directory doesn't exist (" + baseDestination.getAbsolutePath() + ").");
         }
 
-        if ( !root.exists() )
-        {
-            throw new ScmException( "The base directory doesn't exist (" + root.getAbsolutePath() + ")." );
+        if (!root.exists()) {
+            throw new ScmException("The base directory doesn't exist (" + root.getAbsolutePath() + ").");
         }
 
-        if ( !source.exists() )
-        {
-            throw new ScmException( "The module directory doesn't exist (" + source.getAbsolutePath() + ")." );
+        if (!source.exists()) {
+            throw new ScmException("The module directory doesn't exist (" + source.getAbsolutePath() + ").");
         }
 
         List<ChangeSet> changeLogList = new ArrayList<>();
 
-        try
-        {
-            File repoRoot = new File( repo.getRoot(), repo.getModule() );
+        try {
+            File repoRoot = new File(repo.getRoot(), repo.getModule());
 
             List<File> files = fileSet.getFileList();
 
-            if ( files.isEmpty() )
-            {
-                files = FileUtils.getFiles( baseDestination, "**", null, false );
+            if (files.isEmpty()) {
+                files = FileUtils.getFiles(baseDestination, "**", null, false);
             }
 
-            for ( File file : files )
-            {
+            for (File file : files) {
 
-                String path = file.getPath().replace( '\\', '/' );
+                String path = file.getPath().replace('\\', '/');
 
-                File repoFile = new File( repoRoot, path );
+                File repoFile = new File(repoRoot, path);
 
-                file = new File( baseDestination, path );
+                file = new File(baseDestination, path);
 
                 ChangeSet changeSet = new ChangeSet();
 
                 int chop = repoRoot.getAbsolutePath().length();
 
-                String fileName = "/" + repoFile.getAbsolutePath().substring( chop + 1 );
+                String fileName = "/" + repoFile.getAbsolutePath().substring(chop + 1);
 
-                changeSet.addFile( new ChangeFile( fileName, null ) );
+                changeSet.addFile(new ChangeFile(fileName, null));
 
-                if ( repoFile.exists() )
-                {
+                if (repoFile.exists()) {
                     long lastModified = repoFile.lastModified();
 
-                    Date modifiedDate = new Date( lastModified );
+                    Date modifiedDate = new Date(lastModified);
 
-                    if ( startDate != null )
-                    {
-                        if ( startDate.before( modifiedDate ) || startDate.equals( modifiedDate ) )
-                        {
-                            if ( endDate != null )
-                            {
-                                if ( endDate.after( modifiedDate ) || endDate.equals( modifiedDate ) )
-                                {
+                    if (startDate != null) {
+                        if (startDate.before(modifiedDate) || startDate.equals(modifiedDate)) {
+                            if (endDate != null) {
+                                if (endDate.after(modifiedDate) || endDate.equals(modifiedDate)) {
                                     // nop
-                                }
-                                else
-                                {
+                                } else {
                                     continue;
                                 }
                             }
-                        }
-                        else
-                        {
+                        } else {
                             continue;
                         }
                     }
 
-                    changeSet.setDate( modifiedDate );
+                    changeSet.setDate(modifiedDate);
 
-                    changeLogList.add( changeSet );
-                }
-                else
-                {
+                    changeLogList.add(changeSet);
+                } else {
                     // This file is deleted
-                    changeLogList.add( changeSet );
+                    changeLogList.add(changeSet);
                 }
             }
-        }
-        catch ( IOException ex )
-        {
-            throw new ScmException( "Error while getting change logs.", ex );
+        } catch (IOException ex) {
+            throw new ScmException("Error while getting change logs.", ex);
         }
 
-        return new ChangeLogScmResult( null, new ChangeLogSet( changeLogList, startDate, endDate ) );
+        return new ChangeLogScmResult(null, new ChangeLogSet(changeLogList, startDate, endDate));
     }
 }

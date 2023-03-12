@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.changelog;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.changelog;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.changelog;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.changelog;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,8 +29,7 @@ import org.apache.maven.scm.ScmVersion;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class ChangeLogSet
-{
+public class ChangeLogSet {
     public static final String DEFAULT_ENCODING = "ISO-8859-1";
 
     private List<ChangeSet> entries;
@@ -50,8 +48,7 @@ public class ChangeLogSet
      * @param startDate the start date/tag for this set.
      * @param endDate   the end date/tag for this set, or <code>null</code> if this set goes to the present time.
      */
-    public ChangeLogSet( Date startDate, Date endDate )
-    {
+    public ChangeLogSet(Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -63,10 +60,9 @@ public class ChangeLogSet
      * @param startDate the start date/tag for this set.
      * @param endDate   the end date/tag for this set, or <code>null</code> if this set goes to the present time.
      */
-    public ChangeLogSet( List<ChangeSet> entries, Date startDate, Date endDate )
-    {
-        this( startDate, endDate );
-        setChangeSets( entries );
+    public ChangeLogSet(List<ChangeSet> entries, Date startDate, Date endDate) {
+        this(startDate, endDate);
+        setChangeSets(entries);
     }
 
     /**
@@ -74,8 +70,7 @@ public class ChangeLogSet
      *
      * @return the start date.
      */
-    public Date getStartDate()
-    {
+    public Date getStartDate() {
         return startDate;
     }
 
@@ -84,8 +79,7 @@ public class ChangeLogSet
      *
      * @return the end date for this set, or <code>null</code> if this set goes to the present time.
      */
-    public Date getEndDate()
-    {
+    public Date getEndDate() {
         return endDate;
     }
 
@@ -94,13 +88,11 @@ public class ChangeLogSet
      *
      * @return the start version (revision/branch/label) for this set, or <code>null</code>.
      */
-    public ScmVersion getStartVersion()
-    {
+    public ScmVersion getStartVersion() {
         return startVersion;
     }
 
-    public void setStartVersion( ScmVersion startVersion )
-    {
+    public void setStartVersion(ScmVersion startVersion) {
         this.startVersion = startVersion;
     }
 
@@ -109,13 +101,11 @@ public class ChangeLogSet
      *
      * @return the end version (revision/branch/label) for this set, or <code>null</code>.
      */
-    public ScmVersion getEndVersion()
-    {
+    public ScmVersion getEndVersion() {
         return endVersion;
     }
 
-    public void setEndVersion( ScmVersion endVersion )
-    {
+    public void setEndVersion(ScmVersion endVersion) {
         this.endVersion = endVersion;
     }
 
@@ -124,13 +114,11 @@ public class ChangeLogSet
      *
      * @return the collection of {@link org.apache.maven.scm.ChangeSet} objects for this set.
      */
-    public List<ChangeSet> getChangeSets()
-    {
+    public List<ChangeSet> getChangeSets() {
         return entries;
     }
 
-    public void setChangeSets( List<ChangeSet> changeSets )
-    {
+    public void setChangeSets(List<ChangeSet> changeSets) {
         this.entries = changeSets;
     }
 
@@ -139,9 +127,8 @@ public class ChangeLogSet
      *
      * @return TODO
      */
-    public String toXML()
-    {
-        return toXML( DEFAULT_ENCODING );
+    public String toXML() {
+        return toXML(DEFAULT_ENCODING);
     }
 
     /**
@@ -150,59 +137,42 @@ public class ChangeLogSet
      * @param encoding encoding of output
      * @return TODO
      */
-    public String toXML( String encoding )
-    {
+    public String toXML(String encoding) {
         String encodingString = encoding;
 
-        if ( encodingString == null )
-        {
+        if (encodingString == null) {
             encodingString = DEFAULT_ENCODING;
         }
 
         StringBuilder buffer = new StringBuilder();
         String pattern = "yyyyMMdd HH:mm:ss z";
-        SimpleDateFormat formatter = new SimpleDateFormat( pattern );
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
 
-        buffer.append( "<?xml version=\"1.0\" encoding=\"" + encodingString + "\"?>\n" );
-        buffer.append( "<changeset datePattern=\"" )
-            .append( pattern )
-            .append( "\"" );
+        buffer.append("<?xml version=\"1.0\" encoding=\"" + encodingString + "\"?>\n");
+        buffer.append("<changeset datePattern=\"").append(pattern).append("\"");
 
-        if ( startDate != null )
-        {
-            buffer.append( " start=\"" )
-                .append( formatter.format( getStartDate() ) )
-                .append( "\"" );
+        if (startDate != null) {
+            buffer.append(" start=\"").append(formatter.format(getStartDate())).append("\"");
         }
-        if ( endDate != null )
-        {
-            buffer.append( " end=\"" )
-                .append( formatter.format( getEndDate() ) )
-                .append( "\"" );
+        if (endDate != null) {
+            buffer.append(" end=\"").append(formatter.format(getEndDate())).append("\"");
         }
 
-        if ( startVersion != null )
-        {
-            buffer.append( " startVersion=\"" )
-                .append( getStartVersion() )
-                .append( "\"" );
+        if (startVersion != null) {
+            buffer.append(" startVersion=\"").append(getStartVersion()).append("\"");
         }
-        if ( endVersion != null )
-        {
-            buffer.append( " endVersion=\"" )
-                .append( getEndVersion() )
-                .append( "\"" );
+        if (endVersion != null) {
+            buffer.append(" endVersion=\"").append(getEndVersion()).append("\"");
         }
 
-        buffer.append( ">\n" );
+        buffer.append(">\n");
 
         //  Write out the entries
-        for ( ChangeSet changeSet : getChangeSets() )
-        {
-            buffer.append( changeSet.toXML() );
+        for (ChangeSet changeSet : getChangeSets()) {
+            buffer.append(changeSet.toXML());
         }
 
-        buffer.append( "</changeset>\n" );
+        buffer.append("</changeset>\n");
 
         return buffer.toString();
     }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -57,9 +56,7 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public abstract class AbstractGitScmProvider
-    extends AbstractScmProvider
-{
+public abstract class AbstractGitScmProvider extends AbstractScmProvider {
 
     // ----------------------------------------------------------------------
     //
@@ -68,8 +65,7 @@ public abstract class AbstractGitScmProvider
     /**
      * Internal class
      */
-    private static class ScmUrlParserResult
-    {
+    private static class ScmUrlParserResult {
         private final List<String> messages = new ArrayList<>();
 
         private ScmProviderRepository repository;
@@ -80,84 +76,65 @@ public abstract class AbstractGitScmProvider
     // ----------------------------------------------------------------------
 
     /** {@inheritDoc} */
-    public String getScmSpecificFilename()
-    {
+    public String getScmSpecificFilename() {
         return ".git";
     }
 
     /** {@inheritDoc} */
-    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
-        throws ScmRepositoryException
-    {
-        try
-        {
-            ScmUrlParserResult result = parseScmUrl( scmSpecificUrl, delimiter );
+    public ScmProviderRepository makeProviderScmRepository(String scmSpecificUrl, char delimiter)
+            throws ScmRepositoryException {
+        try {
+            ScmUrlParserResult result = parseScmUrl(scmSpecificUrl, delimiter);
 
-            if ( result.messages.size() > 0 )
-            {
-                throw new ScmRepositoryException( "The scm url " + scmSpecificUrl + " is invalid.", result.messages );
+            if (result.messages.size() > 0) {
+                throw new ScmRepositoryException("The scm url " + scmSpecificUrl + " is invalid.", result.messages);
             }
 
             return result.repository;
-        }
-        catch ( ScmException e )
-        {
+        } catch (ScmException e) {
             // XXX We should allow throwing of SCMException.
-            throw new ScmRepositoryException( "Error creating the scm repository", e );
+            throw new ScmRepositoryException("Error creating the scm repository", e);
         }
     }
 
     /** {@inheritDoc} */
-    public ScmProviderRepository makeProviderScmRepository( File path )
-        throws ScmRepositoryException, UnknownRepositoryStructure
-    {
-        if ( path == null )
-        {
-            throw new NullPointerException( "Path argument is null" );
+    public ScmProviderRepository makeProviderScmRepository(File path)
+            throws ScmRepositoryException, UnknownRepositoryStructure {
+        if (path == null) {
+            throw new NullPointerException("Path argument is null");
         }
 
-        if ( !path.isDirectory() )
-        {
-            throw new ScmRepositoryException( path.getAbsolutePath() + " isn't a valid directory." );
+        if (!path.isDirectory()) {
+            throw new ScmRepositoryException(path.getAbsolutePath() + " isn't a valid directory.");
         }
 
-        if ( !new File( path, ".git" ).exists() )
-        {
-            throw new ScmRepositoryException( path.getAbsolutePath() + " isn't a git checkout directory." );
+        if (!new File(path, ".git").exists()) {
+            throw new ScmRepositoryException(path.getAbsolutePath() + " isn't a git checkout directory.");
         }
 
-        try
-        {
-            return makeProviderScmRepository( getRepositoryURL( path ), ':' );
-        }
-        catch ( ScmException e )
-        {
+        try {
+            return makeProviderScmRepository(getRepositoryURL(path), ':');
+        } catch (ScmException e) {
             // XXX We should allow throwing of SCMException.
-            throw new ScmRepositoryException( "Error creating the scm repository", e );
+            throw new ScmRepositoryException("Error creating the scm repository", e);
         }
     }
 
-    protected abstract String getRepositoryURL( File path )
-        throws ScmException;
+    protected abstract String getRepositoryURL(File path) throws ScmException;
 
     /** {@inheritDoc} */
-    public List<String> validateScmUrl( String scmSpecificUrl, char delimiter )
-    {
+    public List<String> validateScmUrl(String scmSpecificUrl, char delimiter) {
         List<String> messages = new ArrayList<>();
-        try
-        {
-            makeProviderScmRepository( scmSpecificUrl, delimiter );
-        }
-        catch ( ScmRepositoryException e )
-        {
+        try {
+            makeProviderScmRepository(scmSpecificUrl, delimiter);
+        } catch (ScmRepositoryException e) {
             messages = e.getValidationMessages();
         }
         return messages;
     }
 
     /** {@inheritDoc} */
-    public String getScmType()
-    {
+    public String getScmType() {
         return "git";
     }
 
@@ -169,12 +146,10 @@ public abstract class AbstractGitScmProvider
      * The git-submodule(1) command is available since Git 1.5.3, so modules will
      * be activated in a later stage
      */
-    private ScmUrlParserResult parseScmUrl( String scmSpecificUrl, char delimiter )
-        throws ScmException
-    {
+    private ScmUrlParserResult parseScmUrl(String scmSpecificUrl, char delimiter) throws ScmException {
         ScmUrlParserResult result = new ScmUrlParserResult();
 
-        result.repository = new GitScmProviderRepository( scmSpecificUrl );
+        result.repository = new GitScmProviderRepository(scmSpecificUrl);
 
         return result;
     }
@@ -182,155 +157,132 @@ public abstract class AbstractGitScmProvider
     protected abstract GitCommand getAddCommand();
 
     /** {@inheritDoc} */
-    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
-        return (AddScmResult) executeCommand( getAddCommand(), repository, fileSet, parameters );
+    public AddScmResult add(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return (AddScmResult) executeCommand(getAddCommand(), repository, fileSet, parameters);
     }
 
     protected abstract GitCommand getBranchCommand();
 
     /** {@inheritDoc} */
-    protected BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet,
-                                      CommandParameters parameters )
-        throws ScmException
-    {
-        return (BranchScmResult) executeCommand( getBranchCommand(), repository, fileSet, parameters );
+    protected BranchScmResult branch(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return (BranchScmResult) executeCommand(getBranchCommand(), repository, fileSet, parameters);
     }
 
     protected abstract GitCommand getChangeLogCommand();
 
     /** {@inheritDoc} */
-    public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
-                                         CommandParameters parameters )
-        throws ScmException
-    {
-        return (ChangeLogScmResult) executeCommand( getChangeLogCommand(), repository, fileSet, parameters );
+    public ChangeLogScmResult changelog(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
+        return (ChangeLogScmResult) executeCommand(getChangeLogCommand(), repository, fileSet, parameters);
     }
 
     protected abstract GitCommand getCheckInCommand();
 
     /** {@inheritDoc} */
-    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
-                                     CommandParameters parameters )
-        throws ScmException
-    {
-        return (CheckInScmResult) executeCommand( getCheckInCommand(), repository, fileSet, parameters );
+    public CheckInScmResult checkin(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return (CheckInScmResult) executeCommand(getCheckInCommand(), repository, fileSet, parameters);
     }
 
     protected abstract GitCommand getCheckOutCommand();
 
     /** {@inheritDoc} */
-    public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
-                                       CommandParameters parameters )
-        throws ScmException
-    {
-        return (CheckOutScmResult) executeCommand( getCheckOutCommand(), repository, fileSet, parameters );
+    public CheckOutScmResult checkout(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
+        return (CheckOutScmResult) executeCommand(getCheckOutCommand(), repository, fileSet, parameters);
     }
 
     protected abstract GitCommand getDiffCommand();
 
     /** {@inheritDoc} */
-    public DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
-        return (DiffScmResult) executeCommand( getDiffCommand(), repository, fileSet, parameters );
+    public DiffScmResult diff(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return (DiffScmResult) executeCommand(getDiffCommand(), repository, fileSet, parameters);
     }
 
     protected abstract GitCommand getExportCommand();
 
     /** {@inheritDoc} */
-    protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet,
-                                      CommandParameters parameters )
-        throws ScmException
-    {
-        return (ExportScmResult) executeCommand( getExportCommand(), repository, fileSet, parameters );
+    protected ExportScmResult export(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return (ExportScmResult) executeCommand(getExportCommand(), repository, fileSet, parameters);
     }
 
     protected abstract GitCommand getRemoveCommand();
 
     /** {@inheritDoc} */
-    public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
-        return (RemoveScmResult) executeCommand( getRemoveCommand(), repository, fileSet, parameters );
+    public RemoveScmResult remove(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return (RemoveScmResult) executeCommand(getRemoveCommand(), repository, fileSet, parameters);
     }
 
     protected abstract GitCommand getStatusCommand();
 
     /** {@inheritDoc} */
-    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
-        return (StatusScmResult) executeCommand( getStatusCommand(), repository, fileSet, parameters );
+    public StatusScmResult status(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return (StatusScmResult) executeCommand(getStatusCommand(), repository, fileSet, parameters);
     }
 
     protected abstract GitCommand getTagCommand();
 
     /** {@inheritDoc} */
-    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
-        return (TagScmResult) executeCommand( getTagCommand(), repository, fileSet, parameters );
+    public TagScmResult tag(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return (TagScmResult) executeCommand(getTagCommand(), repository, fileSet, parameters);
     }
 
     protected abstract GitCommand getUntagCommand();
 
     /** {@inheritDoc} */
-    public UntagScmResult untag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
-        return (UntagScmResult) executeCommand( getUntagCommand(),
-            repository.getProviderRepository(), fileSet, parameters );
+    public UntagScmResult untag(ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return (UntagScmResult)
+                executeCommand(getUntagCommand(), repository.getProviderRepository(), fileSet, parameters);
     }
 
     protected abstract GitCommand getUpdateCommand();
 
     /** {@inheritDoc} */
-    public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
-        return (UpdateScmResult) executeCommand( getUpdateCommand(), repository, fileSet, parameters );
+    public UpdateScmResult update(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return (UpdateScmResult) executeCommand(getUpdateCommand(), repository, fileSet, parameters);
     }
 
-    protected ScmResult executeCommand( GitCommand command, ScmProviderRepository repository, ScmFileSet fileSet,
-                                        CommandParameters parameters )
-        throws ScmException
-    {
-        return command.execute( repository, fileSet, parameters );
+    protected ScmResult executeCommand(
+            GitCommand command, ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return command.execute(repository, fileSet, parameters);
     }
 
     protected abstract GitCommand getInfoCommand();
 
-    public InfoScmResult info( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
+    public InfoScmResult info(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
         GitCommand cmd = getInfoCommand();
 
-        return (InfoScmResult) executeCommand( cmd, repository, fileSet, parameters );
+        return (InfoScmResult) executeCommand(cmd, repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
-    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
+    protected BlameScmResult blame(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
         GitCommand cmd = getBlameCommand();
 
-        return (BlameScmResult) executeCommand( cmd, repository, fileSet, parameters );
+        return (BlameScmResult) executeCommand(cmd, repository, fileSet, parameters);
     }
 
     protected abstract GitCommand getBlameCommand();
 
     /** {@inheritDoc} */
-    public RemoteInfoScmResult remoteInfo( ScmProviderRepository repository, ScmFileSet fileSet,
-                                           CommandParameters parameters )
-        throws ScmException
-    {
+    public RemoteInfoScmResult remoteInfo(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         GitCommand cmd = getRemoteInfoCommand();
 
-        return (RemoteInfoScmResult) executeCommand( cmd, repository, fileSet, parameters );
+        return (RemoteInfoScmResult) executeCommand(cmd, repository, fileSet, parameters);
     }
 
     protected abstract GitCommand getRemoteInfoCommand();
-
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
 
 import java.util.Map;
 
@@ -36,35 +35,28 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author Bertrand Paquet
  */
-public class GitRemoteInfoCommand
-    extends AbstractRemoteInfoCommand
-    implements GitCommand
-{
+public class GitRemoteInfoCommand extends AbstractRemoteInfoCommand implements GitCommand {
     private final Map<String, String> environmentVariables;
 
-    public GitRemoteInfoCommand( Map<String, String> environmentVariables )
-    {
+    public GitRemoteInfoCommand(Map<String, String> environmentVariables) {
         super();
         this.environmentVariables = environmentVariables;
     }
 
     @Override
-    public RemoteInfoScmResult executeRemoteInfoCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                         CommandParameters parameters )
-        throws ScmException
-    {
+    public RemoteInfoScmResult executeRemoteInfoCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository;
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        Commandline clLsRemote = createCommandLine( gitRepository );
+        Commandline clLsRemote = createCommandLine(gitRepository);
 
-        GitRemoteInfoConsumer consumer = new GitRemoteInfoConsumer( clLsRemote.toString() );
+        GitRemoteInfoConsumer consumer = new GitRemoteInfoConsumer(clLsRemote.toString());
 
-        int exitCode = GitCommandLineUtils.execute( clLsRemote, consumer, stderr );
-        if ( exitCode != 0 )
-        {
-            throw new ScmException( "unable to execute ls-remote on " + gitRepository.getFetchUrl() );
+        int exitCode = GitCommandLineUtils.execute(clLsRemote, consumer, stderr);
+        if (exitCode != 0) {
+            throw new ScmException("unable to execute ls-remote on " + gitRepository.getFetchUrl());
         }
 
         return consumer.getRemoteInfoScmResult();
@@ -74,17 +66,14 @@ public class GitRemoteInfoCommand
     //
     // ----------------------------------------------------------------------
 
-    public Commandline createCommandLine( GitScmProviderRepository repository )
-    {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( null, "ls-remote", repository,
-                                                                    environmentVariables );
+    public Commandline createCommandLine(GitScmProviderRepository repository) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(null, "ls-remote", repository, environmentVariables);
 
-        cl.setWorkingDirectory( System.getProperty( "java.io.tmpdir" ) );
+        cl.setWorkingDirectory(System.getProperty("java.io.tmpdir"));
 
         String remoteUrl = repository.getPushUrl();
-        cl.createArg().setValue( remoteUrl );
+        cl.createArg().setValue(remoteUrl);
 
         return cl;
     }
-
 }

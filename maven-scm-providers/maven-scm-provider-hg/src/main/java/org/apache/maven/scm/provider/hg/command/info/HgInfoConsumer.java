@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.hg.command.info;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.hg.command.info;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.hg.command.info;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.hg.command.info;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,25 +29,21 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
  * @since 1.5
  *
  */
-public class HgInfoConsumer
-    extends HgConsumer
-{
-    
-    private final List<InfoItem> infoItems = new ArrayList<>( 1 );
+public class HgInfoConsumer extends HgConsumer {
+
+    private final List<InfoItem> infoItems = new ArrayList<>(1);
 
     /**
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */
-    public void consumeLine( String line )
-    {
+    public void consumeLine(String line) {
         // hg id -i returns only one line so we are safe
         InfoItem infoItem = new InfoItem();
-        infoItem.setRevision( line );
-        this.infoItems.add( infoItem );
+        infoItem.setRevision(line);
+        this.infoItems.add(infoItem);
     }
 
-    public List<InfoItem> getInfoItems()
-    {
+    public List<InfoItem> getInfoItems() {
         return infoItems;
     }
 }

@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.add;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.add;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.add;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.add;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,39 +30,32 @@ import org.apache.maven.scm.ScmResult;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
  */
-public class AddScmResult
-    extends ScmResult
-{
+public class AddScmResult extends ScmResult {
     private static final long serialVersionUID = 1L;
-    
+
     private List<ScmFile> addedFiles;
 
-    public AddScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
-    {
-        super( commandLine, providerMessage, commandOutput, success );
+    public AddScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
+        super(commandLine, providerMessage, commandOutput, success);
 
-        addedFiles = new ArrayList<ScmFile>( 0 );
+        addedFiles = new ArrayList<ScmFile>(0);
     }
 
-    public AddScmResult( String commandLine, List<ScmFile> addedFiles )
-    {
-        this( commandLine, null, null, true );
+    public AddScmResult(String commandLine, List<ScmFile> addedFiles) {
+        this(commandLine, null, null, true);
 
-        if ( addedFiles == null )
-        {
-            throw new NullPointerException( "addedFiles can't be null" );
+        if (addedFiles == null) {
+            throw new NullPointerException("addedFiles can't be null");
         }
 
         this.addedFiles = addedFiles;
     }
 
-    public AddScmResult( List<ScmFile> addedFiles, ScmResult result )
-    {
-        super( result );
+    public AddScmResult(List<ScmFile> addedFiles, ScmResult result) {
+        super(result);
 
-        if ( addedFiles == null )
-        {
-            throw new NullPointerException( "addedFiles can't be null" );
+        if (addedFiles == null) {
+            throw new NullPointerException("addedFiles can't be null");
         }
 
         this.addedFiles = addedFiles;
@@ -74,8 +66,7 @@ public class AddScmResult
      *
      * @return non null list of added files
      */
-    public List<ScmFile> getAddedFiles()
-    {
+    public List<ScmFile> getAddedFiles() {
         return addedFiles;
     }
 }

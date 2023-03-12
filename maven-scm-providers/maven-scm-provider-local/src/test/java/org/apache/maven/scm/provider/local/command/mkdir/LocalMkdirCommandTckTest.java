@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.local.command.mkdir;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.local.command.mkdir;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.local.command.mkdir;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.local.command.mkdir;
 
 import java.io.File;
 
@@ -34,71 +33,59 @@ import static org.junit.Assert.assertTrue;
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  *
  */
-public class LocalMkdirCommandTckTest
-    extends MkdirCommandTckTest
-{
+public class LocalMkdirCommandTckTest extends MkdirCommandTckTest {
     private static final String moduleName = "checkin-tck";
 
-    public String getScmUrl()
-        throws Exception
-    {
+    public String getScmUrl() throws Exception {
         return "scm:local|" + getRepositoryRoot() + "|" + moduleName;
     }
 
-    public void initRepo()
-        throws Exception
-    {
-        makeRepo( getRepositoryRoot() );
+    public void initRepo() throws Exception {
+        makeRepo(getRepositoryRoot());
     }
 
-    private void makeRepo( File workingDirectory )
-        throws Exception
-    {
-        makeFile( workingDirectory, moduleName + "/pom.xml", "/pom.xml" );
+    private void makeRepo(File workingDirectory) throws Exception {
+        makeFile(workingDirectory, moduleName + "/pom.xml", "/pom.xml");
 
-        makeFile( workingDirectory, moduleName + "/readme.txt", "/readme.txt" );
+        makeFile(workingDirectory, moduleName + "/readme.txt", "/readme.txt");
 
-        makeFile( workingDirectory, moduleName + "/src/main/java/Application.java", "/src/main/java/Application.java" );
+        makeFile(workingDirectory, moduleName + "/src/main/java/Application.java", "/src/main/java/Application.java");
 
-        makeFile( workingDirectory, moduleName + "/src/test/java/Test.java", "/src/test/java/Test.java" );
+        makeFile(workingDirectory, moduleName + "/src/test/java/Test.java", "/src/test/java/Test.java");
 
-        makeDirectory( workingDirectory, moduleName + "/src/test/resources" );
+        makeDirectory(workingDirectory, moduleName + "/src/test/resources");
     }
 
     @Test
-    public void testMkdirCommandMkdirUrl()
-        throws Exception
-    {
-        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( getMissingDirectory() ) );
+    public void testMkdirCommandMkdirUrl() throws Exception {
+        ScmFileSet fileSet = new ScmFileSet(getWorkingCopy(), new File(getMissingDirectory()));
 
-        MkdirScmResult result = getScmManager().mkdir( getScmRepository(), fileSet, "Mkdir message", false );
+        MkdirScmResult result = getScmManager().mkdir(getScmRepository(), fileSet, "Mkdir message", false);
 
-        assertResultIsSuccess( result );
+        assertResultIsSuccess(result);
 
-        ListScmResult listResult = getScmManager().list( getScmRepository(), fileSet, true, null );
+        ListScmResult listResult = getScmManager().list(getScmRepository(), fileSet, true, null);
 
-        assertTrue( "Directory should have been found.", listResult.isSuccess() );
+        assertTrue("Directory should have been found.", listResult.isSuccess());
     }
 
     @Test
-    public void testMkdirCommandDirAlreadyAdded()
-        throws Exception
-    {
-        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( getMissingDirectory() ) );
+    public void testMkdirCommandDirAlreadyAdded() throws Exception {
+        ScmFileSet fileSet = new ScmFileSet(getWorkingCopy(), new File(getMissingDirectory()));
 
-        MkdirScmResult result = getScmManager().mkdir( getScmRepository(), fileSet, "Mkdir message", false );
+        MkdirScmResult result = getScmManager().mkdir(getScmRepository(), fileSet, "Mkdir message", false);
 
-        assertResultIsSuccess( result );
+        assertResultIsSuccess(result);
 
-        ListScmResult listResult = getScmManager().list( getScmRepository(), fileSet, true, null );
+        ListScmResult listResult = getScmManager().list(getScmRepository(), fileSet, true, null);
 
-        assertTrue( "Directory should have been found.", listResult.isSuccess() );
+        assertTrue("Directory should have been found.", listResult.isSuccess());
 
         // add the directory again
-        result = getScmManager().mkdir( getScmRepository(), fileSet, "Mkdir message", false );
+        result = getScmManager().mkdir(getScmRepository(), fileSet, "Mkdir message", false);
 
-        assertFalse( result.isSuccess() );
+        assertFalse(result.isSuccess());
 
-        printOutputError( result );
+        printOutputError(result);
     }
 }

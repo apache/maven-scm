@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.command.diff;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.command.diff;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,10 +16,7 @@ package org.apache.maven.scm.provider.git.command.diff;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.util.AbstractConsumer;
+package org.apache.maven.scm.provider.git.command.diff;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,15 +26,17 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.util.AbstractConsumer;
+
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Olivier Lamy
  *
  */
-public class GitDiffConsumer
-        extends AbstractConsumer
-{
+public class GitDiffConsumer extends AbstractConsumer {
     // diff --git a/readme.txt b/readme.txt
     // index fea1611..9e131cf 100644
     // --- a/readme.txt
@@ -49,13 +46,12 @@ public class GitDiffConsumer
     // \ No newline at end of file
     // +new version of /readme.txt
 
-
     /**
      * patern matches the index line of the diff comparison
      * paren.1 matches the first file
      * paren.2 matches the 2nd file
      */
-    private static final Pattern DIFF_FILES_PATTERN = Pattern.compile( "^diff --git\\sa/(.*)\\sb/(.*)" );
+    private static final Pattern DIFF_FILES_PATTERN = Pattern.compile("^diff --git\\sa/(.*)\\sb/(.*)");
 
     private static final String START_REVISION_TOKEN = "---";
 
@@ -97,8 +93,7 @@ public class GitDiffConsumer
     //
     // ----------------------------------------------------------------------
 
-    public GitDiffConsumer( File workingDirectory )
-    {
+    public GitDiffConsumer(File workingDirectory) {
         // empty
     }
 
@@ -107,100 +102,77 @@ public class GitDiffConsumer
     // ----------------------------------------------------------------------
 
     /** {@inheritDoc} */
-    public void consumeLine( String line )
-    {
-        Matcher matcher = DIFF_FILES_PATTERN.matcher( line );
-        if ( matcher.matches() )
-        {
+    public void consumeLine(String line) {
+        Matcher matcher = DIFF_FILES_PATTERN.matcher(line);
+        if (matcher.matches()) {
             // start a new file
-            currentFile = matcher.group( 1 );
+            currentFile = matcher.group(1);
 
-            changedFiles.add( new ScmFile( currentFile, ScmFileStatus.MODIFIED ) );
+            changedFiles.add(new ScmFile(currentFile, ScmFileStatus.MODIFIED));
 
             currentDifference = new StringBuilder();
 
-            differences.put( currentFile, currentDifference );
+            differences.put(currentFile, currentDifference);
 
-            patch.append( line ).append( "\n" );
+            patch.append(line).append("\n");
 
             return;
         }
 
-        if ( currentFile == null )
-        {
-            if ( logger.isWarnEnabled() )
-            {
-                logger.warn( "Unparseable line: '" + line + "'" );
+        if (currentFile == null) {
+            if (logger.isWarnEnabled()) {
+                logger.warn("Unparseable line: '" + line + "'");
             }
-            patch.append( line ).append( "\n" );
+            patch.append(line).append("\n");
             return;
-        }
-        else if ( line.startsWith( INDEX_LINE_TOKEN ) )
-        {
+        } else if (line.startsWith(INDEX_LINE_TOKEN)) {
             // skip, though could parse to verify start revision and end revision
-            patch.append( line ).append( "\n" );
-        }
-        else if ( line.startsWith( NEW_FILE_MODE_TOKEN ) || line.startsWith( DELETED_FILE_MODE_TOKEN ) )
-        {
+            patch.append(line).append("\n");
+        } else if (line.startsWith(NEW_FILE_MODE_TOKEN) || line.startsWith(DELETED_FILE_MODE_TOKEN)) {
             // skip, though could parse to verify file mode
-            patch.append( line ).append( "\n" );
-        }
-        else if ( line.startsWith( START_REVISION_TOKEN ) )
-        {
+            patch.append(line).append("\n");
+        } else if (line.startsWith(START_REVISION_TOKEN)) {
             // skip, though could parse to verify filename, start revision
-            patch.append( line ).append( "\n" );
-        }
-        else if ( line.startsWith( END_REVISION_TOKEN ) )
-        {
+            patch.append(line).append("\n");
+        } else if (line.startsWith(END_REVISION_TOKEN)) {
             // skip, though could parse to verify filename, end revision
-            patch.append( line ).append( "\n" );
-        }
-        else if ( line.startsWith( SIMILARITY_INDEX_LINE_TOKEN ) )
-        {
+            patch.append(line).append("\n");
+        } else if (line.startsWith(SIMILARITY_INDEX_LINE_TOKEN)) {
             // skip
-            patch.append( line ).append( "\n" );
-        }
-        else if ( line.startsWith( RENAME_FROM_LINE_TOKEN ) || line.startsWith( RENAME_TO_LINE_TOKEN ) )
-        {
+            patch.append(line).append("\n");
+        } else if (line.startsWith(RENAME_FROM_LINE_TOKEN) || line.startsWith(RENAME_TO_LINE_TOKEN)) {
             // skip, though could parse to verify filename
-            patch.append( line ).append( "\n" );
-        }
-        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN )
-            || line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN )
-            || line.equals( NO_NEWLINE_TOKEN ) )
-        {
+            patch.append(line).append("\n");
+        } else if (line.startsWith(ADDED_LINE_TOKEN)
+                || line.startsWith(REMOVED_LINE_TOKEN)
+                || line.startsWith(UNCHANGED_LINE_TOKEN)
+                || line.startsWith(CHANGE_SEPARATOR_TOKEN)
+                || line.equals(NO_NEWLINE_TOKEN)) {
             // add to buffer
-            currentDifference.append( line ).append( "\n" );
-            patch.append( line ).append( "\n" );
-        }
-        else
-        {
+            currentDifference.append(line).append("\n");
+            patch.append(line).append("\n");
+        } else {
             // TODO: handle property differences
 
-            if ( logger.isWarnEnabled() )
-            {
-                logger.warn( "Unparseable line: '" + line + "'" );
+            if (logger.isWarnEnabled()) {
+                logger.warn("Unparseable line: '" + line + "'");
             }
-            patch.append( line ).append( "\n" );
+            patch.append(line).append("\n");
             // skip to next file
             currentFile = null;
             currentDifference = null;
         }
     }
 
-    public List<ScmFile> getChangedFiles()
-    {
+    public List<ScmFile> getChangedFiles() {
         return changedFiles;
     }
 
-    public Map<String, CharSequence> getDifferences()
-    {
+    public Map<String, CharSequence> getDifferences() {
         return differences;
     }
 
-    public String getPatch()
-    {
+    public String getPatch() {
         return patch.toString();
     }
-
 }

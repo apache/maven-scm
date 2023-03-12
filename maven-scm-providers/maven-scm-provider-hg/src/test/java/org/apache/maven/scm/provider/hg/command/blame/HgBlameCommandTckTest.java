@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.hg.command.blame;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.hg.command.blame;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,13 +16,14 @@ package org.apache.maven.scm.provider.hg.command.blame;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.hg.command.blame;
+
+import java.util.List;
 
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.provider.hg.HgRepoUtils;
 import org.apache.maven.scm.tck.command.blame.BlameCommandTckTest;
-
-import java.util.List;
 
 import static org.apache.maven.scm.provider.hg.HgRepoUtils.HG_COMMAND_LINE;
 import static org.junit.Assert.assertEquals;
@@ -33,32 +32,24 @@ import static org.junit.Assert.assertNotEquals;
 /**
  * @author Evgeny Mandrikov
  */
-public class HgBlameCommandTckTest
-    extends BlameCommandTckTest
-{
+public class HgBlameCommandTckTest extends BlameCommandTckTest {
     @Override
-    public String getScmProviderCommand()
-    {
+    public String getScmProviderCommand() {
         return HG_COMMAND_LINE;
     }
 
-    public String getScmUrl()
-        throws Exception
-    {
+    public String getScmUrl() throws Exception {
         return HgRepoUtils.getScmUrl();
     }
 
-    public void initRepo()
-        throws Exception
-    {
+    public void initRepo() throws Exception {
         HgRepoUtils.initRepo();
     }
 
-    protected void verifyResult( BlameScmResult result )
-    {
+    protected void verifyResult(BlameScmResult result) {
         List<BlameLine> lines = result.getLines();
-        assertEquals( "Expected 1 line in blame", 1, lines.size() );
-        BlameLine line = lines.get( 0 );
-        assertNotEquals( "0", line.getRevision() );
+        assertEquals("Expected 1 line in blame", 1, lines.size());
+        BlameLine line = lines.get(0);
+        assertNotEquals("0", line.getRevision());
     }
 }

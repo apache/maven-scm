@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.diff;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.diff;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.diff;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.diff;
 
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.diff.GitDiffCommandTckTest;
@@ -27,21 +26,16 @@ import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitExeDiffCommandTckTest
-    extends GitDiffCommandTckTest
-{
+public class GitExeDiffCommandTckTest extends GitDiffCommandTckTest {
     @Override
-    public String getScmProviderCommand()
-    {
+    public String getScmProviderCommand() {
         return GIT_COMMAND_LINE;
     }
 
     /**
      * {@inheritDoc}
      */
-    public String getScmUrl()
-        throws Exception
-    {
-        return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
+    public String getScmUrl() throws Exception {
+        return GitScmTestUtils.getScmUrl(getRepositoryRoot(), "git");
     }
 }

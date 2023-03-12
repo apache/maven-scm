@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.remove;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,79 +16,70 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.ScmTestCase;
-import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+package org.apache.maven.scm.provider.git.gitexe.command.remove;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
+import org.apache.maven.scm.ScmTestCase;
+import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Test;
+
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitRemoveCommandTest
-    extends ScmTestCase
-{
+public class GitRemoveCommandTest extends ScmTestCase {
 
     @Test
-    public void testCommandRemoveWithFile()
-        throws Exception
-    {
+    public void testCommandRemoveWithFile() throws Exception {
         File workingDirectory = createTempDirectory();
 
-        File toBeRemoved = new File( workingDirectory.getAbsolutePath() + File.separator + "toto.xml" );
-        FileUtils.fileAppend( toBeRemoved.getAbsolutePath(), "data" );
+        File toBeRemoved = new File(workingDirectory.getAbsolutePath() + File.separator + "toto.xml");
+        FileUtils.fileAppend(toBeRemoved.getAbsolutePath(), "data");
 
-        Commandline cl = GitRemoveCommand.createCommandLine( workingDirectory, Arrays.asList( toBeRemoved ) );
+        Commandline cl = GitRemoveCommand.createCommandLine(workingDirectory, Arrays.asList(toBeRemoved));
 
-        assertCommandLine( "git rm -- toto.xml", workingDirectory, cl );
+        assertCommandLine("git rm -- toto.xml", workingDirectory, cl);
 
-        FileUtils.deleteDirectory( workingDirectory );
+        FileUtils.deleteDirectory(workingDirectory);
     }
 
     @Test
-    public void testCommandRemoveWithDirectory()
-        throws Exception
-    {
+    public void testCommandRemoveWithDirectory() throws Exception {
         File workingDirectory = createTempDirectory();
 
-        File toBeRemoved = new File( workingDirectory.getAbsolutePath() + File.separator + "toto" );
+        File toBeRemoved = new File(workingDirectory.getAbsolutePath() + File.separator + "toto");
         toBeRemoved.mkdir();
 
-        Commandline cl = GitRemoveCommand.createCommandLine( workingDirectory, Arrays.asList( toBeRemoved ) );
+        Commandline cl = GitRemoveCommand.createCommandLine(workingDirectory, Arrays.asList(toBeRemoved));
 
-        assertCommandLine( "git rm -r -- toto", workingDirectory, cl );
+        assertCommandLine("git rm -r -- toto", workingDirectory, cl);
 
-        FileUtils.deleteDirectory( workingDirectory );
+        FileUtils.deleteDirectory(workingDirectory);
     }
 
     @Test
-    public void testCommandRemoveWithTwoDirectory()
-        throws Exception
-    {
+    public void testCommandRemoveWithTwoDirectory() throws Exception {
         File workingDirectory = createTempDirectory();
 
-        File toBeRemoved1 = new File( workingDirectory.getAbsolutePath() + File.separator + "toto" );
+        File toBeRemoved1 = new File(workingDirectory.getAbsolutePath() + File.separator + "toto");
         toBeRemoved1.mkdir();
 
-        File toBeRemoved2 = new File( workingDirectory.getAbsolutePath() + File.separator + "tata" );
+        File toBeRemoved2 = new File(workingDirectory.getAbsolutePath() + File.separator + "tata");
         toBeRemoved2.mkdir();
 
         Commandline cl =
-            GitRemoveCommand.createCommandLine( workingDirectory, Arrays.asList( toBeRemoved1, toBeRemoved2 ) );
+                GitRemoveCommand.createCommandLine(workingDirectory, Arrays.asList(toBeRemoved1, toBeRemoved2));
 
-        assertCommandLine( "git rm -r -- toto tata", workingDirectory, cl );
+        assertCommandLine("git rm -r -- toto tata", workingDirectory, cl);
 
-        FileUtils.deleteDirectory( workingDirectory );
+        FileUtils.deleteDirectory(workingDirectory);
     }
 
-    private File createTempDirectory()
-        throws IOException
-    {
+    private File createTempDirectory() throws IOException {
         File dir = Files.createTempDirectory("gitexe" + "test").toFile();
         return dir;
     }

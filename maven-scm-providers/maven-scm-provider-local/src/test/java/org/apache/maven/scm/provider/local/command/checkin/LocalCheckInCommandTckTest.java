@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.local.command.checkin;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.local.command.checkin;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,43 +16,36 @@ package org.apache.maven.scm.provider.local.command.checkin;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
+package org.apache.maven.scm.provider.local.command.checkin;
 
 import java.io.File;
+
+import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
  */
-public class LocalCheckInCommandTckTest
-    extends CheckInCommandTckTest
-{
+public class LocalCheckInCommandTckTest extends CheckInCommandTckTest {
     private static final String moduleName = "checkin-tck";
 
-    public String getScmUrl()
-        throws Exception
-    {
+    public String getScmUrl() throws Exception {
         return "scm:local|" + getRepositoryRoot() + "|" + moduleName;
     }
 
-    public void initRepo()
-        throws Exception
-    {
-        makeRepo( getRepositoryRoot() );
+    public void initRepo() throws Exception {
+        makeRepo(getRepositoryRoot());
     }
 
-    private void makeRepo( File workingDirectory )
-        throws Exception
-    {
-        makeFile( workingDirectory, moduleName + "/pom.xml", "/pom.xml" );
+    private void makeRepo(File workingDirectory) throws Exception {
+        makeFile(workingDirectory, moduleName + "/pom.xml", "/pom.xml");
 
-        makeFile( workingDirectory, moduleName + "/readme.txt", "/readme.txt" );
+        makeFile(workingDirectory, moduleName + "/readme.txt", "/readme.txt");
 
-        makeFile( workingDirectory, moduleName + "/src/main/java/Application.java", "/src/main/java/Application.java" );
+        makeFile(workingDirectory, moduleName + "/src/main/java/Application.java", "/src/main/java/Application.java");
 
-        makeFile( workingDirectory, moduleName + "/src/test/java/Test.java", "/src/test/java/Test.java" );
+        makeFile(workingDirectory, moduleName + "/src/test/java/Test.java", "/src/test/java/Test.java");
 
-        makeDirectory( workingDirectory, moduleName + "/src/test/resources" );
+        makeDirectory(workingDirectory, moduleName + "/src/test/resources");
     }
 }

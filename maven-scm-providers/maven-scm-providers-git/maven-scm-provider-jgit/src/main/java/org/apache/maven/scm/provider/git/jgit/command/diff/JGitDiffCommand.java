@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit.command.diff;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit.command.diff;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,11 @@ package org.apache.maven.scm.provider.git.jgit.command.diff;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.jgit.command.diff;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -38,96 +41,86 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
 /**
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitDiffCommand
-    extends AbstractDiffCommand
-    implements GitCommand
-{
+public class JGitDiffCommand extends AbstractDiffCommand implements GitCommand {
 
     @Override
-    protected DiffScmResult executeDiffCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                ScmVersion startRevision, ScmVersion endRevision )
-        throws ScmException
-    {
+    protected DiffScmResult executeDiffCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, ScmVersion startRevision, ScmVersion endRevision)
+            throws ScmException {
 
         Git git = null;
-        try
-        {
-            git = JGitUtils.openRepo( fileSet.getBasedir() );
-            DiffScmResult diff = callDiff( git, startRevision, endRevision );
+        try {
+            git = JGitUtils.openRepo(fileSet.getBasedir());
+            DiffScmResult diff = callDiff(git, startRevision, endRevision);
             git.getRepository().close();
             return diff;
-        }
-        catch ( Exception e )
-        {
-            throw new ScmException( "JGit diff failure!", e );
-        }
-        finally
-        {
-            JGitUtils.closeRepo( git );
+        } catch (Exception e) {
+            throw new ScmException("JGit diff failure!", e);
+        } finally {
+            JGitUtils.closeRepo(git);
         }
     }
 
-    public DiffScmResult callDiff( Git git, ScmVersion startRevision, ScmVersion endRevision )
-        throws IOException, GitAPIException, ScmException
-    {
+    public DiffScmResult callDiff(Git git, ScmVersion startRevision, ScmVersion endRevision)
+            throws IOException, GitAPIException, ScmException {
 
         AbstractTreeIterator oldTree = null;
-        if ( startRevision != null && StringUtils.isNotEmpty( startRevision.getName().trim() ) )
-        {
+        if (startRevision != null
+                && StringUtils.isNotEmpty(startRevision.getName().trim())) {
             String startRev = startRevision.getName().trim();
-            oldTree = getTreeIterator( git.getRepository(), startRev );
+            oldTree = getTreeIterator(git.getRepository(), startRev);
         }
 
         AbstractTreeIterator newTree = null;
-        if ( endRevision != null && StringUtils.isNotEmpty( endRevision.getName().trim() ) )
-        {
+        if (endRevision != null && StringUtils.isNotEmpty(endRevision.getName().trim())) {
             String endRev = endRevision.getName().trim();
-            newTree = getTreeIterator( git.getRepository(), endRev );
+            newTree = getTreeIterator(git.getRepository(), endRev);
         }
 
         OutputStream out = new ByteArrayOutputStream();
 
-        git.diff().setOutputStream( out ).setOldTree( oldTree ).setNewTree( newTree ).setCached( false ).call();
-        git.diff().setOutputStream( out ).setOldTree( oldTree ).setNewTree( newTree ).setCached( true ).call();
+        git.diff()
+                .setOutputStream(out)
+                .setOldTree(oldTree)
+                .setNewTree(newTree)
+                .setCached(false)
+                .call();
+        git.diff()
+                .setOutputStream(out)
+                .setOldTree(oldTree)
+                .setNewTree(newTree)
+                .setCached(true)
+                .call();
 
         out.flush();
 
-        GitDiffConsumer consumer = new GitDiffConsumer( null );
+        GitDiffConsumer consumer = new GitDiffConsumer(null);
         String fullDiff = out.toString();
         out.close();
 
-        String[] lines = fullDiff.split( "\n" );
-        for ( String aLine : lines )
-        {
-            consumer.consumeLine( aLine );
+        String[] lines = fullDiff.split("\n");
+        for (String aLine : lines) {
+            consumer.consumeLine(aLine);
         }
 
-        return new DiffScmResult( "JGit diff", consumer.getChangedFiles(), consumer.getDifferences(),
-                                  consumer.getPatch() );
+        return new DiffScmResult(
+                "JGit diff", consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch());
     }
 
-    private AbstractTreeIterator getTreeIterator( Repository repo, String name )
-        throws IOException
-    {
-        final ObjectId id = repo.resolve( name );
-        if ( id == null )
-        {
-            throw new IllegalArgumentException( name );
+    private AbstractTreeIterator getTreeIterator(Repository repo, String name) throws IOException {
+        final ObjectId id = repo.resolve(name);
+        if (id == null) {
+            throw new IllegalArgumentException(name);
         }
         final CanonicalTreeParser p = new CanonicalTreeParser();
-        
-        try ( ObjectReader or = repo.newObjectReader();
-              RevWalk revWalk = new RevWalk( repo ) ) 
-        {
-            p.reset( or, revWalk.parseTree( id ) );
+
+        try (ObjectReader or = repo.newObjectReader();
+                RevWalk revWalk = new RevWalk(repo)) {
+            p.reset(or, revWalk.parseTree(id));
             return p;
         }
     }

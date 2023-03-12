@@ -1,5 +1,3 @@
-package org.apache.maven.scm.plugin;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.plugin;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,8 +16,10 @@ package org.apache.maven.scm.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.plugin;
 
 import java.io.IOException;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -33,47 +33,40 @@ import org.apache.maven.scm.repository.ScmRepository;
 /**
  * Untag the project.
  */
-@Mojo( name = "untag", aggregator = true )
-public class UntagMojo
-    extends AbstractScmMojo
-{
+@Mojo(name = "untag", aggregator = true)
+public class UntagMojo extends AbstractScmMojo {
     /**
      * The tag name.
      */
-    @Parameter( property = "tag", required = true )
+    @Parameter(property = "tag", required = true)
     private String tag;
 
     /**
      * The commit message.
      */
-    @Parameter( property = "message", required = false )
+    @Parameter(property = "message", required = false)
     private String message;
 
     /** {@inheritDoc} */
-    public void execute()
-        throws MojoExecutionException
-    {
+    public void execute() throws MojoExecutionException {
         super.execute();
 
-        try
-        {
+        try {
             ScmRepository repository = getScmRepository();
-            ScmProvider provider = getScmManager().getProviderByRepository( repository );
+            ScmProvider provider = getScmManager().getProviderByRepository(repository);
 
-            String finalTag = provider.sanitizeTagName( tag );
-            getLog().info( "Final Tag Name: '" + finalTag + "'" );
+            String finalTag = provider.sanitizeTagName(tag);
+            getLog().info("Final Tag Name: '" + finalTag + "'");
 
             CommandParameters parameters = new CommandParameters();
-            parameters.setString( CommandParameter.TAG_NAME, finalTag );
-            parameters.setString( CommandParameter.MESSAGE, message );
+            parameters.setString(CommandParameter.TAG_NAME, finalTag);
+            parameters.setString(CommandParameter.MESSAGE, message);
 
-            UntagScmResult result = provider.untag( repository, getFileSet(), parameters );
+            UntagScmResult result = provider.untag(repository, getFileSet(), parameters);
 
-            checkResult( result );
-        }
-        catch ( IOException | ScmException e )
-        {
-            throw new MojoExecutionException( "Cannot run untag command", e );
+            checkResult(result);
+        } catch (IOException | ScmException e) {
+            throw new MojoExecutionException("Cannot run untag command", e);
         }
     }
 }

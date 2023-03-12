@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.jgit.command;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.jgit.command;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.jgit.command;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.jgit.command;
 
 import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.transport.SshTransport;
@@ -28,23 +27,18 @@ import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
  * Implementation of {@link TransportConfigCallback} which adds
  * a public/private key identity to ssh URLs if configured.
  */
-public class JGitTransportConfigCallback implements TransportConfigCallback
-{
+public class JGitTransportConfigCallback implements TransportConfigCallback {
     private final SshdSessionFactory sshSessionFactory;
 
-    public JGitTransportConfigCallback( SshdSessionFactory sshSessionFactory )
-    {
+    public JGitTransportConfigCallback(SshdSessionFactory sshSessionFactory) {
         this.sshSessionFactory = sshSessionFactory;
     }
 
     @Override
-    public void configure( Transport transport )
-    {
-        if ( transport instanceof SshTransport )
-        {
+    public void configure(Transport transport) {
+        if (transport instanceof SshTransport) {
             SshTransport sshTransport = (SshTransport) transport;
-            sshTransport.setSshSessionFactory( sshSessionFactory );
+            sshTransport.setSshSessionFactory(sshSessionFactory);
         }
     }
-
 }

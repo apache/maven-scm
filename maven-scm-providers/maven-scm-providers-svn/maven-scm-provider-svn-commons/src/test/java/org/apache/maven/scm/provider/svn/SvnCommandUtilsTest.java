@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.svn;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.junit.Test;
@@ -30,59 +29,49 @@ import static org.junit.Assert.fail;
  * @author <a href="mailto:jerome@coffeebreaks.org">Jerome Lacoste</a>
  *
  */
-public class SvnCommandUtilsTest
-    extends ScmTestCase
-{
+public class SvnCommandUtilsTest extends ScmTestCase {
     // ----------------------------------------------------------------------
     // appendPath
     // ----------------------------------------------------------------------
 
     @Test
-    public void testFixUrlHttpUrlsAreIgnored()
-        throws Exception
-    {
+    public void testFixUrlHttpUrlsAreIgnored() throws Exception {
         String unchanged = "http://foo.com/svn/myproject/tags/foo";
-        assertEquals( unchanged, SvnCommandUtils.fixUrl( unchanged, null ) );
-        assertEquals( unchanged, SvnCommandUtils.fixUrl( unchanged, "" ) );
-        assertEquals( unchanged, SvnCommandUtils.fixUrl( unchanged, "user" ) );
+        assertEquals(unchanged, SvnCommandUtils.fixUrl(unchanged, null));
+        assertEquals(unchanged, SvnCommandUtils.fixUrl(unchanged, ""));
+        assertEquals(unchanged, SvnCommandUtils.fixUrl(unchanged, "user"));
     }
 
     @Test
-    public void testFixUrlNPEifNullURL()
-        throws Exception
-    {
-        try
-        {
-            SvnCommandUtils.fixUrl( null, "user" );
-            fail( "expected NPE" );
-        }
-        catch ( NullPointerException e )
-        {
-            assertTrue( true ); // expected
+    public void testFixUrlNPEifNullURL() throws Exception {
+        try {
+            SvnCommandUtils.fixUrl(null, "user");
+            fail("expected NPE");
+        } catch (NullPointerException e) {
+            assertTrue(true); // expected
         }
     }
 
     @Test
-    public void testFixUrlSvnSshUrlsUsernameIsAddedWhenUserSpecified()
-        throws Exception
-    {
-        assertEquals( "svn+ssh://foo.com/svn/myproject",
-                      SvnCommandUtils.fixUrl( "svn+ssh://foo.com/svn/myproject", null ) );
-        assertEquals( "svn+ssh://foo.com/svn/myproject",
-                      SvnCommandUtils.fixUrl( "svn+ssh://foo.com/svn/myproject", "" ) );
-        assertEquals( "svn+ssh://user@foo.com/svn/myproject",
-                      SvnCommandUtils.fixUrl( "svn+ssh://foo.com/svn/myproject", "user" ) );
+    public void testFixUrlSvnSshUrlsUsernameIsAddedWhenUserSpecified() throws Exception {
+        assertEquals(
+                "svn+ssh://foo.com/svn/myproject", SvnCommandUtils.fixUrl("svn+ssh://foo.com/svn/myproject", null));
+        assertEquals("svn+ssh://foo.com/svn/myproject", SvnCommandUtils.fixUrl("svn+ssh://foo.com/svn/myproject", ""));
+        assertEquals(
+                "svn+ssh://user@foo.com/svn/myproject",
+                SvnCommandUtils.fixUrl("svn+ssh://foo.com/svn/myproject", "user"));
     }
 
     @Test
-    public void testFixUrlSvnSshUrlsUsernameIsOverridenWhenUserSpecified()
-        throws Exception
-    {
-        assertEquals( "svn+ssh://user1@foo.com/svn/myproject",
-                      SvnCommandUtils.fixUrl( "svn+ssh://user1@foo.com/svn/myproject", null ) );
-        assertEquals( "svn+ssh://user1@foo.com/svn/myproject",
-                      SvnCommandUtils.fixUrl( "svn+ssh://user1@foo.com/svn/myproject", "" ) );
-        assertEquals( "svn+ssh://user2@foo.com/svn/myproject",
-                      SvnCommandUtils.fixUrl( "svn+ssh://user1@foo.com/svn/myproject", "user2" ) );
+    public void testFixUrlSvnSshUrlsUsernameIsOverridenWhenUserSpecified() throws Exception {
+        assertEquals(
+                "svn+ssh://user1@foo.com/svn/myproject",
+                SvnCommandUtils.fixUrl("svn+ssh://user1@foo.com/svn/myproject", null));
+        assertEquals(
+                "svn+ssh://user1@foo.com/svn/myproject",
+                SvnCommandUtils.fixUrl("svn+ssh://user1@foo.com/svn/myproject", ""));
+        assertEquals(
+                "svn+ssh://user2@foo.com/svn/myproject",
+                SvnCommandUtils.fixUrl("svn+ssh://user1@foo.com/svn/myproject", "user2"));
     }
 }

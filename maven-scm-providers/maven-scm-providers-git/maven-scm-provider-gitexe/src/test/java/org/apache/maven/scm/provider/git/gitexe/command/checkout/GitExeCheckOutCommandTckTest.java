@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.git.gitexe.command.checkout;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkout;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkout;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.git.gitexe.command.checkout;
 
 import org.apache.maven.scm.provider.git.command.checkout.GitCheckOutCommandTckTest;
 
@@ -27,12 +26,9 @@ import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class GitExeCheckOutCommandTckTest
-    extends GitCheckOutCommandTckTest
-{
+public class GitExeCheckOutCommandTckTest extends GitCheckOutCommandTckTest {
     @Override
-    public String getScmProviderCommand()
-    {
+    public String getScmProviderCommand() {
         return GIT_COMMAND_LINE;
     }
 }

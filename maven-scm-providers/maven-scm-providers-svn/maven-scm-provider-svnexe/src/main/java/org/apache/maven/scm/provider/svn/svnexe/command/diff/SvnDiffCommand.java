@@ -1,5 +1,3 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.diff;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.diff;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,9 @@ package org.apache.maven.scm.provider.svn.svnexe.command.diff;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.provider.svn.svnexe.command.diff;
+
+import java.io.File;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -35,83 +36,69 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author Olivier Lamy
  *
  */
-public class SvnDiffCommand
-    extends AbstractDiffCommand
-    implements SvnCommand
-{
+public class SvnDiffCommand extends AbstractDiffCommand implements SvnCommand {
     /** {@inheritDoc} */
-    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion,
-                                                ScmVersion endVersion )
-        throws ScmException
-    {
+    protected DiffScmResult executeDiffCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion, ScmVersion endVersion)
+            throws ScmException {
         Commandline cl =
-            createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), startVersion, endVersion );
+                createCommandLine((SvnScmProviderRepository) repo, fileSet.getBasedir(), startVersion, endVersion);
 
-        SvnDiffConsumer consumer = new SvnDiffConsumer( fileSet.getBasedir() );
+        SvnDiffConsumer consumer = new SvnDiffConsumer(fileSet.getBasedir());
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        if ( logger.isInfoEnabled() )
-        {
-            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+        if (logger.isInfoEnabled()) {
+            logger.info("Executing: " + SvnCommandLineUtils.cryptPassword(cl));
 
-            if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
-            {
-                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                logger.info("Working directory: " + cl.getWorkingDirectory().getAbsolutePath());
             }
         }
 
         int exitCode;
 
-        try
-        {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
-        }
-        catch ( CommandLineException ex )
-        {
-            throw new ScmException( "Error while executing command.", ex );
+        try {
+            exitCode = SvnCommandLineUtils.execute(cl, consumer, stderr);
+        } catch (CommandLineException ex) {
+            throw new ScmException("Error while executing command.", ex);
         }
 
-        if ( exitCode != 0 )
-        {
-            return new DiffScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
+        if (exitCode != 0) {
+            return new DiffScmResult(cl.toString(), "The svn command failed.", stderr.getOutput(), false);
         }
 
-        return new DiffScmResult( cl.toString(), consumer.getChangedFiles(), consumer.getDifferences(),
-                                  consumer.getPatch() );
+        return new DiffScmResult(
+                cl.toString(), consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch());
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 ScmVersion startVersion, ScmVersion endVersion )
-    {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
+    public static Commandline createCommandLine(
+            SvnScmProviderRepository repository,
+            File workingDirectory,
+            ScmVersion startVersion,
+            ScmVersion endVersion) {
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository);
 
-        cl.createArg().setValue( "diff" );
+        cl.createArg().setValue("diff");
 
-        cl.createArg().setValue( "--internal-diff" );
+        cl.createArg().setValue("--internal-diff");
 
-        if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
-        {
-            cl.createArg().setValue( "-r" );
+        if (startVersion != null && StringUtils.isNotEmpty(startVersion.getName())) {
+            cl.createArg().setValue("-r");
 
-            if ( endVersion != null && StringUtils.isNotEmpty( endVersion.getName() ) )
-            {
-                cl.createArg().setValue( startVersion.getName() + ":" + endVersion.getName() );
-            }
-            else
-            {
-                cl.createArg().setValue( startVersion.getName() );
+            if (endVersion != null && StringUtils.isNotEmpty(endVersion.getName())) {
+                cl.createArg().setValue(startVersion.getName() + ":" + endVersion.getName());
+            } else {
+                cl.createArg().setValue(startVersion.getName());
             }
         }
 

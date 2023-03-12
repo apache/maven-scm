@@ -1,5 +1,3 @@
-package org.apache.maven.scm;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm;
 
 import java.io.Serializable;
 import java.util.regex.Matcher;
@@ -27,9 +26,7 @@ import java.util.regex.Pattern;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public class ScmResult
-    implements Serializable
-{
+public class ScmResult implements Serializable {
     private static final long serialVersionUID = 7037918334820621525L;
 
     private final boolean success;
@@ -40,11 +37,10 @@ public class ScmResult
 
     private final String commandLine;
 
-
     public static final String PASSWORD_PLACE_HOLDER = "********";
 
-    //works for SVN and git
-    private Pattern patternForUserColonPasswordAtHost = Pattern.compile( "^.*:(.*)@.*$", Pattern.DOTALL );
+    // works for SVN and git
+    private Pattern patternForUserColonPasswordAtHost = Pattern.compile("^.*:(.*)@.*$", Pattern.DOTALL);
 
     /**
      * Copy constructor.
@@ -54,17 +50,15 @@ public class ScmResult
      *
      * @param scmResult not null
      */
-    public ScmResult( ScmResult scmResult )
-    {
+    public ScmResult(ScmResult scmResult) {
         this.commandLine = scmResult.commandLine;
 
         this.providerMessage = scmResult.providerMessage;
 
-        this.commandOutput = masked( scmResult.commandOutput );
+        this.commandOutput = masked(scmResult.commandOutput);
 
         this.success = scmResult.success;
     }
-
 
     /**
      * ScmResult contructor.
@@ -74,13 +68,12 @@ public class ScmResult
      * @param commandOutput   The command output of the scm tool
      * @param success         True if the command is in success
      */
-    public ScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
-    {
+    public ScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
         this.commandLine = commandLine;
 
         this.providerMessage = providerMessage;
 
-        this.commandOutput = masked( commandOutput );
+        this.commandOutput = masked(commandOutput);
 
         this.success = success;
     }
@@ -88,8 +81,7 @@ public class ScmResult
     /**
      * @return True if the command was in success
      */
-    public boolean isSuccess()
-    {
+    public boolean isSuccess() {
         return success;
     }
 
@@ -97,8 +89,7 @@ public class ScmResult
      * @return A message from the provider. On success this would typically be null or
      *         an empty string. On failure it would be the error message from the provider
      */
-    public String getProviderMessage()
-    {
+    public String getProviderMessage() {
         return providerMessage;
     }
 
@@ -106,31 +97,25 @@ public class ScmResult
      * @return Output from Std.Out from the provider during execution
      *         of the command that resulted in this
      */
-    public String getCommandOutput()
-    {
+    public String getCommandOutput() {
         return commandOutput;
     }
 
     /**
      * @return The actual provider specific command that resulted in this
      */
-    public String getCommandLine()
-    {
+    public String getCommandLine() {
         return commandLine;
     }
 
-
-    private String masked( String commandOutput )
-    {
-        if ( null != commandOutput )
-        {
-            final Matcher passwordMatcher = patternForUserColonPasswordAtHost.matcher( commandOutput );
-            if ( passwordMatcher.find() )
-            {
+    private String masked(String commandOutput) {
+        if (null != commandOutput) {
+            final Matcher passwordMatcher = patternForUserColonPasswordAtHost.matcher(commandOutput);
+            if (passwordMatcher.find()) {
                 // clear password
-                final String clearPassword = passwordMatcher.group( 1 );
+                final String clearPassword = passwordMatcher.group(1);
                 // to be replaced in output by stars
-                commandOutput = commandOutput.replace( clearPassword, PASSWORD_PLACE_HOLDER );
+                commandOutput = commandOutput.replace(clearPassword, PASSWORD_PLACE_HOLDER);
             }
         }
         return commandOutput;

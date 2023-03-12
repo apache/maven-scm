@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.branch;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.branch;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.branch;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.branch;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -34,13 +33,11 @@ import org.codehaus.plexus.util.StringUtils;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public abstract class AbstractBranchCommand
-    extends AbstractCommand
-{
-    protected abstract ScmResult executeBranchCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                       String branchName, String message )
-        throws ScmException;
-    
+public abstract class AbstractBranchCommand extends AbstractCommand {
+    protected abstract ScmResult executeBranchCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, String branchName, String message)
+            throws ScmException;
+
     /**
      * default impl to provide backward comp
      * @since 1.3
@@ -51,30 +48,29 @@ public abstract class AbstractBranchCommand
      * @return TODO
      * @throws ScmException if any
      */
-    protected ScmResult executeBranchCommand( ScmProviderRepository repository, ScmFileSet fileSet, String branchName,
-                                              ScmBranchParameters scmBranchParameters )
-        throws ScmException
-    {
-        return executeBranchCommand( repository, fileSet, branchName, scmBranchParameters.getMessage() );
+    protected ScmResult executeBranchCommand(
+            ScmProviderRepository repository,
+            ScmFileSet fileSet,
+            String branchName,
+            ScmBranchParameters scmBranchParameters)
+            throws ScmException {
+        return executeBranchCommand(repository, fileSet, branchName, scmBranchParameters.getMessage());
     }
 
     /** {@inheritDoc} */
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                     CommandParameters parameters )
-        throws ScmException
-    {
-        String branchName = parameters.getString( CommandParameter.BRANCH_NAME );
+    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        String branchName = parameters.getString(CommandParameter.BRANCH_NAME);
 
         ScmBranchParameters scmBranchParameters =
-            parameters.getScmBranchParameters( CommandParameter.SCM_BRANCH_PARAMETERS );
-        
-        String message = parameters.getString( CommandParameter.MESSAGE, "[maven-scm] copy for branch " + branchName );
-        
-        if ( StringUtils.isBlank( scmBranchParameters.getMessage() ) && StringUtils.isNotBlank( message ) )
-        {
-            scmBranchParameters.setMessage( message );
+                parameters.getScmBranchParameters(CommandParameter.SCM_BRANCH_PARAMETERS);
+
+        String message = parameters.getString(CommandParameter.MESSAGE, "[maven-scm] copy for branch " + branchName);
+
+        if (StringUtils.isBlank(scmBranchParameters.getMessage()) && StringUtils.isNotBlank(message)) {
+            scmBranchParameters.setMessage(message);
         }
-        
-        return executeBranchCommand( repository, fileSet, branchName, scmBranchParameters );
+
+        return executeBranchCommand(repository, fileSet, branchName, scmBranchParameters);
     }
 }

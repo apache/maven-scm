@@ -1,5 +1,3 @@
-package org.apache.maven.scm.command.tag;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.apache.maven.scm.command.tag;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.apache.maven.scm.command.tag;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.scm.command.tag;
 
 import java.util.List;
 
@@ -29,34 +28,28 @@ import org.apache.maven.scm.ScmResult;
  * @author Olivier Lamy
  *
  */
-public class TagScmResult
-    extends ScmResult
-{
+public class TagScmResult extends ScmResult {
     private static final long serialVersionUID = -5068975000282095635L;
-    
+
     private List<ScmFile> taggedFiles;
 
-    public TagScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
-    {
-        super( commandLine, providerMessage, commandOutput, success );
+    public TagScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
+        super(commandLine, providerMessage, commandOutput, success);
     }
 
-    public TagScmResult( String commandLine, List<ScmFile> taggedFiles )
-    {
-        super( commandLine, null, null, true );
+    public TagScmResult(String commandLine, List<ScmFile> taggedFiles) {
+        super(commandLine, null, null, true);
 
         this.taggedFiles = taggedFiles;
     }
 
-    public TagScmResult( List<ScmFile> taggedFiles, ScmResult result )
-    {
-        super( result );
+    public TagScmResult(List<ScmFile> taggedFiles, ScmResult result) {
+        super(result);
 
         this.taggedFiles = taggedFiles;
     }
 
-    public List<ScmFile> getTaggedFiles()
-    {
+    public List<ScmFile> getTaggedFiles() {
         return taggedFiles;
     }
 }
