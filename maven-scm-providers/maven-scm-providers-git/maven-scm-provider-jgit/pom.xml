@@ -32,8 +32,8 @@
     see http://eclipse.org/jgit/</description>
 
   <properties>
-    <jgitVersion>5.13.1.202206130422-r</jgitVersion>
     <!-- version 6+ requires Java 11 -->
+    <jgitVersion>5.13.1.202206130422-r</jgitVersion>
   </properties>
   <dependencies>
     <dependency>
