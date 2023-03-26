@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.git.jgit.command.untag;
 
 import java.util.Collection;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -30,7 +31,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
-import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.PushResult;

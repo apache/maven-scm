@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.tag;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -36,7 +37,6 @@ import org.apache.maven.scm.provider.git.gitexe.command.list.GitListCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.list.GitListConsumer;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 

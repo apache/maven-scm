@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.info;
 import java.io.File;
 import java.util.Iterator;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -32,7 +33,6 @@ import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
 import org.codehaus.plexus.util.Os;
-import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;

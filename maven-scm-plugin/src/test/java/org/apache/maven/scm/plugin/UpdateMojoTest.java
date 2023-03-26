@@ -20,11 +20,11 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

@@ -28,6 +28,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Component;
@@ -53,7 +54,6 @@ import org.apache.maven.settings.crypto.SettingsDecrypter;
 import org.apache.maven.settings.crypto.SettingsDecryptionResult;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.shared.model.fileset.util.FileSetManager;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>

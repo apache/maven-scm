@@ -20,12 +20,12 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
 
 public class UntagMojoTest extends AbstractMojoTestCase {
     File checkoutDir;

@@ -27,11 +27,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>

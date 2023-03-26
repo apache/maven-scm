@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
@@ -38,7 +39,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
-import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 

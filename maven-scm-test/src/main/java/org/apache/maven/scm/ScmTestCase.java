@@ -25,12 +25,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.ContainerConfiguration;
 import org.codehaus.plexus.PlexusConstants;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;

@@ -31,11 +31,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
-import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;

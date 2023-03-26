@@ -22,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -31,7 +32,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.command.diff.GitDiffConsumer;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
-import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ObjectId;

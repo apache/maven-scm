@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -51,7 +52,6 @@ import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * SCM Provider for Subversion

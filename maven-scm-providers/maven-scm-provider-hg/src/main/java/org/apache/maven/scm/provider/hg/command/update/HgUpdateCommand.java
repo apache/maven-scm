@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -40,7 +41,6 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import org.apache.maven.scm.provider.hg.command.changelog.HgChangeLogCommand;
 import org.apache.maven.scm.provider.hg.command.diff.HgDiffConsumer;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>

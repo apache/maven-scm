@@ -24,10 +24,10 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.codehaus.plexus.util.Os;
-import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;

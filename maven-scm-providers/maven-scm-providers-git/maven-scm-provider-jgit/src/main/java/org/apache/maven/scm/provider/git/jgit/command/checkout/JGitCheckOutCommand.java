@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -41,7 +42,6 @@ import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessio
 import org.apache.maven.scm.provider.git.jgit.command.branch.JGitBranchCommand;
 import org.apache.maven.scm.provider.git.jgit.command.remoteinfo.JGitRemoteInfoCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
-import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;

@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -37,7 +38,6 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import org.apache.maven.scm.provider.hg.command.inventory.HgListConsumer;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Branch. Mercurial has weird branches. After a branch is created, it must be committed to the server, otherwise

@@ -21,8 +21,8 @@ package org.apache.maven.scm.provider.hg.repository;
 import java.io.File;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>

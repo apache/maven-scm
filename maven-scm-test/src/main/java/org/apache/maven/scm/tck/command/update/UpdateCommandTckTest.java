@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -34,7 +35,6 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.util.StringUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
