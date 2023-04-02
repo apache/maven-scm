@@ -21,13 +21,13 @@ package org.apache.maven.scm.plugin;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Display the modification status of the files in the configured scm url.

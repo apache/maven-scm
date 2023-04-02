@@ -20,7 +20,7 @@ package org.apache.maven.scm.util;
 
 import java.io.File;
 
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *

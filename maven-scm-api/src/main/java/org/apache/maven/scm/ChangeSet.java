@@ -28,10 +28,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.util.FilenameUtils;
 import org.apache.maven.scm.util.ThreadSafeDateFormat;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

@@ -21,8 +21,8 @@ package org.apache.maven.scm.provider.git.gitexe.command.update;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>

@@ -18,11 +18,11 @@
  */
 package org.apache.maven.scm.provider.svn;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  *

@@ -18,7 +18,7 @@
  */
 package org.apache.maven.scm.provider.svn;
 
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Command utilities for svn commands.

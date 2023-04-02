@@ -21,10 +21,10 @@ package org.apache.maven.scm.provider.git.gitexe.command.info;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.info.InfoItem;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author Olivier Lamy

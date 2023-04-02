@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
@@ -38,7 +39,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
-import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -259,11 +259,11 @@ public class GitChangeLogCommand extends AbstractChangeLogCommand implements Git
 
         if (startDate != null || endDate != null) {
             if (startDate != null) {
-                cl.createArg().setValue("--since=" + StringUtils.escape(dateFormat.format(startDate)));
+                cl.createArg().setValue("--since=" + StringEscapeUtils.escapeJava(dateFormat.format(startDate)));
             }
 
             if (endDate != null) {
-                cl.createArg().setValue("--until=" + StringUtils.escape(dateFormat.format(endDate)));
+                cl.createArg().setValue("--until=" + StringEscapeUtils.escapeJava(dateFormat.format(endDate)));
             }
         }
 
@@ -275,19 +275,19 @@ public class GitChangeLogCommand extends AbstractChangeLogCommand implements Git
             StringBuilder versionRange = new StringBuilder();
 
             if (startVersion != null) {
-                versionRange.append(StringUtils.escape(startVersion.getName()));
+                versionRange.append(StringEscapeUtils.escapeJava(startVersion.getName()));
             }
 
             versionRange.append("..");
 
             if (endVersion != null) {
-                versionRange.append(StringUtils.escape(endVersion.getName()));
+                versionRange.append(StringEscapeUtils.escapeJava(endVersion.getName()));
             }
 
             cl.createArg().setValue(versionRange.toString());
 
         } else if (version != null) {
-            cl.createArg().setValue(StringUtils.escape(version.getName()));
+            cl.createArg().setValue(StringEscapeUtils.escapeJava(version.getName()));
         }
 
         if (limit != null && limit > 0) {

@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.diff;
 
 import java.io.File;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -29,7 +30,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.command.diff.GitDiffConsumer;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
-import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
