@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.NoSuchCommandScmException;
@@ -193,7 +192,7 @@ public abstract class AbstractScmProvider implements ScmProvider {
             throws ScmException {
         ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
 
-        if (StringUtils.isNotEmpty(message)) {
+        if (message != null && !message.isEmpty()) {
             scmBranchParameters.setMessage(message);
         }
 
@@ -251,7 +250,7 @@ public abstract class AbstractScmProvider implements ScmProvider {
             throws ScmException {
         ScmBranch scmBranch = null;
 
-        if (StringUtils.isNotEmpty(branch)) {
+        if (branch != null && !branch.isEmpty()) {
             scmBranch = new ScmBranch(branch);
         }
         return changeLog(repository, fileSet, startDate, endDate, numDays, scmBranch, null);
@@ -324,11 +323,11 @@ public abstract class AbstractScmProvider implements ScmProvider {
         ScmVersion startRevision = null;
         ScmVersion endRevision = null;
 
-        if (StringUtils.isNotEmpty(startTag)) {
+        if (startTag != null && !startTag.isEmpty()) {
             startRevision = new ScmRevision(startTag);
         }
 
-        if (StringUtils.isNotEmpty(endTag)) {
+        if (endTag != null && !endTag.isEmpty()) {
             endRevision = new ScmRevision(endTag);
         }
 
@@ -385,7 +384,7 @@ public abstract class AbstractScmProvider implements ScmProvider {
             throws ScmException {
         ScmVersion scmVersion = null;
 
-        if (StringUtils.isNotEmpty(tag)) {
+        if (tag != null && !tag.isEmpty()) {
             scmVersion = new ScmBranch(tag);
         }
 
@@ -444,7 +443,7 @@ public abstract class AbstractScmProvider implements ScmProvider {
             throws ScmException {
         ScmVersion scmVersion = null;
 
-        if (StringUtils.isNotEmpty(tag)) {
+        if (tag != null && !tag.isEmpty()) {
             scmVersion = new ScmBranch(tag);
         }
 
@@ -524,11 +523,11 @@ public abstract class AbstractScmProvider implements ScmProvider {
         ScmVersion startVersion = null;
         ScmVersion endVersion = null;
 
-        if (StringUtils.isNotEmpty(startRevision)) {
+        if (startRevision != null && !startRevision.isEmpty()) {
             startVersion = new ScmRevision(startRevision);
         }
 
-        if (StringUtils.isNotEmpty(endRevision)) {
+        if (endRevision != null && !endRevision.isEmpty()) {
             endVersion = new ScmRevision(endRevision);
         }
 
@@ -601,7 +600,7 @@ public abstract class AbstractScmProvider implements ScmProvider {
             throws ScmException {
         ScmVersion scmVersion = null;
 
-        if (StringUtils.isNotEmpty(tag)) {
+        if (tag != null && !tag.isEmpty()) {
             scmVersion = new ScmRevision(tag);
         }
 
@@ -656,7 +655,7 @@ public abstract class AbstractScmProvider implements ScmProvider {
             throws ScmException {
         ScmVersion scmVersion = null;
 
-        if (StringUtils.isNotEmpty(tag)) {
+        if (tag != null && !tag.isEmpty()) {
             scmVersion = new ScmRevision(tag);
         }
 
@@ -804,7 +803,7 @@ public abstract class AbstractScmProvider implements ScmProvider {
 
         parameters.setString(CommandParameter.TAG_NAME, tagName);
 
-        if (StringUtils.isNotEmpty(message)) {
+        if (message != null && !message.isEmpty()) {
             parameters.setString(CommandParameter.MESSAGE, message);
         }
 
@@ -957,7 +956,7 @@ public abstract class AbstractScmProvider implements ScmProvider {
             throws ScmException {
         ScmBranch scmBranch = null;
 
-        if (StringUtils.isNotEmpty(tag)) {
+        if (tag != null && !tag.isEmpty()) {
             scmBranch = new ScmBranch(tag);
         }
 
@@ -1017,7 +1016,7 @@ public abstract class AbstractScmProvider implements ScmProvider {
             throws ScmException {
         ScmBranch scmBranch = null;
 
-        if (StringUtils.isNotEmpty(tag)) {
+        if (tag != null && !tag.isEmpty()) {
             scmBranch = new ScmBranch(tag);
         }
 

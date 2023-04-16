@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -145,7 +144,7 @@ public class GitStatusConsumer extends AbstractConsumer {
         if (logger.isDebugEnabled()) {
             logger.debug(line);
         }
-        if (StringUtils.isEmpty(line)) {
+        if (line == null || line.isEmpty()) {
             return;
         }
 

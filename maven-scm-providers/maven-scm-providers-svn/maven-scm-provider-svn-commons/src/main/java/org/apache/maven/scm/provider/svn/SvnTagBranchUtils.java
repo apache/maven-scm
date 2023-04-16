@@ -49,7 +49,7 @@ public final class SvnTagBranchUtils {
     static String appendPath(String basePath, String addlPath) {
         basePath = StringUtils.stripEnd(basePath, "/");
 
-        if (StringUtils.isEmpty(addlPath)) {
+        if (addlPath == null || addlPath.isEmpty()) {
             return basePath;
         } else {
             return basePath + "/" + StringUtils.stripStart(addlPath, "/");
@@ -180,7 +180,7 @@ public final class SvnTagBranchUtils {
         String projectRoot = getProjectRoot(repositoryUrl);
         branchTagName = StringUtils.strip(branchTagName, "/");
 
-        if (StringUtils.isEmpty(branchTagName)) {
+        if (branchTagName == null || branchTagName.isEmpty()) {
             return null;
         }
 
@@ -198,7 +198,7 @@ public final class SvnTagBranchUtils {
         }
 
         // User has a tagBase specified so just return the name appended to the tagBase
-        if (StringUtils.isNotEmpty(tagBase)
+        if ((tagBase != null && !tagBase.isEmpty())
                 && !tagBase.equals(resolveTagBase(repositoryUrl))
                 && !tagBase.equals(resolveBranchBase(repositoryUrl))) {
             return appendPath(tagBase, branchTagName);
@@ -252,7 +252,7 @@ public final class SvnTagBranchUtils {
 
         String versionName = version.getName();
 
-        if (StringUtils.isEmpty(versionName)) {
+        if (versionName == null || versionName.isEmpty()) {
             return false;
         }
 

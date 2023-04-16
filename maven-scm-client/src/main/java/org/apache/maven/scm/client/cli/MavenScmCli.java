@@ -21,7 +21,6 @@ package org.apache.maven.scm.client.cli;
 import java.io.File;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -292,7 +291,7 @@ public class MavenScmCli {
 
         String providerMessage = result.getProviderMessage();
 
-        if (!StringUtils.isEmpty(providerMessage)) {
+        if (!(providerMessage == null || providerMessage.isEmpty())) {
             System.err.println("Error message from the provider: " + providerMessage);
         } else {
             System.err.println("The provider didn't give a error message.");
@@ -300,7 +299,7 @@ public class MavenScmCli {
 
         String output = result.getCommandOutput();
 
-        if (!StringUtils.isEmpty(output)) {
+        if (!(output == null || output.isEmpty())) {
             System.err.println("Command output:");
 
             System.err.println(output);

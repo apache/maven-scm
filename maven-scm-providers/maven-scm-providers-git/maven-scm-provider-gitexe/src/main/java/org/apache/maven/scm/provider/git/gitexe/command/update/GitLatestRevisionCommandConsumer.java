@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.update;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
@@ -42,7 +41,7 @@ public class GitLatestRevisionCommandConsumer extends AbstractConsumer {
         if (logger.isDebugEnabled()) {
             logger.debug("GitLatestRevisionCommandConsumer consumeLine : " + line);
         }
-        if (line == null || StringUtils.isEmpty(line)) {
+        if (line == null || (line == null || line.isEmpty())) {
             return;
         }
 

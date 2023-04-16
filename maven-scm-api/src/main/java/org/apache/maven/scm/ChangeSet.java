@@ -28,7 +28,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.util.FilenameUtils;
 import org.apache.maven.scm.util.ThreadSafeDateFormat;
@@ -302,7 +301,7 @@ public class ChangeSet implements Serializable {
      */
     public void setDate(String date, String userDatePattern) {
         try {
-            if (!StringUtils.isEmpty(userDatePattern)) {
+            if (!(userDatePattern == null || userDatePattern.isEmpty())) {
                 SimpleDateFormat format = new SimpleDateFormat(userDatePattern);
 
                 this.date = format.parse(date);
@@ -310,7 +309,7 @@ public class ChangeSet implements Serializable {
                 this.date = TIMESTAMP_FORMAT_3.parse(date);
             }
         } catch (ParseException e) {
-            if (!StringUtils.isEmpty(userDatePattern)) {
+            if (!(userDatePattern == null || userDatePattern.isEmpty())) {
                 try {
                     this.date = TIMESTAMP_FORMAT_3.parse(date);
                 } catch (ParseException pe) {

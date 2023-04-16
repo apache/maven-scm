@@ -218,9 +218,9 @@ public abstract class AbstractScmMojo extends AbstractMojo {
 
     public String getConnectionUrl() {
         boolean requireDeveloperConnection = !"connection".equals(connectionType.toLowerCase());
-        if (StringUtils.isNotEmpty(connectionUrl) && !requireDeveloperConnection) {
+        if ((connectionUrl != null && !connectionUrl.isEmpty()) && !requireDeveloperConnection) {
             return connectionUrl;
-        } else if (StringUtils.isNotEmpty(developerConnectionUrl)) {
+        } else if (developerConnectionUrl != null && !developerConnectionUrl.isEmpty()) {
             return developerConnectionUrl;
         }
         if (requireDeveloperConnection) {
@@ -272,15 +272,15 @@ public abstract class AbstractScmMojo extends AbstractMojo {
 
             providerRepo.setPushChanges(pushChanges);
 
-            if (!StringUtils.isEmpty(workItem)) {
+            if (!(workItem == null || workItem.isEmpty())) {
                 providerRepo.setWorkItem(workItem);
             }
 
-            if (!StringUtils.isEmpty(username)) {
+            if (!(username == null || username.isEmpty())) {
                 providerRepo.setUser(username);
             }
 
-            if (!StringUtils.isEmpty(password)) {
+            if (!(password == null || password.isEmpty())) {
                 providerRepo.setPassword(password);
             }
 
@@ -289,24 +289,24 @@ public abstract class AbstractScmMojo extends AbstractMojo {
 
                 loadInfosFromSettings(repo);
 
-                if (!StringUtils.isEmpty(username)) {
+                if (!(username == null || username.isEmpty())) {
                     repo.setUser(username);
                 }
 
-                if (!StringUtils.isEmpty(password)) {
+                if (!(password == null || password.isEmpty())) {
                     repo.setPassword(password);
                 }
 
-                if (!StringUtils.isEmpty(privateKey)) {
+                if (!(privateKey == null || privateKey.isEmpty())) {
                     repo.setPrivateKey(privateKey);
                 }
 
-                if (!StringUtils.isEmpty(passphrase)) {
+                if (!(passphrase == null || passphrase.isEmpty())) {
                     repo.setPassphrase(passphrase);
                 }
             }
 
-            if (!StringUtils.isEmpty(tagBase) && repository.getProvider().equals("svn")) {
+            if (!(tagBase == null || tagBase.isEmpty()) && repository.getProvider().equals("svn")) {
                 SvnScmProviderRepository svnRepo = (SvnScmProviderRepository) repository.getProviderRepository();
 
                 svnRepo.setTagBase(tagBase);
@@ -405,11 +405,11 @@ public abstract class AbstractScmMojo extends AbstractMojo {
     }
 
     public ScmVersion getScmVersion(String versionType, String version) throws MojoExecutionException {
-        if (StringUtils.isEmpty(versionType) && StringUtils.isNotEmpty(version)) {
+        if ((versionType == null || versionType.isEmpty()) && (version != null && !version.isEmpty())) {
             throw new MojoExecutionException("You must specify the version type.");
         }
 
-        if (StringUtils.isEmpty(version)) {
+        if (version == null || version.isEmpty()) {
             return null;
         }
 

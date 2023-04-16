@@ -52,7 +52,7 @@ public class GitInfoConsumer extends AbstractConsumer {
         }
 
         if (infoItems.isEmpty()) {
-            if (!StringUtils.isEmpty(line)) {
+            if (!(line == null || line.isEmpty())) {
                 InfoItem infoItem = new InfoItem();
                 infoItem.setRevision(StringUtils.trim(line));
                 infoItem.setURL(scmFileSet.getBasedir().toPath().toUri().toASCIIString());

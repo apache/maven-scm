@@ -23,7 +23,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -143,24 +142,24 @@ public class ChangeLogMojo extends AbstractScmMojo {
 
             request.setDatePattern(dateFormat);
 
-            if (StringUtils.isNotEmpty(startDate)) {
+            if (startDate != null && !startDate.isEmpty()) {
                 request.setStartDate(parseDate(localFormat, startDate));
             }
 
-            if (StringUtils.isNotEmpty(endDate)) {
+            if (endDate != null && !endDate.isEmpty()) {
                 request.setEndDate(parseDate(localFormat, endDate));
             }
 
-            if (StringUtils.isNotEmpty(startScmVersion)) {
+            if (startScmVersion != null && !startScmVersion.isEmpty()) {
                 ScmVersion startRev = getScmVersion(
-                        StringUtils.isEmpty(startScmVersionType) ? VERSION_TYPE_REVISION : startScmVersionType,
+                        (startScmVersionType == null || startScmVersionType.isEmpty()) ? VERSION_TYPE_REVISION : startScmVersionType,
                         startScmVersion);
                 request.setStartRevision(startRev);
             }
 
-            if (StringUtils.isNotEmpty(endScmVersion)) {
+            if (endScmVersion != null && !endScmVersion.isEmpty()) {
                 ScmVersion endRev = getScmVersion(
-                        StringUtils.isEmpty(endScmVersionType) ? VERSION_TYPE_REVISION : endScmVersionType,
+                        (endScmVersionType == null || endScmVersionType.isEmpty()) ? VERSION_TYPE_REVISION : endScmVersionType,
                         endScmVersion);
                 request.setEndRevision(endRev);
             }
@@ -171,13 +170,13 @@ public class ChangeLogMojo extends AbstractScmMojo {
                 request.setNumDays(numDays);
             }
 
-            if (StringUtils.isNotEmpty(scmVersion)) {
+            if (scmVersion != null && !scmVersion.isEmpty()) {
                 ScmVersion rev = getScmVersion(
-                        StringUtils.isEmpty(scmVersionType) ? VERSION_TYPE_REVISION : scmVersionType, scmVersion);
+                        (scmVersionType == null || scmVersionType.isEmpty()) ? VERSION_TYPE_REVISION : scmVersionType, scmVersion);
                 request.setRevision(rev);
             }
 
-            if (StringUtils.isNotEmpty(scmBranch)) {
+            if (scmBranch != null && !scmBranch.isEmpty()) {
                 request.setScmBranch(new ScmBranch(scmBranch));
             }
 
