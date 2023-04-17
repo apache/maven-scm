@@ -152,14 +152,18 @@ public class ChangeLogMojo extends AbstractScmMojo {
 
             if (startScmVersion != null && !startScmVersion.isEmpty()) {
                 ScmVersion startRev = getScmVersion(
-                        (startScmVersionType == null || startScmVersionType.isEmpty()) ? VERSION_TYPE_REVISION : startScmVersionType,
+                        (startScmVersionType == null || startScmVersionType.isEmpty())
+                                ? VERSION_TYPE_REVISION
+                                : startScmVersionType,
                         startScmVersion);
                 request.setStartRevision(startRev);
             }
 
             if (endScmVersion != null && !endScmVersion.isEmpty()) {
                 ScmVersion endRev = getScmVersion(
-                        (endScmVersionType == null || endScmVersionType.isEmpty()) ? VERSION_TYPE_REVISION : endScmVersionType,
+                        (endScmVersionType == null || endScmVersionType.isEmpty())
+                                ? VERSION_TYPE_REVISION
+                                : endScmVersionType,
                         endScmVersion);
                 request.setEndRevision(endRev);
             }
@@ -172,7 +176,8 @@ public class ChangeLogMojo extends AbstractScmMojo {
 
             if (scmVersion != null && !scmVersion.isEmpty()) {
                 ScmVersion rev = getScmVersion(
-                        (scmVersionType == null || scmVersionType.isEmpty()) ? VERSION_TYPE_REVISION : scmVersionType, scmVersion);
+                        (scmVersionType == null || scmVersionType.isEmpty()) ? VERSION_TYPE_REVISION : scmVersionType,
+                        scmVersion);
                 request.setRevision(rev);
             }
 

@@ -306,7 +306,8 @@ public abstract class AbstractScmMojo extends AbstractMojo {
                 }
             }
 
-            if (!(tagBase == null || tagBase.isEmpty()) && repository.getProvider().equals("svn")) {
+            if (!(tagBase == null || tagBase.isEmpty())
+                    && repository.getProvider().equals("svn")) {
                 SvnScmProviderRepository svnRepo = (SvnScmProviderRepository) repository.getProviderRepository();
 
                 svnRepo.setTagBase(tagBase);
