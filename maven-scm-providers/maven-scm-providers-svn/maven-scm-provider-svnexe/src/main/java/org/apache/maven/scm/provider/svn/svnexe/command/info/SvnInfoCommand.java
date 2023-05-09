@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.svn.svnexe.command.info;
 import java.io.File;
 import java.util.Iterator;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -96,7 +95,7 @@ public class SvnInfoCommand extends AbstractCommand implements SvnCommand {
             cl.createArg().setValue("--recursive");
         }
 
-        if (StringUtils.isNotEmpty(revision)) {
+        if (revision != null && !revision.isEmpty()) {
             cl.createArg().setValue("-r");
 
             cl.createArg().setValue(revision);

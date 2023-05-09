@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.diff;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.util.AbstractConsumer;
@@ -44,7 +43,7 @@ public class GitDiffRawConsumer extends AbstractConsumer {
         if (logger.isDebugEnabled()) {
             logger.debug(line);
         }
-        if (StringUtils.isEmpty(line)) {
+        if (line == null || line.isEmpty()) {
             return;
         }
 

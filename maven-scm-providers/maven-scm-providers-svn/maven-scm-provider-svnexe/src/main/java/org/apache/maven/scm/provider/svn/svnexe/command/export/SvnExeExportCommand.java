@@ -132,7 +132,7 @@ public class SvnExeExportCommand extends AbstractExportCommand implements SvnCom
 
         cl.createArg().setValue(url + "@");
 
-        if (StringUtils.isNotEmpty(outputSirectory)) {
+        if (outputSirectory != null && !outputSirectory.isEmpty()) {
             cl.createArg().setValue(outputSirectory + "@");
         }
 

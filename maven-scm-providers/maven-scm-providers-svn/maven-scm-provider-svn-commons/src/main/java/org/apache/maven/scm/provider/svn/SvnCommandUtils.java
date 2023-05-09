@@ -18,8 +18,6 @@
  */
 package org.apache.maven.scm.provider.svn;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Command utilities for svn commands.
  *
@@ -44,7 +42,7 @@ public final class SvnCommandUtils {
      * @throws NullPointerException if url is <code>null</code>
      */
     public static String fixUrl(String url, String username) {
-        if (!StringUtils.isEmpty(username) && url.startsWith("svn+ssh://")) {
+        if (!(username == null || username.isEmpty()) && url.startsWith("svn+ssh://")) {
             // is there a username to override ? If so we cut after
             int idx = url.indexOf('@');
             int cutIdx = idx < 0 ? "svn+ssh://".length() : idx + 1;

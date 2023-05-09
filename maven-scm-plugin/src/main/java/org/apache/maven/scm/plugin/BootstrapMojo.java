@@ -159,13 +159,13 @@ public class BootstrapMojo extends CheckoutMojo {
     protected String determineWorkingDirectoryPath(
             File checkoutDirectory, String relativePathProjectDirectory, String goalsDirectory) {
         File projectDirectory;
-        if (StringUtils.isNotEmpty(relativePathProjectDirectory)) {
+        if (relativePathProjectDirectory != null && !relativePathProjectDirectory.isEmpty()) {
             projectDirectory = new File(checkoutDirectory, relativePathProjectDirectory);
         } else {
             projectDirectory = checkoutDirectory;
         }
 
-        if (StringUtils.isEmpty(goalsDirectory)) {
+        if (goalsDirectory == null || goalsDirectory.isEmpty()) {
             return projectDirectory.getPath();
         }
 

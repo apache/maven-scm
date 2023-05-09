@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.Os;
 
@@ -106,7 +105,7 @@ public class SvnConfigFileReader {
                 reader = new BufferedReader(new FileReader(new File(getConfigDirectory(), "config")));
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    if (!line.startsWith("#") && StringUtils.isNotEmpty(line)) {
+                    if (!line.startsWith("#") && (line != null && !line.isEmpty())) {
                         lines.add(line);
                     }
                 }

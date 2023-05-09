@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
@@ -110,7 +108,7 @@ public class GitConfigFileReader {
                         new BufferedReader(new FileReader(new File(getConfigDirectory(), "config")))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        if (!line.startsWith("#") && StringUtils.isNotEmpty(line)) {
+                        if (!line.startsWith("#") && (line != null && !line.isEmpty())) {
                             lines.add(line);
                         }
                     }
