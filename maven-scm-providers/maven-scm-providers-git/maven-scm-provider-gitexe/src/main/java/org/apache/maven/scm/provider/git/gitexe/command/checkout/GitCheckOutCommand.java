@@ -70,6 +70,7 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
         ScmVersion version = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
         boolean binary = parameters.getBoolean(CommandParameter.BINARY, false);
         boolean shallow = parameters.getBoolean(CommandParameter.SHALLOW, false);
+        boolean recursive = parameters.getBoolean(CommandParameter.RECURSIVE, false);
 
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
@@ -135,10 +136,29 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
             lastCommandLine = clCheckout.toString();
         }
 
+        if (recursive) {
+            // and now lets do the git-submodule update
+            Commandline clSubmoduleUpdate = createSubmoduleUpdateCommand(fileSet.getBasedir());
+
+            exitCode = GitCommandLineUtils.execute(clSubmoduleUpdate, stdout, stderr);
+            if (exitCode != 0) {
+                return new CheckOutScmResult(
+                        clSubmoduleUpdate.toString(),
+                        "The git-submodule update command failed.",
+                        stderr.getOutput(),
+                        false);
+            }
+            lastCommandLine = clSubmoduleUpdate.toString();
+        }
+
         // and now search for the files
         GitListConsumer listConsumer = new GitListConsumer(fileSet.getBasedir(), ScmFileStatus.CHECKED_IN);
 
         Commandline clList = GitListCommand.createCommandLine(repository, fileSet.getBasedir());
+
+        if (recursive) {
+            clList.createArg().setValue("--recurse-submodules");
+        }
 
         exitCode = GitCommandLineUtils.execute(clList, listConsumer, stderr);
         if (exitCode != 0) {
@@ -165,6 +185,19 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
     }
 
     /**
+     * create a git-submodule update command
+     */
+    Commandline createSubmoduleUpdateCommand(File workingDirectory) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "submodule");
+
+        cl.createArg().setValue("update");
+        cl.createArg().setValue("--init");
+        cl.createArg().setValue("--recursive");
+
+        return cl;
+    }
+
+    /**
      * create a git-clone repository command
      */
     private Commandline createCloneCommand(
@@ -184,7 +217,7 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
             cl.createArg().setValue("1");
         }
 
-        if (version != null && (version instanceof ScmBranch)) {
+        if (version instanceof ScmBranch) {
 
             cl.createArg().setValue("--branch");
 
