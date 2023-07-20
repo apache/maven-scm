@@ -56,6 +56,13 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 @Singleton
 @Named("svn")
 public class SvnExeScmProvider extends AbstractSvnScmProvider {
+    private boolean interactive;
+
+    @Override
+    public void setInteractive(boolean interactive) {
+        this.interactive = interactive;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -85,7 +92,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getCheckInCommand() {
-        return new SvnCheckInCommand();
+        return new SvnCheckInCommand(interactive);
     }
 
     /**
@@ -93,7 +100,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getCheckOutCommand() {
-        return new SvnCheckOutCommand();
+        return new SvnCheckOutCommand(interactive);
     }
 
     /**
@@ -149,7 +156,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getUpdateCommand() {
-        return new SvnUpdateCommand();
+        return new SvnUpdateCommand(interactive);
     }
 
     /**
