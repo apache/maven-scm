@@ -56,6 +56,13 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 @Singleton
 @Named("svn")
 public class SvnExeScmProvider extends AbstractSvnScmProvider {
+    private boolean interactive = true;
+
+    @Override
+    public void setInteractive(boolean interactive) {
+        this.interactive = interactive;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -69,7 +76,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getBranchCommand() {
-        return new SvnBranchCommand();
+        return new SvnBranchCommand(interactive);
     }
 
     /**
@@ -77,7 +84,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getChangeLogCommand() {
-        return new SvnChangeLogCommand();
+        return new SvnChangeLogCommand(interactive);
     }
 
     /**
@@ -85,7 +92,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getCheckInCommand() {
-        return new SvnCheckInCommand();
+        return new SvnCheckInCommand(interactive);
     }
 
     /**
@@ -93,7 +100,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getCheckOutCommand() {
-        return new SvnCheckOutCommand();
+        return new SvnCheckOutCommand(interactive);
     }
 
     /**
@@ -101,7 +108,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getDiffCommand() {
-        return new SvnDiffCommand();
+        return new SvnDiffCommand(interactive);
     }
 
     /**
@@ -109,7 +116,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getExportCommand() {
-        return new SvnExeExportCommand();
+        return new SvnExeExportCommand(interactive);
     }
 
     /**
@@ -125,7 +132,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getStatusCommand() {
-        return new SvnStatusCommand();
+        return new SvnStatusCommand(interactive);
     }
 
     /**
@@ -133,7 +140,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getTagCommand() {
-        return new SvnTagCommand();
+        return new SvnTagCommand(interactive);
     }
 
     /**
@@ -141,7 +148,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getUntagCommand() {
-        return new SvnUntagCommand();
+        return new SvnUntagCommand(interactive);
     }
 
     /**
@@ -149,7 +156,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getUpdateCommand() {
-        return new SvnUpdateCommand();
+        return new SvnUpdateCommand(interactive);
     }
 
     /**
@@ -157,12 +164,12 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getListCommand() {
-        return new SvnListCommand();
+        return new SvnListCommand(interactive);
     }
 
     @Override
     public SvnCommand getInfoCommand() {
-        return new SvnInfoCommand();
+        return new SvnInfoCommand(interactive);
     }
 
     /**
@@ -170,7 +177,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getBlameCommand() {
-        return new SvnBlameCommand();
+        return new SvnBlameCommand(interactive);
     }
 
     /**
@@ -178,7 +185,7 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
      */
     @Override
     protected SvnCommand getMkdirCommand() {
-        return new SvnMkdirCommand();
+        return new SvnMkdirCommand(interactive);
     }
 
     /**
@@ -203,13 +210,13 @@ public class SvnExeScmProvider extends AbstractSvnScmProvider {
     @Override
     public RemoteInfoScmResult remoteInfo(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
-        SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand();
+        SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand(interactive);
         return svnRemoteInfoCommand.executeRemoteInfoCommand(repository, fileSet, parameters);
     }
 
     @Override
     public boolean remoteUrlExist(ScmProviderRepository repository, CommandParameters parameters) throws ScmException {
-        SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand();
+        SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand(interactive);
         return svnRemoteInfoCommand.remoteUrlExist(repository, parameters);
     }
 }

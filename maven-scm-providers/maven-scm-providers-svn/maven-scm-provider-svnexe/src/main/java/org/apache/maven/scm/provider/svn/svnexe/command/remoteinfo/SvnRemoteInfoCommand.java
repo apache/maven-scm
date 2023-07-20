@@ -41,6 +41,13 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @since 1.6
  */
 public class SvnRemoteInfoCommand extends AbstractRemoteInfoCommand implements SvnCommand {
+
+    private final boolean interactive;
+
+    public SvnRemoteInfoCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
+
     @Override
     public RemoteInfoScmResult executeRemoteInfoCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
@@ -53,7 +60,7 @@ public class SvnRemoteInfoCommand extends AbstractRemoteInfoCommand implements S
         String baseUrl = url.substring(0, idx);
 
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(
-                fileSet == null ? null : fileSet.getBasedir(), (SvnScmProviderRepository) repository);
+                fileSet == null ? null : fileSet.getBasedir(), (SvnScmProviderRepository) repository, interactive);
 
         cl.createArg().setValue("ls");
 
@@ -80,7 +87,7 @@ public class SvnRemoteInfoCommand extends AbstractRemoteInfoCommand implements S
         }
 
         cl = SvnCommandLineUtils.getBaseSvnCommandLine(
-                fileSet == null ? null : fileSet.getBasedir(), (SvnScmProviderRepository) repository);
+                fileSet == null ? null : fileSet.getBasedir(), (SvnScmProviderRepository) repository, interactive);
 
         cl.createArg().setValue("ls");
 
@@ -110,7 +117,8 @@ public class SvnRemoteInfoCommand extends AbstractRemoteInfoCommand implements S
     public boolean remoteUrlExist(ScmProviderRepository repository, CommandParameters parameters) throws ScmException {
         String url = ((SvnScmProviderRepository) repository).getUrl();
 
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(null, (SvnScmProviderRepository) repository);
+        Commandline cl =
+                SvnCommandLineUtils.getBaseSvnCommandLine(null, (SvnScmProviderRepository) repository, interactive);
 
         cl.createArg().setValue("ls");
 

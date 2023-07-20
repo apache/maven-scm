@@ -96,7 +96,8 @@ public class SvnMkdirCommandTest extends ScmTestCase {
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnMkdirCommand.createCommandLine(svnRepository, fileSet, messageFile, createInLocal);
+        Commandline cl =
+                new SvnMkdirCommand(false).createCommandLine(svnRepository, fileSet, messageFile, createInLocal);
 
         assertCommandLine(commandLine, workingDirectory, cl);
     }

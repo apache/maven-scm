@@ -84,8 +84,8 @@ public class SvnListCommandTest extends ScmTestCase {
             throws Exception {
         ScmFileSet fileSet = new ScmFileSet(new File("."), new File("."));
 
-        Commandline cl = SvnListCommand.createCommandLine(
-                getSvnRepository(scmUrl), fileSet, recursive, new ScmRevision(revision));
+        Commandline cl = new SvnListCommand(false)
+                .createCommandLine(getSvnRepository(scmUrl), fileSet, recursive, new ScmRevision(revision));
 
         assertCommandLine(
                 commandLine + " http://foo.com/svn/trunk/.@", new File(System.getProperty("java.io.tmpdir")), cl);

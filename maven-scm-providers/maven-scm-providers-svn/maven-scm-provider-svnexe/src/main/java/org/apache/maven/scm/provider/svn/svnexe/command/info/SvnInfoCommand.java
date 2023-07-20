@@ -41,6 +41,11 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  */
 public class SvnInfoCommand extends AbstractCommand implements SvnCommand {
+    private final boolean interactive;
+
+    public SvnInfoCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
 
     /** {@inheritDoc} */
     protected ScmResult executeCommand(
@@ -85,9 +90,9 @@ public class SvnInfoCommand extends AbstractCommand implements SvnCommand {
     }
 
     // set scope to protected to allow test to call it directly
-    protected static Commandline createCommandLine(
+    protected Commandline createCommandLine(
             SvnScmProviderRepository repository, ScmFileSet fileSet, boolean recursive, String revision) {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(fileSet.getBasedir(), repository);
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(fileSet.getBasedir(), repository, interactive);
 
         cl.createArg().setValue("info");
 

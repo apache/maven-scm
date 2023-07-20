@@ -36,6 +36,13 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  */
 public class SvnStatusCommand extends AbstractStatusCommand implements SvnCommand {
+
+    private final boolean interactive;
+
+    public SvnStatusCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
+
     /** {@inheritDoc} */
     protected StatusScmResult executeStatusCommand(ScmProviderRepository repo, ScmFileSet fileSet) throws ScmException {
         Commandline cl = createCommandLine((SvnScmProviderRepository) repo, fileSet);
@@ -71,8 +78,8 @@ public class SvnStatusCommand extends AbstractStatusCommand implements SvnComman
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine(SvnScmProviderRepository repository, ScmFileSet fileSet) {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(fileSet.getBasedir(), repository);
+    public Commandline createCommandLine(SvnScmProviderRepository repository, ScmFileSet fileSet) {
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(fileSet.getBasedir(), repository, interactive);
 
         cl.createArg().setValue("status");
 

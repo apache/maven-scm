@@ -47,6 +47,12 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  */
 public class SvnExeExportCommand extends AbstractExportCommand implements SvnCommand {
+    private final boolean interactive;
+
+    public SvnExeExportCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
+
     /** {@inheritDoc} */
     protected ExportScmResult executeExportCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version, String outputDirectory)
@@ -105,7 +111,7 @@ public class SvnExeExportCommand extends AbstractExportCommand implements SvnCom
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine(
+    public Commandline createCommandLine(
             SvnScmProviderRepository repository,
             File workingDirectory,
             ScmVersion version,
@@ -115,7 +121,7 @@ public class SvnExeExportCommand extends AbstractExportCommand implements SvnCom
             version = null;
         }
 
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository);
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository, interactive);
 
         cl.createArg().setValue("export");
 

@@ -68,9 +68,9 @@
           <name>useNonInteractive</name>
           <version>1.1.0+</version>
           <type>boolean</type>
-          <defaultValue>true</defaultValue>
+          <defaultValue>false</defaultValue>
           <description><![CDATA[
-             Switch off if you do not like to use <code>--non-interactive</code> e.g. on Leopard (see SCM-402).
+             Switch on if you want to use <code>--non-interactive</code> irrespective of the interactive flag set on the according SCM provider. The value false means that provider's interactive flag is used to determine this CLI argument.
           ]]></description>
         </field>
         <field>

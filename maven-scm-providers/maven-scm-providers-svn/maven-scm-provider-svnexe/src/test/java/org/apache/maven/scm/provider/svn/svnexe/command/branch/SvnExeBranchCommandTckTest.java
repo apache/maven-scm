@@ -171,10 +171,10 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
 
         Commandline cl = null;
         if (scmBranchParameters == null) {
-            cl = SvnBranchCommand.createCommandLine(svnRepository, workingDirectory, branch, messageFile);
+            cl = new SvnBranchCommand(false).createCommandLine(svnRepository, workingDirectory, branch, messageFile);
         } else {
-            cl = SvnBranchCommand.createCommandLine(
-                    svnRepository, workingDirectory, branch, messageFile, scmBranchParameters);
+            cl = new SvnBranchCommand(false)
+                    .createCommandLine(svnRepository, workingDirectory, branch, messageFile, scmBranchParameters);
         }
 
         assertCommandLine(commandLine, workingDirectory, cl);

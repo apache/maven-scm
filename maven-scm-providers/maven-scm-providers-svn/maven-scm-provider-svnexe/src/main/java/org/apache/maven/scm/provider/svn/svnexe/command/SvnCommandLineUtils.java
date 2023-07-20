@@ -70,7 +70,8 @@ public final class SvnCommandLineUtils {
         targets.deleteOnExit();
     }
 
-    public static Commandline getBaseSvnCommandLine(File workingDirectory, SvnScmProviderRepository repository) {
+    public static Commandline getBaseSvnCommandLine(
+            File workingDirectory, SvnScmProviderRepository repository, boolean interactive) {
         Commandline cl = new Commandline();
 
         cl.setExecutable("svn");
@@ -111,7 +112,7 @@ public final class SvnCommandLineUtils {
             cl.createArg().setValue("--no-auth-cache");
         }
 
-        if (SvnUtil.getSettings().isUseNonInteractive()) {
+        if (!interactive || SvnUtil.getSettings().isUseNonInteractive()) {
             cl.createArg().setValue("--non-interactive");
         }
 

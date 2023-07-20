@@ -34,7 +34,7 @@ public class SvnRemoteInfoCommandTest extends ScmTestCase {
     public void testExist() throws Exception {
         checkScmPresence(SVN_COMMAND_LINE);
 
-        SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand();
+        SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand(false);
 
         SvnScmProviderRepository svnScmProviderRepository =
                 new SvnScmProviderRepository("http://svn.apache.org/repos/asf/maven/scm/trunk/");
@@ -45,7 +45,7 @@ public class SvnRemoteInfoCommandTest extends ScmTestCase {
     public void testNotExist() throws Exception {
         checkScmPresence(SVN_COMMAND_LINE);
 
-        SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand();
+        SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand(false);
 
         SvnScmProviderRepository svnScmProviderRepository =
                 new SvnScmProviderRepository("http://svn.apache.org/repos/asf/maven/scm/trunk/foo/bar/beer");

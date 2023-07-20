@@ -42,6 +42,12 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  */
 public class SvnMkdirCommand extends AbstractMkdirCommand implements SvnCommand {
+    private final boolean interactive;
+
+    public SvnMkdirCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -96,14 +102,14 @@ public class SvnMkdirCommand extends AbstractMkdirCommand implements SvnCommand 
         }
     }
 
-    protected static Commandline createCommandLine(
+    protected Commandline createCommandLine(
             SvnScmProviderRepository repository, ScmFileSet fileSet, File messageFile, boolean createInLocal) {
         // as we want to be able to create path remote only create this directory if not here
 
         if (!fileSet.getBasedir().exists() && !createInLocal) {
             fileSet.getBasedir().mkdirs();
         }
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(fileSet.getBasedir(), repository);
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(fileSet.getBasedir(), repository, interactive);
 
         cl.createArg().setValue("mkdir");
 

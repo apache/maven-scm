@@ -46,6 +46,12 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  */
 public class SvnCheckOutCommand extends AbstractCheckOutCommand implements SvnCommand {
+    private final boolean interactive;
+
+    public SvnCheckOutCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -110,7 +116,7 @@ public class SvnCheckOutCommand extends AbstractCheckOutCommand implements SvnCo
      * @return the SVN command line for the SVN check out.
      * @see #createCommandLine(SvnScmProviderRepository, File, ScmVersion, String, boolean)
      */
-    public static Commandline createCommandLine(
+    public Commandline createCommandLine(
             SvnScmProviderRepository repository, File workingDirectory, ScmVersion version, String url) {
         return createCommandLine(repository, workingDirectory, version, url, true);
     }
@@ -126,13 +132,14 @@ public class SvnCheckOutCommand extends AbstractCheckOutCommand implements SvnCo
      * @return the SVN command line for the SVN check out.
      * @since 1.1.1
      */
-    public static Commandline createCommandLine(
+    public Commandline createCommandLine(
             SvnScmProviderRepository repository,
             File workingDirectory,
             ScmVersion version,
             String url,
             boolean recursive) {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory.getParentFile(), repository);
+        Commandline cl =
+                SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory.getParentFile(), repository, interactive);
 
         cl.createArg().setValue("checkout");
 

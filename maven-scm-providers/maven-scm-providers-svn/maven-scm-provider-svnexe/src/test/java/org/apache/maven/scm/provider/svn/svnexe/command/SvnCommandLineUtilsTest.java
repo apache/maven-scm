@@ -41,30 +41,33 @@ public class SvnCommandLineUtilsTest extends ScmTestCase {
          */
         SvnScmProviderRepository repo = new SvnScmProviderRepository(
                 "https://svn.apache.org/repos/asf/maven/scm/trunk", "username", "password");
-        String clString =
-                SvnCommandLineUtils.cryptPassword(SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo));
+        String clString = SvnCommandLineUtils.cryptPassword(
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false));
         Commandline expectedCmd =
                 new Commandline("svn --username username --password ***** --no-auth-cache --non-interactive");
         expectedCmd.setWorkingDirectory(new File(".").getAbsolutePath());
         assertEquals(expectedCmd.toString(), clString);
 
         repo = new SvnScmProviderRepository("https://svn.apache.org/repos/asf/maven/scm/trunk", "username", null);
-        clString = SvnCommandLineUtils.cryptPassword(SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo));
+        clString = SvnCommandLineUtils.cryptPassword(
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false));
         assertCommandLine(
                 "svn --username username --no-auth-cache --non-interactive",
                 new File("."),
-                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo));
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false));
 
         repo = new SvnScmProviderRepository(
                 "https://svn.apache.org/repos/asf/maven/scm/trunk", "username", "password with spaces");
-        clString = SvnCommandLineUtils.cryptPassword(SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo));
+        clString = SvnCommandLineUtils.cryptPassword(
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false));
         expectedCmd = new Commandline("svn --username username --password ***** --no-auth-cache --non-interactive");
         expectedCmd.setWorkingDirectory(new File(".").getAbsolutePath());
         assertEquals(expectedCmd.toString(), clString);
 
         repo = new SvnScmProviderRepository(
                 "https://svn.apache.org/repos/asf/maven/scm/trunk", "username", "password'with'single'quotes");
-        clString = SvnCommandLineUtils.cryptPassword(SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo));
+        clString = SvnCommandLineUtils.cryptPassword(
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false));
         expectedCmd = new Commandline("svn --username username --password ***** --no-auth-cache --non-interactive");
         expectedCmd.setWorkingDirectory(new File(".").getAbsolutePath());
         assertEquals(expectedCmd.toString(), clString);
@@ -73,14 +76,16 @@ public class SvnCommandLineUtilsTest extends ScmTestCase {
                 "https://svn.apache.org/repos/asf/maven/scm/trunk",
                 "username",
                 "password'with'single'quotes and spaces");
-        clString = SvnCommandLineUtils.cryptPassword(SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo));
+        clString = SvnCommandLineUtils.cryptPassword(
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false));
         expectedCmd = new Commandline("svn --username username --password ***** --no-auth-cache --non-interactive");
         expectedCmd.setWorkingDirectory(new File(".").getAbsolutePath());
         assertEquals(expectedCmd.toString(), clString);
 
         repo = new SvnScmProviderRepository(
                 "https://svn.apache.org/repos/asf/maven/scm/trunk", "username", "password\"with\"double\"quotes");
-        clString = SvnCommandLineUtils.cryptPassword(SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo));
+        clString = SvnCommandLineUtils.cryptPassword(
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false));
         expectedCmd = new Commandline("svn --username username --password ***** --no-auth-cache --non-interactive");
         expectedCmd.setWorkingDirectory(new File(".").getAbsolutePath());
         assertEquals(expectedCmd.toString(), clString);
@@ -89,7 +94,8 @@ public class SvnCommandLineUtilsTest extends ScmTestCase {
                 "https://svn.apache.org/repos/asf/maven/scm/trunk",
                 "username",
                 "password\"with\"double\"quotes and spaces");
-        clString = SvnCommandLineUtils.cryptPassword(SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo));
+        clString = SvnCommandLineUtils.cryptPassword(
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false));
         expectedCmd = new Commandline("svn --username username --password ***** --no-auth-cache --non-interactive");
         expectedCmd.setWorkingDirectory(new File(".").getAbsolutePath());
         // FIXME https://github.com/codehaus-plexus/plexus-utils/issues/36
@@ -103,7 +109,8 @@ public class SvnCommandLineUtilsTest extends ScmTestCase {
                 "https://svn.apache.org/repos/asf/maven/scm/trunk",
                 "username",
                 "password\"with\"double\"quotes'and'single'quotes");
-        clString = SvnCommandLineUtils.cryptPassword(SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo));
+        clString = SvnCommandLineUtils.cryptPassword(
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false));
         expectedCmd = new Commandline("svn --username username --password ***** --no-auth-cache --non-interactive");
         expectedCmd.setWorkingDirectory(new File(".").getAbsolutePath());
         assertEquals(expectedCmd.toString(), clString);
@@ -112,7 +119,8 @@ public class SvnCommandLineUtilsTest extends ScmTestCase {
                 "https://svn.apache.org/repos/asf/maven/scm/trunk",
                 "username",
                 "password\"with\"double\"quotes'and'single'quotes and spaces");
-        clString = SvnCommandLineUtils.cryptPassword(SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo));
+        clString = SvnCommandLineUtils.cryptPassword(
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false));
         expectedCmd = new Commandline("svn --username username --password ***** --no-auth-cache --non-interactive");
         expectedCmd.setWorkingDirectory(new File(".").getAbsolutePath());
         // FIXME https://github.com/codehaus-plexus/plexus-utils/issues/36
@@ -126,6 +134,6 @@ public class SvnCommandLineUtilsTest extends ScmTestCase {
         assertCommandLine(
                 "svn --username username --no-auth-cache --non-interactive",
                 new File("."),
-                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo));
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false));
     }
 }
