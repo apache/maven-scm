@@ -45,6 +45,11 @@ import org.codehaus.plexus.util.cli.Commandline;
  */
 public class SvnListCommand extends AbstractListCommand implements SvnCommand {
     private static final File TMP_DIR = new File(System.getProperty("java.io.tmpdir"));
+    private final boolean interactive;
+
+    public SvnListCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
 
     /** {@inheritDoc} */
     protected ListScmResult executeListCommand(
@@ -79,9 +84,9 @@ public class SvnListCommand extends AbstractListCommand implements SvnCommand {
         return new ListScmResult(cl.toString(), consumer.getFiles());
     }
 
-    static Commandline createCommandLine(
+    Commandline createCommandLine(
             SvnScmProviderRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion version) {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(TMP_DIR, repository);
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(TMP_DIR, repository, interactive);
 
         cl.createArg().setValue("list");
 

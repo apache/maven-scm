@@ -113,7 +113,7 @@ public class SvnUntagCommandTest extends ScmTestCase {
             throws Exception {
         SvnScmProviderRepository repo = getSvnRepository(scmUrl);
         repo.setUser(user);
-        Commandline cl = new SvnUntagCommand().createCommandline(repo, scmFileSet, tag, messageFile);
+        Commandline cl = new SvnUntagCommand(false).createCommandline(repo, scmFileSet, tag, messageFile);
 
         assertCommandLine(commandline, scmFileSet.getBasedir(), cl);
     }

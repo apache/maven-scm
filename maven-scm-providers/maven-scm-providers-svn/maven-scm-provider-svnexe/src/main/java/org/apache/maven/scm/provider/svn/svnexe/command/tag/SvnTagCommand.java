@@ -53,6 +53,11 @@ import org.codehaus.plexus.util.cli.Commandline;
  * TODO since this is just a copy, use that instead.
  */
 public class SvnTagCommand extends AbstractTagCommand implements SvnCommand {
+    private final boolean interactive;
+
+    public SvnTagCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
 
     public ScmResult executeTagCommand(ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message)
             throws ScmException {
@@ -174,9 +179,9 @@ public class SvnTagCommand extends AbstractTagCommand implements SvnCommand {
      * @param messageFile
      * @return TODO
      */
-    public static Commandline createCommandLine(
+    public Commandline createCommandLine(
             SvnScmProviderRepository repository, File workingDirectory, String tag, File messageFile) {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository);
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository, interactive);
 
         cl.createArg().setValue("copy");
 
@@ -196,13 +201,13 @@ public class SvnTagCommand extends AbstractTagCommand implements SvnCommand {
         return cl;
     }
 
-    public static Commandline createCommandLine(
+    public Commandline createCommandLine(
             SvnScmProviderRepository repository,
             File workingDirectory,
             String tag,
             File messageFile,
             ScmTagParameters scmTagParameters) {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository);
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository, interactive);
 
         cl.createArg().setValue("copy");
 

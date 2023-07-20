@@ -82,7 +82,8 @@ public class SvnCheckInCommandTest extends ScmTestCase {
             SvnUtil.setSettingsDirectory(getTestFile("src/test/resources/svn/checkin/macos"));
             testCommandLine(
                     "scm:svn:http://anonymous@foo.com/svn/trunk",
-                    "svn --username anonymous --no-auth-cache commit " + messageFileString);
+                    "svn --username anonymous --no-auth-cache commit " + messageFileString,
+                    true);
         } finally {
 
             SvnUtil.setSettingsDirectory(SvnUtil.DEFAULT_SETTINGS_DIRECTORY);
@@ -94,14 +95,18 @@ public class SvnCheckInCommandTest extends ScmTestCase {
     // ----------------------------------------------------------------------
 
     private void testCommandLine(String scmUrl, String commandLine) throws Exception {
+        testCommandLine(scmUrl, commandLine, false);
+    }
+
+    private void testCommandLine(String scmUrl, String commandLine, boolean interactive) throws Exception {
         File workingDirectory = getTestFile("target/svn-checkin-command-test");
 
         ScmRepository repository = getScmManager().makeScmRepository(scmUrl);
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl =
-                SvnCheckInCommand.createCommandLine(svnRepository, new ScmFileSet(workingDirectory), messageFile);
+        Commandline cl = SvnCheckInCommand.createCommandLine(
+                svnRepository, new ScmFileSet(workingDirectory), messageFile, interactive);
 
         assertCommandLine(commandLine, workingDirectory, cl);
     }

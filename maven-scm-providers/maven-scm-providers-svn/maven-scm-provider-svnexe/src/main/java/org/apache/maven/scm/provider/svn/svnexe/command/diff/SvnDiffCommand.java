@@ -42,6 +42,12 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  */
 public class SvnDiffCommand extends AbstractDiffCommand implements SvnCommand {
+    private final boolean interactive;
+
+    public SvnDiffCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
+
     /** {@inheritDoc} */
     protected DiffScmResult executeDiffCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion, ScmVersion endVersion)
@@ -81,12 +87,12 @@ public class SvnDiffCommand extends AbstractDiffCommand implements SvnCommand {
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine(
+    public Commandline createCommandLine(
             SvnScmProviderRepository repository,
             File workingDirectory,
             ScmVersion startVersion,
             ScmVersion endVersion) {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository);
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository, interactive);
 
         cl.createArg().setValue("diff");
 

@@ -47,6 +47,12 @@ import org.codehaus.plexus.util.cli.Commandline;
  */
 public class SvnUntagCommand extends AbstractUntagCommand implements SvnCommand {
 
+    private final boolean interactive;
+
+    public SvnUntagCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
+
     /** {@inheritDoc} */
     @Override
     public ScmResult executeUntagCommand(
@@ -117,7 +123,7 @@ public class SvnUntagCommand extends AbstractUntagCommand implements SvnCommand 
      * @return            command line instance
      */
     Commandline createCommandline(SvnScmProviderRepository repo, ScmFileSet fileSet, String tag, File messageFile) {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(fileSet.getBasedir(), repo);
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(fileSet.getBasedir(), repo, interactive);
 
         cl.createArg().setValue("--file");
 

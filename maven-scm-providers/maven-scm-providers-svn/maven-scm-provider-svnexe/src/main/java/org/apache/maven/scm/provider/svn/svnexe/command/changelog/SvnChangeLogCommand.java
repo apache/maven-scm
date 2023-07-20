@@ -54,6 +54,11 @@ import org.codehaus.plexus.util.cli.Commandline;
  */
 public class SvnChangeLogCommand extends AbstractChangeLogCommand implements SvnCommand {
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
+    private final boolean interactive;
+
+    public SvnChangeLogCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
 
     @Override
     public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
@@ -170,7 +175,7 @@ public class SvnChangeLogCommand extends AbstractChangeLogCommand implements Svn
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine(
+    public Commandline createCommandLine(
             SvnScmProviderRepository repository,
             File workingDirectory,
             ScmBranch branch,
@@ -182,7 +187,7 @@ public class SvnChangeLogCommand extends AbstractChangeLogCommand implements Svn
                 repository, workingDirectory, branch, startDate, endDate, startVersion, endVersion, null);
     }
 
-    public static Commandline createCommandLine(
+    public Commandline createCommandLine(
             SvnScmProviderRepository repository,
             File workingDirectory,
             ScmBranch branch,
@@ -195,7 +200,7 @@ public class SvnChangeLogCommand extends AbstractChangeLogCommand implements Svn
 
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository);
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository, interactive);
 
         cl.createArg().setValue("log");
 

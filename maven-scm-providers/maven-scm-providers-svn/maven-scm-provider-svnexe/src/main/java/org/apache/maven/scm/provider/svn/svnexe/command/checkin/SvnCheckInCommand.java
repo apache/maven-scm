@@ -43,6 +43,12 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  */
 public class SvnCheckInCommand extends AbstractCheckInCommand implements SvnCommand {
+    private final boolean interactive;
+
+    public SvnCheckInCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
+
     /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String message, ScmVersion version) throws ScmException {
@@ -104,7 +110,13 @@ public class SvnCheckInCommand extends AbstractCheckInCommand implements SvnComm
 
     public static Commandline createCommandLine(
             SvnScmProviderRepository repository, ScmFileSet fileSet, File messageFile) throws ScmException {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(fileSet.getBasedir(), repository);
+        return createCommandLine(repository, fileSet, messageFile, true);
+    }
+
+    public static Commandline createCommandLine(
+            SvnScmProviderRepository repository, ScmFileSet fileSet, File messageFile, boolean interactive)
+            throws ScmException {
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(fileSet.getBasedir(), repository, interactive);
 
         cl.createArg().setValue("commit");
 

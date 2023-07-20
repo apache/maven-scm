@@ -56,12 +56,13 @@ public class SvnExportCommandTest extends ScmTestCase {
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnExeExportCommand.createCommandLine(
-                svnRepository,
-                exportDirectory,
-                null,
-                svnRepository.getUrl(),
-                exportDirectory != null ? exportDirectory.getAbsolutePath() : null);
+        Commandline cl = new SvnExeExportCommand(false)
+                .createCommandLine(
+                        svnRepository,
+                        exportDirectory,
+                        null,
+                        svnRepository.getUrl(),
+                        exportDirectory != null ? exportDirectory.getAbsolutePath() : null);
 
         assertCommandLine(commandLine, exportDirectory, cl);
     }

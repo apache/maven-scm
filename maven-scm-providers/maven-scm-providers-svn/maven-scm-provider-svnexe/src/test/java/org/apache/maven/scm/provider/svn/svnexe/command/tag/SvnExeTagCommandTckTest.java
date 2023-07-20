@@ -148,7 +148,8 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
 
         Commandline cl = null;
 
-        cl = SvnTagCommand.createCommandLine(svnRepository, workingDirectory, tag, messageFile, scmTagParameters);
+        cl = new SvnTagCommand(false)
+                .createCommandLine(svnRepository, workingDirectory, tag, messageFile, scmTagParameters);
 
         assertCommandLine(commandLine, workingDirectory, cl);
     }

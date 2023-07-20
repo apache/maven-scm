@@ -105,7 +105,7 @@ public class SvnExeUntagCommandTckTest extends SvnUntagCommandTckTest {
 
         svnRepository.setUser(user);
 
-        Commandline cl = new SvnUntagCommand().createCommandline(svnRepository, scmFileSet, tag, messageFile);
+        Commandline cl = new SvnUntagCommand(false).createCommandline(svnRepository, scmFileSet, tag, messageFile);
 
         assertCommandLine(commandLine, workingDirectory, cl);
     }

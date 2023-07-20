@@ -210,8 +210,8 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnChangeLogCommand.createCommandLine(
-                svnRepository, workingDirectory, branch, startDate, endDate, null, null, limit);
+        Commandline cl = new SvnChangeLogCommand(false)
+                .createCommandLine(svnRepository, workingDirectory, branch, startDate, endDate, null, null, limit);
 
         assertCommandLine(commandLine, workingDirectory, cl);
     }
@@ -224,8 +224,8 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnChangeLogCommand.createCommandLine(
-                svnRepository, workingDirectory, null, null, null, startVersion, endVersion);
+        Commandline cl = new SvnChangeLogCommand(false)
+                .createCommandLine(svnRepository, workingDirectory, null, null, null, startVersion, endVersion);
         assertCommandLine(commandLine, workingDirectory, cl);
     }
 }

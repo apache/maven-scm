@@ -52,6 +52,11 @@ import org.codehaus.plexus.util.cli.Commandline;
  * TODO since this is just a copy, use that instead.
  */
 public class SvnBranchCommand extends AbstractBranchCommand implements SvnCommand {
+    private final boolean interactive;
+
+    public SvnBranchCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
 
     public ScmResult executeBranchCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String branch, ScmBranchParameters scmBranchParameters)
@@ -138,7 +143,7 @@ public class SvnBranchCommand extends AbstractBranchCommand implements SvnComman
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine(
+    public Commandline createCommandLine(
             SvnScmProviderRepository repository, File workingDirectory, String branch, File messageFile) {
         ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
         scmBranchParameters.setRemoteBranching(false);
@@ -146,13 +151,13 @@ public class SvnBranchCommand extends AbstractBranchCommand implements SvnComman
         return createCommandLine(repository, workingDirectory, branch, messageFile, scmBranchParameters);
     }
 
-    public static Commandline createCommandLine(
+    public Commandline createCommandLine(
             SvnScmProviderRepository repository,
             File workingDirectory,
             String branch,
             File messageFile,
             ScmBranchParameters scmBranchParameters) {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository);
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository, interactive);
 
         cl.createArg().setValue("copy");
 

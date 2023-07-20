@@ -39,6 +39,12 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @since 1.4
  */
 public class SvnBlameCommand extends AbstractBlameCommand implements SvnCommand {
+    private final boolean interactive;
+
+    public SvnBlameCommand(boolean interactive) {
+        this.interactive = interactive;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -73,9 +79,8 @@ public class SvnBlameCommand extends AbstractBlameCommand implements SvnCommand 
         return new BlameScmResult(cl.toString(), consumer.getLines());
     }
 
-    public static Commandline createCommandLine(
-            SvnScmProviderRepository repository, File workingDirectory, String filename) {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository);
+    public Commandline createCommandLine(SvnScmProviderRepository repository, File workingDirectory, String filename) {
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository, interactive);
         cl.createArg().setValue("blame");
         cl.createArg().setValue("--xml");
         cl.createArg().setValue(filename);
