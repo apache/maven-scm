@@ -197,7 +197,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
 
     private void testCommandLine(String scmUrl, ScmVersion version, String commandLine, File workingDirectory)
             throws Exception {
-        Commandline cl = SvnUpdateCommand.createCommandLine(getSvnRepository(scmUrl), workingDirectory, version, false);
+        Commandline cl = SvnUpdateCommand.createCommandLine(getSvnRepository(scmUrl), workingDirectory, version);
 
         assertCommandLine(commandLine, workingDirectory, cl);
     }

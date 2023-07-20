@@ -100,8 +100,8 @@ public class SvnCheckInCommandTest extends ScmTestCase {
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnCheckInCommand.createCommandLine(
-                svnRepository, new ScmFileSet(workingDirectory), messageFile, false);
+        Commandline cl =
+                SvnCheckInCommand.createCommandLine(svnRepository, new ScmFileSet(workingDirectory), messageFile);
 
         assertCommandLine(commandLine, workingDirectory, cl);
     }

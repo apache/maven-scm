@@ -70,7 +70,7 @@
           <type>boolean</type>
           <defaultValue>true</defaultValue>
           <description><![CDATA[
-             Switch off if you do not like to use <code>--non-interactive</code> e.g. on Leopard (see SCM-402) when used with non-interactive SVN provider.
+             Switch off if you do not like to use <code>--non-interactive</code> e.g. on Leopard (see SCM-402).
           ]]></description>
         </field>
         <field>

@@ -48,12 +48,6 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  */
 public class SvnUpdateCommand extends AbstractUpdateCommand implements SvnCommand {
-    private final boolean interactive;
-
-    public SvnUpdateCommand(boolean interactive) {
-        this.interactive = interactive;
-    }
-
     /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version)
             throws ScmException {
@@ -98,13 +92,9 @@ public class SvnUpdateCommand extends AbstractUpdateCommand implements SvnComman
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
-    public static Commandline createCommandLine(
-            SvnScmProviderRepository repository, File workingDirectory, ScmVersion version) {
-        return createCommandLine(repository, workingDirectory, version, true);
-    }
 
     public static Commandline createCommandLine(
-            SvnScmProviderRepository repository, File workingDirectory, ScmVersion version, boolean interactive) {
+            SvnScmProviderRepository repository, File workingDirectory, ScmVersion version) {
         Settings settings = SvnUtil.getSettings();
 
         String workingDir = workingDirectory.getAbsolutePath();
@@ -119,7 +109,7 @@ public class SvnUpdateCommand extends AbstractUpdateCommand implements SvnComman
             version = null;
         }
 
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository, interactive);
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory, repository);
 
         if (version == null || SvnTagBranchUtils.isRevisionSpecifier(version)) {
             cl.createArg().setValue("update");

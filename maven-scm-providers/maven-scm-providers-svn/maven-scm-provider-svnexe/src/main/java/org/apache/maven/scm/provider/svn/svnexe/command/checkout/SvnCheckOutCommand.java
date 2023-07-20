@@ -46,12 +46,6 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  */
 public class SvnCheckOutCommand extends AbstractCheckOutCommand implements SvnCommand {
-    private final boolean interactive;
-
-    public SvnCheckOutCommand(boolean interactive) {
-        this.interactive = interactive;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -72,7 +66,7 @@ public class SvnCheckOutCommand extends AbstractCheckOutCommand implements SvnCo
 
         url = SvnCommandUtils.fixUrl(url, repository.getUser());
 
-        Commandline cl = createCommandLine(repository, fileSet.getBasedir(), version, url, recursive, interactive);
+        Commandline cl = createCommandLine(repository, fileSet.getBasedir(), version, url, recursive);
 
         SvnCheckOutConsumer consumer = new SvnCheckOutConsumer(fileSet.getBasedir());
 
@@ -138,29 +132,7 @@ public class SvnCheckOutCommand extends AbstractCheckOutCommand implements SvnCo
             ScmVersion version,
             String url,
             boolean recursive) {
-        return createCommandLine(repository, workingDirectory, version, url, recursive, true);
-    }
-    /**
-     * Create SVN check out command line.
-     *
-     * @param repository       not null
-     * @param workingDirectory not null
-     * @param version          not null
-     * @param url              not null
-     * @param recursive        <code>true</code> if recursive check out is wanted, <code>false</code> otherwise.
-     * @param interactive      <code>true</code> if executed in interactive mode, <code>false</code> otherwise.
-     * @return the SVN command line for the SVN check out.
-     * @since 2.1.0
-     */
-    public static Commandline createCommandLine(
-            SvnScmProviderRepository repository,
-            File workingDirectory,
-            ScmVersion version,
-            String url,
-            boolean recursive,
-            boolean interactive) {
-        Commandline cl =
-                SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory.getParentFile(), repository, interactive);
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(workingDirectory.getParentFile(), repository);
 
         cl.createArg().setValue("checkout");
 

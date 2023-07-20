@@ -71,21 +71,7 @@ public final class SvnCommandLineUtils {
         targets.deleteOnExit();
     }
 
-    /**
-     * Shortcut for {@link #getBaseSvnCommandLine(File, SvnScmProviderRepository, boolean)} with the last argument being {@code false}.
-     * Although usually the interactive mode defaults to {@code true} the SVN provider always assumed non-interactive in the past.
-     * @param workingDirectory
-     * @param repository
-     * @return
-     * @deprecated Use {@link #getBaseSvnCommandLine(File, SvnScmProviderRepository, boolean)} instead
-     */
-    @Deprecated
     public static Commandline getBaseSvnCommandLine(File workingDirectory, SvnScmProviderRepository repository) {
-        return getBaseSvnCommandLine(workingDirectory, repository, false);
-    }
-
-    public static Commandline getBaseSvnCommandLine(
-            File workingDirectory, SvnScmProviderRepository repository, boolean interactive) {
         Commandline cl = new Commandline();
 
         cl.setExecutable("svn");
@@ -126,7 +112,7 @@ public final class SvnCommandLineUtils {
             cl.createArg().setValue("--no-auth-cache");
         }
 
-        if (!interactive && SvnUtil.getSettings().isUseNonInteractive()) {
+        if (SvnUtil.getSettings().isUseNonInteractive()) {
             cl.createArg().setValue("--non-interactive");
         }
 
