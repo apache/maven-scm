@@ -68,8 +68,7 @@ public class JGitDiffCommand extends AbstractDiffCommand implements GitCommand {
             throws IOException, GitAPIException, ScmException {
 
         AbstractTreeIterator oldTree = null;
-        if (startRevision != null
-                && !startRevision.getName().trim().isEmpty()) {
+        if (startRevision != null && !startRevision.getName().trim().isEmpty()) {
             String startRev = startRevision.getName().trim();
             oldTree = getTreeIterator(git.getRepository(), startRev);
         }
