@@ -430,7 +430,7 @@ public abstract class AbstractScmMojo extends AbstractMojo {
     }
 
     protected void handleExcludesIncludesAfterCheckoutAndExport(File checkoutDirectory) throws MojoExecutionException {
-        List<String> includes = new ArrayList<String>();
+        List<String> includes = new ArrayList<>();
 
         if (!StringUtils.isBlank(this.getIncludes())) {
             String[] tokens = StringUtils.split(this.getIncludes(), ",");
@@ -439,7 +439,7 @@ public abstract class AbstractScmMojo extends AbstractMojo {
             }
         }
 
-        List<String> excludes = new ArrayList<String>();
+        List<String> excludes = new ArrayList<>();
 
         if (!StringUtils.isBlank(this.getExcludes())) {
             String[] tokens = StringUtils.split(this.getExcludes(), ",");

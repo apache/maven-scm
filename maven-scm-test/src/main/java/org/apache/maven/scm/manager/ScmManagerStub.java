@@ -75,7 +75,7 @@ public class ScmManagerStub implements ScmManager {
     public ScmManagerStub() {
         setScmRepository(new ScmRepositoryStub());
         setScmProvider(new ScmProviderStub());
-        setMessages(new ArrayList<String>(0));
+        setMessages(new ArrayList<>(0));
     }
 
     public void setScmProvider(ScmProvider scmProvider) {

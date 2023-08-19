@@ -118,7 +118,7 @@ public abstract class ScmUrlUtils {
      * @return A <code>List</code> that contains the errors that occured
      */
     public static List<String> validate(String scmUrl) {
-        List<String> messages = new ArrayList<String>();
+        List<String> messages = new ArrayList<>();
 
         if (scmUrl == null) {
             messages.add("The scm url cannot be null.");

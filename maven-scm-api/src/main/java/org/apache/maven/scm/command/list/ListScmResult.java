@@ -39,7 +39,7 @@ public class ListScmResult extends ScmResult {
     public ListScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
         super(commandLine, providerMessage, commandOutput, success);
 
-        files = new ArrayList<ScmFile>(0);
+        files = new ArrayList<>(0);
     }
 
     public ListScmResult(String commandLine, List<ScmFile> files) {

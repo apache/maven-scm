@@ -150,7 +150,7 @@ public class GitStatusConsumer extends AbstractConsumer {
 
         ScmFileStatus status = null;
 
-        List<String> files = new ArrayList<String>();
+        List<String> files = new ArrayList<>();
 
         Matcher matcher;
         if ((matcher = ADDED_PATTERN.matcher(line)).find()) {

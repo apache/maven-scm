@@ -74,7 +74,7 @@ public class HgRepoUtils extends ScmTestCase {
         HgUtils.execute(WORKING_DIR, init_cmd);
 
         // Create and add files to repository
-        List<File> files = new ArrayList<File>();
+        List<File> files = new ArrayList<>();
         for (int i = 0; i < filesInTestBranch.length; i++) {
             File file = new File(WORKING_DIR.getAbsolutePath(), filesInTestBranch[i]);
             if (file.getParentFile() != null && !file.getParentFile().exists()) {

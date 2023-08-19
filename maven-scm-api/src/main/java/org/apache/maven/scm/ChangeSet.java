@@ -178,7 +178,7 @@ public class ChangeSet implements Serializable {
      */
     public List<ChangeFile> getFiles() {
         if (files == null) {
-            return new ArrayList<ChangeFile>();
+            return new ArrayList<>();
         }
         return files;
     }
@@ -194,7 +194,7 @@ public class ChangeSet implements Serializable {
 
     public void addFile(ChangeFile file) {
         if (files == null) {
-            files = new ArrayList<ChangeFile>();
+            files = new ArrayList<>();
         }
 
         files.add(file);
@@ -425,7 +425,7 @@ public class ChangeSet implements Serializable {
 
     public void addMergedRevision(String mergedRevision) {
         if (mergedRevisions == null) {
-            mergedRevisions = new LinkedHashSet<String>();
+            mergedRevisions = new LinkedHashSet<>();
         }
         mergedRevisions.add(mergedRevision);
     }

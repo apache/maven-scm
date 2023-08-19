@@ -66,7 +66,7 @@ public class CheckInScmResult extends ScmResult {
 
     public List<ScmFile> getCheckedInFiles() {
         if (this.checkedInFiles == null) {
-            this.checkedInFiles = new ArrayList<ScmFile>();
+            this.checkedInFiles = new ArrayList<>();
         }
         return checkedInFiles;
     }

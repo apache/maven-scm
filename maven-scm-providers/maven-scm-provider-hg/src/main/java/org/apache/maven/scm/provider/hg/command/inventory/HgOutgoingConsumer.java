@@ -30,7 +30,7 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
  *
  */
 public class HgOutgoingConsumer extends HgConsumer {
-    private List<HgChangeSet> changes = new CopyOnWriteArrayList<HgChangeSet>();
+    private List<HgChangeSet> changes = new CopyOnWriteArrayList<>();
 
     private static final String BRANCH = "branch";
 

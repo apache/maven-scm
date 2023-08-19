@@ -64,7 +64,7 @@ public class HgCheckOutCommand extends AbstractCheckOutCommand implements Comman
         }
 
         // Do the actual checkout
-        List<String> cmdList = new ArrayList<String>();
+        List<String> cmdList = new ArrayList<>();
         if (repo.isPushChanges()) {
             cmdList.add(HgCommandConstants.CLONE_CMD);
         } else {

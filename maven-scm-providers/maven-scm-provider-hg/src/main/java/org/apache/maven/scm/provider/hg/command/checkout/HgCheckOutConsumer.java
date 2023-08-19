@@ -35,7 +35,7 @@ public class HgCheckOutConsumer extends HgConsumer {
 
     private final File workingDirectory;
 
-    private List<ScmFile> checkedOut = new ArrayList<ScmFile>();
+    private List<ScmFile> checkedOut = new ArrayList<>();
 
     public HgCheckOutConsumer(File workingDirectory) {
         this.workingDirectory = workingDirectory;

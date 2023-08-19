@@ -49,7 +49,7 @@ public class JGitBlameCommand extends AbstractBlameCommand implements GitCommand
             git = JGitUtils.openRepo(basedir);
             BlameResult blameResult = git.blame().setFilePath(filename).call();
 
-            List<BlameLine> lines = new ArrayList<BlameLine>();
+            List<BlameLine> lines = new ArrayList<>();
 
             int i = 0;
             while ((i = blameResult.computeNext()) != -1) {
