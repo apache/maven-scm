@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.branch;
 
 import java.io.File;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -44,7 +43,7 @@ public class GitBranchCommand extends AbstractBranchCommand implements GitComman
     /** {@inheritDoc} */
     public ScmResult executeBranchCommand(ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message)
             throws ScmException {
-        if (branch == null || StringUtils.isEmpty(branch.trim())) {
+        if (branch == null || branch.trim().isEmpty()) {
             throw new ScmException("branch name must be specified");
         }
 

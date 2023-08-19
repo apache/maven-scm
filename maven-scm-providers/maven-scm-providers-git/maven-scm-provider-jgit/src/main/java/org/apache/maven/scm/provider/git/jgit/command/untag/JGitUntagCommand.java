@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.git.jgit.command.untag;
 
 import java.util.Collection;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -45,7 +44,7 @@ public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand
             ScmProviderRepository repository, ScmFileSet fileSet, ScmUntagParameters scmUntagParameters)
             throws ScmException {
         String tagName = scmUntagParameters.getTag();
-        if (tagName == null || StringUtils.isEmpty(tagName.trim())) {
+        if (tagName == null || tagName.trim().isEmpty()) {
             throw new ScmException("tag name must be specified");
         }
         String escapedTagName = tagName.trim().replace(' ', '_');

@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.untag;
 
 import java.io.File;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -41,7 +40,7 @@ public class GitUntagCommand extends AbstractUntagCommand implements GitCommand 
     public ScmResult executeUntagCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmUntagParameters scmUntagParameters) throws ScmException {
         String tag = scmUntagParameters.getTag();
-        if (tag == null || StringUtils.isEmpty(tag.trim())) {
+        if (tag == null || tag.trim().isEmpty()) {
             throw new ScmException("tag name must be specified");
         }
 

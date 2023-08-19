@@ -22,7 +22,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -64,7 +63,7 @@ public class HgTagCommand extends AbstractTagCommand implements Command {
             ScmTagParameters scmTagParameters)
             throws ScmException {
 
-        if (tag == null || StringUtils.isEmpty(tag.trim())) {
+        if (tag == null || tag.trim().isEmpty()) {
             throw new ScmException("tag must be specified");
         }
 

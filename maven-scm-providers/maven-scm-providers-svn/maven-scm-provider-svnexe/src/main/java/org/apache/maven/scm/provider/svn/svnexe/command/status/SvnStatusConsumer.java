@@ -22,7 +22,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.util.AbstractConsumer;
@@ -53,7 +52,7 @@ public class SvnStatusConsumer extends AbstractConsumer {
         if (logger.isDebugEnabled()) {
             logger.debug(line);
         }
-        if (StringUtils.isEmpty(line.trim())) {
+        if (line.trim().isEmpty()) {
             return;
         }
 
