@@ -22,7 +22,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -70,13 +69,13 @@ public class JGitDiffCommand extends AbstractDiffCommand implements GitCommand {
 
         AbstractTreeIterator oldTree = null;
         if (startRevision != null
-                && StringUtils.isNotEmpty(startRevision.getName().trim())) {
+                && !startRevision.getName().trim().isEmpty()) {
             String startRev = startRevision.getName().trim();
             oldTree = getTreeIterator(git.getRepository(), startRev);
         }
 
         AbstractTreeIterator newTree = null;
-        if (endRevision != null && StringUtils.isNotEmpty(endRevision.getName().trim())) {
+        if (endRevision != null && !endRevision.getName().trim().isEmpty()) {
             String endRev = endRevision.getName().trim();
             newTree = getTreeIterator(git.getRepository(), endRev);
         }

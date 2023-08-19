@@ -129,7 +129,7 @@ public class BootstrapMojo extends CheckoutMojo {
             }
         }
 
-        if (!StringUtils.isEmpty(this.profiles)) {
+        if (!(this.profiles == null || this.profiles.isEmpty())) {
             cl.createArg().setValue("-P" + this.profiles);
         }
 

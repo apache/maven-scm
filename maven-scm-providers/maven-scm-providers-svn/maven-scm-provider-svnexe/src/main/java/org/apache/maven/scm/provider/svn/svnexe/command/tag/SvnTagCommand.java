@@ -76,7 +76,7 @@ public class SvnTagCommand extends AbstractTagCommand implements SvnCommand {
         } else {
             logger.debug("SvnTagCommand :: scmTagParameters.remoteTagging : " + scmTagParameters.isRemoteTagging());
         }
-        if (tag == null || StringUtils.isEmpty(tag.trim())) {
+        if (tag == null || tag.trim().isEmpty()) {
             throw new ScmException("tag must be specified");
         }
 

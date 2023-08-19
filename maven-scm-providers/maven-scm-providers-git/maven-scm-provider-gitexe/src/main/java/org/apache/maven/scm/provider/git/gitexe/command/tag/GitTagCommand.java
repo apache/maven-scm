@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.tag;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -55,7 +54,7 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
     public ScmResult executeTagCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String tag, ScmTagParameters scmTagParameters)
             throws ScmException {
-        if (tag == null || StringUtils.isEmpty(tag.trim())) {
+        if (tag == null || tag.trim().isEmpty()) {
             throw new ScmException("tag name must be specified");
         }
 

@@ -56,7 +56,7 @@ public class SvnBranchCommand extends AbstractBranchCommand implements SvnComman
     public ScmResult executeBranchCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String branch, ScmBranchParameters scmBranchParameters)
             throws ScmException {
-        if (branch == null || StringUtils.isEmpty(branch.trim())) {
+        if (branch == null || branch.trim().isEmpty()) {
             throw new ScmException("branch name must be specified");
         }
 

@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.git.jgit.command.tag;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -60,7 +59,7 @@ public class JGitTagCommand extends AbstractTagCommand implements GitCommand {
     public ScmResult executeTagCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String tag, ScmTagParameters scmTagParameters)
             throws ScmException {
-        if (tag == null || StringUtils.isEmpty(tag.trim())) {
+        if (tag == null || tag.trim().isEmpty()) {
             throw new ScmException("tag name must be specified");
         }
 
