@@ -67,7 +67,7 @@ public class UpdateScmResult extends ScmResult {
      */
     public List<ChangeSet> getChanges() {
         if (changes == null) {
-            return new ArrayList<ChangeSet>();
+            return new ArrayList<>();
         }
         return changes;
     }

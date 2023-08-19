@@ -204,7 +204,7 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
         int origFileCounter = 0;
 
         // must use *Linked* HashMap to have predictable toString
-        final Map<ScmFileStatus, AtomicInteger> summary = new LinkedHashMap<ScmFileStatus, AtomicInteger>();
+        final Map<ScmFileStatus, AtomicInteger> summary = new LinkedHashMap<>();
 
         for (ChangeSet entry : consumer.getModifications()) {
 

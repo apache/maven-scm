@@ -61,7 +61,7 @@ public class ScmFileSet implements Serializable {
      * @param basedir directory files in the set are relative to
      */
     public ScmFileSet(File basedir) {
-        this(basedir, new ArrayList<File>(0));
+        this(basedir, new ArrayList<>(0));
     }
 
     /**

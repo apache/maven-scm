@@ -47,7 +47,7 @@ public class ThreadSafeDateFormat extends DateFormat {
                 public SoftReference<SimpleDateFormat> get() {
                     SoftReference<SimpleDateFormat> softRef = super.get();
                     if (softRef == null || softRef.get() == null) {
-                        softRef = new SoftReference<SimpleDateFormat>(new SimpleDateFormat(dateFormat));
+                        softRef = new SoftReference<>(new SimpleDateFormat(dateFormat));
                         super.set(softRef);
                     }
                     return softRef;

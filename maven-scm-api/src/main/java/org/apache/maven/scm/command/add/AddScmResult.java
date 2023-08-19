@@ -38,7 +38,7 @@ public class AddScmResult extends ScmResult {
     public AddScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
         super(commandLine, providerMessage, commandOutput, success);
 
-        addedFiles = new ArrayList<ScmFile>(0);
+        addedFiles = new ArrayList<>(0);
     }
 
     public AddScmResult(String commandLine, List<ScmFile> addedFiles) {

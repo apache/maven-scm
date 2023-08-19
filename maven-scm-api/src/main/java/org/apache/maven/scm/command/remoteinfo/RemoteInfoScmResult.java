@@ -34,13 +34,13 @@ public class RemoteInfoScmResult extends ScmResult {
      * depending on scm informations can be different
      * svn: branch name / remote url
      */
-    private Map<String, String> branches = new HashMap<String, String>();
+    private Map<String, String> branches = new HashMap<>();
 
     /**
      * depending on scm informations can be different
      * svn: branch name / remote url
      */
-    private Map<String, String> tags = new HashMap<String, String>();
+    private Map<String, String> tags = new HashMap<>();
 
     public RemoteInfoScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
         super(commandLine, providerMessage, commandOutput, success);

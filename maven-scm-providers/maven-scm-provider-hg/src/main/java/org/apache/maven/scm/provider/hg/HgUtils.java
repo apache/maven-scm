@@ -56,25 +56,25 @@ public final class HgUtils {
     /**
      * Map between command and its valid exit codes
      */
-    private static final Map<String, List<Integer>> EXIT_CODE_MAP = new HashMap<String, List<Integer>>();
+    private static final Map<String, List<Integer>> EXIT_CODE_MAP = new HashMap<>();
 
     /**
      * Default exit codes for entries not in exitCodeMap
      */
-    private static final List<Integer> DEFAULT_EXIT_CODES = new ArrayList<Integer>();
+    private static final List<Integer> DEFAULT_EXIT_CODES = new ArrayList<>();
 
     /** Setup exit codes*/
     static {
         DEFAULT_EXIT_CODES.add(Integer.valueOf(0));
 
         // Diff is different
-        List<Integer> diffExitCodes = new ArrayList<Integer>(3);
+        List<Integer> diffExitCodes = new ArrayList<>(3);
         diffExitCodes.add(Integer.valueOf(0)); // No difference
         diffExitCodes.add(Integer.valueOf(1)); // Conflicts in merge-like or changes in diff-like
         diffExitCodes.add(Integer.valueOf(2)); // Unrepresentable diff changes
         EXIT_CODE_MAP.put(HgCommandConstants.DIFF_CMD, diffExitCodes);
         // Outgoing is different
-        List<Integer> outgoingExitCodes = new ArrayList<Integer>(2);
+        List<Integer> outgoingExitCodes = new ArrayList<>(2);
         outgoingExitCodes.add(Integer.valueOf(0)); // There are changes
         outgoingExitCodes.add(Integer.valueOf(1)); // No changes
         EXIT_CODE_MAP.put(HgCommandConstants.OUTGOING_CMD, outgoingExitCodes);

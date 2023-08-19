@@ -113,7 +113,7 @@ public class HgTagCommand extends AbstractTagCommand implements Command {
         result = HgUtils.execute(listconsumer, fileSet.getBasedir(), listCmd);
         if (result.isSuccess()) {
             List<ScmFile> files = listconsumer.getFiles();
-            List<ScmFile> fileList = new ArrayList<ScmFile>();
+            List<ScmFile> fileList = new ArrayList<>();
             for (ScmFile f : files) {
                 if (!f.getPath().endsWith(".hgtags")) {
                     fileList.add(new ScmFile(f.getPath(), ScmFileStatus.TAGGED));

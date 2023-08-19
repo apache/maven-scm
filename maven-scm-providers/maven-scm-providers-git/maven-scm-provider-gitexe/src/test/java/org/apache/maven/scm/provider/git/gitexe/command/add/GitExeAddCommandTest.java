@@ -36,7 +36,7 @@ public class GitExeAddCommandTest extends ScmTestCase {
 
     @Test
     public void testAddCommandSingleFile() throws Exception {
-        List<File> files = new ArrayList<File>();
+        List<File> files = new ArrayList<>();
 
         files.add(new File("myFile.java"));
 
@@ -45,7 +45,7 @@ public class GitExeAddCommandTest extends ScmTestCase {
 
     @Test
     public void testAddCommandMultipleFiles() throws Exception {
-        List<File> files = new ArrayList<File>();
+        List<File> files = new ArrayList<>();
 
         files.add(new File("myFile.java"));
         files.add(new File("myFile2.java"));

@@ -34,7 +34,7 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
 public class HgRemoveConsumer extends HgConsumer {
     private final File workingDir;
 
-    private final List<ScmFile> removedFiles = new ArrayList<ScmFile>();
+    private final List<ScmFile> removedFiles = new ArrayList<>();
 
     public HgRemoveConsumer(File workingDir) {
         this.workingDir = workingDir;

@@ -112,7 +112,7 @@ public class GitChangeLogConsumerTest extends ScmTestCase {
         List<ChangeSet> modifications = consumer.getModifications();
 
         // must use *Linked* HashMap to have predictable toString
-        final Map<ScmFileStatus, AtomicInteger> summary = new LinkedHashMap<ScmFileStatus, AtomicInteger>();
+        final Map<ScmFileStatus, AtomicInteger> summary = new LinkedHashMap<>();
 
         for (Iterator<ChangeSet> i = modifications.iterator(); i.hasNext(); ) {
             ChangeSet entry = i.next();

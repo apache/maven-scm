@@ -86,7 +86,7 @@ public class HgChangeLogCommand extends AbstractChangeLogCommand implements Comm
         dateInterval.append(" to ");
         dateInterval.append(dateFormat.format(endDate == null ? new Date() : endDate)); // Upto now
 
-        List<String> cmd = new ArrayList<String>();
+        List<String> cmd = new ArrayList<>();
         cmd.addAll(Arrays.asList(
                 HgCommandConstants.LOG_CMD, HgCommandConstants.TEMPLATE_OPTION,
                 HgCommandConstants.TEMPLATE_FORMAT, HgCommandConstants.NO_MERGES_OPTION,

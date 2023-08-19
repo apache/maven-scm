@@ -74,7 +74,7 @@ public class ScmProviderStub implements ScmProvider {
 
     private ScmProviderRepository scmProviderRepository = new ScmProviderRepositoryStub();
 
-    private List<String> errors = new ArrayList<String>();
+    private List<String> errors = new ArrayList<>();
 
     private AddScmResult addScmResult;
 

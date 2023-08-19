@@ -67,7 +67,7 @@ public abstract class AbstractUpdateCommand extends AbstractCommand {
             ChangeLogScmResult changeLogScmResult =
                     (ChangeLogScmResult) changeLogCmd.executeCommand(repository, fileSet, parameters);
 
-            List<ChangeSet> changes = new ArrayList<ChangeSet>();
+            List<ChangeSet> changes = new ArrayList<>();
 
             ChangeLogSet changeLogSet = changeLogScmResult.getChangeLog();
 

@@ -105,7 +105,7 @@ public abstract class AbstractScmProvider implements ScmProvider {
      */
     @Override
     public List<String> validateScmUrl(String scmSpecificUrl, char delimiter) {
-        List<String> messages = new ArrayList<String>();
+        List<String> messages = new ArrayList<>();
 
         try {
             makeProviderScmRepository(scmSpecificUrl, delimiter);

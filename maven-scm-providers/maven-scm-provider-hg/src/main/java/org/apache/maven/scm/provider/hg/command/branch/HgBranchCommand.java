@@ -130,7 +130,7 @@ public class HgBranchCommand extends AbstractBranchCommand implements Command {
         }
 
         List<ScmFile> files = listconsumer.getFiles();
-        List<ScmFile> fileList = new ArrayList<ScmFile>();
+        List<ScmFile> fileList = new ArrayList<>();
         for (ScmFile f : files) {
             fileList.add(new ScmFile(f.getPath(), ScmFileStatus.TAGGED));
         }

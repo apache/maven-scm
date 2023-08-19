@@ -33,7 +33,7 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
 public class HgAddConsumer extends HgConsumer {
     private final File workingDir;
 
-    private final List<ScmFile> addedFiles = new ArrayList<ScmFile>();
+    private final List<ScmFile> addedFiles = new ArrayList<>();
 
     public HgAddConsumer(File workingDir) {
         this.workingDir = workingDir;

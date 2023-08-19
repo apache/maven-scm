@@ -50,7 +50,7 @@ public class HgChangeLogConsumer extends HgConsumer {
 
     private static final String FILES_TOKEN = "files:";
 
-    private List<ChangeSet> logEntries = new ArrayList<ChangeSet>();
+    private List<ChangeSet> logEntries = new ArrayList<>();
 
     private ChangeSet currentChange;
 
@@ -89,7 +89,7 @@ public class HgChangeLogConsumer extends HgConsumer {
         if (line.startsWith(REVNO_TAG)) {
             // Init a new changeset
             currentChange = new ChangeSet();
-            currentChange.setFiles(new ArrayList<ChangeFile>(0));
+            currentChange.setFiles(new ArrayList<>(0));
             logEntries.add(currentChange);
 
             // parse revision

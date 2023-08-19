@@ -32,7 +32,7 @@ public class LocalScmProviderRepository extends ScmProviderRepository {
 
     private String module;
 
-    private Set<String> addedFiles = new HashSet<String>();
+    private Set<String> addedFiles = new HashSet<>();
 
     /**
      * @param root

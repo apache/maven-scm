@@ -31,7 +31,7 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
  *
  */
 class HgStatusConsumer extends HgConsumer {
-    private final List<ScmFile> repositoryStatus = new ArrayList<ScmFile>();
+    private final List<ScmFile> repositoryStatus = new ArrayList<>();
 
     private final File workingDir;
 

@@ -60,7 +60,7 @@ public class HgCheckInCommand extends AbstractCheckInCommand {
                 repo.isPushChanges() ? HgUtils.differentOutgoingBranchFound(workingDir, branchName) : false;
 
         // Get files that will be committed (if not specified in fileSet)
-        List<ScmFile> commitedFiles = new ArrayList<ScmFile>();
+        List<ScmFile> commitedFiles = new ArrayList<>();
         List<File> files = fileSet.getFileList();
         if (files.isEmpty()) { // Either commit all changes
             HgStatusCommand statusCmd = new HgStatusCommand();

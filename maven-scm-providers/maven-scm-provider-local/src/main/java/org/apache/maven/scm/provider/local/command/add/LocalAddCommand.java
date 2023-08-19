@@ -43,7 +43,7 @@ public class LocalAddCommand extends AbstractAddCommand implements LocalCommand 
             ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean binary) throws ScmException {
         LocalScmProviderRepository localRepo = (LocalScmProviderRepository) repository;
 
-        List<ScmFile> fileList = new ArrayList<ScmFile>();
+        List<ScmFile> fileList = new ArrayList<>();
         for (File file : fileSet.getFileList()) {
             String path = file.getPath().replace('\\', '/');
             localRepo.addFile(path);

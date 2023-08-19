@@ -36,7 +36,7 @@ public class InfoScmResult extends ScmResult {
     public InfoScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
         super(commandLine, providerMessage, commandOutput, success);
 
-        infoItems = new ArrayList<InfoItem>(0);
+        infoItems = new ArrayList<>(0);
     }
 
     public InfoScmResult(String commandLine, List<InfoItem> files) {

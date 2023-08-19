@@ -32,7 +32,7 @@ import java.util.Map;
 public class CommandParameters implements Serializable {
     private static final long serialVersionUID = -7346070735958137283L;
 
-    private Map<String, Object> parameters = new HashMap<String, Object>();
+    private Map<String, Object> parameters = new HashMap<>();
 
     // ----------------------------------------------------------------------
     // String

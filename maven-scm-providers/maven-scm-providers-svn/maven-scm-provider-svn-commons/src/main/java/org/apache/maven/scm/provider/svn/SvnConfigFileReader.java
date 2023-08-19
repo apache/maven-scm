@@ -96,7 +96,7 @@ public class SvnConfigFileReader {
      * @return the list of all lines
      */
     private List<String> getConfLines() {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
 
         BufferedReader reader = null;
 
