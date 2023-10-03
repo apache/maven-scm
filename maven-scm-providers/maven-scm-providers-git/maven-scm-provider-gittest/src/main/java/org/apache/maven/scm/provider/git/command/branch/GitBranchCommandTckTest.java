@@ -40,7 +40,7 @@ public abstract class GitBranchCommandTckTest extends BranchCommandTckTest {
         try {
             return super.checkOut(workingDirectory, repository);
         } finally {
-            GitScmTestUtils.setDefaultUser(workingDirectory);
+            GitScmTestUtils.setDefaulGitConfig(workingDirectory);
         }
     }
 }
