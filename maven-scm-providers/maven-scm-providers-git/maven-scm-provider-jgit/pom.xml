@@ -33,7 +33,7 @@
 
   <properties>
     <!-- version 6+ requires Java 11 -->
-    <jgitVersion>5.13.2.202306221912-r</jgitVersion>
+    <jgitVersion>6.6.1.202309021850-r</jgitVersion>
   </properties>
   <dependencies>
     <dependency>
