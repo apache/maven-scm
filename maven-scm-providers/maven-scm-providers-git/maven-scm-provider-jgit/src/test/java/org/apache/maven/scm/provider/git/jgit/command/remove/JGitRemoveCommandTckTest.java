@@ -21,8 +21,10 @@ package org.apache.maven.scm.provider.git.jgit.command.remove;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.remove.GitRemoveCommandTckTest;
+import org.apache.maven.scm.repository.ScmRepository;
 import org.eclipse.jgit.util.FileUtils;
 
 /**
@@ -41,5 +43,12 @@ public class JGitRemoveCommandTckTest extends GitRemoveCommandTckTest {
         if (directory.exists()) {
             FileUtils.delete(directory, FileUtils.RECURSIVE | FileUtils.RETRY);
         }
+    }
+
+    @Override
+    protected CheckOutScmResult checkOut(File workingDirectory, ScmRepository repository) throws Exception {
+        CheckOutScmResult result = super.checkOut(workingDirectory, repository);
+        GitScmTestUtils.setDefaulGitConfig(workingDirectory);
+        return result;
     }
 }

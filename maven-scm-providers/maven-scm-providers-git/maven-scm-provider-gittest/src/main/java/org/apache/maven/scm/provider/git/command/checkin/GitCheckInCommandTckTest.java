@@ -41,7 +41,7 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
         try {
             return super.checkOut(workingDirectory, repository);
         } finally {
-            GitScmTestUtils.setDefaultUser(workingDirectory);
+            GitScmTestUtils.setDefaulGitConfig(workingDirectory);
         }
     }
 }

@@ -38,7 +38,7 @@ public class GitExeRemoveCommandTckTest extends GitRemoveCommandTckTest {
         try {
             return super.checkOut(workingDirectory, repository);
         } finally {
-            GitScmTestUtils.setDefaultUser(workingDirectory);
+            GitScmTestUtils.setDefaulGitConfig(workingDirectory);
         }
     }
 }

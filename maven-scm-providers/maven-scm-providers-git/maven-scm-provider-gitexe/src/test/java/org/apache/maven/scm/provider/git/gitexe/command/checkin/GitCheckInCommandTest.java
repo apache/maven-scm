@@ -100,7 +100,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
         checkoutRepoInto(checkedOutRepo, scmRepository);
 
         // Add a default user to the config
-        GitScmTestUtils.setDefaultUser(checkedOutRepo);
+        GitScmTestUtils.setDefaulGitConfig(checkedOutRepo);
 
         // Creating foo/bar/wine.xml
         File fooDir = new File(checkedOutRepo.getAbsolutePath(), "foo");
@@ -154,7 +154,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
         checkoutRepoInto(checkedOutRepo, scmRepository);
 
         // Add a default user to the config
-        GitScmTestUtils.setDefaultUser(checkedOutRepo);
+        GitScmTestUtils.setDefaulGitConfig(checkedOutRepo);
 
         // Creating beer.xml and whiskey.xml
         File beerFile = new File(checkedOutRepo.getAbsolutePath(), "beer.xml");

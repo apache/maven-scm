@@ -17,4 +17,4 @@
  * under the License.
  */
 
-asfMavenTlpStdBuild()
+asfMavenTlpStdBuild(mavenArgs: "-Ptck-git -Ptck-svn")
