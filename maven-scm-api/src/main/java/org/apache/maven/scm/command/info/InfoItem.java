@@ -18,7 +18,14 @@
  */
 package org.apache.maven.scm.command.info;
 
+import java.time.OffsetDateTime;
+import java.time.temporal.TemporalAccessor;
+
 /**
+ * Encapsulates meta information about a file (or directory) being managed with an SCM.
+ *
+ * For historical reasons the field/method names are inspired from (and sometimes only applicable to) the <a href="https://svnbook.red-bean.com/">Subversion SCM</a>.
+ *
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
  * @author Olivier Lamy
  *
@@ -44,6 +51,8 @@ public class InfoItem {
     private String lastChangedRevision;
 
     private String lastChangedDate;
+
+    private OffsetDateTime lastChangedDateTime;
 
     public String getPath() {
         return path;
@@ -117,11 +126,36 @@ public class InfoItem {
         this.lastChangedRevision = lastChangedRevision;
     }
 
+    /**
+     * @deprecated Use {@link #getLastChangedDateTime()} instead
+     */
+    @Deprecated
     public String getLastChangedDate() {
         return lastChangedDate;
     }
 
+    /**
+     * @deprecated Use {@link #setLastChangedDateTime(TemporalAccessor)} instead
+     */
+    @Deprecated
     public void setLastChangedDate(String lastChangedDate) {
         this.lastChangedDate = lastChangedDate;
+    }
+
+    /**
+     *
+     * @return the date when the file indicated via {@link #getPath()} has been changed in the SCM for the last time
+     * @since 2.1.0
+     */
+    public OffsetDateTime getLastChangedDateTime() {
+        return lastChangedDateTime;
+    }
+
+    /**
+     * @param accessor temporal accessor from which to populate the last changed date
+     * @since 2.1.0
+     */
+    public void setLastChangedDateTime(TemporalAccessor accessor) {
+        this.lastChangedDateTime = OffsetDateTime.from(accessor);
     }
 }

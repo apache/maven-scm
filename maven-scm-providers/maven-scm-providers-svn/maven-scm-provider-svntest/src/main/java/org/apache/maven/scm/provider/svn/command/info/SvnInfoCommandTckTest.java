@@ -16,29 +16,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.maven.scm.util;
+package org.apache.maven.scm.provider.svn.command.info;
 
 import java.io.File;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
+import org.apache.maven.scm.tck.command.info.InfoCommandTckTest;
 
-/**
- *
- */
-public final class FilenameUtils {
-    private FilenameUtils() {}
-
-    public static String normalizeFilename(File file) {
-        return normalizeFilename(file.getPath());
+public class SvnInfoCommandTckTest extends InfoCommandTckTest {
+    /** {@inheritDoc} */
+    public String getScmUrl() throws Exception {
+        return SvnScmTestUtils.getScmUrl(new File(getRepositoryRoot(), "trunk"));
     }
 
-    /**
-     * Replace duplicated [back]slash to slash.
-     *
-     * @param filename TODO
-     * @return TODO
-     */
-    public static String normalizeFilename(String filename) {
-        return StringUtils.replace(StringUtils.replace(filename, "\\", "/"), "//", "/");
+    /** {@inheritDoc} */
+    public void initRepo() throws Exception {
+        SvnScmTestUtils.initializeRepository(getRepositoryRoot());
     }
 }

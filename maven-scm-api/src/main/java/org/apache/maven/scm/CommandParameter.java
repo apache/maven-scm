@@ -74,7 +74,7 @@ public class CommandParameter implements Serializable {
     public static final CommandParameter SCM_MKDIR_CREATE_IN_LOCAL = new CommandParameter("createInLocal");
 
     /**
-     * Parameter used only for Git SCM and simulate the <code>git rev-parse --short=lenght</code> command.
+     * Parameter used only for Git SCM to truncate the emitted hash to the given character length, simulates <code>git rev-parse --short=length</code> command.
      *
      * @since 1.7
      */
