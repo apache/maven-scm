@@ -59,13 +59,16 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
         if (fileSet.getFileList().isEmpty()) {
             infoItems.add(executeInfoCommand(baseCli, parameters, fileSet.getBasedir()));
         } else {
-            // Insert a separator to make sure that files aren't interpreted as part of the version spec
-            baseCli.createArg().setValue("--");
             // iterate over files
             for (File scmFile : fileSet.getFileList()) {
-                Commandline cliClone = (Commandline) baseCli.clone();
-                GitCommandLineUtils.addTarget(cliClone, Collections.singletonList(scmFile));
-                infoItems.add(executeInfoCommand(cliClone, parameters, scmFile));
+                baseCli = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "log");
+                baseCli.createArg().setValue("-1"); // only most recent commit matters
+                baseCli.createArg().setValue("--no-merges"); // skip merge commits
+                baseCli.addArg(GitInfoConsumer.getFormatArgument());
+                // Insert a separator to make sure that files aren't interpreted as part of the version spec
+                baseCli.createArg().setValue("--");
+                GitCommandLineUtils.addTarget(baseCli, Collections.singletonList(scmFile));
+                infoItems.add(executeInfoCommand(baseCli, parameters, scmFile));
             }
         }
         return new InfoScmResult(baseCli.toString(), infoItems);
