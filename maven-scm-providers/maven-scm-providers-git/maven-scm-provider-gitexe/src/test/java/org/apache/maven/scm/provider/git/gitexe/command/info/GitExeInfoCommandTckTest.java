@@ -16,29 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.maven.scm.util;
+package org.apache.maven.scm.provider.git.gitexe.command.info;
 
-import java.io.File;
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.apache.maven.scm.provider.git.command.info.GitInfoCommandTckTest;
 
-import org.apache.commons.lang3.StringUtils;
+public class GitExeInfoCommandTckTest extends GitInfoCommandTckTest {
 
-/**
- *
- */
-public final class FilenameUtils {
-    private FilenameUtils() {}
-
-    public static String normalizeFilename(File file) {
-        return normalizeFilename(file.getPath());
-    }
-
-    /**
-     * Replace duplicated [back]slash to slash.
-     *
-     * @param filename TODO
-     * @return TODO
-     */
-    public static String normalizeFilename(String filename) {
-        return StringUtils.replace(StringUtils.replace(filename, "\\", "/"), "//", "/");
+    public String getScmUrl() throws Exception {
+        return GitScmTestUtils.getScmUrl(getRepositoryRoot(), "git");
     }
 }

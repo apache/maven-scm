@@ -109,7 +109,7 @@ public class GitInfoCommandTest extends ScmTestCase {
         InfoScmResult result = provider.info(repository, new ScmFileSet(getRepositoryRoot()), commandParameters);
         assertNotNull(result);
         assertTrue(
-                "revision should be not empty, minimum 4 (see git help rev-parse --short)",
+                "revision should be not empty, minimum 4 (similar to git help rev-parse --short)",
                 result.getInfoItems().get(0).getRevision().length() >= 4);
     }
 
