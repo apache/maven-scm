@@ -18,12 +18,24 @@
  */
 package org.apache.maven.scm.provider.git.jgit.command.info;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.info.GitInfoCommandTckTest;
+import org.eclipse.jgit.util.FileUtils;
 
 public class JGitInfoCommandTckTest extends GitInfoCommandTckTest {
 
+    @Override
     public String getScmUrl() throws Exception {
         return GitScmTestUtils.getScmUrl(getRepositoryRoot(), "jgit");
+    }
+
+    @Override
+    protected void deleteDirectory(File directory) throws IOException {
+        if (directory.exists()) {
+            FileUtils.delete(directory, FileUtils.RECURSIVE | FileUtils.RETRY);
+        }
     }
 }
