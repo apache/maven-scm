@@ -54,7 +54,9 @@ public class JGitInfoCommand extends AbstractCommand implements GitCommand {
     protected ScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         File basedir = fileSet.getBasedir();
-        try (Git git = JGitUtils.openRepo(basedir); ) {
+        Git git = null;
+        try {
+            git = JGitUtils.openRepo(basedir);
             ObjectId objectId = git.getRepository().resolve(Constants.HEAD);
             if (objectId == null) {
                 throw new ScmException("Cannot resolve HEAD in git repository at " + basedir);
@@ -74,6 +76,8 @@ public class JGitInfoCommand extends AbstractCommand implements GitCommand {
             return new InfoScmResult(infoItems, new ScmResult("JGit.resolve(HEAD)", "", objectId.toString(), true));
         } catch (Exception e) {
             throw new ScmException("JGit resolve failure!", e);
+        } finally {
+            JGitUtils.closeRepo(git);
         }
     }
 
