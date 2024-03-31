@@ -43,7 +43,7 @@
   </prerequisites>
 
   <properties>
-    <mavenVersion>3.2.5</mavenVersion>
+    <mavenVersion>3.8.1</mavenVersion>
   </properties>
 
   <dependencies>
