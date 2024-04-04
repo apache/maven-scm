@@ -43,7 +43,9 @@ import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.UserConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 
 /**
  * This provider uses the following strategy to discover the committer and author name/mail for a commit:
@@ -139,7 +141,19 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
                 }
                 RefSpec refSpec = new RefSpec(Constants.R_HEADS + branch + ":" + Constants.R_HEADS + branch);
                 logger.info("push changes to remote... " + refSpec);
-                JGitUtils.push(git, (GitScmProviderRepository) repo, refSpec);
+                Iterable<PushResult> pushResultList = JGitUtils.push(git, (GitScmProviderRepository) repo, refSpec);
+
+                for (PushResult pushResult : pushResultList) {
+                    for (RemoteRefUpdate remoteRefUpdate : pushResult.getRemoteUpdates()) {
+                        if (!isSuccessStatus(remoteRefUpdate.getStatus())) {
+                            return new CheckInScmResult(
+                                    "JGit checkin",
+                                    "The git-push command failed, with status: " + remoteRefUpdate.getStatus(),
+                                    remoteRefUpdate.getMessage(),
+                                    false);
+                        }
+                    }
+                }
             }
 
             return new CheckInScmResult("JGit checkin", checkedInFiles);
@@ -150,7 +164,13 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
         }
     }
 
+    private boolean isSuccessStatus(RemoteRefUpdate.Status remoteRefUpdateStatus) {
+        return remoteRefUpdateStatus == RemoteRefUpdate.Status.OK
+                || remoteRefUpdateStatus == RemoteRefUpdate.Status.UP_TO_DATE;
+    }
+
     private static final class UserInfo {
+
         final String name;
 
         final String email;
