@@ -19,11 +19,19 @@
 package org.apache.maven.scm.provider.git.command.checkin;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.apache.maven.scm.PlexusJUnit4TestSupport;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
+import org.codehaus.plexus.util.FileUtils;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -43,5 +51,62 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
         } finally {
             GitScmTestUtils.setDefaulGitConfig(workingDirectory);
         }
+    }
+
+    @Test
+    public void testUpToDatePush() throws Exception {
+        File checkedOutRepo = getWorkingCopy();
+
+        ScmRepository scmRepository = getScmManager().makeScmRepository(getScmUrl());
+        checkoutRepoInto(checkedOutRepo, scmRepository);
+
+        // Add a default user to the config
+        GitScmTestUtils.setDefaulGitConfig(checkedOutRepo);
+
+        CheckInScmResult result =
+                getScmManager().checkIn(scmRepository, new ScmFileSet(checkedOutRepo), "No change commit message");
+
+        assertResultIsSuccess(result);
+    }
+
+    @Test
+    public void testRejectedNonFastForwardPush() throws Exception {
+        File blockingRepo = PlexusJUnit4TestSupport.getTestFile("target/scm-test/blocking-repo");
+        File rejectedRepo = PlexusJUnit4TestSupport.getTestFile("target/scm-test/rejected-repo");
+
+        ScmRepository scmRepository = getScmManager().makeScmRepository(getScmUrl());
+        checkoutRepoInto(rejectedRepo, scmRepository);
+        checkoutRepoInto(blockingRepo, scmRepository);
+
+        // Add a default user to the config
+        GitScmTestUtils.setDefaulGitConfig(rejectedRepo);
+        GitScmTestUtils.setDefaulGitConfig(blockingRepo);
+
+        ScmFileSet blockingFileSet = createWorkspaceChange(rejectedRepo);
+
+        CheckInScmResult blockingResult = getScmManager().checkIn(scmRepository, blockingFileSet, "Blocking commit");
+        assertResultIsSuccess(blockingResult);
+
+        ScmFileSet rejectedFileSet = createWorkspaceChange(blockingRepo);
+
+        CheckInScmResult checkInScmResult = getScmManager().checkIn(scmRepository, rejectedFileSet, "Rejected commit");
+        assertFalse(
+                "check-in should have been rejected since fast forward was not possible", checkInScmResult.isSuccess());
+    }
+
+    private CheckOutScmResult checkoutRepoInto(File workingCopy, ScmRepository scmRepository) throws Exception {
+        FileUtils.deleteDirectory(workingCopy);
+        workingCopy.mkdir();
+
+        CheckOutScmResult result = getScmManager().checkOut(scmRepository, new ScmFileSet(workingCopy), null);
+
+        assertResultIsSuccess(result);
+        return result;
+    }
+
+    private ScmFileSet createWorkspaceChange(File repo) throws IOException {
+        File beerFile = new File(repo.getAbsolutePath(), "beer.xml");
+        FileUtils.fileWrite(beerFile.getAbsolutePath(), "1 litre");
+        return new ScmFileSet(repo, beerFile.getName());
     }
 }
