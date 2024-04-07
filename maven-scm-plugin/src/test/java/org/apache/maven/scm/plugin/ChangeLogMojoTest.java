@@ -108,6 +108,11 @@ public class ChangeLogMojoTest extends AbstractMojoTestCase {
     }
 
     public void testChangeLogWithBadConnectionUrl() throws Exception {
+        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVN_COMMAND_LINE)) {
+            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVN_COMMAND_LINE, getName());
+            return;
+        }
+
         ChangeLogMojo mojo = (ChangeLogMojo) lookupMojo(
                 "changelog", getTestFile("src/test/resources/mojos/changelog/changelogWithBadConnectionUrl.xml"));
 
