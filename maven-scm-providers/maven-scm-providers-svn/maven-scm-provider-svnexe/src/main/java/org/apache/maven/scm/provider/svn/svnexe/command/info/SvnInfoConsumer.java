@@ -18,6 +18,8 @@
  */
 package org.apache.maven.scm.provider.svn.svnexe.command.info;
 
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,8 @@ public class SvnInfoConsumer extends AbstractConsumer {
     private final List<InfoItem> infoItems = new ArrayList<>();
 
     private InfoItem currentItem = new InfoItem();
+
+    private static final DateTimeFormatter DT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
 
     /** {@inheritDoc} */
     public void consumeLine(String s) {
@@ -60,6 +64,7 @@ public class SvnInfoConsumer extends AbstractConsumer {
         } else if (s.startsWith("Last Changed Rev: ")) {
             currentItem.setLastChangedRevision(getValue(s));
         } else if (s.startsWith("Last Changed Date: ")) {
+            currentItem.setLastChangedDateTime(parseDate(getValue(s)));
             currentItem.setLastChangedDate(getValue(s));
         }
     }
@@ -77,5 +82,14 @@ public class SvnInfoConsumer extends AbstractConsumer {
 
     public List<InfoItem> getInfoItems() {
         return infoItems;
+    }
+
+    static TemporalAccessor parseDate(String dateText) {
+        // strip the tailing text in parenthesis
+        int startSuffix = dateText.indexOf('(');
+        if (startSuffix != -1) {
+            dateText = dateText.substring(0, startSuffix);
+        }
+        return DT_FORMATTER.parse(dateText.trim());
     }
 }

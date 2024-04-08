@@ -16,29 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.maven.scm.util;
+package org.apache.maven.scm.provider.svn.svnexe.command.info;
 
-import java.io.File;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAccessor;
 
-import org.apache.commons.lang3.StringUtils;
+import org.junit.Test;
 
-/**
- *
- */
-public final class FilenameUtils {
-    private FilenameUtils() {}
+import static org.junit.Assert.assertEquals;
 
-    public static String normalizeFilename(File file) {
-        return normalizeFilename(file.getPath());
-    }
+public class SvnInfoConsumerTest {
 
-    /**
-     * Replace duplicated [back]slash to slash.
-     *
-     * @param filename TODO
-     * @return TODO
-     */
-    public static String normalizeFilename(String filename) {
-        return StringUtils.replace(StringUtils.replace(filename, "\\", "/"), "//", "/");
+    @Test
+    public void testParseDate() {
+        TemporalAccessor date = SvnInfoConsumer.parseDate("2024-01-19 16:33:05 +0100 (Fr, 19 Jan 2024");
+        assertEquals(2024, date.get(ChronoField.YEAR));
     }
 }

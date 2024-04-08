@@ -18,12 +18,18 @@
  */
 package org.apache.maven.scm.provider.git.gitexe.command.info;
 
+import java.io.File;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
+import org.apache.maven.scm.command.info.InfoItem;
 import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
@@ -32,6 +38,7 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
+ * Uses {@code git log} command to retrieve info about the most recent commits related to specific files.
  * @author Olivier Lamy
  * @since 1.5
  */
@@ -43,31 +50,39 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
     protected ScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
 
-        GitInfoConsumer consumer = new GitInfoConsumer(fileSet);
-        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+        Commandline baseCli = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "log");
+        baseCli.createArg().setValue("-1"); // only most recent commit matters
+        baseCli.createArg().setValue("--no-merges"); // skip merge commits
+        baseCli.addArg(GitInfoConsumer.getFormatArgument());
 
-        Commandline cli = createCommandLine(repository, fileSet, parameters);
-
-        int exitCode = GitCommandLineUtils.execute(cli, consumer, stderr);
-        if (exitCode != 0) {
-            return new InfoScmResult(cli.toString(), "The git rev-parse command failed.", stderr.getOutput(), false);
+        List<InfoItem> infoItems = new LinkedList<>();
+        if (fileSet.getFileList().isEmpty()) {
+            infoItems.add(executeInfoCommand(baseCli, parameters, fileSet.getBasedir()));
+        } else {
+            // iterate over files
+            for (File scmFile : fileSet.getFileList()) {
+                baseCli = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "log");
+                baseCli.createArg().setValue("-1"); // only most recent commit matters
+                baseCli.createArg().setValue("--no-merges"); // skip merge commits
+                baseCli.addArg(GitInfoConsumer.getFormatArgument());
+                // Insert a separator to make sure that files aren't interpreted as part of the version spec
+                baseCli.createArg().setValue("--");
+                GitCommandLineUtils.addTarget(baseCli, Collections.singletonList(scmFile));
+                infoItems.add(executeInfoCommand(baseCli, parameters, scmFile));
+            }
         }
-        return new InfoScmResult(cli.toString(), consumer.getInfoItems());
+        return new InfoScmResult(baseCli.toString(), infoItems);
     }
 
-    public static Commandline createCommandLine(
-            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
-        Commandline cli = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "rev-parse");
-        cli.createArg().setValue("--verify");
-        final int revLength = getRevisionLength(parameters);
-        if (revLength > NO_REVISION_LENGTH) // set the --short key only if revision length parameter is passed and
-        // different from -1
-        {
-            cli.createArg().setValue("--short=" + revLength);
+    protected InfoItem executeInfoCommand(Commandline cli, CommandParameters parameters, File scmFile)
+            throws ScmException {
+        GitInfoConsumer consumer = new GitInfoConsumer(scmFile.toPath(), getRevisionLength(parameters));
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+        int exitCode = GitCommandLineUtils.execute(cli, consumer, stderr);
+        if (exitCode != 0) {
+            throw new ScmException("The git log command failed: " + cli.toString() + " returned " + stderr.getOutput());
         }
-        cli.createArg().setValue("HEAD");
-
-        return cli;
+        return consumer.getInfoItem();
     }
 
     /**

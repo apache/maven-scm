@@ -18,50 +18,90 @@
  */
 package org.apache.maven.scm.provider.git.gitexe.command.info;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.Path;
+import java.time.format.DateTimeFormatter;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.info.InfoItem;
 import org.apache.maven.scm.util.AbstractConsumer;
+import org.codehaus.plexus.util.cli.Arg;
+import org.codehaus.plexus.util.cli.Commandline;
 
 /**
+ * Parses output of {@code git log} with a particular format and populates a {@link InfoItem}.
+ *
  * @author Olivier Lamy
  * @since 1.5
+ * @see <a href="https://git-scm.com/docs/git-log#_pretty_formats">Pretty Formats</a>
  */
 public class GitInfoConsumer extends AbstractConsumer {
 
-    // $ git show
-    // commit cd3c0dfacb65955e6fbb35c56cc5b1bf8ce4f767
+    private final InfoItem infoItem;
+    private final int revisionLength;
 
-    private final List<InfoItem> infoItems = new ArrayList<>(1);
+    public GitInfoConsumer(Path path, int revisionLength) {
+        infoItem = new InfoItem();
+        infoItem.setPath(path.toString());
+        infoItem.setURL(path.toUri().toASCIIString());
+        this.revisionLength = revisionLength;
+    }
 
-    private final ScmFileSet scmFileSet;
+    enum LineParts {
+        HASH(0),
+        AUTHOR_NAME(3),
+        AUTHOR_EMAIL(2),
+        AUTHOR_LAST_MODIFIED(1);
 
-    public GitInfoConsumer(ScmFileSet scmFileSet) {
-        this.scmFileSet = scmFileSet;
+        private final int index;
+
+        LineParts(int index) {
+            this.index = index;
+        }
+
+        public int getIndex() {
+            return index;
+        }
     }
 
     /**
+     * @param line the line which is supposed to have the format as specified by {@link #getFormatArgument()}.
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */
     public void consumeLine(String line) {
         if (logger.isDebugEnabled()) {
-            logger.debug("consume line " + line);
+            logger.debug("consume line {}", line);
         }
 
-        if (infoItems.isEmpty()) {
-            if (!(line == null || line.isEmpty())) {
-                InfoItem infoItem = new InfoItem();
-                infoItem.setRevision(StringUtils.trim(line));
-                infoItem.setURL(scmFileSet.getBasedir().toPath().toUri().toASCIIString());
-                infoItems.add(infoItem);
-            }
+        // name must be last token as it may contain separators
+        String[] parts = line.split("\\s", 4);
+        if (parts.length != 4) {
+            throw new IllegalArgumentException(
+                    "Unexpected line: expecting 4 tokens separated by whitespace but got " + line);
         }
+        infoItem.setLastChangedAuthor(
+                parts[LineParts.AUTHOR_NAME.getIndex()] + " <" + parts[LineParts.AUTHOR_EMAIL.getIndex()] + ">");
+        String revision = parts[LineParts.HASH.getIndex()];
+        if (revisionLength > -1) {
+            // do not truncate below 4 characters
+            revision = StringUtils.truncate(revision, Integer.max(4, revisionLength));
+        }
+        infoItem.setRevision(revision);
+        infoItem.setLastChangedDateTime(
+                DateTimeFormatter.ISO_OFFSET_DATE_TIME.parse(parts[LineParts.AUTHOR_LAST_MODIFIED.getIndex()]));
     }
 
-    public List<InfoItem> getInfoItems() {
-        return infoItems;
+    public InfoItem getInfoItem() {
+        return infoItem;
+    }
+
+    /**
+     * The format argument to use with {@code git log}
+     * @return the format argument to use {@code git log} command
+     * @see <a href="https://git-scm.com/docs/git-log#_pretty_formats">Pretty Formats</a>
+     */
+    public static Arg getFormatArgument() {
+        Commandline.Argument arg = new Commandline.Argument();
+        arg.setValue("--format=format:%H %aI %aE %aN");
+        return arg;
     }
 }

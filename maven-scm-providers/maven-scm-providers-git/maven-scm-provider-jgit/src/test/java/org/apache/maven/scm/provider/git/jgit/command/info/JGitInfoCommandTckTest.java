@@ -16,29 +16,26 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.maven.scm.util;
+package org.apache.maven.scm.provider.git.jgit.command.info;
 
 import java.io.File;
+import java.io.IOException;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.apache.maven.scm.provider.git.command.info.GitInfoCommandTckTest;
+import org.eclipse.jgit.util.FileUtils;
 
-/**
- *
- */
-public final class FilenameUtils {
-    private FilenameUtils() {}
+public class JGitInfoCommandTckTest extends GitInfoCommandTckTest {
 
-    public static String normalizeFilename(File file) {
-        return normalizeFilename(file.getPath());
+    @Override
+    public String getScmUrl() throws Exception {
+        return GitScmTestUtils.getScmUrl(getRepositoryRoot(), "jgit");
     }
 
-    /**
-     * Replace duplicated [back]slash to slash.
-     *
-     * @param filename TODO
-     * @return TODO
-     */
-    public static String normalizeFilename(String filename) {
-        return StringUtils.replace(StringUtils.replace(filename, "\\", "/"), "//", "/");
+    @Override
+    protected void deleteDirectory(File directory) throws IOException {
+        if (directory.exists()) {
+            FileUtils.delete(directory, FileUtils.RECURSIVE | FileUtils.RETRY);
+        }
     }
 }
