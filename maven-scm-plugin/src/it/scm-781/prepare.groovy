@@ -21,7 +21,7 @@
 // BUT we actually don't store that special versioning directory as-is to prevent potentially confusing 
 // (to say the least) a svn checkout of the maven-scm project.
 // 
-/*
+
 File dotSvnDir = new File( basedir, 'dotSvnDir' )
 assert dotSvnDir.exists()
 assert dotSvnDir.isDirectory()
@@ -36,7 +36,7 @@ dotSvnDir = new File( basedir, 'maven/dotSvnDir' )
 assert dotSvnDir.exists()
 assert dotSvnDir.isDirectory()
 assert dotSvnDir.renameTo( new File( basedir, 'maven/.svn' ) )
-*/
+
 println "svn --version"
 def proc = "svn --version".execute()
 proc.waitFor()
@@ -46,6 +46,20 @@ println "stdout: ${proc.in.text}"
 
 println "svn upgrade $basedir"
 proc = ["svn", "upgrade", "$basedir"].execute()
+proc.waitFor()
+println "return code: ${ proc.exitValue()}"
+println "stderr: ${proc.err.text}"
+println "stdout: ${proc.in.text}"
+
+println "svn upgrade $basedir/asf"
+proc = ["svn", "upgrade", "$basedir/asf"].execute()
+proc.waitFor()
+println "return code: ${ proc.exitValue()}"
+println "stderr: ${proc.err.text}"
+println "stdout: ${proc.in.text}"
+
+println "svn upgrade $basedir/maven"
+proc = ["svn", "upgrade", "$basedir/maven"].execute()
 proc.waitFor()
 println "return code: ${ proc.exitValue()}"
 println "stderr: ${proc.err.text}"
