@@ -40,30 +40,3 @@ Maven SCM
   * {{{./maven-scm-plugin}<<<maven-scm-plugin>>>}}: a Maven plugin, where each SCM command is implemented as a plugin goal,
 
   * {{{./maven-scm-client}<<<maven-scm-client>>>}}: a simple SCM command line tool.
-
-Deprecation Notice
-
-  The following SCM providers are deprecated and will be removed in version 2.0.0:
-
-  * maven-scm-provider-accurev
-
-  * maven-scm-provider-bazaar
-
-  * maven-scm-provider-clearcase
-
-  * maven-scm-provider-integrity
-
-  * maven-scm-provider-jazz
-
-  * maven-scm-provider-perforce
-
-  * maven-scm-provider-starteam
-
-  * maven-scm-provider-synergy
-
-  * maven-scm-provider-tfs
-
-  * maven-scm-provider-vss
-
-  * maven-scm-providers-cvs
-
