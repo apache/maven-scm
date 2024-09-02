@@ -70,7 +70,8 @@ public interface ScmProvider {
             throws ScmRepositoryException, UnknownRepositoryStructure;
 
     /**
-     * Sets the interactive mode.
+     * Sets the interactive mode, which by default (i.e. if not called) is assumed to be {@code true} by providers.
+     * As providers are usually singletons, this affects every usage of this provider.
      *
      * @param interactive either {@code true} in case user may be prompted for information, otherwise {@code false}
      * @since 2.0.0-M2
