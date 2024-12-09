@@ -34,7 +34,10 @@
   <properties>
     <!-- version 6+ requires Java 11 -->
     <jgitVersion>5.13.3.202401111512-r</jgitVersion>
+    <!-- TODO move this to top level dependency management -->
+    <minaSshdVersion>2.11.0</minaSshdVersion>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>javax.inject</groupId>
@@ -43,11 +46,6 @@
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-git-commons</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.sshd</groupId>
-      <artifactId>sshd-common</artifactId>
-      <version>2.14.0</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
@@ -71,6 +69,11 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.sshd</groupId>
+      <artifactId>sshd-common</artifactId>
+      <version>${minaSshdVersion}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
