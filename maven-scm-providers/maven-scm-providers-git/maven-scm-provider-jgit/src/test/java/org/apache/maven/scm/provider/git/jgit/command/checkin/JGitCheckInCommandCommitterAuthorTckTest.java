@@ -31,7 +31,6 @@ import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.checkin.GitCheckInCommandTckTest;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.util.IOUtil;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
@@ -270,10 +269,7 @@ public class JGitCheckInCommandCommitterAuthorTckTest extends GitCheckInCommandT
     }
 
     private void createFooJava(File fooJava) throws Exception {
-        FileWriter output = new FileWriter(fooJava);
-
-        PrintWriter printer = new PrintWriter(output);
-        try {
+        try (PrintWriter printer = new PrintWriter(new FileWriter(fooJava))) {
             printer.println("public class Foo");
             printer.println("{");
 
@@ -284,9 +280,6 @@ public class JGitCheckInCommandCommitterAuthorTckTest extends GitCheckInCommandT
             printer.println("    }");
 
             printer.println("}");
-        } finally {
-            IOUtil.close(output);
-            IOUtil.close(printer);
         }
     }
 
