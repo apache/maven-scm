@@ -119,8 +119,7 @@ public class HgScmProvider extends AbstractScmProvider {
             }
         } else {
             try {
-                @SuppressWarnings("unused")
-                File file = new File(scmSpecificUrl);
+                new File(scmSpecificUrl);
             } catch (Throwable e) {
                 result.messages.add("The filename provided is not valid");
 
