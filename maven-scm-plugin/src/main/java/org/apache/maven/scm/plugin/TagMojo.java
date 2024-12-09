@@ -18,6 +18,8 @@
  */
 package org.apache.maven.scm.plugin;
 
+import javax.inject.Inject;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,8 +30,10 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 /**
  * Tag the project.
@@ -102,6 +106,11 @@ public class TagMojo extends AbstractScmMojo {
      */
     @Parameter(property = "sign", defaultValue = "false")
     private boolean sign;
+
+    @Inject
+    public TagMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
+        super(manager, settingsDecrypter);
+    }
 
     /** {@inheritDoc} */
     public void execute() throws MojoExecutionException {

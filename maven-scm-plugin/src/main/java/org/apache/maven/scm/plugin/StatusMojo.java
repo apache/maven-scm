@@ -18,6 +18,8 @@
  */
 package org.apache.maven.scm.plugin;
 
+import javax.inject.Inject;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -27,7 +29,9 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 /**
  * Display the modification status of the files in the configured scm url.
@@ -37,6 +41,12 @@ import org.apache.maven.scm.repository.ScmRepository;
  */
 @Mojo(name = "status", aggregator = true)
 public class StatusMojo extends AbstractScmMojo {
+
+    @Inject
+    public StatusMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
+        super(manager, settingsDecrypter);
+    }
+
     /** {@inheritDoc} */
     public void execute() throws MojoExecutionException {
         super.execute();

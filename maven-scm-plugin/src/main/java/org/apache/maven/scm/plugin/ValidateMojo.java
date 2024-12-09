@@ -18,6 +18,8 @@
  */
 package org.apache.maven.scm.plugin;
 
+import javax.inject.Inject;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,7 +29,9 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.svn.AbstractSvnScmProvider;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 /**
  * Validate scm connection string.
@@ -60,6 +64,11 @@ public class ValidateMojo extends AbstractScmMojo {
      */
     @Parameter(property = "scmCheckWorkingDirectoryUrl", defaultValue = "false")
     private boolean scmCheckWorkingDirectoryUrl;
+
+    @Inject
+    public ValidateMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
+        super(manager, settingsDecrypter);
+    }
 
     /**
      * {@inheritDoc}
