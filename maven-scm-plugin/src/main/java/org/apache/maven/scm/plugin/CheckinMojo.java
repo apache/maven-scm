@@ -18,6 +18,8 @@
  */
 package org.apache.maven.scm.plugin;
 
+import javax.inject.Inject;
+
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -25,7 +27,9 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 /**
  * Commit changes to the configured scm url.
@@ -57,6 +61,11 @@ public class CheckinMojo extends AbstractScmMojo {
      */
     @Parameter(property = "scmVersion")
     private String scmVersion;
+
+    @Inject
+    public CheckinMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
+        super(manager, settingsDecrypter);
+    }
 
     /** {@inheritDoc} */
     public void execute() throws MojoExecutionException {

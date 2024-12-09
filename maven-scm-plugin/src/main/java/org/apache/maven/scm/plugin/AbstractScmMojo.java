@@ -31,7 +31,6 @@ import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
@@ -138,12 +137,6 @@ public abstract class AbstractScmMojo extends AbstractMojo {
     @Parameter(property = "excludes")
     private String excludes;
 
-    @Component
-    private ScmManager manager;
-
-    @Component
-    private SettingsDecrypter settingsDecrypter;
-
     /**
      * The base directory.
      */
@@ -185,6 +178,15 @@ public abstract class AbstractScmMojo extends AbstractMojo {
     @Parameter(property = "workItem")
     @Deprecated
     private String workItem;
+
+    private final ScmManager manager;
+
+    private final SettingsDecrypter settingsDecrypter;
+
+    protected AbstractScmMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
+        this.manager = manager;
+        this.settingsDecrypter = settingsDecrypter;
+    }
 
     /** {@inheritDoc} */
     public void execute() throws MojoExecutionException {

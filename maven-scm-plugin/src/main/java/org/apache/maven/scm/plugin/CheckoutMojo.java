@@ -18,6 +18,8 @@
  */
 package org.apache.maven.scm.plugin;
 
+import javax.inject.Inject;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -27,7 +29,9 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
@@ -71,6 +75,11 @@ public class CheckoutMojo extends AbstractScmMojo {
      * allow extended mojo (ie BootStrap ) to see checkout result
      */
     private ScmResult checkoutResult;
+
+    @Inject
+    public CheckoutMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
+        super(manager, settingsDecrypter);
+    }
 
     /** {@inheritDoc} */
     public void execute() throws MojoExecutionException {

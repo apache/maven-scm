@@ -18,6 +18,8 @@
  */
 package org.apache.maven.scm.plugin;
 
+import javax.inject.Inject;
+
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -26,8 +28,10 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.branch.BranchScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 /**
  * Branch the project.
@@ -67,6 +71,11 @@ public class BranchMojo extends AbstractScmMojo {
      */
     @Parameter(property = "pinExternals", defaultValue = "false")
     private boolean pinExternals;
+
+    @Inject
+    public BranchMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
+        super(manager, settingsDecrypter);
+    }
 
     /** {@inheritDoc} */
     public void execute() throws MojoExecutionException {

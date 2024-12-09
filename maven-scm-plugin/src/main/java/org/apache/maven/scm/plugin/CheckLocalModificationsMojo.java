@@ -18,6 +18,8 @@
  */
 package org.apache.maven.scm.plugin;
 
+import javax.inject.Inject;
+
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -25,7 +27,9 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 /**
  * This mojo will fail the build if there is any local modifications
@@ -49,6 +53,11 @@ public class CheckLocalModificationsMojo extends AbstractScmMojo {
      */
     @Parameter(property = "scm.checkLocalModification.skip", defaultValue = "false")
     private boolean skip;
+
+    @Inject
+    public CheckLocalModificationsMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
+        super(manager, settingsDecrypter);
+    }
 
     public void execute() throws MojoExecutionException {
         if (skip) {

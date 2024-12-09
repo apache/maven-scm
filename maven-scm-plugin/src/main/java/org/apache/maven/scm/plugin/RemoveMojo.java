@@ -18,6 +18,8 @@
  */
 package org.apache.maven.scm.plugin;
 
+import javax.inject.Inject;
+
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -25,7 +27,9 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 /**
  * Mark a set of files for deletion.
@@ -40,6 +44,11 @@ public class RemoveMojo extends AbstractScmMojo {
      */
     @Parameter(property = "message")
     private String message;
+
+    @Inject
+    public RemoveMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
+        super(manager, settingsDecrypter);
+    }
 
     /**
      * {@inheritDoc}

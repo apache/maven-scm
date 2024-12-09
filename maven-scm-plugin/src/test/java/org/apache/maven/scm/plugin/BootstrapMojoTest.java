@@ -56,7 +56,7 @@ public class BootstrapMojoTest extends AbstractJUnit4MojoTestCase {
         goalDir = getTestFile("target/checkout/my/project/modules/1");
         goalDir.mkdirs();
 
-        bootstrapMojo = new BootstrapMojo();
+        bootstrapMojo = new BootstrapMojo(null, null);
     }
 
     @Test
