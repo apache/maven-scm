@@ -34,7 +34,6 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.util.FilenameUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.IOUtil;
 import org.junit.Assume;
 import org.junit.Test;
 
@@ -238,10 +237,7 @@ public abstract class CheckInCommandTckTest extends ScmTckTestCase {
     }
 
     private void createFooJava(File fooJava) throws Exception {
-        FileWriter output = new FileWriter(fooJava);
-
-        PrintWriter printer = new PrintWriter(output);
-        try {
+        try (PrintWriter printer = new PrintWriter(new FileWriter(fooJava))) {
             printer.println("public class Foo");
             printer.println("{");
 
@@ -251,41 +247,26 @@ public abstract class CheckInCommandTckTest extends ScmTckTestCase {
             printer.println("    }");
 
             printer.println("}");
-        } finally {
-            IOUtil.close(output);
-            IOUtil.close(printer);
         }
     }
 
     private void createBarJava(File barJava) throws Exception {
-        FileWriter output = new FileWriter(barJava);
+        try (PrintWriter printer = new PrintWriter(new FileWriter(barJava))) {
+            printer.println("public class Bar");
+            printer.println("{");
 
-        PrintWriter printer = new PrintWriter(output);
+            printer.println("    public int bar()");
+            printer.println("    {");
+            printer.println("        return 20;");
+            printer.println("    }");
 
-        printer.println("public class Bar");
-        printer.println("{");
-
-        printer.println("    public int bar()");
-        printer.println("    {");
-        printer.println("        return 20;");
-        printer.println("    }");
-
-        printer.println("}");
-
-        printer.close();
-
-        output.close();
+            printer.println("}");
+        }
     }
 
     private void changeReadmeTxt(File readmeTxt) throws Exception {
-        FileWriter output = null;
-
-        try {
-            output = new FileWriter(readmeTxt);
-
+        try (FileWriter output = new FileWriter(readmeTxt)) {
             output.write("changed file");
-        } finally {
-            IOUtil.close(output);
         }
     }
 }

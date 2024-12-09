@@ -27,7 +27,6 @@ import java.util.List;
 import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3Reader;
 import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3Writer;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.ReaderFactory;
 import org.codehaus.plexus.util.WriterFactory;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -73,11 +72,9 @@ public class LocalScmMetadataUtils {
     public void writeMetadata(File destinationDir, LocalScmMetadata metadata) throws IOException {
         File metadataFile = new File(destinationDir, FILENAME);
         metadataFile.createNewFile();
-        Writer writer = WriterFactory.newXmlWriter(metadataFile);
-        try {
+
+        try (Writer writer = WriterFactory.newXmlWriter(metadataFile)) {
             new LocalScmMetadataXpp3Writer().write(writer, metadata);
-        } finally {
-            IOUtil.close(writer);
         }
     }
 
@@ -92,11 +89,10 @@ public class LocalScmMetadataUtils {
         if (!metadataFile.exists()) {
             return null;
         }
-        LocalScmMetadata result = null;
-        Reader reader = null;
-        try {
-            reader = ReaderFactory.newXmlReader(metadataFile);
-            result = new LocalScmMetadataXpp3Reader().read(reader);
+
+        try (Reader reader = ReaderFactory.newXmlReader(metadataFile)) {
+            LocalScmMetadata result = new LocalScmMetadataXpp3Reader().read(reader);
+            return result;
         } catch (XmlPullParserException e) {
             if (LOGGER.isWarnEnabled()) {
                 LOGGER.warn("Could not interpret .maven-scm-local - ignoring", e);
@@ -104,11 +100,9 @@ public class LocalScmMetadataUtils {
             return null;
         } catch (IOException e) {
             if (LOGGER.isWarnEnabled()) {
-                LOGGER.warn("Could not Read .maven-scm-local - ignoring", e);
+                LOGGER.warn("Could not read .maven-scm-local - ignoring", e);
             }
-        } finally {
-            IOUtil.close(reader);
+            return null;
         }
-        return result;
     }
 }

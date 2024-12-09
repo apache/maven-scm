@@ -19,7 +19,9 @@
 package org.apache.maven.scm.tck.command.tag;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTag;
@@ -28,7 +30,6 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.IOUtil;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -65,7 +66,7 @@ public abstract class TagCommandTckTest extends ScmTckTestCase {
         assertEquals("check readme.txt contents", "/readme.txt", FileUtils.fileRead(readmeTxt));
 
         this.edit(getWorkingCopy(), "readme.txt", null, getScmRepository());
-        changeReadmeTxt(readmeTxt);
+        changeReadmeTxt(readmeTxt.toPath());
 
         CheckInScmResult checkinResult =
                 getScmManager().checkIn(getScmRepository(), new ScmFileSet(getWorkingCopy()), "commit message");
@@ -94,12 +95,9 @@ public abstract class TagCommandTckTest extends ScmTckTestCase {
         assertEquals("check readme.txt contents is from tagged version", "/readme.txt", FileUtils.fileRead(readmeTxt));
     }
 
-    private void changeReadmeTxt(File readmeTxt) throws Exception {
-        FileWriter output = new FileWriter(readmeTxt);
-        try {
+    private void changeReadmeTxt(Path readmeTxt) throws Exception {
+        try (Writer output = Files.newBufferedWriter(readmeTxt)) {
             output.write("changed file");
-        } finally {
-            IOUtil.close(output);
         }
     }
 }

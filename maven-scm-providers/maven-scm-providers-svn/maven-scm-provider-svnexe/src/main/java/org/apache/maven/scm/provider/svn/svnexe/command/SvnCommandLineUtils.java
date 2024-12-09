@@ -60,10 +60,9 @@ public final class SvnCommandLineUtils {
         }
 
         File targets = File.createTempFile("maven-scm-", "-targets");
-        PrintStream out = new PrintStream(new FileOutputStream(targets));
-        out.print(sb);
-        out.flush();
-        out.close();
+        try (PrintStream out = new PrintStream(new FileOutputStream(targets))) {
+            out.print(sb);
+        }
 
         cl.createArg().setValue("--targets");
         cl.createArg().setValue(targets.getAbsolutePath());

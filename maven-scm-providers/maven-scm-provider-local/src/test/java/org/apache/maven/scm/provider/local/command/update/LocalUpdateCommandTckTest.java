@@ -19,8 +19,8 @@
 package org.apache.maven.scm.provider.local.command.update;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.Reader;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +36,6 @@ import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.IOUtil;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -130,17 +129,13 @@ public class LocalUpdateCommandTckTest extends UpdateCommandTckTest {
         // ----------------------------------------------------------------------
         File metadataFile = new File(getUpdatingCopy(), ".maven-scm-local");
         assertTrue("Expected metadata file .maven-scm-local does not exist", metadataFile.exists());
-        Reader reader = new FileReader(metadataFile);
-        LocalScmMetadata metadata;
-        try {
-            metadata = new LocalScmMetadataXpp3Reader().read(reader);
-        } finally {
-            IOUtil.close(reader);
+        try (Reader reader = Files.newBufferedReader(metadataFile.toPath())) {
+            LocalScmMetadata metadata = new LocalScmMetadataXpp3Reader().read(reader);
+            File root = new File(getRepositoryRoot() + "/" + moduleName);
+            @SuppressWarnings("unchecked")
+            List<String> fileNames = FileUtils.getFileNames(root, "**", null, false);
+            assertEquals(fileNames, metadata.getRepositoryFileNames());
         }
-        File root = new File(getRepositoryRoot() + "/" + moduleName);
-        @SuppressWarnings("unchecked")
-        List<String> fileNames = FileUtils.getFileNames(root, "**", null, false);
-        assertEquals(fileNames, metadata.getRepositoryFileNames());
     }
 
     private void makeRepo(File workingDirectory) throws Exception {

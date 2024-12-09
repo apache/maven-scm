@@ -19,8 +19,8 @@
 package org.apache.maven.scm.provider.local.command.checkout;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.Reader;
+import java.nio.file.Files;
 import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
@@ -29,7 +29,6 @@ import org.apache.maven.scm.provider.local.metadata.LocalScmMetadata;
 import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3Reader;
 import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.IOUtil;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -80,16 +79,13 @@ public class LocalCheckOutCommandTckTest extends CheckOutCommandTckTest {
         // ----------------------------------------------------------------------
         File metadataFile = new File(getWorkingCopy(), ".maven-scm-local");
         assertTrue("Expected metadata file .maven-scm-local does not exist", metadataFile.exists());
-        Reader reader = new FileReader(metadataFile);
-        LocalScmMetadata metadata;
-        try {
-            metadata = new LocalScmMetadataXpp3Reader().read(reader);
-        } finally {
-            IOUtil.close(reader);
+
+        try (Reader reader = Files.newBufferedReader(metadataFile.toPath()); ) {
+            LocalScmMetadata metadata = new LocalScmMetadataXpp3Reader().read(reader);
+            File root = new File(getRepositoryRoot() + "/" + module);
+            @SuppressWarnings("unchecked")
+            List<String> fileNames = FileUtils.getFileNames(root, "**", null, false);
+            assertEquals(fileNames, metadata.getRepositoryFileNames());
         }
-        File root = new File(getRepositoryRoot() + "/" + module);
-        @SuppressWarnings("unchecked")
-        List<String> fileNames = FileUtils.getFileNames(root, "**", null, false);
-        assertEquals(fileNames, metadata.getRepositoryFileNames());
     }
 }

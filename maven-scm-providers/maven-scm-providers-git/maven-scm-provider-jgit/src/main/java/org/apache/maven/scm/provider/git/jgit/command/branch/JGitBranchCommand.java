@@ -65,9 +65,7 @@ public class JGitBranchCommand extends AbstractBranchCommand implements GitComma
             throw new ScmException("This provider doesn't support branching subsets of a directory");
         }
 
-        Git git = null;
-        try {
-            git = JGitUtils.openRepo(fileSet.getBasedir());
+        try (Git git = JGitUtils.openRepo(fileSet.getBasedir())) {
             Ref branchResult = git.branchCreate().setName(branch).call();
             logger.info("created [" + branchResult.getName() + "]");
 
@@ -102,8 +100,6 @@ public class JGitBranchCommand extends AbstractBranchCommand implements GitComma
 
         } catch (Exception e) {
             throw new ScmException("JGit branch failed!", e);
-        } finally {
-            JGitUtils.closeRepo(git);
         }
     }
 

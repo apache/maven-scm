@@ -20,8 +20,8 @@ package org.apache.maven.scm.util;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
@@ -40,16 +40,11 @@ public class ConsumerUtils {
      * @throws IOException if any
      */
     public static void consumeFile(File f, StreamConsumer consumer) throws IOException {
-        BufferedReader r = new BufferedReader(new FileReader(f));
-
-        try {
+        try (BufferedReader reader = Files.newBufferedReader(f.toPath())) {
             String line;
-            while ((line = r.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 consumer.consumeLine(line);
             }
-
-        } finally {
-            r.close();
         }
     }
 }
