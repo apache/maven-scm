@@ -155,8 +155,8 @@ public abstract class ScmTckTestCase extends ScmTestCase {
     @After
     @Override
     public void tearDown() throws Exception {
-        super.tearDown();
         removeRepo();
+        super.tearDown();
     }
 
     /**

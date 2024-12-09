@@ -41,10 +41,6 @@
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-api</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-utils</artifactId>
-    </dependency>
 
     <!-- providers declaration -->
     <dependency>
