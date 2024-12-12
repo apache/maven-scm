@@ -97,14 +97,14 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
             }
 
             // no git repo seems to exist, let's clone the original repo
-            Commandline clClone = createCloneCommand(repository, fileSet.getBasedir(), version, binary, shallow);
+            Commandline gitClone = createCloneCommand(repository, fileSet.getBasedir(), version, binary, shallow);
 
-            exitCode = GitCommandLineUtils.execute(clClone, stdout, stderr);
+            exitCode = GitCommandLineUtils.execute(gitClone, stdout, stderr);
             if (exitCode != 0) {
                 return new CheckOutScmResult(
-                        clClone.toString(), "The git-clone command failed.", stderr.getOutput(), false);
+                        gitClone.toString(), "The git clone command failed.", stderr.getOutput(), false);
             }
-            lastCommandLine = clClone.toString();
+            lastCommandLine = gitClone.toString();
         }
 
         GitRemoteInfoCommand gitRemoteInfoCommand = new GitRemoteInfoCommand(environmentVariables);
@@ -115,35 +115,34 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
                 && new File(fileSet.getBasedir(), ".git").exists()
                 && result.getBranches().size() > 0) {
             // git repo exists, so we must git-pull the changes
-            Commandline clPull = createPullCommand(repository, fileSet.getBasedir(), version);
+            Commandline gitPull = createPullCommand(repository, fileSet.getBasedir(), version);
 
-            exitCode = GitCommandLineUtils.execute(clPull, stdout, stderr);
+            exitCode = GitCommandLineUtils.execute(gitPull, stdout, stderr);
             if (exitCode != 0) {
                 return new CheckOutScmResult(
-                        clPull.toString(), "The git-pull command failed.", stderr.getOutput(), false);
+                        gitPull.toString(), "The git pull command failed.", stderr.getOutput(), false);
             }
-            lastCommandLine = clPull.toString();
 
-            // and now lets do the git-checkout itself
-            Commandline clCheckout = createCommandLine(repository, fileSet.getBasedir(), version);
+            // and now let's do the git-checkout itself
+            Commandline gitCheckout = createCommandLine(repository, fileSet.getBasedir(), version);
 
-            exitCode = GitCommandLineUtils.execute(clCheckout, stdout, stderr);
+            exitCode = GitCommandLineUtils.execute(gitCheckout, stdout, stderr);
             if (exitCode != 0) {
                 return new CheckOutScmResult(
-                        clCheckout.toString(), "The git-checkout command failed.", stderr.getOutput(), false);
+                        gitCheckout.toString(), "The git checkout command failed.", stderr.getOutput(), false);
             }
-            lastCommandLine = clCheckout.toString();
+            lastCommandLine = gitCheckout.toString();
         }
 
         // and now search for the files
         GitListConsumer listConsumer = new GitListConsumer(fileSet.getBasedir(), ScmFileStatus.CHECKED_IN);
 
-        Commandline clList = GitListCommand.createCommandLine(repository, fileSet.getBasedir());
+        Commandline gitList = GitListCommand.createCommandLine(repository, fileSet.getBasedir());
 
-        exitCode = GitCommandLineUtils.execute(clList, listConsumer, stderr);
+        exitCode = GitCommandLineUtils.execute(gitList, listConsumer, stderr);
         if (exitCode != 0) {
             return new CheckOutScmResult(
-                    clList.toString(), "The git-ls-files command failed.", stderr.getOutput(), false);
+                    gitList.toString(), "The git ls-files command failed.", stderr.getOutput(), false);
         }
 
         return new CheckOutScmResult(lastCommandLine, listConsumer.getListedFiles());
@@ -155,13 +154,13 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
 
     public static Commandline createCommandLine(
             GitScmProviderRepository repository, File workingDirectory, ScmVersion version) {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "checkout");
+        Commandline gitCheckout = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "checkout");
 
         if (version != null && StringUtils.isNotEmpty(version.getName())) {
-            cl.createArg().setValue(version.getName());
+            gitCheckout.createArg().setValue(version.getName());
         }
 
-        return cl;
+        return gitCheckout;
     }
 
     /**
@@ -173,44 +172,43 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
             ScmVersion version,
             boolean binary,
             boolean shallow) {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(
+        Commandline gitClone = GitCommandLineUtils.getBaseGitCommandLine(
                 workingDirectory.getParentFile(), "clone", repository, environmentVariables);
 
-        forceBinary(cl, binary);
+        forceBinary(gitClone, binary);
 
         if (shallow) {
-            cl.createArg().setValue("--depth");
+            gitClone.createArg().setValue("--depth");
 
-            cl.createArg().setValue("1");
+            gitClone.createArg().setValue("1");
         }
 
         if (version != null && (version instanceof ScmBranch)) {
 
-            cl.createArg().setValue("--branch");
+            gitClone.createArg().setValue("--branch");
 
-            cl.createArg().setValue(version.getName());
+            gitClone.createArg().setValue(version.getName());
         }
 
-        cl.createArg().setValue(repository.getFetchUrl());
+        gitClone.createArg().setValue(repository.getFetchUrl());
 
-        cl.createArg().setValue(workingDirectory.getName());
+        gitClone.createArg().setValue(workingDirectory.getName());
 
-        return cl;
+        return gitClone;
     }
 
-    private void forceBinary(Commandline cl, boolean binary) {
+    private void forceBinary(Commandline commandLine, boolean binary) {
         if (binary) {
-            cl.createArg().setValue("-c");
-            cl.createArg().setValue("core.autocrlf=false");
+            commandLine.createArg().setValue("-c");
+            commandLine.createArg().setValue("core.autocrlf=false");
         }
     }
 
     /**
-     * create a git-pull repository command
+     * Create a git fetch or git pull repository command.
      */
     private Commandline createPullCommand(
             GitScmProviderRepository repository, File workingDirectory, ScmVersion version) {
-        Commandline cl;
 
         if (version != null && StringUtils.isNotEmpty(version.getName())) {
             if (version instanceof ScmTag) {
@@ -219,33 +217,34 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
                 // but create a 'detached HEAD'.
                 // In fact, a tag in git may be in multiple branches. This occurs if
                 // you create a branch after the tag has been created
-                cl = GitCommandLineUtils.getBaseGitCommandLine(
+                Commandline gitFetch = GitCommandLineUtils.getBaseGitCommandLine(
                         workingDirectory, "fetch", repository, environmentVariables);
 
-                cl.createArg().setValue(repository.getFetchUrl());
+                gitFetch.createArg().setValue(repository.getFetchUrl());
+                return gitFetch;
             } else {
-                cl = GitCommandLineUtils.getBaseGitCommandLine(
+                Commandline gitPull = GitCommandLineUtils.getBaseGitCommandLine(
                         workingDirectory, "pull", repository, environmentVariables);
-
-                cl.createArg().setValue(repository.getFetchUrl());
-
-                cl.createArg().setValue(version.getName() + ":" + version.getName());
+                gitPull.createArg().setValue(repository.getFetchUrl());
+                gitPull.createArg().setValue(version.getName() + ":" + version.getName());
+                return gitPull;
             }
         } else {
-            cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "pull", repository, environmentVariables);
-
-            cl.createArg().setValue(repository.getFetchUrl());
-            cl.createArg().setValue("master");
+            Commandline gitPull = GitCommandLineUtils.getBaseGitCommandLine(
+                    workingDirectory, "pull", repository, environmentVariables);
+            gitPull.createArg().setValue(repository.getFetchUrl());
+            gitPull.createArg().setValue("master");
+            return gitPull;
         }
-        return cl;
     }
 
     /**
-     * The overriden {@link #executeCommand(ScmProviderRepository, ScmFileSet, CommandParameters)} in this class will
+     * The overridden {@link #executeCommand(ScmProviderRepository, ScmFileSet, CommandParameters)} in this class will
      * not call this method!
      * <p>
      * {@inheritDoc}
      */
+    @Override
     protected CheckOutScmResult executeCheckOutCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version, boolean recursive, boolean shallow)
             throws ScmException {

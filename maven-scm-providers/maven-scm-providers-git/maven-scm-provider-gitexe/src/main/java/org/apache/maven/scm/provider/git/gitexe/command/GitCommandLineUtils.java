@@ -52,11 +52,11 @@ public final class GitCommandLineUtils {
 
     private GitCommandLineUtils() {}
 
-    public static void addTarget(Commandline cl, List<File> files) {
+    public static void addTarget(Commandline commandLine, List<File> files) {
         if (files == null || files.isEmpty()) {
             return;
         }
-        final File workingDirectory = cl.getWorkingDirectory();
+        final File workingDirectory = commandLine.getWorkingDirectory();
         try {
             final String canonicalWorkingDirectory = workingDirectory.getCanonicalPath();
             for (File file : files) {
@@ -73,7 +73,7 @@ public final class GitCommandLineUtils {
                 }
 
                 // no setFile() since this screws up the working directory!
-                cl.createArg().setValue(FilenameUtils.separatorsToUnix(relativeFile));
+                commandLine.createArg().setValue(FilenameUtils.separatorsToUnix(relativeFile));
             }
         } catch (IOException ex) {
             throw new IllegalArgumentException(
@@ -84,9 +84,6 @@ public final class GitCommandLineUtils {
 
     /**
      * Use this only for commands not requiring environment variables (i.e. local commands).
-     * @param workingDirectory
-     * @param command
-     * @return TODO
      */
     public static Commandline getBaseGitCommandLine(File workingDirectory, String command) {
         return getBaseGitCommandLine(workingDirectory, command, null, null);
@@ -94,67 +91,65 @@ public final class GitCommandLineUtils {
 
     /**
      * Use this for commands requiring environment variables (i.e. remote commands).
-     * @param workingDirectory
-     * @param command
-     * @param environment
-     * @return TODO
      */
     public static Commandline getBaseGitCommandLine(
             File workingDirectory,
             String command,
             GitScmProviderRepository repository,
             Map<String, String> environment) {
-        Commandline cl = getAnonymousBaseGitCommandLine(workingDirectory, command);
+        Commandline commandLine = getAnonymousBaseGitCommandLine(workingDirectory, command);
         if (repository != null) {
-            prepareEnvVariablesForRepository(repository, environment).forEach(cl::addEnvironment);
+            prepareEnvVariablesForRepository(repository, environment).forEach(commandLine::addEnvironment);
         } else if (environment != null) {
-            environment.forEach(cl::addEnvironment);
+            environment.forEach(commandLine::addEnvironment);
         }
-        return cl;
+        return commandLine;
     }
 
     /**
-     * Creates a {@link Commandline} for which the toString() do not display
-     * password.
+     * Creates a {@link Commandline} for which toString() does not display
+     * the password.
      *
      * @param workingDirectory
      * @param command
-     * @return CommandLine with anonymous output.
+     * @return CommandLine with anonymous output
      */
     private static Commandline getAnonymousBaseGitCommandLine(File workingDirectory, String command) {
-        if (command == null || command.length() == 0) {
+        if (command == null || command.isEmpty()) {
             return null;
         }
 
-        Commandline cl = new AnonymousCommandLine();
+        Commandline commandLine = new AnonymousCommandLine();
 
-        composeCommand(workingDirectory, command, cl);
+        composeCommand(workingDirectory, command, commandLine);
 
-        return cl;
+        return commandLine;
     }
 
-    private static void composeCommand(File workingDirectory, String command, Commandline cl) {
+    private static void composeCommand(File workingDirectory, String command, Commandline commandLine) {
         Settings settings = GitUtil.getSettings();
 
-        cl.setExecutable(settings.getGitCommand());
+        commandLine.setExecutable(settings.getGitCommand());
 
-        cl.createArg().setValue(command);
+        commandLine.createArg().setValue(command);
 
         if (workingDirectory != null) {
-            cl.setWorkingDirectory(workingDirectory.getAbsolutePath());
+            commandLine.setWorkingDirectory(workingDirectory.getAbsolutePath());
         }
     }
 
-    public static int execute(Commandline cl, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr)
+    public static int execute(
+            Commandline commandline, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr)
             throws ScmException {
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Executing: " + cl);
-            LOGGER.info("Working directory: " + cl.getWorkingDirectory().getAbsolutePath());
+            LOGGER.info("Executing: " + commandline);
+            LOGGER.info(
+                    "Working directory: " + commandline.getWorkingDirectory().getAbsolutePath());
         }
 
         int exitCode;
         try {
-            exitCode = CommandLineUtils.executeCommandLine(cl, consumer, stderr);
+            exitCode = CommandLineUtils.executeCommandLine(commandline, consumer, stderr);
         } catch (CommandLineException ex) {
             throw new ScmException("Error while executing command.", ex);
         }
@@ -163,16 +158,19 @@ public final class GitCommandLineUtils {
     }
 
     public static int execute(
-            Commandline cl, CommandLineUtils.StringStreamConsumer stdout, CommandLineUtils.StringStreamConsumer stderr)
+            Commandline commandLine,
+            CommandLineUtils.StringStreamConsumer stdout,
+            CommandLineUtils.StringStreamConsumer stderr)
             throws ScmException {
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Executing: " + cl);
-            LOGGER.info("Working directory: " + cl.getWorkingDirectory().getAbsolutePath());
+            LOGGER.info("Executing: " + commandLine);
+            LOGGER.info(
+                    "Working directory: " + commandLine.getWorkingDirectory().getAbsolutePath());
         }
 
         int exitCode;
         try {
-            exitCode = CommandLineUtils.executeCommandLine(cl, stdout, stderr);
+            exitCode = CommandLineUtils.executeCommandLine(commandLine, stdout, stderr);
         } catch (CommandLineException ex) {
             throw new ScmException("Error while executing command.", ex);
         }
