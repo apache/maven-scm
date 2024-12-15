@@ -56,8 +56,16 @@
       <artifactId>plexus-utils</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-xml</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
     </dependency>
 
     <dependency>
