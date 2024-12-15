@@ -18,9 +18,13 @@
  */
 package org.apache.maven.scm.plugin;
 
+import javax.inject.Inject;
+
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.scm.manager.ScmManager;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 /**
  * Validate scm connection string recursively for all projects
@@ -28,5 +32,9 @@ import org.apache.maven.plugins.annotations.Mojo;
 @Mojo(name = "validate-recursively", requiresProject = true)
 @Execute(phase = LifecyclePhase.VALIDATE)
 public class ValidateRecursively extends ValidateMojo {
-    // no op
+
+    @Inject
+    public ValidateRecursively(ScmManager manager, SettingsDecrypter settingsDecrypter) {
+        super(manager, settingsDecrypter);
+    }
 }

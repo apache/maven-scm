@@ -18,13 +18,17 @@
  */
 package org.apache.maven.scm.plugin;
 
+import javax.inject.Inject;
+
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 /**
  * Add a file set to the project.
@@ -33,6 +37,12 @@ import org.apache.maven.scm.repository.ScmRepository;
  */
 @Mojo(name = "add", aggregator = true)
 public class AddMojo extends AbstractScmMojo {
+
+    @Inject
+    public AddMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
+        super(manager, settingsDecrypter);
+    }
+
     /** {@inheritDoc} */
     public void execute() throws MojoExecutionException {
         super.execute();

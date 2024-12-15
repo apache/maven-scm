@@ -18,6 +18,8 @@
  */
 package org.apache.maven.scm.plugin;
 
+import javax.inject.Inject;
+
 import java.io.File;
 
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +28,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.manager.ScmManager;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -40,6 +44,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  */
 @Mojo(name = "bootstrap", requiresProject = false)
 public class BootstrapMojo extends CheckoutMojo {
+
     /**
      * The goals to run on the clean checkout of a project for the bootstrap goal.
      * If none are specified, then the default goal for the project is executed.
@@ -68,6 +73,11 @@ public class BootstrapMojo extends CheckoutMojo {
      */
     @Parameter(property = "mavenHome", defaultValue = "${maven.home}")
     private File mavenHome;
+
+    @Inject
+    public BootstrapMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
+        super(manager, settingsDecrypter);
+    }
 
     /** {@inheritDoc} */
     public void execute() throws MojoExecutionException {
