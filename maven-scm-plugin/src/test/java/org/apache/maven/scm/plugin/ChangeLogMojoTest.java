@@ -103,7 +103,7 @@ public class ChangeLogMojoTest extends AbstractJUnit4MojoTestCase {
 
             fail("mojo execution must fail.");
         } catch (MojoExecutionException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
         }
     }
 
@@ -126,7 +126,7 @@ public class ChangeLogMojoTest extends AbstractJUnit4MojoTestCase {
 
             fail("mojo execution must fail.");
         } catch (MojoExecutionException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
         }
     }
 }
