@@ -102,7 +102,7 @@ public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
 
             fail("mojo execution must fail.");
         } catch (MojoExecutionException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
         }
     }
 
