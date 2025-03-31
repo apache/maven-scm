@@ -89,7 +89,10 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
                 // add files first
                 doCommit = JGitUtils.addAllFiles(git, fileSet).size() > 0;
                 if (!doCommit) {
-                    doCommit = git.status().call().hasUncommittedChanges();
+                    Status status = git.status().call();
+                    doCommit = status.getAdded().size() > 0
+                            || status.getChanged().size() > 0
+                            || status.getRemoved().size() > 0;
                 }
             } else {
                 // add all tracked files which are modified manually
@@ -132,6 +135,8 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
                         logger.debug("in commit: " + scmFile);
                     }
                 }
+            } else {
+                logger.info("nothing to commit");
             }
 
             if (repo.isPushChanges()) {
