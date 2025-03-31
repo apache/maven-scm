@@ -56,7 +56,7 @@ public class GitRemoteInfoCommand extends AbstractRemoteInfoCommand implements G
 
         int exitCode = GitCommandLineUtils.execute(clLsRemote, consumer, stderr);
         if (exitCode != 0) {
-            throw new ScmException("unable to execute ls-remote on " + gitRepository.getFetchUrl());
+            throw new ScmException("unable to execute ls-remote on " + gitRepository.getFetchUrlWithMaskedPassword());
         }
 
         return consumer.getRemoteInfoScmResult();

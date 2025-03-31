@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.Test;
@@ -91,13 +92,13 @@ public class GitCommandLineUtilsTest {
             assertFalse(
                     MessageFormat.format(
                             "The target log message should not contain <{0}> but it contains <{1}>",
-                            AnonymousCommandLine.PASSWORD_PLACE_HOLDER, commandLineArgs[i]),
-                    commandLineArgs[i].contains(AnonymousCommandLine.PASSWORD_PLACE_HOLDER));
+                            GitUtil.PASSWORD_PLACE_HOLDER_WITH_DELIMITERS, commandLineArgs[i]),
+                    commandLineArgs[i].contains(GitUtil.PASSWORD_PLACE_HOLDER_WITH_DELIMITERS));
         }
 
-        final String scmUrlFakeForTest = "https://user:"
-                .concat(AnonymousCommandLine.PASSWORD_PLACE_HOLDER)
-                .concat("@foo.com/git/trunk");
+        final String scmUrlFakeForTest = "https://user"
+                .concat(GitUtil.PASSWORD_PLACE_HOLDER_WITH_DELIMITERS)
+                .concat("foo.com/git/trunk");
 
         assertTrue(
                 MessageFormat.format(
