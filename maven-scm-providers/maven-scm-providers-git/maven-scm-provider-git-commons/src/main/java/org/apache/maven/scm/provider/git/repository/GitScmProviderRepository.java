@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
+import org.apache.maven.scm.provider.git.util.GitUtil;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -186,10 +187,24 @@ public class GitScmProviderRepository extends ScmProviderRepositoryWithHost {
     }
 
     /**
+     * @return the URL to fetch from with masked password used for logging purposes only
+     */
+    public String getFetchUrlWithMaskedPassword() {
+        return GitUtil.maskPasswordInUrl(getFetchUrl());
+    }
+
+    /**
      * @return the URL used to push to the upstream repository
      */
     public String getPushUrl() {
         return getUrl(pushInfo);
+    }
+
+    /**
+     * @return the URL to push to with masked password used for logging purposes only
+     */
+    public String getPushUrlWithMaskedPassword() {
+        return GitUtil.maskPasswordInUrl(getPushUrl());
     }
 
     /**
@@ -385,6 +400,7 @@ public class GitScmProviderRepository extends ScmProviderRepositoryWithHost {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getRelativePath(ScmProviderRepository ancestor) {
         if (ancestor instanceof GitScmProviderRepository) {
             GitScmProviderRepository gitAncestor = (GitScmProviderRepository) ancestor;
@@ -403,11 +419,15 @@ public class GitScmProviderRepository extends ScmProviderRepositoryWithHost {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString() {
         // yes we really like to check if those are the exact same instance!
         if (fetchInfo == pushInfo) {
-            return getUrl(fetchInfo);
+            return getFetchUrlWithMaskedPassword();
         }
-        return URL_DELIMITER_FETCH + getUrl(fetchInfo) + URL_DELIMITER_PUSH + getUrl(pushInfo);
+        return URL_DELIMITER_FETCH
+                + getFetchUrlWithMaskedPassword()
+                + URL_DELIMITER_PUSH
+                + getPushUrlWithMaskedPassword();
     }
 }

@@ -20,8 +20,6 @@ package org.apache.maven.scm.provider.git.jgit.command;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -132,7 +130,7 @@ public class JGitUtils {
      * @param git        the instance to configure (only in memory, not saved)
      * @param repository the repo config to be used
      * @return {@link CredentialsProvider} in case there are credentials
-     *         informations configured in the repository.
+     * informations configured in the repository.
      */
     public static CredentialsProvider prepareSession(Git git, GitScmProviderRepository repository) {
         StoredConfig config = git.getRepository().getConfig();
@@ -140,20 +138,8 @@ public class JGitUtils {
         config.setString("remote", "origin", "pushURL", repository.getPushUrl());
 
         // make sure we do not log any passwords to the output
-        String password = StringUtils.isNotBlank(repository.getPassword())
-                ? repository.getPassword().trim()
-                : "no-pwd-defined";
-        // if password contains special characters it won't match below.
-        // Try encoding before match. (Passwords without will be unaffected)
-        try {
-            password = URLEncoder.encode(password, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            // UTF-8 should be valid
-            // TODO use a logger
-            System.out.println("Ignore UnsupportedEncodingException when trying to encode password");
-        }
-        LOGGER.info("fetch url: " + repository.getFetchUrl().replace(password, "******"));
-        LOGGER.info("push url: " + repository.getPushUrl().replace(password, "******"));
+        LOGGER.info("fetch url: " + repository.getFetchUrlWithMaskedPassword());
+        LOGGER.info("push url: " + repository.getPushUrlWithMaskedPassword());
         return getCredentials(repository);
     }
 

@@ -126,7 +126,7 @@ public class GitScmProviderRepositoryTest extends ScmTestCase {
     public void testLegalHttpURLWithUserPassword() throws Exception {
         testUrl(
                 "scm:git:http://user:password@gitrepos.apache.org",
-                null,
+                "http://user:********@gitrepos.apache.org",
                 "http://user:password@gitrepos.apache.org",
                 null,
                 "user",
@@ -174,7 +174,7 @@ public class GitScmProviderRepositoryTest extends ScmTestCase {
     public void testLegalHttpsURLWithUserPassword() throws Exception {
         testUrl(
                 "scm:git:https://user:password@gitrepos.apache.org",
-                null,
+                "https://user:********@gitrepos.apache.org",
                 "https://user:password@gitrepos.apache.org",
                 null,
                 "user",
@@ -202,7 +202,7 @@ public class GitScmProviderRepositoryTest extends ScmTestCase {
     public void testLegalSshURLWithUserPassword() throws Exception {
         testUrl(
                 "scm:git:ssh://user:password@gitrepos.apache.org",
-                null,
+                "ssh://user:********@gitrepos.apache.org",
                 "ssh://user:password@gitrepos.apache.org",
                 null,
                 "user",
@@ -289,12 +289,12 @@ public class GitScmProviderRepositoryTest extends ScmTestCase {
     public void testSpecialCharacters() throws Exception {
         testUrl(
                 "scm:git:http://gitrepos.apache.org",
-                "@_&_:_?_#_%20",
+                "/_@_&_:_?_#_%20",
                 "pass word",
                 null,
                 "http://gitrepos.apache.org",
                 null,
-                "http://%40_&_:_%3F_%23_%2520:pass%20word@gitrepos.apache.org",
+                "http://%2F_%40_&_:_%3F_%23_%2520:pass%20word@gitrepos.apache.org",
                 null,
                 "gitrepos.apache.org",
                 0,
@@ -303,11 +303,11 @@ public class GitScmProviderRepositoryTest extends ScmTestCase {
         testUrl(
                 "scm:git:http://gitrepos.apache.org",
                 "user name",
-                "@_&_:_?_#_%20",
+                "/_@_&_:_?_#_%20",
                 null,
                 "http://gitrepos.apache.org",
                 null,
-                "http://user%20name:%40_&_:_%3F_%23_%2520@gitrepos.apache.org",
+                "http://user%20name:%2F_%40_&_:_%3F_%23_%2520@gitrepos.apache.org",
                 null,
                 "gitrepos.apache.org",
                 0,
@@ -362,7 +362,7 @@ public class GitScmProviderRepositoryTest extends ScmTestCase {
 
         testUrl(
                 "scm:git:ssh://username:password@gitrepos.apache.org/pmgt/trunk",
-                null,
+                "ssh://username:********@gitrepos.apache.org/pmgt/trunk",
                 "ssh://username:password@gitrepos.apache.org/pmgt/trunk",
                 null,
                 "username",
@@ -376,7 +376,7 @@ public class GitScmProviderRepositoryTest extends ScmTestCase {
     public void testUsernameWithAtAndPasswordInUrl() throws ScmRepositoryException, Exception {
         testUrl(
                 "scm:git:http://username@site.com:password@gitrepos.apache.org:8800/pmgt/trunk",
-                null,
+                "http://username%40site.com:********@gitrepos.apache.org:8800/pmgt/trunk",
                 "http://username%40site.com:password@gitrepos.apache.org:8800/pmgt/trunk",
                 null,
                 "username@site.com",
@@ -394,7 +394,7 @@ public class GitScmProviderRepositoryTest extends ScmTestCase {
     public void testHttpFetchSshPushUrl() throws Exception {
         testUrl(
                 "scm:git:[fetch=]http://git.apache.org/myprj.git[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git",
-                "[fetch=]http://myuser:mypassword@git.apache.org/myprj.git[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git",
+                "[fetch=]http://myuser:********@git.apache.org/myprj.git[push=]ssh://myuser:********@git.apache.org/~/myrepo/myprj.git",
                 "http://myuser:mypassword@git.apache.org/myprj.git",
                 "ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git",
                 "myuser",
@@ -405,7 +405,7 @@ public class GitScmProviderRepositoryTest extends ScmTestCase {
 
         testUrl(
                 "scm:git:[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git[fetch=]http://git.apache.org/myprj.git",
-                "[fetch=]http://myuser:mypassword@git.apache.org/myprj.git[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git",
+                "[fetch=]http://myuser:********@git.apache.org/myprj.git[push=]ssh://myuser:********@git.apache.org/~/myrepo/myprj.git",
                 "http://myuser:mypassword@git.apache.org/myprj.git",
                 "ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git",
                 "myuser",

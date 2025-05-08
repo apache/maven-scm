@@ -18,9 +18,7 @@
  */
 package org.apache.maven.scm.provider.git.gitexe.command;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
@@ -29,10 +27,6 @@ import org.codehaus.plexus.util.cli.Commandline;
  */
 public class AnonymousCommandLine extends Commandline {
 
-    public static final String PASSWORD_PLACE_HOLDER = "********";
-
-    private Pattern passwordPattern = Pattern.compile("^.*:(.*)@.*$");
-
     /**
      * Provides an anonymous output to mask password. Considering URL of type :
      * &lt;&lt;protocol&gt;&gt;://&lt;&lt;user&gt;&gt;:&lt;&lt;password&gt;&gt;@
@@ -40,14 +34,7 @@ public class AnonymousCommandLine extends Commandline {
      */
     @Override
     public String toString() {
-        String output = super.toString();
-        final Matcher passwordMatcher = passwordPattern.matcher(output);
-        if (passwordMatcher.find()) {
-            // clear password
-            final String clearPassword = passwordMatcher.group(1);
-            // to be replaced in output by stars
-            output = output.replace(clearPassword, PASSWORD_PLACE_HOLDER);
-        }
+        String output = GitUtil.maskPasswordInUrl(super.toString());
         return output;
     }
 }
