@@ -26,6 +26,8 @@ import java.io.IOException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -72,6 +74,14 @@ public class CheckoutMojo extends AbstractScmMojo {
     private String scmVersion;
 
     /**
+     * Currently only implemented with Git Executable. Perform a shallow checkout.
+     *
+     * @since 2.1.1
+     */
+    @Parameter(property = "shallow", defaultValue = "false")
+    private boolean shallow = false;
+
+    /**
      * allow extended mojo (ie BootStrap ) to see checkout result
      */
     private ScmResult checkoutResult;
@@ -116,7 +126,12 @@ public class CheckoutMojo extends AbstractScmMojo {
             if (useExport) {
                 result = getScmManager().export(repository, fileSet, getScmVersion(scmVersionType, scmVersion));
             } else {
-                result = getScmManager().checkOut(repository, fileSet, getScmVersion(scmVersionType, scmVersion));
+                CommandParameters parameters = new CommandParameters();
+                parameters.setString(CommandParameter.RECURSIVE, Boolean.toString(true));
+                parameters.setString(CommandParameter.SHALLOW, Boolean.toString(shallow));
+                result = getScmManager()
+                        .getProviderByRepository(repository)
+                        .checkOut(repository, fileSet, getScmVersion(scmVersionType, scmVersion), parameters);
             }
 
             checkResult(result);
