@@ -468,16 +468,6 @@
             </reportSets>
           </plugin>
           <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>cobertura-maven-plugin</artifactId>
-            <reportSets>
-              <reportSet>
-                <!-- Disabled as it kills the site generation via a NoClassDefFoundError -->
-                <reports />
-              </reportSet>
-            </reportSets>
-          </plugin>
-          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
             <reportSets>
