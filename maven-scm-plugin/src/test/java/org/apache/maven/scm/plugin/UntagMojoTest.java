@@ -73,6 +73,7 @@ public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
         TagMojo tagMojo = (TagMojo) lookupMojo("tag", getTestFile("src/test/resources/mojos/untag/tag.xml"));
         tagMojo.setWorkingDirectory(checkoutDir);
         tagMojo.setSign(false);
+        tagMojo.setForceNoSign(true);
         tagMojo.setConnectionUrl(getConnectionLocalAddress(tagMojo));
         tagMojo.execute();
 
