@@ -107,6 +107,14 @@ public class TagMojo extends AbstractScmMojo {
     @Parameter(property = "sign", defaultValue = "false")
     private boolean sign;
 
+    /**
+     * Enable the "--no-sign" in Git
+     *
+     * @since 2.1.1
+     */
+    @Parameter(property = "forceNoSign", defaultValue = "false")
+    private boolean forceNoSign;
+
     @Inject
     public TagMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
         super(manager, settingsDecrypter);
@@ -150,6 +158,7 @@ public class TagMojo extends AbstractScmMojo {
             scmTagParameters.setRemoteTagging(remoteTagging);
             scmTagParameters.setPinExternals(pinExternals);
             scmTagParameters.setSign(sign);
+            scmTagParameters.setForceNoSign(forceNoSign);
 
             TagScmResult result = provider.tag(repository, getFileSet(), finalTag, scmTagParameters);
 
@@ -157,5 +166,21 @@ public class TagMojo extends AbstractScmMojo {
         } catch (IOException | ScmException e) {
             throw new MojoExecutionException("Cannot run tag command : ", e);
         }
+    }
+
+    public boolean isSign() {
+        return sign;
+    }
+
+    public void setSign(boolean sign) {
+        this.sign = sign;
+    }
+
+    public boolean isForceNoSign() {
+        return forceNoSign;
+    }
+
+    public void setForceNoSign(boolean forceNoSign) {
+        this.forceNoSign = forceNoSign;
     }
 }

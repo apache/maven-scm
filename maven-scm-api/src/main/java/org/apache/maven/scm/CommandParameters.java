@@ -187,8 +187,7 @@ public class CommandParameters implements Serializable {
      * @throws ScmException if the parameter doesn't exist
      */
     public boolean getBoolean(CommandParameter parameter, boolean defaultValue) throws ScmException {
-        return Boolean.valueOf(getString(parameter, Boolean.toString(defaultValue)))
-                .booleanValue();
+        return Boolean.parseBoolean(getString(parameter, Boolean.toString(defaultValue)));
     }
 
     // ----------------------------------------------------------------------

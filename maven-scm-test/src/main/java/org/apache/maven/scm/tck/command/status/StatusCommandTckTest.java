@@ -23,6 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -60,7 +62,11 @@ import static org.junit.Assert.assertTrue;
 public abstract class StatusCommandTckTest extends ScmTckTestCase {
 
     protected void commit(File workingDirectory, ScmRepository repository) throws Exception {
-        CheckInScmResult result = getScmManager().checkIn(repository, new ScmFileSet(workingDirectory), "No msg");
+        CommandParameters commandParameters = new CommandParameters();
+        commandParameters.setString(CommandParameter.MESSAGE, "No msg");
+        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
+        CheckInScmResult result =
+                getScmManager().checkIn(repository, new ScmFileSet(workingDirectory), commandParameters);
 
         assertTrue("Check result was successful, output: " + result.getCommandOutput(), result.isSuccess());
 
@@ -145,7 +151,7 @@ public abstract class StatusCommandTckTest extends ScmTckTestCase {
         // Assert the files in the updated files list
         // ----------------------------------------------------------------------
 
-        Iterator<ScmFile> files = new TreeSet<ScmFile>(changedFiles).iterator();
+        Iterator<ScmFile> files = new TreeSet<>(changedFiles).iterator();
 
         ScmFile file = files.next();
         assertPath("src/main/java/org/Foo.java", file.getPath());

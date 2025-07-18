@@ -76,6 +76,7 @@ public class JGitTagCommand extends AbstractTagCommand implements GitCommand {
             // tag the revision
             String tagMessage = scmTagParameters.getMessage();
             Ref tagRef = git.tag()
+                    .setSigned(scmTagParameters.isSign())
                     .setName(escapedTagName)
                     .setMessage(tagMessage)
                     .setForceUpdate(false)

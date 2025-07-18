@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -279,6 +280,23 @@ public interface ScmManager {
      * @throws ScmException if any
      */
     CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, String message) throws ScmException;
+
+    /**
+     * Save the changes you have done into the repository. This will create a new version of the file or directory in
+     * the repository.
+     * <p>
+     * When the fileSet has no entries, the {@code fileSet.getBasedir()} is recursively committed. When the fileSet
+     * has entries, the commit is non-recursive and only the elements in the fileSet are committed.
+     *
+     * @param repository the source control system
+     * @param fileSet    the files to check in (sometimes called commit)
+     * @param commandParameters parameters for the command, such as commit message and whether to sign the commit. {@link CommandParameters}
+     * @return  a {@link CheckInScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
+     * have been checked in.
+     * @throws ScmException if any
+     */
+    CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, CommandParameters commandParameters)
+            throws ScmException;
 
     /**
      * Save the changes you have done into the repository. This will create a new version of the file or directory in

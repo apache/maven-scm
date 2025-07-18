@@ -52,7 +52,11 @@ public class GitTagCommandTest extends ScmTestCase {
     @Test
     public void testCommandLineTag() throws Exception {
         testCommandLine(
-                "scm:git:http://foo.com/git/trunk", "my-tag-1", "git tag " + messageFileString + " my-tag-1", false);
+                "scm:git:http://foo.com/git/trunk",
+                "my-tag-1",
+                "git tag " + messageFileString + " my-tag-1",
+                false,
+                false);
     }
 
     @Test
@@ -61,7 +65,18 @@ public class GitTagCommandTest extends ScmTestCase {
                 "scm:git:http://anonymous@foo.com/git/trunk",
                 "my-tag-1",
                 "git tag " + messageFileString + " my-tag-1",
+                false,
                 false);
+    }
+
+    @Test
+    public void testCommandLineWithUsernameAndTagForceNoSign() throws Exception {
+        testCommandLine(
+                "scm:git:http://anonymous@foo.com/git/trunk",
+                "my-tag-1",
+                "git tag --no-sign " + messageFileString + " my-tag-1",
+                false,
+                true);
     }
 
     @Test
@@ -70,21 +85,24 @@ public class GitTagCommandTest extends ScmTestCase {
                 "scm:git:http://anonymous@foo.com/git/trunk",
                 "my-tag-1",
                 "git tag -s " + messageFileString + " my-tag-1",
-                true);
+                true,
+                false);
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine(String scmUrl, String tag, String commandLine, boolean sign) throws Exception {
+    private void testCommandLine(String scmUrl, String tag, String commandLine, boolean sign, boolean forceNoSign)
+            throws Exception {
         File workingDirectory = getTestFile("target/git-checkin-command-test");
 
         ScmRepository repository = getScmManager().makeScmRepository(scmUrl);
 
         GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = GitTagCommand.createCommandLine(gitRepository, workingDirectory, tag, messageFile, sign);
+        Commandline cl =
+                GitTagCommand.createCommandLine(gitRepository, workingDirectory, tag, messageFile, sign, forceNoSign);
 
         assertCommandLine(commandLine, workingDirectory, cl);
     }

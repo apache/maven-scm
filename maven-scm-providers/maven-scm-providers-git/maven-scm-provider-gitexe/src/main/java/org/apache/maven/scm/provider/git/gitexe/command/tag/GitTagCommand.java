@@ -82,9 +82,13 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
 
             int exitCode;
 
-            boolean sign = scmTagParameters.isSign();
-
-            Commandline clTag = createCommandLine(repository, fileSet.getBasedir(), tag, messageFile, sign);
+            Commandline clTag = createCommandLine(
+                    repository,
+                    fileSet.getBasedir(),
+                    tag,
+                    messageFile,
+                    scmTagParameters.isSign(),
+                    scmTagParameters.isForceNoSign());
 
             exitCode = GitCommandLineUtils.execute(clTag, stdout, stderr);
             if (exitCode != 0) {
@@ -127,12 +131,20 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine(
-            GitScmProviderRepository repository, File workingDirectory, String tag, File messageFile, boolean sign) {
+    static Commandline createCommandLine(
+            GitScmProviderRepository repository,
+            File workingDirectory,
+            String tag,
+            File messageFile,
+            boolean sign,
+            boolean forceNoSign) {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "tag");
 
         if (sign) {
             cl.createArg().setValue("-s");
+        }
+        if (forceNoSign) {
+            cl.createArg().setValue("--no-sign");
         }
 
         cl.createArg().setValue("-F");

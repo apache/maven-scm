@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.git.jgit.command.changelog;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.changelog.GitChangeLogCommandTckTest;
 import org.eclipse.jgit.util.FileUtils;
@@ -34,6 +35,12 @@ public class JGitChangeLogCommandTckTest extends GitChangeLogCommandTckTest {
      */
     public String getScmUrl() throws Exception {
         return GitScmTestUtils.getScmUrl(getRepositoryRoot(), "jgit");
+    }
+
+    @Override
+    protected ScmManager getScmManager() throws Exception {
+        ScmManager scmManager = super.getScmManager();
+        return scmManager;
     }
 
     @Override

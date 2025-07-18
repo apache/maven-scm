@@ -23,6 +23,8 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmTckTestCase;
@@ -68,8 +70,12 @@ public abstract class TagCommandTckTest extends ScmTckTestCase {
         this.edit(getWorkingCopy(), "readme.txt", null, getScmRepository());
         changeReadmeTxt(readmeTxt.toPath());
 
+        CommandParameters commandParameters = new CommandParameters();
+        commandParameters.setString(CommandParameter.MESSAGE, "Commit message");
+        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
+
         CheckInScmResult checkinResult =
-                getScmManager().checkIn(getScmRepository(), new ScmFileSet(getWorkingCopy()), "commit message");
+                getScmManager().checkIn(getScmRepository(), new ScmFileSet(getWorkingCopy()), commandParameters);
 
         assertResultIsSuccess(checkinResult);
 

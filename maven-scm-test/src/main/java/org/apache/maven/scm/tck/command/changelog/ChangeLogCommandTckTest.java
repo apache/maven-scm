@@ -23,6 +23,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTagParameters;
@@ -86,7 +88,10 @@ public abstract class ChangeLogCommandTckTest extends ScmTckTestCase {
         // Make a change to the readme.txt and commit the change
         this.edit(getWorkingCopy(), "readme.txt", null, getScmRepository());
         ScmTestCase.makeFile(getWorkingCopy(), "/readme.txt", "changed readme.txt");
-        CheckInScmResult checkInResult = provider.checkIn(getScmRepository(), fileSet, COMMIT_MSG);
+        CommandParameters commandParameters = new CommandParameters();
+        commandParameters.setString(CommandParameter.MESSAGE, COMMIT_MSG);
+        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
+        CheckInScmResult checkInResult = provider.checkIn(getScmRepository(), fileSet, commandParameters);
         assertTrue("Unable to checkin changes to the repository", checkInResult.isSuccess());
 
         ScmTagParameters scmTagParameters = new ScmTagParameters();

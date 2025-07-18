@@ -35,6 +35,8 @@ public class ScmTagParameters implements Serializable {
 
     private boolean sign = false;
 
+    private boolean forceNoSign = false;
+
     private String scmRevision;
 
     public ScmTagParameters() {
@@ -87,7 +89,22 @@ public class ScmTagParameters implements Serializable {
         this.scmRevision = scmRevision;
     }
 
+    public boolean isForceNoSign() {
+        return forceNoSign;
+    }
+
+    public void setForceNoSign(boolean forceNoSign) {
+        this.forceNoSign = forceNoSign;
+    }
+
+    @Override
     public String toString() {
-        return "[" + scmRevision + "] " + message;
+        return "ScmTagParameters{" + "message='"
+                + message + '\'' + ", remoteTagging="
+                + remoteTagging + ", pinExternals="
+                + pinExternals + ", sign="
+                + sign + ", forceNoSign="
+                + forceNoSign + ", scmRevision='"
+                + scmRevision + '\'' + '}';
     }
 }

@@ -186,6 +186,12 @@ public abstract class AbstractGitScmProvider extends AbstractScmProvider {
         return (CheckInScmResult) executeCommand(getCheckInCommand(), repository, fileSet, parameters);
     }
 
+    @Override
+    public CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return (CheckInScmResult) getCheckInCommand().execute(repository.getProviderRepository(), fileSet, parameters);
+    }
+
     protected abstract GitCommand getCheckOutCommand();
 
     /** {@inheritDoc} */

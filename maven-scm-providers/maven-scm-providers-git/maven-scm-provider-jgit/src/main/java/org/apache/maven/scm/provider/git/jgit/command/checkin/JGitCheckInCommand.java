@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -72,11 +74,12 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
 
     protected static final String GIT_FORCE = "forceUsername";
 
-    /**
-     * {@inheritDoc}
-     */
-    protected CheckInScmResult executeCheckInCommand(
-            ScmProviderRepository repo, ScmFileSet fileSet, String message, ScmVersion version) throws ScmException {
+    @Override
+    public CheckInScmResult executeCommand(ScmProviderRepository repo, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        String message = parameters.getString(CommandParameter.MESSAGE);
+
+        ScmVersion version = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
 
         Git git = null;
         try {
@@ -124,8 +127,11 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
                 UserInfo author = getAuthor(repo, git);
                 UserInfo committer = getCommitter(repo, git);
 
-                CommitCommand command = git.commit().setMessage(message).setAuthor(author.name, author.email);
-                command.setCommitter(committer.name, committer.email);
+                CommitCommand command = git.commit()
+                        .setMessage(message)
+                        .setAuthor(author.name, author.email)
+                        .setCommitter(committer.name, committer.email)
+                        .setSign(parameters.getBoolean(CommandParameter.SCM_COMMIT_SIGN, true));
                 RevCommit commitRev = command.call();
 
                 logger.info("commit done: " + commitRev.getShortMessage());
@@ -167,6 +173,18 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
         } finally {
             JGitUtils.closeRepo(git);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected CheckInScmResult executeCheckInCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, String message, ScmVersion version) throws ScmException {
+
+        CommandParameters parameters = new CommandParameters();
+        parameters.setString(CommandParameter.MESSAGE, message);
+        parameters.setScmVersion(CommandParameter.SCM_VERSION, version);
+        return executeCommand(repo, fileSet, parameters);
     }
 
     private boolean isSuccessStatus(RemoteRefUpdate.Status remoteRefUpdateStatus) {

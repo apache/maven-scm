@@ -21,6 +21,8 @@ package org.apache.maven.scm.tck.command.remove;
 import java.io.File;
 import java.util.List;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -64,9 +66,13 @@ public abstract class RemoveCommandTckTest extends ScmTckTestCase {
         assertEquals(ScmFileStatus.DELETED, file1.getStatus());
         assertPath("test/java/Test.java", file1.getPath());
 
+        CommandParameters commandParameters = new CommandParameters();
+        commandParameters.setString(CommandParameter.MESSAGE, "Commit message");
+        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
+
         // checkin changes
         CheckInScmResult checkinResult =
-                getScmManager().checkIn(getScmRepository(), new ScmFileSet(getWorkingCopy()), "Commit message");
+                getScmManager().checkIn(getScmRepository(), new ScmFileSet(getWorkingCopy()), commandParameters);
 
         assertResultIsSuccess(checkinResult);
 
