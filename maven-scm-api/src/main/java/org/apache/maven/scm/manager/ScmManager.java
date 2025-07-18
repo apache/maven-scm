@@ -290,7 +290,7 @@ public interface ScmManager {
      *
      * @param repository the source control system
      * @param fileSet    the files to check in (sometimes called commit)
-     * @param commandParameters    a string that is a comment on the changes that where done
+     * @param commandParameters parameters for the command, such as commit message and whether to sign the commit. {@link CommandParameters}
      * @return  a {@link CheckInScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
      * have been checked in.
      * @throws ScmException if any
