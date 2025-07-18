@@ -485,6 +485,12 @@ public class ScmProviderStub implements ScmProvider {
         return getCheckInScmResult();
     }
 
+    @Override
+    public CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return getCheckInScmResult();
+    }
+
     /**
      * {@inheritDoc}
      */

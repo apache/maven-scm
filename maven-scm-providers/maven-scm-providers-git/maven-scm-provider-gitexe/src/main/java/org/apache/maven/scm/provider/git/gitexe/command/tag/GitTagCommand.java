@@ -133,6 +133,8 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
 
         if (sign) {
             cl.createArg().setValue("-s");
+        } else {
+            cl.createArg().setValue("--no-sign");
         }
 
         cl.createArg().setValue("-F");

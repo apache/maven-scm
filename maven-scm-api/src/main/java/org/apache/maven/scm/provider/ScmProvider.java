@@ -413,6 +413,23 @@ public interface ScmProvider {
      * When the fileSet has entries, the commit is non-recursive and only the elements in the fileSet
      * are committed.
      *
+     * @param repository  the source control system
+     * @param fileSet     the files to check in (sometimes called commit)
+     * @param parameters  {@link CommandParameters}
+     * @return TODO
+     * @throws ScmException if any
+     */
+    CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException;
+
+    /**
+     * Save the changes you have done into the repository. This will create a new version of the file or
+     * directory in the repository.
+     * <p>
+     * When the fileSet has no entries, the fileSet.getBaseDir() is recursively committed.
+     * When the fileSet has entries, the commit is non-recursive and only the elements in the fileSet
+     * are committed.
+     *
      * @param repository the source control system
      * @param fileSet    the files to check in (sometimes called commit)
      * @param revision   branch/tag/revision

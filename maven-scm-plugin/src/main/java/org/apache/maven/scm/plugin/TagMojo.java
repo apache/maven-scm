@@ -158,4 +158,12 @@ public class TagMojo extends AbstractScmMojo {
             throw new MojoExecutionException("Cannot run tag command : ", e);
         }
     }
+
+    public boolean isSign() {
+        return sign;
+    }
+
+    public void setSign(boolean sign) {
+        this.sign = sign;
+    }
 }

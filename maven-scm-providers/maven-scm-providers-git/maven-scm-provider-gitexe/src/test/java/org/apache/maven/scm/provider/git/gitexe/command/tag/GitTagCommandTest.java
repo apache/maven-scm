@@ -52,7 +52,10 @@ public class GitTagCommandTest extends ScmTestCase {
     @Test
     public void testCommandLineTag() throws Exception {
         testCommandLine(
-                "scm:git:http://foo.com/git/trunk", "my-tag-1", "git tag " + messageFileString + " my-tag-1", false);
+                "scm:git:http://foo.com/git/trunk",
+                "my-tag-1",
+                "git tag --no-sign " + messageFileString + " my-tag-1",
+                false);
     }
 
     @Test
@@ -60,7 +63,7 @@ public class GitTagCommandTest extends ScmTestCase {
         testCommandLine(
                 "scm:git:http://anonymous@foo.com/git/trunk",
                 "my-tag-1",
-                "git tag " + messageFileString + " my-tag-1",
+                "git tag --no-sign " + messageFileString + " my-tag-1",
                 false);
     }
 

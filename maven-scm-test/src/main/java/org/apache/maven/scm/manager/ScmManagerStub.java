@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -273,6 +274,12 @@ public class ScmManagerStub implements ScmManager {
     public CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, ScmVersion revision, String message)
             throws ScmException {
         return this.getProviderByRepository(repository).checkIn(repository, fileSet, revision, message);
+    }
+
+    @Override
+    public CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, CommandParameters commandParameters)
+            throws ScmException {
+        return this.getProviderByRepository(repository).checkIn(repository, fileSet, commandParameters);
     }
 
     /**

@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.git.command.checkin;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.PlexusJUnit4TestCase;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -84,12 +86,20 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
 
         ScmFileSet blockingFileSet = createWorkspaceChange(rejectedRepo);
 
-        CheckInScmResult blockingResult = getScmManager().checkIn(scmRepository, blockingFileSet, "Blocking commit");
+        CommandParameters commandParameters = new CommandParameters();
+        commandParameters.setString(CommandParameter.MESSAGE, "Blocking commit");
+        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
+
+        CheckInScmResult blockingResult = getScmManager().checkIn(scmRepository, blockingFileSet, commandParameters);
         assertResultIsSuccess(blockingResult);
 
         ScmFileSet rejectedFileSet = createWorkspaceChange(blockingRepo);
 
-        CheckInScmResult checkInScmResult = getScmManager().checkIn(scmRepository, rejectedFileSet, "Rejected commit");
+        commandParameters = new CommandParameters();
+        commandParameters.setString(CommandParameter.MESSAGE, "Rejected commit");
+        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
+
+        CheckInScmResult checkInScmResult = getScmManager().checkIn(scmRepository, rejectedFileSet, commandParameters);
         assertFalse(
                 "check-in should have been rejected since fast forward was not possible", checkInScmResult.isSuccess());
     }
