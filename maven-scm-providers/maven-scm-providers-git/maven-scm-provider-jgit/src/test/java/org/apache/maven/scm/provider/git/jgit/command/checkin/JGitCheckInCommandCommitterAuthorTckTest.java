@@ -23,6 +23,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.add.AddScmResult;
@@ -254,8 +256,12 @@ public class JGitCheckInCommandCommitterAuthorTckTest extends GitCheckInCommandT
 
         assertResultIsSuccess(addResult);
 
+        CommandParameters commandParameters = new CommandParameters();
+        commandParameters.setString(CommandParameter.MESSAGE, "Commit message");
+        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
+
         CheckInScmResult result = getScmManager()
-                .checkIn(scmRepository, new ScmFileSet(getWorkingCopy(), "**/Foo.java"), "Commit message");
+                .checkIn(scmRepository, new ScmFileSet(getWorkingCopy(), "**/Foo.java"), commandParameters);
 
         assertResultIsSuccess(result);
     }

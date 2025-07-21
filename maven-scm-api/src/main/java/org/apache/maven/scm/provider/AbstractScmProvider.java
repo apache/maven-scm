@@ -416,6 +416,16 @@ public abstract class AbstractScmProvider implements ScmProvider {
         return checkin(repository.getProviderRepository(), fileSet, parameters);
     }
 
+    @Override
+    public CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+            throws ScmException {
+        return checkIn(
+                repository,
+                fileSet,
+                parameters.getScmVersion(CommandParameter.SCM_VERSION, null),
+                parameters.getString(CommandParameter.MESSAGE));
+    }
+
     protected CheckInScmResult checkin(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         throw new NoSuchCommandScmException("checkin");

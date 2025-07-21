@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
@@ -386,6 +387,12 @@ public abstract class AbstractScmManager implements ScmManager {
     public CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, ScmVersion revision, String message)
             throws ScmException {
         return this.getProviderByRepository(repository).checkIn(repository, fileSet, revision, message);
+    }
+
+    @Override
+    public CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, CommandParameters commandParameters)
+            throws ScmException {
+        return this.getProviderByRepository(repository).checkIn(repository, fileSet, commandParameters);
     }
 
     /**

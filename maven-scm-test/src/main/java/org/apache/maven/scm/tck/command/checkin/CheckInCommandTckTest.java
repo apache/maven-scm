@@ -24,6 +24,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -83,8 +85,12 @@ public abstract class CheckInCommandTckTest extends ScmTckTestCase {
                 "src/main/java/Foo.java",
                 FilenameUtils.normalizeFilename(files.get(0).getPath()));
 
+        CommandParameters commandParameters = new CommandParameters();
+        commandParameters.setString(CommandParameter.MESSAGE, "Commit message");
+        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
+
         CheckInScmResult result =
-                getScmManager().checkIn(getScmRepository(), new ScmFileSet(getWorkingCopy()), "Commit message");
+                getScmManager().checkIn(getScmRepository(), new ScmFileSet(getWorkingCopy()), commandParameters);
 
         assertResultIsSuccess(result);
 
@@ -149,8 +155,12 @@ public abstract class CheckInCommandTckTest extends ScmTckTestCase {
 
         assertResultIsSuccess(addResult);
 
+        CommandParameters commandParameters = new CommandParameters();
+        commandParameters.setString(CommandParameter.MESSAGE, "Commit message");
+        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
+
         CheckInScmResult result = getScmManager()
-                .checkIn(getScmRepository(), new ScmFileSet(getWorkingCopy(), "**/Foo.java", null), "Commit message");
+                .checkIn(getScmRepository(), new ScmFileSet(getWorkingCopy(), "**/Foo.java", null), commandParameters);
 
         assertResultIsSuccess(result);
 
@@ -210,11 +220,15 @@ public abstract class CheckInCommandTckTest extends ScmTckTestCase {
                 "main/java/Foo.java",
                 FilenameUtils.normalizeFilename(files.get(0).getPath()));
 
+        CommandParameters commandParameters = new CommandParameters();
+        commandParameters.setString(CommandParameter.MESSAGE, "Commit message");
+        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
+
         CheckInScmResult result = getScmManager()
                 .checkIn(
                         getScmRepository(),
                         new ScmFileSet(new File(getWorkingCopy(), "src"), "**/Foo.java", null),
-                        "Commit message");
+                        commandParameters);
 
         assertResultIsSuccess(result);
 
