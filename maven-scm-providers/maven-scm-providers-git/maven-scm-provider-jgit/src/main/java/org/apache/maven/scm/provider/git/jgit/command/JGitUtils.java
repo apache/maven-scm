@@ -38,6 +38,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.RmCommand;
 import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
@@ -164,12 +165,21 @@ public class JGitUtils {
 
     public static Iterable<PushResult> push(Git git, GitScmProviderRepository repo, RefSpec refSpec)
             throws GitAPIException, InvalidRemoteException, TransportException {
+        return push(
+                git,
+                repo,
+                refSpec,
+                new JGitTransportConfigCallback(new ScmProviderAwareSshdSessionFactory(repo, LOGGER)));
+    }
+
+    public static Iterable<PushResult> push(
+            Git git, GitScmProviderRepository repo, RefSpec refSpec, TransportConfigCallback transportConfigCallback)
+            throws GitAPIException, InvalidRemoteException, TransportException {
         CredentialsProvider credentials = prepareSession(git, repo);
         PushCommand command = git.push()
                 .setRefSpecs(refSpec)
                 .setCredentialsProvider(credentials)
-                .setTransportConfigCallback(
-                        new JGitTransportConfigCallback(new ScmProviderAwareSshdSessionFactory(repo, LOGGER)));
+                .setTransportConfigCallback(transportConfigCallback);
 
         Iterable<PushResult> pushResultList = command.call();
         for (PushResult pushResult : pushResultList) {

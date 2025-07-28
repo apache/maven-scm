@@ -37,7 +37,7 @@ public abstract class GitUntagCommandTckTest extends UntagCommandTckTest {
         try {
             return super.checkOut(workingDirectory, repository);
         } finally {
-            GitScmTestUtils.setDefaulGitConfig(workingDirectory);
+            GitScmTestUtils.setDefaultGitConfig(workingDirectory);
         }
     }
 }

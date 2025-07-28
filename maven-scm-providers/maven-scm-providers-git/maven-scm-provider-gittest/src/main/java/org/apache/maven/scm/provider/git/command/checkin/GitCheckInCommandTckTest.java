@@ -51,7 +51,7 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
         try {
             return super.checkOut(workingDirectory, repository);
         } finally {
-            GitScmTestUtils.setDefaulGitConfig(workingDirectory);
+            GitScmTestUtils.setDefaultGitConfig(workingDirectory);
         }
     }
 
@@ -63,7 +63,7 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
         checkoutRepoInto(checkedOutRepo, scmRepository);
 
         // Add a default user to the config
-        GitScmTestUtils.setDefaulGitConfig(checkedOutRepo);
+        GitScmTestUtils.setDefaultGitConfig(checkedOutRepo);
 
         CheckInScmResult result =
                 getScmManager().checkIn(scmRepository, new ScmFileSet(checkedOutRepo), "No change commit message");
@@ -81,8 +81,8 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
         checkoutRepoInto(blockingRepo, scmRepository);
 
         // Add a default user to the config
-        GitScmTestUtils.setDefaulGitConfig(rejectedRepo);
-        GitScmTestUtils.setDefaulGitConfig(blockingRepo);
+        GitScmTestUtils.setDefaultGitConfig(rejectedRepo);
+        GitScmTestUtils.setDefaultGitConfig(blockingRepo);
 
         ScmFileSet blockingFileSet = createWorkspaceChange(rejectedRepo);
 

@@ -21,30 +21,21 @@ package org.apache.maven.scm.provider.git.jgit.command.checkout;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
-import java.util.function.Consumer;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 import org.apache.maven.scm.provider.git.command.checkout.GitSshCheckOutCommandTckTest;
 import org.apache.maven.scm.provider.git.jgit.JGitTestScmProvider;
-import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
-import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.sshd.common.config.keys.PublicKeyEntry;
-import org.eclipse.jgit.annotations.NonNull;
-import org.eclipse.jgit.internal.transport.sshd.OpenSshServerKeyDatabase;
-import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.sshd.ServerKeyDatabase;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
-import org.slf4j.Logger;
 
 /** @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a> */
 public class JGitSshCheckOutCommandTckTest extends GitSshCheckOutCommandTckTest {
@@ -63,34 +54,7 @@ public class JGitSshCheckOutCommandTckTest extends GitSshCheckOutCommandTckTest 
         super.initRepo();
         JGitTestScmProvider provider =
                 (JGitTestScmProvider) getScmManager().getProviderByRepository(getScmRepository());
-        // accept all hosts
-        provider.registerCheckOutCommandCallback(new Consumer<JGitCheckOutCommand>() {
-            @Override
-            public void accept(JGitCheckOutCommand command) {
-                command.setSshSessionFactorySupplier(AcceptAllHostsSshdSessionFactory::new);
-            }
-        });
-    }
-
-    private static final class AcceptAllHostsSshdSessionFactory extends ScmProviderAwareSshdSessionFactory {
-        public AcceptAllHostsSshdSessionFactory(GitScmProviderRepository repo, Logger logger) {
-            super(repo, logger);
-        }
-
-        @Override
-        protected ServerKeyDatabase createServerKeyDatabase(File homeDir, File sshDir) {
-            return new OpenSshServerKeyDatabase(false, null) {
-                @Override
-                public boolean accept(
-                        @NonNull String connectAddress,
-                        @NonNull InetSocketAddress remoteAddress,
-                        @NonNull PublicKey serverKey,
-                        @NonNull Configuration config,
-                        CredentialsProvider provider) {
-                    return true;
-                }
-            };
-        }
+        provider.useLenientSshdSessionFactory();
     }
 
     @Override
@@ -116,7 +80,7 @@ public class JGitSshCheckOutCommandTckTest extends GitSshCheckOutCommandTckTest 
             PublicKey publicKey = PublicKeyEntry.parsePublicKeyEntry(
                             IOUtils.toString(publicKeyInputStream, StandardCharsets.US_ASCII))
                     .resolvePublicKey(null, null, null);
-            acceptedPublicKeys.add(publicKey);
+            gitSshServer.addPublicKey(publicKey);
         }
         Path privateKeyFile = Files.createTempFile("privateKey", null);
         // private key into tmp file

@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.git.jgit.command.untag;
 
 import java.util.Collection;
+import java.util.function.BiFunction;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -28,16 +29,34 @@ import org.apache.maven.scm.command.untag.AbstractUntagCommand;
 import org.apache.maven.scm.command.untag.UntagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.CustomizableSshSessionFactoryCommand;
+import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
+import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.slf4j.Logger;
 
 /** {@inheritDoc} */
-public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand {
+public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand, CustomizableSshSessionFactoryCommand {
+
+    private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
+
+    public JGitUntagCommand() {
+        sshSessionFactorySupplier = ScmProviderAwareSshdSessionFactory::new;
+    }
+
+    @Override
+    public void setSshSessionFactorySupplier(
+            BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory>
+                    sshSessionFactorySupplier) {
+        this.sshSessionFactorySupplier = sshSessionFactorySupplier;
+    }
 
     @Override
     protected ScmResult executeUntagCommand(
@@ -62,10 +81,13 @@ public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand
                 // From https://stackoverflow.com/q/11892766/696632
                 RefSpec refSpec = new RefSpec().setSource(null).setDestination(Constants.R_TAGS + escapedTagName);
 
+                TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback(
+                        sshSessionFactorySupplier.apply((GitScmProviderRepository) repository, logger));
+
                 logger.info("push delete tag [" + escapedTagName + "] to remote...");
 
                 Iterable<PushResult> pushResultList =
-                        JGitUtils.push(git, (GitScmProviderRepository) repository, refSpec);
+                        JGitUtils.push(git, (GitScmProviderRepository) repository, refSpec, transportConfigCallback);
                 if (logger.isInfoEnabled()) {
                     for (PushResult pushResult : pushResultList) {
                         Collection<RemoteRefUpdate> ru = pushResult.getRemoteUpdates();

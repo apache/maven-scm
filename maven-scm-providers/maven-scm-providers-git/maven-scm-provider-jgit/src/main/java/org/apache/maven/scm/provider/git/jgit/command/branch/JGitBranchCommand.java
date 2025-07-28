@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiFunction;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -33,9 +34,13 @@ import org.apache.maven.scm.command.branch.AbstractBranchCommand;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.CustomizableSshSessionFactoryCommand;
+import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
+import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -44,12 +49,27 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.slf4j.Logger;
 
 /**
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitBranchCommand extends AbstractBranchCommand implements GitCommand {
+public class JGitBranchCommand extends AbstractBranchCommand
+        implements GitCommand, CustomizableSshSessionFactoryCommand {
+
+    private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
+
+    public JGitBranchCommand() {
+        sshSessionFactorySupplier = ScmProviderAwareSshdSessionFactory::new;
+    }
+
+    @Override
+    public void setSshSessionFactorySupplier(
+            BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory>
+                    sshSessionFactorySupplier) {
+        this.sshSessionFactorySupplier = sshSessionFactorySupplier;
+    }
 
     /**
      * {@inheritDoc}
@@ -77,7 +97,14 @@ public class JGitBranchCommand extends AbstractBranchCommand implements GitComma
 
             if (repo.isPushChanges()) {
                 logger.info("push branch [" + branch + "] to remote...");
-                JGitUtils.push(git, (GitScmProviderRepository) repo, new RefSpec(Constants.R_HEADS + branch));
+                TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback(
+                        sshSessionFactorySupplier.apply((GitScmProviderRepository) repo, logger));
+
+                JGitUtils.push(
+                        git,
+                        (GitScmProviderRepository) repo,
+                        new RefSpec(Constants.R_HEADS + branch),
+                        transportConfigCallback);
             }
 
             // search for the tagged files

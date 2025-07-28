@@ -66,7 +66,7 @@ public class GitExeScmProvider extends AbstractGitScmProvider {
 
     /** {@inheritDoc} */
     protected GitCommand getBranchCommand() {
-        return new GitBranchCommand();
+        return new GitBranchCommand(environmentVariables);
     }
 
     /** {@inheritDoc} */
@@ -106,12 +106,12 @@ public class GitExeScmProvider extends AbstractGitScmProvider {
 
     /** {@inheritDoc} */
     protected GitCommand getTagCommand() {
-        return new GitTagCommand();
+        return new GitTagCommand(environmentVariables);
     }
 
     /** {@inheritDoc} */
     protected GitCommand getUntagCommand() {
-        return new GitUntagCommand();
+        return new GitUntagCommand(environmentVariables);
     }
 
     /** {@inheritDoc} */

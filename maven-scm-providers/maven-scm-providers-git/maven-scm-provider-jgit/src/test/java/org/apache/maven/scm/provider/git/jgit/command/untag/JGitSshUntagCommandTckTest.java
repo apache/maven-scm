@@ -16,26 +16,36 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.maven.scm.provider.git.jgit.command.remove;
+package org.apache.maven.scm.provider.git.jgit.command.untag;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
-import org.apache.maven.scm.provider.git.GitScmTestUtils;
-import org.apache.maven.scm.provider.git.command.remove.GitRemoveCommandTckTest;
-import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.scm.provider.git.command.untag.GitSshUntagCommandTckTest;
+import org.apache.maven.scm.provider.git.jgit.JGitTestScmProvider;
 import org.eclipse.jgit.util.FileUtils;
 
 /**
- * @author Georg Tsakumagos
+ *
  */
-public class JGitRemoveCommandTckTest extends GitRemoveCommandTckTest {
-    /**
-     * {@inheritDoc}
-     */
-    public String getScmUrl() throws Exception {
-        return GitScmTestUtils.getScmUrl(getRepositoryRoot(), "jgit");
+public class JGitSshUntagCommandTckTest extends GitSshUntagCommandTckTest {
+
+    public JGitSshUntagCommandTckTest() throws GeneralSecurityException {
+        super();
+    }
+
+    @Override
+    protected String getScmProvider() {
+        return "jgit";
+    }
+
+    @Override
+    public void initRepo() throws Exception {
+        super.initRepo();
+        JGitTestScmProvider provider =
+                (JGitTestScmProvider) getScmManager().getProviderByRepository(getScmRepository());
+        provider.useLenientSshdSessionFactory();
     }
 
     @Override
@@ -43,12 +53,5 @@ public class JGitRemoveCommandTckTest extends GitRemoveCommandTckTest {
         if (directory.exists()) {
             FileUtils.delete(directory, FileUtils.RECURSIVE | FileUtils.RETRY);
         }
-    }
-
-    @Override
-    protected CheckOutScmResult checkOut(File workingDirectory, ScmRepository repository) throws Exception {
-        CheckOutScmResult result = super.checkOut(workingDirectory, repository);
-        GitScmTestUtils.setDefaultGitConfig(workingDirectory);
-        return result;
     }
 }

@@ -18,26 +18,16 @@
  */
 package org.apache.maven.scm.provider.git.gitexe.command.checkout;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.scm.provider.git.command.checkout.GitSshCheckOutCommandTckTest;
-import org.apache.maven.scm.provider.git.gitexe.GitExeScmProvider;
-import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.provider.git.gitexe.GitExeTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 
 /**
  *
  */
 public class GitExeSshCheckOutCommandTckTest extends GitSshCheckOutCommandTckTest {
-    private Path knownHostsFile;
-
-    public static final String VARIABLE_GIT_SSH_COMMAND =
-            "GIT_SSH_COMMAND"; // https://git-scm.com/docs/git#Documentation/git.txt-codeGITSSHCOMMANDcode, requires git
-    // 2.3.0 or newer
-
     public GitExeSshCheckOutCommandTckTest() throws GeneralSecurityException {
         super();
     }
@@ -50,18 +40,6 @@ public class GitExeSshCheckOutCommandTckTest extends GitSshCheckOutCommandTckTes
     @Override
     public void configureCredentials(ScmRepository repository, String passphrase) throws Exception {
         super.configureCredentials(repository, passphrase);
-        GitScmProviderRepository providerRepository = (GitScmProviderRepository) repository.getProviderRepository();
-        GitExeScmProvider provider = (GitExeScmProvider) getScmManager().getProviderByRepository(getScmRepository());
-        knownHostsFile = Files.createTempFile("known-hosts", null);
-        provider.setEnvironmentVariable(
-                VARIABLE_GIT_SSH_COMMAND,
-                "ssh -o UserKnownHostsFile=" + knownHostsFile + " -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -i "
-                        + FilenameUtils.separatorsToUnix(providerRepository.getPrivateKey()));
-    }
-
-    @Override
-    public void removeRepo() throws Exception {
-        super.removeRepo();
-        Files.deleteIfExists(knownHostsFile);
+        GitExeTestUtils.configureLenientSshAuthentication(getScmManager(), repository);
     }
 }

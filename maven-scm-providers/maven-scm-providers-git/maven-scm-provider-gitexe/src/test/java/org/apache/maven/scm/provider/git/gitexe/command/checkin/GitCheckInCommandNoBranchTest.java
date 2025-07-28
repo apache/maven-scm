@@ -66,7 +66,7 @@ public class GitCheckInCommandNoBranchTest extends ScmTestCase {
         CheckOutScmResult checkOutScmResult = checkoutRepo(scmRepository);
 
         // Add a default user to the config
-        GitScmTestUtils.setDefaulGitConfig(workingDirectory);
+        GitScmTestUtils.setDefaultGitConfig(workingDirectory);
 
         assertEquals(0, checkOutScmResult.getCheckedOutFiles().size());
 
