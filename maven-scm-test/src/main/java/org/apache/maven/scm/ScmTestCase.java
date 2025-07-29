@@ -21,10 +21,12 @@ package org.apache.maven.scm;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.apache.commons.io.file.PathUtils;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.ContainerConfiguration;
@@ -265,7 +267,10 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
     }
 
     protected void deleteDirectory(File directory) throws IOException {
-        FileUtils.deleteDirectory(directory);
+        // provides better error messages than FileUtils.deleteDirectory
+        if (Files.isDirectory(directory.toPath())) { // ensure the directory exists before deleting
+            PathUtils.deleteDirectory(directory.toPath());
+        }
     }
 
     public static Date getDate(int year, int month, int day) {
