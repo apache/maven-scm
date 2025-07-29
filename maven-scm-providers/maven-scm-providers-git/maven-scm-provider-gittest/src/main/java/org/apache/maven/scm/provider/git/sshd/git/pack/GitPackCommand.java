@@ -75,16 +75,16 @@ public class GitPackCommand extends AbstractGitCommand {
 
             Path rootDir = resolveRootDirectory(command, args);
             RepositoryCache.FileKey key = RepositoryCache.FileKey.lenient(rootDir.toFile(), FS.DETECTED);
-            Repository db = key.open(true /* must exist */);
-            String subCommand = args[0];
-            if (RemoteConfig.DEFAULT_UPLOAD_PACK.equals(subCommand)) {
-                new UploadPack(db).upload(getInputStream(), getOutputStream(), getErrorStream());
-            } else if (RemoteConfig.DEFAULT_RECEIVE_PACK.equals(subCommand)) {
-                new ReceivePack(db).receive(getInputStream(), getOutputStream(), getErrorStream());
-            } else {
-                throw new IllegalArgumentException("Unknown git command: " + command);
+            try (Repository db = key.open(true /* must exist */)) {
+                String subCommand = args[0];
+                if (RemoteConfig.DEFAULT_UPLOAD_PACK.equals(subCommand)) {
+                    new UploadPack(db).upload(getInputStream(), getOutputStream(), getErrorStream());
+                } else if (RemoteConfig.DEFAULT_RECEIVE_PACK.equals(subCommand)) {
+                    new ReceivePack(db).receive(getInputStream(), getOutputStream(), getErrorStream());
+                } else {
+                    throw new IllegalArgumentException("Unknown git command: " + command);
+                }
             }
-
             onExit(0);
         } catch (Throwable t) {
             onExit(-1, t.getClass().getSimpleName());
