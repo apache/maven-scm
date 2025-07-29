@@ -31,11 +31,11 @@ import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.maven.scm.provider.git.sshd.git.pack.GitPackCommandFactory;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.writer.openssh.OpenSSHKeyEncryptionContext;
 import org.apache.sshd.common.config.keys.writer.openssh.OpenSSHKeyPairResourceWriter;
 import org.apache.sshd.git.GitLocationResolver;
-import org.apache.sshd.git.pack.GitPackCommandFactory;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.pubkey.KeySetPublickeyAuthenticator;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
@@ -132,6 +132,7 @@ public class GitSshServer {
                 return repositoryRoot;
             }
         };
+        // use patched version of GitPackCommandFactory including https://github.com/apache/mina-sshd/pull/794
         sshServer.setCommandFactory(new GitPackCommandFactory(gitLocationResolver));
         sshServer.start();
     }
