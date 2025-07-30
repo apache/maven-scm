@@ -28,7 +28,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.add.AbstractAddCommand;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -44,11 +43,11 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitAddCommand extends AbstractAddCommand implements GitCommand {
+public class GitAddCommand extends AbstractAddCommand implements GitCommand<AddScmResult> {
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeAddCommand(
+    protected AddScmResult executeAddCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String message, boolean binary) throws ScmException {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 

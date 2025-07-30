@@ -44,7 +44,7 @@ import org.eclipse.jgit.treewalk.CanonicalTreeParser;
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitDiffCommand extends AbstractDiffCommand implements GitCommand {
+public class JGitDiffCommand extends AbstractDiffCommand implements GitCommand<DiffScmResult> {
 
     @Override
     protected DiffScmResult executeDiffCommand(

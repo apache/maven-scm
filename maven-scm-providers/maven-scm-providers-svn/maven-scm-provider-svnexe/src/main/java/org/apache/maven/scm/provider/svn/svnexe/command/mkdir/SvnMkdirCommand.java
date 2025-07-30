@@ -40,13 +40,12 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  */
-public class SvnMkdirCommand extends AbstractMkdirCommand implements SvnCommand {
+public class SvnMkdirCommand extends AbstractMkdirCommand implements SvnCommand<MkdirScmResult> {
     private final boolean interactive;
 
     public SvnMkdirCommand(boolean interactive) {
         this.interactive = interactive;
     }
-
     /**
      * {@inheritDoc}
      */

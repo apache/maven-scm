@@ -22,7 +22,6 @@ import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -36,7 +35,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
-public abstract class AbstractDiffCommand extends AbstractCommand {
+public abstract class AbstractDiffCommand extends AbstractCommand<DiffScmResult> {
     protected abstract DiffScmResult executeDiffCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, ScmVersion startRevision, ScmVersion endRevision)
             throws ScmException;
@@ -44,8 +43,8 @@ public abstract class AbstractDiffCommand extends AbstractCommand {
     /**
      * {@inheritDoc}
      */
-    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException {
+    public DiffScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         ScmVersion startRevision = parameters.getScmVersion(CommandParameter.START_SCM_VERSION, null);
 
         ScmVersion endRevision = parameters.getScmVersion(CommandParameter.END_SCM_VERSION, null);

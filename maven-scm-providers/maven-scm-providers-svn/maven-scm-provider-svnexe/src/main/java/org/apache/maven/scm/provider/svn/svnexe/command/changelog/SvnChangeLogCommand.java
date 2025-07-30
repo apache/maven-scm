@@ -33,7 +33,6 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
@@ -54,7 +53,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
  */
-public class SvnChangeLogCommand extends AbstractChangeLogCommand implements SvnCommand {
+public class SvnChangeLogCommand extends AbstractChangeLogCommand implements SvnCommand<ChangeLogScmResult> {
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
     private final boolean interactive;
 
@@ -63,8 +62,8 @@ public class SvnChangeLogCommand extends AbstractChangeLogCommand implements Svn
     }
 
     @Override
-    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException {
+    public ChangeLogScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         return executeChangeLogCommand(
                 repository,
                 fileSet,

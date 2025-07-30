@@ -23,7 +23,6 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.CommandParameters.SignOption;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -32,7 +31,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  */
-public abstract class AbstractTagCommand extends AbstractCommand {
+public abstract class AbstractTagCommand extends AbstractCommand<TagScmResult> {
     /**
      * @param repository TODO
      * @param fileSet TODO
@@ -42,20 +41,20 @@ public abstract class AbstractTagCommand extends AbstractCommand {
      * @throws ScmException if any
      * @deprecated use method {@link #executeTagCommand(ScmProviderRepository, ScmFileSet, String, ScmTagParameters)}
      */
-    protected ScmResult executeTagCommand(
+    protected TagScmResult executeTagCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String tagName, String message) throws ScmException {
         return executeTagCommand(repository, fileSet, tagName, new ScmTagParameters(message));
     }
 
-    protected abstract ScmResult executeTagCommand(
+    protected abstract TagScmResult executeTagCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String tagName, ScmTagParameters scmTagParameters)
             throws ScmException;
 
     /**
      * {@inheritDoc}
      */
-    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException {
+    public TagScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         String tagName = parameters.getString(CommandParameter.TAG_NAME);
 
         ScmTagParameters scmTagParameters = parameters.getScmTagParameters(CommandParameter.SCM_TAG_PARAMETERS);
