@@ -23,7 +23,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.CommandParameter;
@@ -36,18 +38,23 @@ import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.CustomizableSshSessionFactoryCommand;
+import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
+import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.UserConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.slf4j.Logger;
 
 /**
  * This provider uses the following strategy to discover the committer and author name/mail for a commit:
@@ -66,13 +73,27 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCommand {
+public class JGitCheckInCommand extends AbstractCheckInCommand
+        implements GitCommand, CustomizableSshSessionFactoryCommand {
 
     protected static final String GIT_MAVEN_SECTION = "maven-scm";
 
     protected static final String GIT_MAILDOMAIN = "maildomain";
 
     protected static final String GIT_FORCE = "forceUsername";
+
+    private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
+
+    public JGitCheckInCommand() {
+        sshSessionFactorySupplier = ScmProviderAwareSshdSessionFactory::new;
+    }
+
+    @Override
+    public void setSshSessionFactorySupplier(
+            BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory>
+                    sshSessionFactorySupplier) {
+        this.sshSessionFactorySupplier = sshSessionFactorySupplier;
+    }
 
     @Override
     public CheckInScmResult executeCommand(ScmProviderRepository repo, ScmFileSet fileSet, CommandParameters parameters)
@@ -152,7 +173,11 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
                 }
                 RefSpec refSpec = new RefSpec(Constants.R_HEADS + branch + ":" + Constants.R_HEADS + branch);
                 logger.info("push changes to remote... " + refSpec);
-                Iterable<PushResult> pushResultList = JGitUtils.push(git, (GitScmProviderRepository) repo, refSpec);
+                TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback(
+                        sshSessionFactorySupplier.apply((GitScmProviderRepository) repo, logger));
+
+                Iterable<PushResult> pushResultList = JGitUtils.push(
+                        git, (GitScmProviderRepository) repo, refSpec, Optional.of(transportConfigCallback));
 
                 for (PushResult pushResult : pushResultList) {
                     for (RemoteRefUpdate remoteRefUpdate : pushResult.getRemoteUpdates()) {

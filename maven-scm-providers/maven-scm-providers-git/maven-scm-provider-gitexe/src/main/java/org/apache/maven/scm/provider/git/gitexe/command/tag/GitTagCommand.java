@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.tag;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -44,6 +45,11 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  */
 public class GitTagCommand extends AbstractTagCommand implements GitCommand {
+    private final Map<String, String> environmentVariables;
+
+    public GitTagCommand(Map<String, String> environmentVariables) {
+        this.environmentVariables = environmentVariables;
+    }
 
     public ScmResult executeTagCommand(ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message)
             throws ScmException {
@@ -156,9 +162,9 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
         return cl;
     }
 
-    public static Commandline createPushCommandLine(GitScmProviderRepository repository, ScmFileSet fileSet, String tag)
-            throws ScmException {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "push");
+    public Commandline createPushCommandLine(GitScmProviderRepository repository, ScmFileSet fileSet, String tag) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(
+                fileSet.getBasedir(), "push", repository, environmentVariables);
 
         cl.createArg().setValue(repository.getPushUrl());
         cl.createArg().setValue("refs/tags/" + tag);

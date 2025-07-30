@@ -63,7 +63,7 @@ public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
         checkoutMojo.execute();
 
         // Add a default user to the config
-        GitScmTestUtils.setDefaulGitConfig(checkoutDir);
+        GitScmTestUtils.setDefaultGitConfig(checkoutDir);
     }
 
     @Test

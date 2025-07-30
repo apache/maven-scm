@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.git.gitexe.command.untag;
 
 import java.io.File;
+import java.util.Map;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -35,6 +36,11 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /** {@inheritDoc} */
 public class GitUntagCommand extends AbstractUntagCommand implements GitCommand {
+    private final Map<String, String> environmentVariables;
+
+    public GitUntagCommand(Map<String, String> environmentVariables) {
+        this.environmentVariables = environmentVariables;
+    }
 
     /** {@inheritDoc} */
     public ScmResult executeUntagCommand(
@@ -85,9 +91,9 @@ public class GitUntagCommand extends AbstractUntagCommand implements GitCommand 
         return cl;
     }
 
-    public static Commandline createPushCommandLine(
-            GitScmProviderRepository repository, ScmFileSet fileSet, String tag) {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "push");
+    public Commandline createPushCommandLine(GitScmProviderRepository repository, ScmFileSet fileSet, String tag) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(
+                fileSet.getBasedir(), "push", repository, environmentVariables);
 
         cl.createArg().setValue("--delete");
         cl.createArg().setValue(repository.getPushUrl());

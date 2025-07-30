@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.git.gitexe.command.branch;
 
 import java.io.File;
+import java.util.Map;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -40,6 +41,12 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  */
 public class GitBranchCommand extends AbstractBranchCommand implements GitCommand {
+    private final Map<String, String> environmentVariables;
+
+    public GitBranchCommand(Map<String, String> environmentVariables) {
+        this.environmentVariables = environmentVariables;
+    }
+
     /** {@inheritDoc} */
     public ScmResult executeBranchCommand(ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message)
             throws ScmException {
@@ -102,9 +109,9 @@ public class GitBranchCommand extends AbstractBranchCommand implements GitComman
         return cl;
     }
 
-    public static Commandline createPushCommandLine(
-            GitScmProviderRepository repository, ScmFileSet fileSet, String branch) throws ScmException {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "push");
+    public Commandline createPushCommandLine(GitScmProviderRepository repository, ScmFileSet fileSet, String branch) {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(
+                fileSet.getBasedir(), "push", repository, environmentVariables);
 
         cl.createArg().setValue(repository.getPushUrl());
         cl.createArg().setValue("refs/heads/" + branch);

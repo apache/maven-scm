@@ -27,9 +27,13 @@ import java.util.function.Consumer;
 
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.CustomizableSshSessionFactoryCommand;
+import org.apache.maven.scm.provider.git.jgit.command.branch.JGitBranchCommand;
 import org.apache.maven.scm.provider.git.jgit.command.checkin.JGitCheckInCommand;
 import org.apache.maven.scm.provider.git.jgit.command.checkout.JGitCheckOutCommand;
 import org.apache.maven.scm.provider.git.jgit.command.remoteinfo.JGitRemoteInfoCommand;
+import org.apache.maven.scm.provider.git.jgit.command.tag.JGitTagCommand;
+import org.apache.maven.scm.provider.git.jgit.command.untag.JGitUntagCommand;
 import org.codehaus.plexus.components.interactivity.Prompter;
 import org.eclipse.jgit.api.TransportCommand;
 
@@ -40,25 +44,40 @@ import org.eclipse.jgit.api.TransportCommand;
 @Named("jgit")
 @Priority(1) // must have higher priority than default JGitScmProvider
 public class JGitTestScmProvider extends JGitScmProvider implements ScmProvider {
-    private Consumer<JGitCheckInCommand> checkInCommandCallback;
-    private Consumer<JGitCheckOutCommand> checkOutCommandCallback;
-    private Consumer<JGitRemoteInfoCommand> remoteInfoCommandCallback;
+    private Consumer<? super JGitCheckInCommand> checkInCommandCallback;
+    private Consumer<? super JGitCheckOutCommand> checkOutCommandCallback;
+    private Consumer<? super JGitRemoteInfoCommand> remoteInfoCommandCallback;
+    private Consumer<? super JGitTagCommand> tagCommandCallback;
+    private Consumer<? super JGitUntagCommand> untagCommandCallback;
+    private Consumer<? super JGitBranchCommand> branchCommandCallback;
 
     @Inject
     public JGitTestScmProvider(Prompter prompter) {
         super(prompter);
     }
 
-    public void registerCheckInCommandCallback(Consumer<JGitCheckInCommand> gitCommandConsumer) {
+    public void registerCheckInCommandCallback(Consumer<? super JGitCheckInCommand> gitCommandConsumer) {
         checkInCommandCallback = gitCommandConsumer;
     }
 
-    public void registerCheckOutCommandCallback(Consumer<JGitCheckOutCommand> gitCommandConsumer) {
+    public void registerCheckOutCommandCallback(Consumer<? super JGitCheckOutCommand> gitCommandConsumer) {
         checkOutCommandCallback = gitCommandConsumer;
     }
 
-    public void registerRemoteInfoCommandCallback(Consumer<JGitRemoteInfoCommand> gitCommandConsumer) {
+    public void registerRemoteInfoCommandCallback(Consumer<? super JGitRemoteInfoCommand> gitCommandConsumer) {
         remoteInfoCommandCallback = gitCommandConsumer;
+    }
+
+    public void registerTagCommandCallback(Consumer<? super JGitTagCommand> gitCommandConsumer) {
+        tagCommandCallback = gitCommandConsumer;
+    }
+
+    public void registerUntagCommandCallback(Consumer<? super JGitUntagCommand> gitCommandConsumer) {
+        untagCommandCallback = gitCommandConsumer;
+    }
+
+    public void registerBranchCommandCallback(Consumer<? super JGitBranchCommand> gitCommandConsumer) {
+        branchCommandCallback = gitCommandConsumer;
     }
 
     @Override
@@ -86,5 +105,47 @@ public class JGitTestScmProvider extends JGitScmProvider implements ScmProvider 
             remoteInfoCommandCallback.accept(command);
         }
         return command;
+    }
+
+    @Override
+    protected GitCommand getBranchCommand() {
+        JGitBranchCommand command = (JGitBranchCommand) super.getBranchCommand();
+        if (branchCommandCallback != null) {
+            branchCommandCallback.accept(command);
+        }
+        return command;
+    }
+
+    @Override
+    protected GitCommand getTagCommand() {
+        JGitTagCommand command = (JGitTagCommand) super.getTagCommand();
+        if (tagCommandCallback != null) {
+            tagCommandCallback.accept(command);
+        }
+        return command;
+    }
+
+    @Override
+    protected GitCommand getUntagCommand() {
+        JGitUntagCommand command = (JGitUntagCommand) super.getUntagCommand();
+        if (untagCommandCallback != null) {
+            untagCommandCallback.accept(command);
+        }
+        return command;
+    }
+
+    /**
+     * Uses a custom SSHD session factory which accepts all hosts for all commands which (potentially) involve
+     * a server connection.
+     */
+    public void useLenientSshdSessionFactory() {
+        Consumer<CustomizableSshSessionFactoryCommand> configureLenientSshSessionFactory = command -> {
+            command.setSshSessionFactorySupplier(AcceptAllHostsSshdSessionFactory::new);
+        };
+        registerCheckOutCommandCallback(configureLenientSshSessionFactory);
+        registerCheckInCommandCallback(configureLenientSshSessionFactory);
+        registerBranchCommandCallback(configureLenientSshSessionFactory);
+        registerTagCommandCallback(configureLenientSshSessionFactory);
+        registerUntagCommandCallback(configureLenientSshSessionFactory);
     }
 }

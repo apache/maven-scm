@@ -40,7 +40,7 @@ public abstract class GitUpdateCommandTckTest extends UpdateCommandTckTest {
         try {
             return super.checkOut(workingDirectory, repository);
         } finally {
-            GitScmTestUtils.setDefaulGitConfig(workingDirectory);
+            GitScmTestUtils.setDefaultGitConfig(workingDirectory);
         }
     }
 }

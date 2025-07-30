@@ -87,7 +87,7 @@ public final class GitScmTestUtils {
         }
     }
 
-    public static void setDefaulGitConfig(File repositoryRootFile) {
+    public static void setDefaultGitConfig(File repositoryRootFile) {
         File gitConfigFile = new File(new File(repositoryRootFile, ".git"), "config");
 
         try (FileWriter fw = new FileWriter(gitConfigFile, true)) {

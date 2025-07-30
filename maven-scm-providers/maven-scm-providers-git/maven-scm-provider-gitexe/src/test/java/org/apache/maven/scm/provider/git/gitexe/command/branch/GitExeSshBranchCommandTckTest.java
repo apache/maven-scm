@@ -16,31 +16,31 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.maven.scm.provider.git.command.branch;
+package org.apache.maven.scm.provider.git.gitexe.command.branch;
 
-import java.io.File;
+import java.security.GeneralSecurityException;
 
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
-import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.apache.maven.scm.provider.git.command.branch.GitSshBranchCommandTckTest;
+import org.apache.maven.scm.provider.git.gitexe.GitExeTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.apache.maven.scm.tck.command.branch.BranchCommandTckTest;
 
 /**
- * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
  */
-public abstract class GitBranchCommandTckTest extends BranchCommandTckTest {
-    /** {@inheritDoc} */
-    public void initRepo() throws Exception {
-        GitScmTestUtils.initRepo("src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory());
+public class GitExeSshBranchCommandTckTest extends GitSshBranchCommandTckTest {
+
+    public GitExeSshBranchCommandTckTest() throws GeneralSecurityException {
+        super();
     }
 
     @Override
-    protected CheckOutScmResult checkOut(File workingDirectory, ScmRepository repository) throws Exception {
-        try {
-            return super.checkOut(workingDirectory, repository);
-        } finally {
-            GitScmTestUtils.setDefaultGitConfig(workingDirectory);
-        }
+    protected String getScmProvider() {
+        return "git";
+    }
+
+    @Override
+    public void configureCredentials(ScmRepository repository, String passphrase) throws Exception {
+        super.configureCredentials(repository, passphrase);
+        GitExeTestUtils.configureLenientSshAuthentication(getScmManager(), repository);
     }
 }

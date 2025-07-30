@@ -16,16 +16,18 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.maven.scm.provider.git.command.checkout;
+package org.apache.maven.scm.provider.git.command.tag;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.GitSshServer;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
+import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
 import org.junit.Assume;
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,13 +36,13 @@ import org.junit.rules.TemporaryFolder;
 /**
  *
  */
-public abstract class GitSshCheckOutCommandTckTest extends CheckOutCommandTckTest {
+public abstract class GitSshTagCommandTckTest extends TagCommandTckTest {
     protected final GitSshServer gitSshServer;
 
     @Rule
     public TemporaryFolder tmpDirectory = new TemporaryFolder();
 
-    protected GitSshCheckOutCommandTckTest() throws GeneralSecurityException {
+    protected GitSshTagCommandTckTest() throws GeneralSecurityException {
         gitSshServer = new GitSshServer();
     }
 
@@ -51,6 +53,7 @@ public abstract class GitSshCheckOutCommandTckTest extends CheckOutCommandTckTes
         return "scm:" + getScmProvider() + ":ssh://localhost:" + gitSshServer.getPort() + "/repository";
     }
 
+    /** Sets up repository credentials for SSH access. */
     protected void configureCredentials(ScmRepository repository, String passphrase) throws Exception {
         ScmProviderRepositoryWithHost providerRepository =
                 ScmProviderRepositoryWithHost.class.cast(repository.getProviderRepository());
@@ -77,18 +80,28 @@ public abstract class GitSshCheckOutCommandTckTest extends CheckOutCommandTckTes
     }
 
     @Override
-    @Test
-    public void testCheckOutCommandTest() throws Exception {
-        configureCredentials(getScmRepository(), null);
-        super.testCheckOutCommandTest();
+    protected CheckOutScmResult checkOut(File workingDirectory, ScmRepository repository) throws Exception {
+        try {
+            return super.checkOut(workingDirectory, repository);
+        } finally {
+            GitScmTestUtils.setDefaultGitConfig(workingDirectory);
+        }
     }
 
     @Test
-    public void testCheckOutCommandWithPassphraseTest() throws Exception {
+    public void testTagCommandTestWithPush() throws Exception {
+        configureCredentials(getScmRepository(), null);
+        getScmRepository().getProviderRepository().setPushChanges(true);
+        super.testTagCommandTest();
+    }
+
+    @Test
+    public void testTagCommandWithPassphraseAndPushTest() throws Exception {
         // TODO: currently no easy way to pass passphrase in gitexe
         Assume.assumeTrue(
                 "Ignore test with passphrase for provider " + getScmProvider(), "jgit".equals(getScmProvider()));
         configureCredentials(getScmRepository(), "mySecret");
-        super.testCheckOutCommandTest();
+        getScmRepository().getProviderRepository().setPushChanges(true);
+        super.testTagCommandTest();
     }
 }

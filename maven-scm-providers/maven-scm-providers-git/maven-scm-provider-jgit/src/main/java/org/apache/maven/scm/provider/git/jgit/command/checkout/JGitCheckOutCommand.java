@@ -36,6 +36,7 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.CustomizableSshSessionFactoryCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
@@ -61,13 +62,15 @@ import org.slf4j.Logger;
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitCheckOutCommand extends AbstractCheckOutCommand implements GitCommand {
+public class JGitCheckOutCommand extends AbstractCheckOutCommand
+        implements GitCommand, CustomizableSshSessionFactoryCommand {
     private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
 
     public JGitCheckOutCommand() {
         sshSessionFactorySupplier = ScmProviderAwareSshdSessionFactory::new;
     }
 
+    @Override
     public void setSshSessionFactorySupplier(
             BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory>
                     sshSessionFactorySupplier) {

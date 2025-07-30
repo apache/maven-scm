@@ -27,7 +27,7 @@ import org.apache.maven.scm.ScmUntagParameters;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
-/** {@inheritDoc} */
+/** Removes a tag */
 public abstract class AbstractUntagCommand extends AbstractCommand {
     /**
      * execute untag command
