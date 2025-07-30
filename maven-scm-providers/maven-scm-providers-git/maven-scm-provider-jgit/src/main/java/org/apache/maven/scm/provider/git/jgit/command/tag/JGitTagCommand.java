@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.git.jgit.command.tag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BiFunction;
 
 import org.apache.maven.scm.ScmException;
@@ -110,7 +111,7 @@ public class JGitTagCommand extends AbstractTagCommand implements GitCommand, Cu
                         git,
                         (GitScmProviderRepository) repo,
                         new RefSpec(Constants.R_TAGS + escapedTagName),
-                        transportConfigCallback);
+                        Optional.of(transportConfigCallback));
             }
 
             // search for the tagged files

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
 
@@ -104,7 +105,7 @@ public class JGitBranchCommand extends AbstractBranchCommand
                         git,
                         (GitScmProviderRepository) repo,
                         new RefSpec(Constants.R_HEADS + branch),
-                        transportConfigCallback);
+                        Optional.of(transportConfigCallback));
             }
 
             // search for the tagged files

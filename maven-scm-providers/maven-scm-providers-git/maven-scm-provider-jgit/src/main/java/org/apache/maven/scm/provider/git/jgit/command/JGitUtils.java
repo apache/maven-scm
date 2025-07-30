@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -40,8 +41,6 @@ import org.eclipse.jgit.api.RmCommand;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -163,23 +162,15 @@ public class JGitUtils {
         return null;
     }
 
-    public static Iterable<PushResult> push(Git git, GitScmProviderRepository repo, RefSpec refSpec)
-            throws GitAPIException, InvalidRemoteException, TransportException {
-        return push(
-                git,
-                repo,
-                refSpec,
-                new JGitTransportConfigCallback(new ScmProviderAwareSshdSessionFactory(repo, LOGGER)));
-    }
-
     public static Iterable<PushResult> push(
-            Git git, GitScmProviderRepository repo, RefSpec refSpec, TransportConfigCallback transportConfigCallback)
-            throws GitAPIException, InvalidRemoteException, TransportException {
+            Git git,
+            GitScmProviderRepository repo,
+            RefSpec refSpec,
+            Optional<TransportConfigCallback> transportConfigCallback)
+            throws GitAPIException {
         CredentialsProvider credentials = prepareSession(git, repo);
-        PushCommand command = git.push()
-                .setRefSpecs(refSpec)
-                .setCredentialsProvider(credentials)
-                .setTransportConfigCallback(transportConfigCallback);
+        PushCommand command = git.push().setRefSpecs(refSpec).setCredentialsProvider(credentials);
+        transportConfigCallback.ifPresent(command::setTransportConfigCallback);
 
         Iterable<PushResult> pushResultList = command.call();
         for (PushResult pushResult : pushResultList) {

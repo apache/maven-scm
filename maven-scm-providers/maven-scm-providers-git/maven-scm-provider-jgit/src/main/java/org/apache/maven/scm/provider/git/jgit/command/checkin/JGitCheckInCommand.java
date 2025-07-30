@@ -23,6 +23,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
 
@@ -175,8 +176,8 @@ public class JGitCheckInCommand extends AbstractCheckInCommand
                 TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback(
                         sshSessionFactorySupplier.apply((GitScmProviderRepository) repo, logger));
 
-                Iterable<PushResult> pushResultList =
-                        JGitUtils.push(git, (GitScmProviderRepository) repo, refSpec, transportConfigCallback);
+                Iterable<PushResult> pushResultList = JGitUtils.push(
+                        git, (GitScmProviderRepository) repo, refSpec, Optional.of(transportConfigCallback));
 
                 for (PushResult pushResult : pushResultList) {
                     for (RemoteRefUpdate remoteRefUpdate : pushResult.getRemoteUpdates()) {

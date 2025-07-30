@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.git.jgit.command.untag;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.BiFunction;
 
 import org.apache.maven.scm.ScmException;
@@ -86,8 +87,8 @@ public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand
 
                 logger.info("push delete tag [" + escapedTagName + "] to remote...");
 
-                Iterable<PushResult> pushResultList =
-                        JGitUtils.push(git, (GitScmProviderRepository) repository, refSpec, transportConfigCallback);
+                Iterable<PushResult> pushResultList = JGitUtils.push(
+                        git, (GitScmProviderRepository) repository, refSpec, Optional.of(transportConfigCallback));
                 if (logger.isInfoEnabled()) {
                     for (PushResult pushResult : pushResultList) {
                         Collection<RemoteRefUpdate> ru = pushResult.getRemoteUpdates();
