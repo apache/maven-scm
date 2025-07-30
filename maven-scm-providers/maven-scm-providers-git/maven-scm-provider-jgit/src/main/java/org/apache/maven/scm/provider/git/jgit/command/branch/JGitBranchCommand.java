@@ -30,7 +30,6 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.branch.AbstractBranchCommand;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -57,7 +56,7 @@ import org.slf4j.Logger;
  * @since 1.9
  */
 public class JGitBranchCommand extends AbstractBranchCommand
-        implements GitCommand, CustomizableSshSessionFactoryCommand {
+        implements GitCommand<BranchScmResult>, CustomizableSshSessionFactoryCommand {
 
     private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
 
@@ -76,7 +75,7 @@ public class JGitBranchCommand extends AbstractBranchCommand
      * {@inheritDoc}
      */
     @Override
-    protected ScmResult executeBranchCommand(
+    protected BranchScmResult executeBranchCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message) throws ScmException {
         if (branch == null || branch.trim().isEmpty()) {
             throw new ScmException("branch name must be specified");

@@ -27,7 +27,6 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -53,7 +52,8 @@ import org.slf4j.Logger;
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitTagCommand extends AbstractTagCommand implements GitCommand, CustomizableSshSessionFactoryCommand {
+public class JGitTagCommand extends AbstractTagCommand
+        implements GitCommand<TagScmResult>, CustomizableSshSessionFactoryCommand {
 
     private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
 
@@ -68,7 +68,7 @@ public class JGitTagCommand extends AbstractTagCommand implements GitCommand, Cu
         this.sshSessionFactorySupplier = sshSessionFactorySupplier;
     }
 
-    public ScmResult executeTagCommand(ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message)
+    public TagScmResult executeTagCommand(ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message)
             throws ScmException {
         return executeTagCommand(repo, fileSet, tag, new ScmTagParameters(message));
     }
@@ -76,7 +76,7 @@ public class JGitTagCommand extends AbstractTagCommand implements GitCommand, Cu
     /**
      * {@inheritDoc}
      */
-    public ScmResult executeTagCommand(
+    public TagScmResult executeTagCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String tag, ScmTagParameters scmTagParameters)
             throws ScmException {
         if (tag == null || tag.trim().isEmpty()) {

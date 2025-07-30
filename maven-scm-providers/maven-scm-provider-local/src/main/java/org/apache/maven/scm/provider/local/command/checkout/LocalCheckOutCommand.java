@@ -40,7 +40,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public class LocalCheckOutCommand extends AbstractCheckOutCommand implements LocalCommand {
+public class LocalCheckOutCommand extends AbstractCheckOutCommand implements LocalCommand<CheckOutScmResult> {
     /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version, boolean recursive, boolean shallow)

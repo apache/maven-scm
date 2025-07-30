@@ -45,7 +45,7 @@ import org.slf4j.Logger;
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitRemoteInfoCommand extends AbstractRemoteInfoCommand implements GitCommand {
+public class JGitRemoteInfoCommand extends AbstractRemoteInfoCommand implements GitCommand<RemoteInfoScmResult> {
 
     private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
 

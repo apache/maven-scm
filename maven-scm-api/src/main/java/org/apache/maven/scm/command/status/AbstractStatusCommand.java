@@ -21,7 +21,6 @@ package org.apache.maven.scm.command.status;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
@@ -29,13 +28,13 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
  */
-public abstract class AbstractStatusCommand extends AbstractCommand {
+public abstract class AbstractStatusCommand extends AbstractCommand<StatusScmResult> {
     protected abstract StatusScmResult executeStatusCommand(ScmProviderRepository repository, ScmFileSet fileSet)
             throws ScmException;
 
     /** {@inheritDoc} */
-    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException {
+    public StatusScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         return executeStatusCommand(repository, fileSet);
     }
 }

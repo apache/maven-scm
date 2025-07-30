@@ -35,7 +35,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
  */
-public class SvnStatusCommand extends AbstractStatusCommand implements SvnCommand {
+public class SvnStatusCommand extends AbstractStatusCommand implements SvnCommand<StatusScmResult> {
     /** {@inheritDoc} */
     protected StatusScmResult executeStatusCommand(ScmProviderRepository repo, ScmFileSet fileSet) throws ScmException {
         Commandline cl = createCommandLine((SvnScmProviderRepository) repo, fileSet);

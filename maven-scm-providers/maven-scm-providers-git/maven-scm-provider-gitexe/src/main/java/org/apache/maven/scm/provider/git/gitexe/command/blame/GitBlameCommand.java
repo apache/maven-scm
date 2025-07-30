@@ -24,7 +24,6 @@ import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.blame.AbstractBlameCommand;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -38,10 +37,10 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  * @since 1.4
  */
-public class GitBlameCommand extends AbstractBlameCommand implements GitCommand {
+public class GitBlameCommand extends AbstractBlameCommand implements GitCommand<BlameScmResult> {
 
     @Override
-    protected ScmResult executeCommand(
+    protected BlameScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet workingDirectory, CommandParameters parameters)
             throws ScmException {
         String filename = parameters.getString(CommandParameter.FILE);

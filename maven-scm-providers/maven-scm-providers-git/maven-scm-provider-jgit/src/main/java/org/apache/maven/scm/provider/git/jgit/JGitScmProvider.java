@@ -26,7 +26,22 @@ import java.io.File;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmResult;
+import org.apache.maven.scm.command.branch.BranchScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.info.InfoScmResult;
+import org.apache.maven.scm.command.list.ListScmResult;
+import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
+import org.apache.maven.scm.command.remove.RemoveScmResult;
+import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.untag.UntagScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.git.AbstractGitScmProvider;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.PlexusInteractivityCredentialsProvider;
@@ -73,7 +88,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getAddCommand() {
+    protected GitCommand<AddScmResult> getAddCommand() {
         return new JGitAddCommand();
     }
 
@@ -81,7 +96,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getBranchCommand() {
+    protected GitCommand<BranchScmResult> getBranchCommand() {
         return new JGitBranchCommand();
     }
 
@@ -89,7 +104,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getChangeLogCommand() {
+    protected GitCommand<ChangeLogScmResult> getChangeLogCommand() {
         return new JGitChangeLogCommand();
     }
 
@@ -97,7 +112,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getCheckInCommand() {
+    protected GitCommand<CheckInScmResult> getCheckInCommand() {
         return new JGitCheckInCommand();
     }
 
@@ -105,7 +120,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getCheckOutCommand() {
+    protected GitCommand<CheckOutScmResult> getCheckOutCommand() {
         return new JGitCheckOutCommand();
     }
 
@@ -113,7 +128,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getDiffCommand() {
+    protected GitCommand<DiffScmResult> getDiffCommand() {
         return new JGitDiffCommand();
     }
 
@@ -121,7 +136,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getExportCommand() {
+    protected GitCommand<ExportScmResult> getExportCommand() {
         throw new UnsupportedOperationException("getExportCommand");
     }
 
@@ -129,7 +144,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getRemoveCommand() {
+    protected GitCommand<RemoveScmResult> getRemoveCommand() {
         return new JGitRemoveCommand();
     }
 
@@ -137,7 +152,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getStatusCommand() {
+    protected GitCommand<StatusScmResult> getStatusCommand() {
         return new JGitStatusCommand();
     }
 
@@ -145,7 +160,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getTagCommand() {
+    protected GitCommand<TagScmResult> getTagCommand() {
         return new JGitTagCommand();
     }
 
@@ -153,7 +168,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getUntagCommand() {
+    protected GitCommand<UntagScmResult> getUntagCommand() {
         return new JGitUntagCommand();
     }
 
@@ -161,14 +176,14 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getUpdateCommand() {
+    protected GitCommand<UpdateScmResult> getUpdateCommand() {
         throw new UnsupportedOperationException("getUpdateCommand");
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getListCommand() {
+    protected GitCommand<ListScmResult> getListCommand() {
         return new JGitListCommand();
     }
 
@@ -176,7 +191,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    public GitCommand getInfoCommand() {
+    public GitCommand<InfoScmResult> getInfoCommand() {
         return new JGitInfoCommand();
     }
 
@@ -202,7 +217,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getBlameCommand() {
+    protected GitCommand<BlameScmResult> getBlameCommand() {
         return new JGitBlameCommand();
     }
 
@@ -210,7 +225,7 @@ public class JGitScmProvider extends AbstractGitScmProvider {
      * {@inheritDoc}
      */
     @Override
-    protected GitCommand getRemoteInfoCommand() {
+    protected GitCommand<RemoteInfoScmResult> getRemoteInfoCommand() {
         return new JGitRemoteInfoCommand();
     }
 }

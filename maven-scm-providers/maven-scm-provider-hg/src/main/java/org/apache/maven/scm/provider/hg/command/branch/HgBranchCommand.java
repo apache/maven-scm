@@ -29,7 +29,6 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.branch.AbstractBranchCommand;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -46,9 +45,9 @@ import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
  * @author Henning Schmiedehausen
  *
  */
-public class HgBranchCommand extends AbstractBranchCommand implements Command {
+public class HgBranchCommand extends AbstractBranchCommand {
 
-    protected ScmResult executeBranchCommand(
+    protected BranchScmResult executeBranchCommand(
             ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String branch, String message)
             throws ScmException {
         return executeBranchCommand(scmProviderRepository, fileSet, branch, new ScmBranchParameters(message));
@@ -57,7 +56,7 @@ public class HgBranchCommand extends AbstractBranchCommand implements Command {
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeBranchCommand(
+    protected BranchScmResult executeBranchCommand(
             ScmProviderRepository scmProviderRepository,
             ScmFileSet fileSet,
             String branch,

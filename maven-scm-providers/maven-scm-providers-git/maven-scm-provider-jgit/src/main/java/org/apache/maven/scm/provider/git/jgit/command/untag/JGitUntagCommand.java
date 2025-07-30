@@ -24,7 +24,6 @@ import java.util.function.BiFunction;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmUntagParameters;
 import org.apache.maven.scm.command.untag.AbstractUntagCommand;
 import org.apache.maven.scm.command.untag.UntagScmResult;
@@ -44,7 +43,8 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.slf4j.Logger;
 
 /** {@inheritDoc} */
-public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand, CustomizableSshSessionFactoryCommand {
+public class JGitUntagCommand extends AbstractUntagCommand
+        implements GitCommand<UntagScmResult>, CustomizableSshSessionFactoryCommand {
 
     private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
 
@@ -60,7 +60,7 @@ public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand
     }
 
     @Override
-    protected ScmResult executeUntagCommand(
+    protected UntagScmResult executeUntagCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, ScmUntagParameters scmUntagParameters)
             throws ScmException {
         String tagName = scmUntagParameters.getTag();

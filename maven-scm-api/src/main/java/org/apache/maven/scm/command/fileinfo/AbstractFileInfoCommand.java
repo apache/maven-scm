@@ -30,9 +30,9 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
+ * // TODO: remove this class as it doesn't have any implementation
  */
-public abstract class AbstractFileInfoCommand extends AbstractCommand {
+public abstract class AbstractFileInfoCommand extends AbstractCommand<ScmResult> {
     protected abstract ScmResult executeFileInfoCommand(
             ScmProviderRepository repository, File workingDirectory, String filename) throws ScmException;
 

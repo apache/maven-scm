@@ -23,7 +23,6 @@ import java.util.List;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.add.AbstractAddCommand;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -36,11 +35,11 @@ import org.eclipse.jgit.api.Git;
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitAddCommand extends AbstractAddCommand implements GitCommand {
+public class JGitAddCommand extends AbstractAddCommand implements GitCommand<AddScmResult> {
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeAddCommand(
+    protected AddScmResult executeAddCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String message, boolean binary) throws ScmException {
 
         if (fileSet.getFileList().isEmpty()) {

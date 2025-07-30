@@ -49,9 +49,9 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 /**
  * @since 1.9.5
  */
-public class JGitInfoCommand extends AbstractCommand implements GitCommand {
+public class JGitInfoCommand extends AbstractCommand<InfoScmResult> implements GitCommand<InfoScmResult> {
     @Override
-    protected ScmResult executeCommand(
+    protected InfoScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         File basedir = fileSet.getBasedir();
         Git git = null;

@@ -23,7 +23,6 @@ import java.util.List;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.remove.AbstractRemoveCommand;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -35,10 +34,10 @@ import org.eclipse.jgit.api.Git;
  * @author Georg Tsakumagos
  * @since 2.0.0-M2
  */
-public class JGitRemoveCommand extends AbstractRemoveCommand implements GitCommand {
+public class JGitRemoveCommand extends AbstractRemoveCommand implements GitCommand<RemoveScmResult> {
 
     @Override
-    protected ScmResult executeRemoveCommand(ScmProviderRepository repository, ScmFileSet fileSet, String message)
+    protected RemoveScmResult executeRemoveCommand(ScmProviderRepository repository, ScmFileSet fileSet, String message)
             throws ScmException {
 
         if (fileSet.getFileList().isEmpty()) {

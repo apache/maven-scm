@@ -43,7 +43,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  *
  */
-public class SvnListCommand extends AbstractListCommand implements SvnCommand {
+public class SvnListCommand extends AbstractListCommand implements SvnCommand<ListScmResult> {
     private static final File TMP_DIR = new File(System.getProperty("java.io.tmpdir"));
 
     /** {@inheritDoc} */

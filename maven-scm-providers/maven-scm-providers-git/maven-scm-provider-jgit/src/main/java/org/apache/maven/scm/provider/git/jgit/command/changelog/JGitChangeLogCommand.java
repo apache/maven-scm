@@ -49,7 +49,7 @@ import static org.apache.maven.scm.provider.git.jgit.command.JGitUtils.getTags;
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitChangeLogCommand extends AbstractChangeLogCommand implements GitCommand {
+public class JGitChangeLogCommand extends AbstractChangeLogCommand implements GitCommand<ChangeLogScmResult> {
 
     /**
      * {@inheritDoc}
