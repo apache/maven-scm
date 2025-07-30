@@ -20,10 +20,15 @@ package org.apache.maven.scm.provider.git.command.tag;
 
 import java.io.File;
 
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -42,5 +47,18 @@ public abstract class GitTagCommandTckTest extends TagCommandTckTest {
         } finally {
             GitScmTestUtils.setDefaultGitConfig(workingDirectory);
         }
+    }
+
+    @Test
+    public void testPushTagRejected() throws Exception {
+        String tag = getTagName();
+
+        GitScmTestUtils.setupRejectAllCommitsPrePushHook(getWorkingCopy());
+        @SuppressWarnings("deprecation")
+        TagScmResult tagResult = getScmManager()
+                .getProviderByUrl(getScmUrl())
+                .tag(getScmRepository(), new ScmFileSet(getWorkingCopy()), tag);
+
+        assertFalse("Tag should not have been pushed", tagResult.isSuccess());
     }
 }

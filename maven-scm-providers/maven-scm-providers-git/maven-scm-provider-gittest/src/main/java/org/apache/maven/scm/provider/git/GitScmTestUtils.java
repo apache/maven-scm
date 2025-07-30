@@ -102,4 +102,58 @@ public final class GitScmTestUtils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Sets up a pre-receive git hook that rejects all commits for the given repository (server-side).
+     * This is useful for testing scenarios where you want to simulate a repository
+     * that doesn't allow any new commits.
+     * This hook is <a href="https://github.com/eclipse-jgit/jgit/issues/192">not supported by JGit</a>.
+     *
+     *
+     * @param repositoryRootFile the root directory of the git repository
+     * @throws IOException if there's an error creating or writing the hook file
+     */
+    public static void setupRejectAllCommitsPreReceiveHook(File repositoryRootFile) throws IOException {
+        setupRejectAllCommitsHook(repositoryRootFile, true, "pre-receive");
+    }
+
+    /**
+     * Sets up a pre-push git hook that rejects all commits for the given repository (client-side).
+     * This is useful for testing scenarios where you want to simulate a repository
+     * that doesn't allow any new commits.
+     *
+     * @param workspaceRoot the root directory of the git working copy
+     * @throws IOException if there's an error creating or writing the hook file
+     */
+    public static void setupRejectAllCommitsPrePushHook(File workspaceRoot) throws IOException {
+        setupRejectAllCommitsHook(workspaceRoot, false, "pre-push");
+    }
+
+    private static void setupRejectAllCommitsHook(
+            File repositoryOrWorkspaceRootFile, boolean isServerSide, String hookName) throws IOException {
+        File hooksDir;
+        if (!isServerSide) {
+            // For client-side hooks, we use the .git/hooks directory
+            hooksDir = new File(repositoryOrWorkspaceRootFile, ".git/hooks");
+        } else {
+            // For server-side hooks, we use the hooks directory directly
+            hooksDir = new File(repositoryOrWorkspaceRootFile, "hooks");
+        }
+        if (!hooksDir.exists() && !hooksDir.mkdirs()) {
+            throw new IOException("Failed to create hooks directory: " + hooksDir.getAbsolutePath());
+        }
+
+        File preReceiveHook = new File(hooksDir, hookName);
+        try (FileWriter fw = new FileWriter(preReceiveHook)) {
+            fw.write("#!/bin/sh\n");
+            fw.write("# Pre-receive hook that rejects all commits\n");
+            fw.write("echo \"Error: This repository is configured to reject all commits\"\n");
+            fw.write("exit 1\n");
+        }
+
+        // Make the hook executable (on Unix-like systems)
+        if (!preReceiveHook.setExecutable(true)) {
+            throw new IOException("Could not make pre-receive hook executable at: " + preReceiveHook.getAbsolutePath());
+        }
+    }
 }

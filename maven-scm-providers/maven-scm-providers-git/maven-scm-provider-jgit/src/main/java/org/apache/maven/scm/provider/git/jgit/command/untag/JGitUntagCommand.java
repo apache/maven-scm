@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.git.jgit.command.untag;
 
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
@@ -33,6 +34,7 @@ import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.CustomizableSshSessionFactoryCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
+import org.apache.maven.scm.provider.git.jgit.command.PushException;
 import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
@@ -88,7 +90,14 @@ public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand
                 logger.info("push delete tag [" + escapedTagName + "] to remote...");
 
                 Iterable<PushResult> pushResultList = JGitUtils.push(
-                        git, (GitScmProviderRepository) repository, refSpec, Optional.of(transportConfigCallback));
+                        git,
+                        (GitScmProviderRepository) repository,
+                        refSpec,
+                        EnumSet.of(
+                                RemoteRefUpdate.Status.OK,
+                                RemoteRefUpdate.Status.UP_TO_DATE,
+                                RemoteRefUpdate.Status.NON_EXISTING),
+                        Optional.of(transportConfigCallback));
                 if (logger.isInfoEnabled()) {
                     for (PushResult pushResult : pushResultList) {
                         Collection<RemoteRefUpdate> ru = pushResult.getRemoteUpdates();
@@ -100,6 +109,8 @@ public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand
             }
 
             return new UntagScmResult("JGit tagDelete");
+        } catch (PushException e) {
+            return new UntagScmResult("JGit tagDelete", "Failed to push tag deletion: " + e.getMessage(), "", false);
         } catch (Exception e) {
             throw new ScmException("JGit tagDelete failure!", e);
         } finally {

@@ -22,6 +22,7 @@ import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -41,6 +42,7 @@ import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.CustomizableSshSessionFactoryCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
+import org.apache.maven.scm.provider.git.jgit.command.PushException;
 import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.AddCommand;
@@ -51,7 +53,6 @@ import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.UserConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.slf4j.Logger;
@@ -176,23 +177,17 @@ public class JGitCheckInCommand extends AbstractCheckInCommand
                 TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback(
                         sshSessionFactorySupplier.apply((GitScmProviderRepository) repo, logger));
 
-                Iterable<PushResult> pushResultList = JGitUtils.push(
-                        git, (GitScmProviderRepository) repo, refSpec, Optional.of(transportConfigCallback));
-
-                for (PushResult pushResult : pushResultList) {
-                    for (RemoteRefUpdate remoteRefUpdate : pushResult.getRemoteUpdates()) {
-                        if (!isSuccessStatus(remoteRefUpdate.getStatus())) {
-                            return new CheckInScmResult(
-                                    "JGit checkin",
-                                    "The git-push command failed, with status: " + remoteRefUpdate.getStatus(),
-                                    remoteRefUpdate.getMessage(),
-                                    false);
-                        }
-                    }
-                }
+                JGitUtils.push(
+                        git,
+                        (GitScmProviderRepository) repo,
+                        refSpec,
+                        EnumSet.of(RemoteRefUpdate.Status.OK, RemoteRefUpdate.Status.UP_TO_DATE),
+                        Optional.of(transportConfigCallback));
             }
 
             return new CheckInScmResult("JGit checkin", checkedInFiles);
+        } catch (PushException e) {
+            return new CheckInScmResult("JGit checkin", "Failed to push changes: " + e.getMessage(), "", false);
         } catch (Exception e) {
             throw new ScmException("JGit checkin failure!", e);
         } finally {
@@ -210,11 +205,6 @@ public class JGitCheckInCommand extends AbstractCheckInCommand
         parameters.setString(CommandParameter.MESSAGE, message);
         parameters.setScmVersion(CommandParameter.SCM_VERSION, version);
         return executeCommand(repo, fileSet, parameters);
-    }
-
-    private boolean isSuccessStatus(RemoteRefUpdate.Status remoteRefUpdateStatus) {
-        return remoteRefUpdateStatus == RemoteRefUpdate.Status.OK
-                || remoteRefUpdateStatus == RemoteRefUpdate.Status.UP_TO_DATE;
     }
 
     private static final class UserInfo {

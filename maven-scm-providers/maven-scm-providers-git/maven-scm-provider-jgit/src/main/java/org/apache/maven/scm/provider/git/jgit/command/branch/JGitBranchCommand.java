@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.git.jgit.command.branch;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -38,6 +39,7 @@ import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.CustomizableSshSessionFactoryCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
+import org.apache.maven.scm.provider.git.jgit.command.PushException;
 import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
@@ -49,6 +51,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.slf4j.Logger;
 
@@ -85,8 +88,9 @@ public class JGitBranchCommand extends AbstractBranchCommand
         if (!fileSet.getFileList().isEmpty()) {
             throw new ScmException("This provider doesn't support branching subsets of a directory");
         }
-
-        try (Git git = JGitUtils.openRepo(fileSet.getBasedir())) {
+        Git git = null;
+        try {
+            git = JGitUtils.openRepo(fileSet.getBasedir());
             Ref branchResult = git.branchCreate().setName(branch).call();
             logger.info("created [" + branchResult.getName() + "]");
 
@@ -105,6 +109,7 @@ public class JGitBranchCommand extends AbstractBranchCommand
                         git,
                         (GitScmProviderRepository) repo,
                         new RefSpec(Constants.R_HEADS + branch),
+                        EnumSet.of(RemoteRefUpdate.Status.OK, RemoteRefUpdate.Status.UP_TO_DATE),
                         Optional.of(transportConfigCallback));
             }
 
@@ -126,8 +131,12 @@ public class JGitBranchCommand extends AbstractBranchCommand
 
             return new BranchScmResult("JGit branch", files);
 
+        } catch (PushException e) {
+            return new BranchScmResult("JGit branch", "Failed to push changes: " + e.getMessage(), "", false);
         } catch (Exception e) {
             throw new ScmException("JGit branch failed!", e);
+        } finally {
+            JGitUtils.closeRepo(git);
         }
     }
 
