@@ -132,6 +132,7 @@ public class JGitBranchCommand extends AbstractBranchCommand
             return new BranchScmResult("JGit branch", files);
 
         } catch (PushException e) {
+            logger.debug("Failed to push branch", e);
             return new BranchScmResult("JGit branch", "Failed to push changes: " + e.getMessage(), "", false);
         } catch (Exception e) {
             throw new ScmException("JGit branch failed!", e);

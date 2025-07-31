@@ -110,6 +110,7 @@ public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand
 
             return new UntagScmResult("JGit tagDelete");
         } catch (PushException e) {
+            logger.debug("Failed to push tag deletion", e);
             return new UntagScmResult("JGit tagDelete", "Failed to push tag deletion: " + e.getMessage(), "", false);
         } catch (Exception e) {
             throw new ScmException("JGit tagDelete failure!", e);

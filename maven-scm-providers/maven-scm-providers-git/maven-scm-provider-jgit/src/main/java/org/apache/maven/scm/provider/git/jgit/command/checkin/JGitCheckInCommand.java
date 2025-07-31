@@ -187,6 +187,7 @@ public class JGitCheckInCommand extends AbstractCheckInCommand
 
             return new CheckInScmResult("JGit checkin", checkedInFiles);
         } catch (PushException e) {
+            logger.debug("Failed to push commits", e);
             return new CheckInScmResult("JGit checkin", "Failed to push changes: " + e.getMessage(), "", false);
         } catch (Exception e) {
             throw new ScmException("JGit checkin failure!", e);

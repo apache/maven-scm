@@ -136,6 +136,7 @@ public class JGitTagCommand extends AbstractTagCommand implements GitCommand, Cu
 
             return new TagScmResult("JGit tag", taggedFiles);
         } catch (PushException e) {
+            logger.debug("Failed to push tag", e);
             return new TagScmResult("JGit tag", "Failed to push tag: " + e.getMessage(), "", false);
         } catch (Exception e) {
             throw new ScmException("JGit tag failure!", e);
