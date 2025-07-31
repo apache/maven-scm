@@ -23,8 +23,8 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 
 /**
  * Exception thrown when a push operation fails in JGit.
- * This is a custom exception that extends GitAPIException to provide more context
- * about the failure during a push operation.
+ * This may either be triggered by an exception during the push operation or
+ * by a failed update of a remote reference.
  */
 public class PushException extends Exception {
 
