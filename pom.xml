@@ -175,6 +175,8 @@
     <checkstyle.violation.ignore>RedundantThrows,NewlineAtEndOfFile,ParameterNumber,MethodLength,FileLength,InnerAssignment,MagicNumber</checkstyle.violation.ignore>
     <checkstyle.failOnViolation>true</checkstyle.failOnViolation>
     <project.build.outputTimestamp>2024-04-11T12:24:41Z</project.build.outputTimestamp>
+    <version.maven-fluido-skin>2.1.0</version.maven-fluido-skin>
+    <version.maven-site-plugin>3.21.0</version.maven-site-plugin>
   </properties>
 
   <dependencyManagement>

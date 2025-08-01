@@ -1,75 +1,69 @@
- ------
- SCM Commands
- ------
- Wim Deblauwe
- ------
- 2005-12-01
- ------
+---
+title: SCM Commands
+author: 
+  - Wim Deblauwe
+date: 2005-12-01
+---
 
-~~ Licensed to the Apache Software Foundation (ASF) under one
-~~ or more contributor license agreements.  See the NOTICE file
-~~ distributed with this work for additional information
-~~ regarding copyright ownership.  The ASF licenses this file
-~~ to you under the Apache License, Version 2.0 (the
-~~ "License"); you may not use this file except in compliance
-~~ with the License.  You may obtain a copy of the License at
-~~
-~~   http://www.apache.org/licenses/LICENSE-2.0
-~~
-~~ Unless required by applicable law or agreed to in writing,
-~~ software distributed under the License is distributed on an
-~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-~~ KIND, either express or implied.  See the License for the
-~~ specific language governing permissions and limitations
-~~ under the License.
+<!-- Licensed to the Apache Software Foundation (ASF) under one-->
+<!-- or more contributor license agreements.  See the NOTICE file-->
+<!-- distributed with this work for additional information-->
+<!-- regarding copyright ownership.  The ASF licenses this file-->
+<!-- to you under the Apache License, Version 2.0 (the-->
+<!-- "License"); you may not use this file except in compliance-->
+<!-- with the License.  You may obtain a copy of the License at-->
+<!---->
+<!--   http://www.apache.org/licenses/LICENSE-2.0-->
+<!---->
+<!-- Unless required by applicable law or agreed to in writing,-->
+<!-- software distributed under the License is distributed on an-->
+<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY-->
+<!-- KIND, either express or implied.  See the License for the-->
+<!-- specific language governing permissions and limitations-->
+<!-- under the License.-->
+<!-- NOTE: For help with the syntax of this file, see:-->
+<!-- http://maven.apache.org/doxia/references/apt-format.html-->
+# Maven SCM Commands
 
-~~ NOTE: For help with the syntax of this file, see:
-~~ http://maven.apache.org/doxia/references/apt-format.html
+Maven SCM uses a exposes a fixed set of commands for it users. The providers for each SCM must implements those commands through the ScmProvider interface. This is an overview of all the commands:
 
-Maven SCM Commands
+## Add
 
-  Maven SCM uses a exposes a fixed set of commands for it users. The providers for each SCM must implements those commands through
-  the ScmProvider interface. This is an overview of all the commands:
+Adds a new file to the source control system
 
-* Add
+## Changelog
 
-    Adds a new file to the source control system
+Produces a list of changed \(a new version has been put in the system\) files. This list can then be used to display the latest changes or the developer\(s\) who did the latest changes.
 
-* Changelog
+## Checkin
 
-    Produces a list of changed (a new version has been put in the system) files. This list can then be used to display the latest changes
-    or the developer(s) who did the latest changes.
+Save the changes you have done into the repository. This will create a new version of the file or directory in the repository.
 
-* Checkin
+## Checkout
 
-   Save the changes you have done into the repository. This will create a new version of the file or
-   directory in the repository.
+Copy \(part of\) the contents of the source control system to a certain location on your local machine. It should be possible to scm operations in that location.
 
-* Checkout
+## Edit
 
-   Copy (part of) the contents of the source control system to a certain location on your local machine. It should be possible to scm operations in that location.
+Mark a file as editable with the source control system. This is used in source control systems where you look at read-only files and you need to make them not read-only anymore before you can edit them. In some scm&apos;s this means that no other user can then do an edit at the same time.
 
-* Edit
+## Diff
 
-   Mark a file as editable with the source control system. This is used in source control systems where you look at read-only files
-   and you need to make them not read-only anymore before you can edit them. In some scm's this means that no other user can then do an edit at the same time.
+TODO
 
-* Diff
+## Remove
 
-   TODO
+Removes a file from the source control system
 
-* Remove
+## Status
 
-   Removes a file from the source control system
+Gives a list of files that still need some source control operation \(files that still need to be added, files that are in edit mode, ...\)
 
-* Status
+## Tag
 
-   Gives a list of files that still need some source control operation (files that still need to be added, files that are in edit mode, ...)
+Tags \(label in some scm&apos;s\) a source tree with a certain tag. This allows to make reproducable builds later by checking out the source code that has this tag.
 
-* Tag
+## Update
 
-   Tags (label in some scm's) a source tree with a certain tag. This allows to make reproducable builds later by checking out the source code that has this tag.
+Updates the checkout&apos;ed source code to the latest state in the source control repository.
 
-* Update
-
-   Updates the checkout'ed source code to the latest state in the source control repository.
