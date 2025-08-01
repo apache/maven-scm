@@ -23,7 +23,6 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
-import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.diff.AbstractDiffCommand;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -34,7 +33,7 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  *
  */
-public class HgDiffCommand extends AbstractDiffCommand implements Command {
+public class HgDiffCommand extends AbstractDiffCommand {
     /** {@inheritDoc} */
     protected DiffScmResult executeDiffCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startRevision, ScmVersion endRevision)

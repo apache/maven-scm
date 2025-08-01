@@ -36,7 +36,7 @@ import org.slf4j.Logger;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
  */
-public class GitStatusCommand extends AbstractStatusCommand implements GitCommand {
+public class GitStatusCommand extends AbstractStatusCommand implements GitCommand<StatusScmResult> {
     /** {@inheritDoc} */
     protected StatusScmResult executeStatusCommand(ScmProviderRepository repo, ScmFileSet fileSet) throws ScmException {
         int exitCode;

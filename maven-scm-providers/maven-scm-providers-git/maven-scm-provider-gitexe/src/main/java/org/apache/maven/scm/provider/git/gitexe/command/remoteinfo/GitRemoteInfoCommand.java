@@ -35,7 +35,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author Bertrand Paquet
  */
-public class GitRemoteInfoCommand extends AbstractRemoteInfoCommand implements GitCommand {
+public class GitRemoteInfoCommand extends AbstractRemoteInfoCommand implements GitCommand<RemoteInfoScmResult> {
     private final Map<String, String> environmentVariables;
 
     public GitRemoteInfoCommand(Map<String, String> environmentVariables) {

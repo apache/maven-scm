@@ -18,12 +18,14 @@
  */
 package org.apache.maven.scm.provider.svn.command;
 
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.Command;
 
 /**
+ * @param <T> the type of the result returned by this command
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public interface SvnCommand extends Command {
-    // no-op
+public interface SvnCommand<T extends ScmResult> extends Command<T> {
+    // just a marker wrapping interface for SVN commands
 }

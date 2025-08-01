@@ -30,7 +30,6 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.branch.AbstractBranchCommand;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -51,9 +50,9 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  * TODO since this is just a copy, use that instead.
  */
-public class SvnBranchCommand extends AbstractBranchCommand implements SvnCommand {
+public class SvnBranchCommand extends AbstractBranchCommand implements SvnCommand<BranchScmResult> {
 
-    public ScmResult executeBranchCommand(
+    public BranchScmResult executeBranchCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String branch, ScmBranchParameters scmBranchParameters)
             throws ScmException {
         if (branch == null || branch.trim().isEmpty()) {
@@ -128,8 +127,8 @@ public class SvnBranchCommand extends AbstractBranchCommand implements SvnComman
     }
 
     /** {@inheritDoc} */
-    public ScmResult executeBranchCommand(ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message)
-            throws ScmException {
+    public BranchScmResult executeBranchCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message) throws ScmException {
         ScmBranchParameters scmBranchParameters = new ScmBranchParameters(message);
         return executeBranchCommand(repo, fileSet, branch, scmBranchParameters);
     }

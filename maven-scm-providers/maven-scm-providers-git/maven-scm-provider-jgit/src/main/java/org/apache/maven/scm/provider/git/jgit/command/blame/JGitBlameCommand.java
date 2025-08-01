@@ -37,7 +37,7 @@ import org.eclipse.jgit.blame.BlameResult;
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitBlameCommand extends AbstractBlameCommand implements GitCommand {
+public class JGitBlameCommand extends AbstractBlameCommand implements GitCommand<BlameScmResult> {
 
     @Override
     public BlameScmResult executeBlameCommand(ScmProviderRepository repo, ScmFileSet workingDirectory, String filename)

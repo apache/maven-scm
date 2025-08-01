@@ -21,7 +21,6 @@ package org.apache.maven.scm.command.remoteinfo;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
@@ -29,13 +28,13 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author Olivier Lamy
  * @since 1.6
  */
-public abstract class AbstractRemoteInfoCommand extends AbstractCommand {
+public abstract class AbstractRemoteInfoCommand extends AbstractCommand<RemoteInfoScmResult> {
 
     public abstract RemoteInfoScmResult executeRemoteInfoCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException;
 
     @Override
-    protected ScmResult executeCommand(
+    protected RemoteInfoScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         return executeRemoteInfoCommand(repository, fileSet, parameters);
     }

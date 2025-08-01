@@ -27,9 +27,9 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
+ * @param <T> the type of result returned by this command
  */
-public interface Command {
+public interface Command<T extends ScmResult> {
     /** Plexus component key */
     String ROLE = Command.class.getName();
 
@@ -40,6 +40,5 @@ public interface Command {
      * @return the result object
      * @throws ScmException if any
      */
-    ScmResult execute(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException;
+    T execute(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException;
 }

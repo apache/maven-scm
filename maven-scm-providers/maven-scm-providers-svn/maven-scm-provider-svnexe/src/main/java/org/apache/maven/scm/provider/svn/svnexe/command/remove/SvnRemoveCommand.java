@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.remove.AbstractRemoveCommand;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -40,9 +39,9 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  *
  */
-public class SvnRemoveCommand extends AbstractRemoveCommand implements SvnCommand {
+public class SvnRemoveCommand extends AbstractRemoveCommand implements SvnCommand<RemoveScmResult> {
     /** {@inheritDoc} */
-    protected ScmResult executeRemoveCommand(ScmProviderRepository repository, ScmFileSet fileSet, String message)
+    protected RemoveScmResult executeRemoveCommand(ScmProviderRepository repository, ScmFileSet fileSet, String message)
             throws ScmException {
         if (fileSet.getFileList().isEmpty()) {
             throw new ScmException("You must provide at least one file/directory to remove");

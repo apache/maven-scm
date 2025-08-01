@@ -18,10 +18,13 @@
  */
 package org.apache.maven.scm.provider.git.command;
 
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.Command;
 
 /**
+ * Interface for Git commands.
+ * @param <T> the type of the result returned by this command
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public interface GitCommand extends Command {}
+public interface GitCommand<T extends ScmResult> extends Command<T> {}

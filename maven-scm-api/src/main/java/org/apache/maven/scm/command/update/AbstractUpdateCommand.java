@@ -28,7 +28,6 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
@@ -41,13 +40,13 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public abstract class AbstractUpdateCommand extends AbstractCommand {
+public abstract class AbstractUpdateCommand extends AbstractCommand<UpdateScmResult> {
     protected abstract UpdateScmResult executeUpdateCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, ScmVersion scmVersion) throws ScmException;
 
     /** {@inheritDoc} */
-    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException {
+    public UpdateScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         ScmVersion scmVersion = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
 
         boolean runChangelog = Boolean.valueOf(parameters.getString(CommandParameter.RUN_CHANGELOG_WITH_UPDATE, "true"))

@@ -27,7 +27,6 @@ import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.command.info.InfoItem;
 import org.apache.maven.scm.command.info.InfoScmResult;
@@ -42,12 +41,12 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  * @since 1.5
  */
-public class GitInfoCommand extends AbstractCommand implements GitCommand {
+public class GitInfoCommand extends AbstractCommand<InfoScmResult> implements GitCommand<InfoScmResult> {
 
     public static final int NO_REVISION_LENGTH = -1;
 
     @Override
-    protected ScmResult executeCommand(
+    protected InfoScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
 
         Commandline baseCli = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "log");

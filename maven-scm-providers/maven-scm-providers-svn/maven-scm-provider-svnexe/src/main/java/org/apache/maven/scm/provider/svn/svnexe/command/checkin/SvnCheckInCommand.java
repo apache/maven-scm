@@ -42,7 +42,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  *
  */
-public class SvnCheckInCommand extends AbstractCheckInCommand implements SvnCommand {
+public class SvnCheckInCommand extends AbstractCheckInCommand implements SvnCommand<CheckInScmResult> {
     /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String message, ScmVersion version) throws ScmException {

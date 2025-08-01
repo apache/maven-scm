@@ -25,7 +25,6 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.add.AbstractAddCommand;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -38,9 +37,9 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  *
  */
-public class HgAddCommand extends AbstractAddCommand implements Command {
+public class HgAddCommand extends AbstractAddCommand {
     /** {@inheritDoc} */
-    protected ScmResult executeAddCommand(
+    protected AddScmResult executeAddCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String message, boolean binary) throws ScmException {
         // String[] addCmd = new String[] { ADD_CMD, NO_RECURSE_OPTION };
         String[] addCmd = new String[] {HgCommandConstants.ADD_CMD, HgCommandConstants.VERBOSE_OPTION};

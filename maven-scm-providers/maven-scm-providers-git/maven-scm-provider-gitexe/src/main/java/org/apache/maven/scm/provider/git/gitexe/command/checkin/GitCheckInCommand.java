@@ -53,7 +53,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  *
  */
-public class GitCheckInCommand extends AbstractCheckInCommand implements GitCommand {
+public class GitCheckInCommand extends AbstractCheckInCommand implements GitCommand<CheckInScmResult> {
     private final Map<String, String> environmentVariables;
 
     public GitCheckInCommand(Map<String, String> environmentVariables) {

@@ -32,6 +32,7 @@ import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.mkdir.AbstractMkdirCommand;
 import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.command.add.LocalAddCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
@@ -40,7 +41,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  *
  */
-public class LocalMkdirCommand extends AbstractMkdirCommand {
+public class LocalMkdirCommand extends AbstractMkdirCommand implements LocalCommand<MkdirScmResult> {
     protected MkdirScmResult executeMkdirCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean createInLocal)
             throws ScmException {

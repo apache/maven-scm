@@ -30,7 +30,6 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
-import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
@@ -43,7 +42,7 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author Olivier Lamy
  */
-public class HgChangeLogCommand extends AbstractChangeLogCommand implements Command {
+public class HgChangeLogCommand extends AbstractChangeLogCommand {
     /**
      * {@inheritDoc}
      */

@@ -39,7 +39,7 @@ import org.eclipse.jgit.api.Status;
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitStatusCommand extends AbstractStatusCommand implements GitCommand {
+public class JGitStatusCommand extends AbstractStatusCommand implements GitCommand<StatusScmResult> {
     /**
      * {@inheritDoc}
      */

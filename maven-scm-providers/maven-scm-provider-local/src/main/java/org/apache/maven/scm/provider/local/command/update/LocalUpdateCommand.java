@@ -45,7 +45,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @author Olivier Lamy
  *
  */
-public class LocalUpdateCommand extends AbstractUpdateCommand implements LocalCommand {
+public class LocalUpdateCommand extends AbstractUpdateCommand implements LocalCommand<UpdateScmResult> {
     /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version)
             throws ScmException {

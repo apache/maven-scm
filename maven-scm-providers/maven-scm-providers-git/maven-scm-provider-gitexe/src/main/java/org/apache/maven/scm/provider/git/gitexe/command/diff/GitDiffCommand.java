@@ -37,7 +37,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
  */
-public class GitDiffCommand extends AbstractDiffCommand implements GitCommand {
+public class GitDiffCommand extends AbstractDiffCommand implements GitCommand<DiffScmResult> {
     /** {@inheritDoc} */
     protected DiffScmResult executeDiffCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion, ScmVersion endVersion)

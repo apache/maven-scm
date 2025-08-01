@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmUntagParameters;
 import org.apache.maven.scm.command.untag.AbstractUntagCommand;
 import org.apache.maven.scm.command.untag.UntagScmResult;
@@ -35,7 +34,7 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /** {@inheritDoc} */
-public class GitUntagCommand extends AbstractUntagCommand implements GitCommand {
+public class GitUntagCommand extends AbstractUntagCommand implements GitCommand<UntagScmResult> {
     private final Map<String, String> environmentVariables;
 
     public GitUntagCommand(Map<String, String> environmentVariables) {
@@ -43,7 +42,7 @@ public class GitUntagCommand extends AbstractUntagCommand implements GitCommand 
     }
 
     /** {@inheritDoc} */
-    public ScmResult executeUntagCommand(
+    public UntagScmResult executeUntagCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmUntagParameters scmUntagParameters) throws ScmException {
         String tag = scmUntagParameters.getTag();
         if (tag == null || tag.trim().isEmpty()) {

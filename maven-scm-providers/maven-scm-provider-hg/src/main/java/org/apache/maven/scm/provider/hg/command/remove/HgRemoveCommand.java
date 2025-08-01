@@ -23,7 +23,6 @@ import java.io.File;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.remove.AbstractRemoveCommand;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -34,9 +33,9 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  *
  */
-public class HgRemoveCommand extends AbstractRemoveCommand implements Command {
+public class HgRemoveCommand extends AbstractRemoveCommand {
     /** {@inheritDoc} */
-    protected ScmResult executeRemoveCommand(ScmProviderRepository repository, ScmFileSet fileSet, String message)
+    protected RemoveScmResult executeRemoveCommand(ScmProviderRepository repository, ScmFileSet fileSet, String message)
             throws ScmException {
 
         String[] command = new String[] {HgCommandConstants.REMOVE_CMD};

@@ -44,7 +44,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @since 10 august 2008
  *
  */
-public class GitUpdateCommand extends AbstractUpdateCommand implements GitCommand {
+public class GitUpdateCommand extends AbstractUpdateCommand implements GitCommand<UpdateScmResult> {
     /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion scmVersion) throws ScmException {

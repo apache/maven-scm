@@ -24,7 +24,6 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
-import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.list.AbstractListCommand;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -37,7 +36,7 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
  *
  */
-public class HgListCommand extends AbstractListCommand implements Command {
+public class HgListCommand extends AbstractListCommand {
     /** {@inheritDoc} */
     protected ListScmResult executeListCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion scmVersion)

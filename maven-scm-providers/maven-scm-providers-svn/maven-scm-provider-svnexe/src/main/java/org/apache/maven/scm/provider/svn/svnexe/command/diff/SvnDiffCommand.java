@@ -41,7 +41,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  *
  */
-public class SvnDiffCommand extends AbstractDiffCommand implements SvnCommand {
+public class SvnDiffCommand extends AbstractDiffCommand implements SvnCommand<DiffScmResult> {
     /** {@inheritDoc} */
     protected DiffScmResult executeDiffCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion, ScmVersion endVersion)

@@ -22,7 +22,6 @@ import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
@@ -30,7 +29,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  *
  */
-public abstract class AbstractMkdirCommand extends AbstractCommand {
+public abstract class AbstractMkdirCommand extends AbstractCommand<MkdirScmResult> {
     /**
      * Creates directories in the remote repository.
      *
@@ -46,7 +45,7 @@ public abstract class AbstractMkdirCommand extends AbstractCommand {
             throws ScmException;
 
     /** {@inheritDoc} */
-    protected ScmResult executeCommand(
+    protected MkdirScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         if (fileSet.getFileList().isEmpty()) {
             throw new IllegalArgumentException("fileSet can not be empty");

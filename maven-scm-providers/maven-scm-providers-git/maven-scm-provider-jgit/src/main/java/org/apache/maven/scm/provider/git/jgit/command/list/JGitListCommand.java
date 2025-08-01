@@ -45,7 +45,7 @@ import org.slf4j.Logger;
  * @author Dominik Bartholdi (imod)
  * @since 1.9
  */
-public class JGitListCommand extends AbstractListCommand implements GitCommand {
+public class JGitListCommand extends AbstractListCommand implements GitCommand<ListScmResult> {
 
     private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
 

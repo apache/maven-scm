@@ -28,7 +28,6 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
-import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -43,7 +42,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @author Olivier Lamy
  *
  */
-public class HgCheckOutCommand extends AbstractCheckOutCommand implements Command {
+public class HgCheckOutCommand extends AbstractCheckOutCommand {
     /**
      * {@inheritDoc}
      */

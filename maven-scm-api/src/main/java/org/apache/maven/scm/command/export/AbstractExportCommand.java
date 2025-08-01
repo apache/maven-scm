@@ -22,7 +22,6 @@ import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -31,13 +30,13 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public abstract class AbstractExportCommand extends AbstractCommand {
+public abstract class AbstractExportCommand extends AbstractCommand<ExportScmResult> {
     protected abstract ExportScmResult executeExportCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, ScmVersion scmVersion, String outputDirectory)
             throws ScmException;
 
     /** {@inheritDoc} */
-    protected ScmResult executeCommand(
+    protected ExportScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         ScmVersion scmVersion = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
 
