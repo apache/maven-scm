@@ -166,17 +166,26 @@ public class JGitUtils {
             Git git,
             GitScmProviderRepository repo,
             RefSpec refSpec,
+            Set<RemoteRefUpdate.Status> successfulStatuses,
             Optional<TransportConfigCallback> transportConfigCallback)
-            throws GitAPIException {
+            throws PushException {
         CredentialsProvider credentials = prepareSession(git, repo);
         PushCommand command = git.push().setRefSpecs(refSpec).setCredentialsProvider(credentials);
         transportConfigCallback.ifPresent(command::setTransportConfigCallback);
 
-        Iterable<PushResult> pushResultList = command.call();
+        Iterable<PushResult> pushResultList;
+        try {
+            pushResultList = command.call();
+        } catch (GitAPIException e) {
+            throw new PushException(repo.getPushUrlWithMaskedPassword(), e);
+        }
         for (PushResult pushResult : pushResultList) {
             Collection<RemoteRefUpdate> ru = pushResult.getRemoteUpdates();
             for (RemoteRefUpdate remoteRefUpdate : ru) {
-                LOGGER.info(remoteRefUpdate.getStatus() + " - " + remoteRefUpdate);
+                if (!successfulStatuses.contains(remoteRefUpdate.getStatus())) {
+                    throw new PushException(repo.getPushUrlWithMaskedPassword(), remoteRefUpdate);
+                }
+                LOGGER.debug("Push succeeded {}", remoteRefUpdate);
             }
         }
         return pushResultList;

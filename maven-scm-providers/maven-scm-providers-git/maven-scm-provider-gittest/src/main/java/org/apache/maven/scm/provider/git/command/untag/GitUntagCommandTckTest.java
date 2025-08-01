@@ -20,10 +20,20 @@ package org.apache.maven.scm.provider.git.command.untag;
 
 import java.io.File;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.untag.UntagScmResult;
+import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.untag.UntagCommandTckTest;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
 
 /** {@inheritDoc} */
 public abstract class GitUntagCommandTckTest extends UntagCommandTckTest {
@@ -39,5 +49,24 @@ public abstract class GitUntagCommandTckTest extends UntagCommandTckTest {
         } finally {
             GitScmTestUtils.setDefaultGitConfig(workingDirectory);
         }
+    }
+
+    @Test
+    public void testPushTagDeletionRejected() throws Exception {
+        String tag = getTagName();
+        ScmProvider scmProvider = getScmManager().getProviderByUrl(getScmUrl());
+        ScmRepository scmRepository = getScmRepository();
+        ScmFileSet files = new ScmFileSet(getWorkingCopy());
+        TagScmResult tagResult = scmProvider.tag(scmRepository, files, tag, new ScmTagParameters());
+
+        assertResultIsSuccess(tagResult);
+
+        GitScmTestUtils.setupRejectAllCommitsPrePushHook(getWorkingCopy());
+        CommandParameters params = new CommandParameters();
+        params.setString(CommandParameter.TAG_NAME, tag);
+
+        UntagScmResult untagResult = scmProvider.untag(scmRepository, files, params);
+
+        assertFalse("Tag deletion should not have been pushed", untagResult.isSuccess());
     }
 }

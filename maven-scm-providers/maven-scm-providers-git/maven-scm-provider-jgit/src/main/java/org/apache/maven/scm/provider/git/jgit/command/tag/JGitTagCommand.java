@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.git.jgit.command.tag;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -36,6 +37,7 @@ import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.CustomizableSshSessionFactoryCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
+import org.apache.maven.scm.provider.git.jgit.command.PushException;
 import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
@@ -45,6 +47,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.slf4j.Logger;
 
@@ -111,6 +114,7 @@ public class JGitTagCommand extends AbstractTagCommand implements GitCommand, Cu
                         git,
                         (GitScmProviderRepository) repo,
                         new RefSpec(Constants.R_TAGS + escapedTagName),
+                        EnumSet.of(RemoteRefUpdate.Status.OK, RemoteRefUpdate.Status.UP_TO_DATE),
                         Optional.of(transportConfigCallback));
             }
 
@@ -131,6 +135,9 @@ public class JGitTagCommand extends AbstractTagCommand implements GitCommand, Cu
             walk.close();
 
             return new TagScmResult("JGit tag", taggedFiles);
+        } catch (PushException e) {
+            logger.debug("Failed to push tag", e);
+            return new TagScmResult("JGit tag", "Failed to push tag: " + e.getMessage(), "", false);
         } catch (Exception e) {
             throw new ScmException("JGit tag failure!", e);
         } finally {
