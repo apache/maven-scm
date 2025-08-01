@@ -1,42 +1,37 @@
- ------
- How to use Maven SCM in my application
- ------
- Maven Team
- ------
- 2007-03-26
- ------
+---
+title: How to use Maven SCM in my application
+author: 
+  - Maven Team
+date: 2007-03-26
+---
 
-~~ Licensed to the Apache Software Foundation (ASF) under one
-~~ or more contributor license agreements.  See the NOTICE file
-~~ distributed with this work for additional information
-~~ regarding copyright ownership.  The ASF licenses this file
-~~ to you under the Apache License, Version 2.0 (the
-~~ "License"); you may not use this file except in compliance
-~~ with the License.  You may obtain a copy of the License at
-~~
-~~   http://www.apache.org/licenses/LICENSE-2.0
-~~
-~~ Unless required by applicable law or agreed to in writing,
-~~ software distributed under the License is distributed on an
-~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-~~ KIND, either express or implied.  See the License for the
-~~ specific language governing permissions and limitations
-~~ under the License.
+<!-- Licensed to the Apache Software Foundation (ASF) under one-->
+<!-- or more contributor license agreements.  See the NOTICE file-->
+<!-- distributed with this work for additional information-->
+<!-- regarding copyright ownership.  The ASF licenses this file-->
+<!-- to you under the Apache License, Version 2.0 (the-->
+<!-- "License"); you may not use this file except in compliance-->
+<!-- with the License.  You may obtain a copy of the License at-->
+<!---->
+<!--   http://www.apache.org/licenses/LICENSE-2.0-->
+<!---->
+<!-- Unless required by applicable law or agreed to in writing,-->
+<!-- software distributed under the License is distributed on an-->
+<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY-->
+<!-- KIND, either express or implied.  See the License for the-->
+<!-- specific language governing permissions and limitations-->
+<!-- under the License.-->
+<!-- NOTE: For help with the syntax of this file, see:-->
+<!-- http://maven.apache.org/doxia/references/apt-format.html-->
+# How to use Maven SCM in my application?
 
-~~ NOTE: For help with the syntax of this file, see:
-~~ http://maven.apache.org/doxia/references/apt-format.html
+## Create an SCM Manager
 
-How to use Maven SCM in my application?
+### With Plexus IOC
 
-* Create an SCM Manager
+With [Plexus](http://codehaus-plexus.github.io/), it&apos;s very easy to use Maven SCM because it injects all dependencies in fields, so you only have to write minimal code.
 
-** With Plexus IOC
-
-  With {{{http://codehaus-plexus.github.io/}Plexus}}, it's very easy to use Maven SCM
-  because it injects all dependencies in fields, so you only have to write
-  minimal code.
-
-+------------------------------------------+
+```unknown
 import org.apache.maven.scm.manager.ScmManager;
 
 public class MyApp
@@ -56,15 +51,13 @@ public class MyApp
     {
         return scmManager;
     }
-+------------------------------------------+
+```
 
+### Without Plexus IOC
 
-** Without Plexus IOC
+Without Plexus, you must add all your SCM providers in the manager and that will require more work. You can use the basic SCM manager or write your own:
 
-  Without Plexus, you must add all your SCM providers in the manager and that
-  will require more work. You can use the basic SCM manager or write your own:
-
-+------------------------------------------+
+```unknown
 import org.apache.maven.scm.manager.BasicScmManager;
 
 public class MyApp
@@ -85,14 +78,13 @@ public class MyApp
     {
         return scmManager;
     }
-+------------------------------------------+
+```
 
-* Run a SCM command
+## Run a SCM command
 
-  Before you call a command, the SCM manager needs an <<<ScmRepository>>>. This
-  object contains all the information about the SCM connection.
+Before you call a command, the SCM manager needs an `ScmRepository`. This object contains all the information about the SCM connection.
 
-+------------------------------------------+
+```unknown
     public ScmRepository getScmRepository( String scmUrl )
         throw Exception
     {
@@ -111,11 +103,11 @@ public class MyApp
             throw new Exception( "Error while connecting to the repository", ex );
         }
     }
-+------------------------------------------+
+```
 
-** Checkout command
+### Checkout command
 
-+------------------------------------------+
+```unknown
     public void checkOut( ScmRepository scmRepository, File workingDirectory )
         throws ScmException
     {
@@ -149,11 +141,11 @@ public class MyApp
             System.out.println( " " + file.getPath() );
         }
     }
-+------------------------------------------+
+```
 
-** Update command
+### Update command
 
-+------------------------------------------+
+```unknown
     public void update( ScmRepository scmRepository, File workingDirectory )
         throws ScmException
     {
@@ -179,14 +171,13 @@ public class MyApp
             System.out.println( " " + file.getPath() );
         }
     }
-+------------------------------------------+
+```
 
-* The checkResult method
+## The checkResult method
 
-  In each sample command code, we use the <<<checkResult>>> method, it isn't
-  required but can be useful if something failed in the command execution.
+In each sample command code, we use the `checkResult` method, it isn&apos;t required but can be useful if something failed in the command execution.
 
-+------------------------------------------+
+```unknown
     public void checkResult( ScmResult result )
         throws Exception
     {
@@ -204,9 +195,9 @@ public class MyApp
                 "Command failed." + StringUtils.defaultString( result.getProviderMessage() ) );
         }
     }
-+------------------------------------------+
+```
 
-* Sample code
+## Sample code
 
-  The code above is available here:
-  {{{http://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-client/}Maven SCM client}}.
+The code above is available here: [Maven SCM client](http://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-client/).
+

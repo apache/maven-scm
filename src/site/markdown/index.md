@@ -1,42 +1,33 @@
- ------
- Home
- ------
- Wim Deblauwe
- ------
- 2013-10-27
- ------
+---
+title: Home
+author: 
+  - Wim Deblauwe
+date: 2013-10-27
+---
 
-~~ Licensed to the Apache Software Foundation (ASF) under one
-~~ or more contributor license agreements.  See the NOTICE file
-~~ distributed with this work for additional information
-~~ regarding copyright ownership.  The ASF licenses this file
-~~ to you under the Apache License, Version 2.0 (the
-~~ "License"); you may not use this file except in compliance
-~~ with the License.  You may obtain a copy of the License at
-~~
-~~   http://www.apache.org/licenses/LICENSE-2.0
-~~
-~~ Unless required by applicable law or agreed to in writing,
-~~ software distributed under the License is distributed on an
-~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-~~ KIND, either express or implied.  See the License for the
-~~ specific language governing permissions and limitations
-~~ under the License.
+<!-- Licensed to the Apache Software Foundation (ASF) under one-->
+<!-- or more contributor license agreements.  See the NOTICE file-->
+<!-- distributed with this work for additional information-->
+<!-- regarding copyright ownership.  The ASF licenses this file-->
+<!-- to you under the Apache License, Version 2.0 (the-->
+<!-- "License"); you may not use this file except in compliance-->
+<!-- with the License.  You may obtain a copy of the License at-->
+<!---->
+<!--   http://www.apache.org/licenses/LICENSE-2.0-->
+<!---->
+<!-- Unless required by applicable law or agreed to in writing,-->
+<!-- software distributed under the License is distributed on an-->
+<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY-->
+<!-- KIND, either express or implied.  See the License for the-->
+<!-- specific language governing permissions and limitations-->
+<!-- under the License.-->
+<!-- NOTE: For help with the syntax of this file, see:-->
+<!-- http://maven.apache.org/doxia/references/apt-format.html-->
+# Maven SCM
 
-~~ NOTE: For help with the syntax of this file, see:
-~~ http://maven.apache.org/doxia/references/apt-format.html
+Maven SCM supports Maven plugins \(for example [maven-release-plugin](https://maven.apache.org/plugins/maven-release-plugin/)\) and other tools by providing them with [a common API](./maven-scm-api/apidocs) for source code management operations. You can look at [the list of SCMs](./scms-overview.html) for more information on using Maven SCM with your favorite SCM tool.
 
-Maven SCM
+In addition, Maven SCM provides two tools to directly use it:
 
-  Maven SCM supports Maven plugins (for example
-  {{{https://maven.apache.org/plugins/maven-release-plugin/}maven-release-plugin}})
-  and other tools by providing them with {{{./maven-scm-api/apidocs}a common API}} for
-  source code management operations. You can look at
-  {{{./scms-overview.html}the list of SCMs}} for more information on using
-  Maven SCM with your favorite SCM tool.
-
-  In addition, Maven SCM provides two tools to directly use it:
-
-  * {{{./maven-scm-plugin}<<<maven-scm-plugin>>>}}: a Maven plugin, where each SCM command is implemented as a plugin goal,
-
-  * {{{./maven-scm-client}<<<maven-scm-client>>>}}: a simple SCM command line tool.
+- [`maven-scm-plugin`](./maven-scm-plugin): a Maven plugin, where each SCM command is implemented as a plugin goal,
+- [`maven-scm-client`](./maven-scm-client): a simple SCM command line tool.
