@@ -28,7 +28,7 @@ date: 2011-05-15
 
 ## General Info
 
-Link: [http://subversion.apache.org/](http://subversion.apache.org/)
+Link: <https://subversion.apache.org/>
 
 License: Apache License, Version 2\.0
 

@@ -29,7 +29,7 @@
   <artifactId>maven-scm-provider-svnexe</artifactId>
 
   <name>Maven SCM Subversion Provider - SVN Executable Impl.</name>
-  <description>Executable library for SCM SVN Provider.</description>
+  <description>SCM SVN Provider relying on the SVN CLI</description>
 
   <contributors>
     <contributor>
