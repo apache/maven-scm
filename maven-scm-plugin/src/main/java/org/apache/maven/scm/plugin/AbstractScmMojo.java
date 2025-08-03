@@ -153,7 +153,9 @@ public abstract class AbstractScmMojo extends AbstractMojo {
     private Properties systemProperties;
 
     /**
-     * List of provider implementations.
+     * List of remapped provider implementations. Allows to bind a different implementation than the default one to a provider id.
+     * The key is the remapped provider id, the value is the default provider id the implementation is bound to.
+     * @see <a href="https://maven.apache.org/scm/scms-overview.html">Supported SCMs</a>
      */
     @Parameter
     private Map<String, String> providerImplementations;

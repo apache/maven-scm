@@ -27,7 +27,7 @@ date: 2007-04-12
 
 ## General Info
 
-Link: [http://www.selenic.com/mercurial/wiki/](http://www.selenic.com/mercurial/wiki/)
+Link: <https://www.mercurial-scm.org/>
 
 License: GNU General Public License
 

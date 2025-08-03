@@ -27,7 +27,7 @@ date: 2008-08-10
 
 ## General Info
 
-Link: [http://git-scm.com/](http://git-scm.com/)
+Link: <https://git-scm.com/>
 
 License: GNU General Public License v2
 

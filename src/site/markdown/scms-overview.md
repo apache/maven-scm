@@ -25,13 +25,25 @@ date: 2005-12-01
 <!-- http://maven.apache.org/doxia/references/apt-format.html-->
 # Overview of SCMs
 
-This is a list of all standard SCMs:
+## Standard SCM Providers
+
+These SCMs are supported with their providers shipping with maven-scm
 
 |   |   |   |
 |:---:|:---:|:---:|
-|**SCM**|**Provider ID**|**Provider Module**|
-|[Git](./git.html)|`git`|[Git Executable Provider](./maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/index.html)|
-|[Git](./git.html)|`jgit`|[JGit Provider](./maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/index.html)|
-|[Subversion](./subversion.html)|`svn`|[SVN Executable Provider](./maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svnexe/index.html)|
-|[Mercurial](./mercurial.html)|`hg`|[Mercurial \(Hg\) Provider](./maven-scm-providers/maven-scm-provider-hg/index.html)|
-|[Local](./local.html)|`local`|[Local Provider](./maven-scm-providers/maven-scm-provider-local/index.html)|
+|**SCM**|**Provider ID**|**Provider Module**|**Native Java**
+|[Git](./git.html)|`git`|[Git Executable Provider](./maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/index.html)|no
+|[Git](./git.html)|`jgit`|[JGit Provider](./maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/index.html)|yes
+|[Subversion](./subversion.html)|`svn`|[SVN Executable Provider](./maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svnexe/index.html)|no
+|[Mercurial](./mercurial.html)|`hg`|[Mercurial \(Hg\) Provider](./maven-scm-providers/maven-scm-provider-hg/index.html)|no
+|[Local](./local.html)|`local`|[Local Provider](./maven-scm-providers/maven-scm-provider-local/index.html)|yes
+
+## 3rd Party SCM Providers
+
+- [maven-scm-provider-svnjava](https://github.com/olamy/maven-scm-provider-svnjava): Native Java SVN provider based on SVNKit
+
+## Related Links
+
+- [Comparison of revision control software](https://en.wikipedia.org/wiki/Comparison_of_revision_control_software)
+- [SCM Common vocabulary](https://en.wikipedia.org/wiki/Source_Code_Management#Common_vocabulary)
+- [Outdated Wiki page of Maven SCM Support Matrix](https://cwiki.apache.org/confluence/display/MAVENSCM/SCM+Matrix)

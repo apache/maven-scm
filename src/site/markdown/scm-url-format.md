@@ -37,5 +37,5 @@ As delimiter you can use either colon `:` or a pipe `|`, if you use a colon for 
 
 For information about supported provider IDs and the provider-specific part, see the appropriate [SCM implementation](./scms-overview.html).
 
-Provider IDs may be mapped with the help of the plugin parameter `providerImplementations` supported by both [maven-release-plugin](https://maven.apache.org/maven-release/maven-release-plugin/prepare-mojo.html#providerImplementations) and [maven-scm-plugin](./maven-scm-plugin/checkout-mojo.html#providerImplementations).
+Provider IDs may be remapped with the help of the plugin parameter `providerImplementations` supported by both [maven-release-plugin](https://maven.apache.org/maven-release/maven-release-plugin/prepare-mojo.html#providerImplementations) and [maven-scm-plugin](./maven-scm-plugin/checkout-mojo.html#providerImplementations).
 

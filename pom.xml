@@ -346,6 +346,7 @@
               <exclude>src/main/resources/tck/**</exclude>
               <exclude>.travis.yml</exclude>
               <exclude>nbactions.xml</exclude>
+              <exclude>src/site/resources/.htaccess</exclude>
             </excludes>
           </configuration>
         </plugin>

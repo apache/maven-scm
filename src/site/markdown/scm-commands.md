@@ -25,7 +25,7 @@ date: 2005-12-01
 <!-- http://maven.apache.org/doxia/references/apt-format.html-->
 # Maven SCM Commands
 
-Maven SCM uses a exposes a fixed set of commands for it users. The providers for each SCM must implements those commands through the ScmProvider interface. This is an overview of all the commands:
+Maven SCM uses a exposes a fixed set of commands for it users. The providers for each SCM must implements those commands through the `ScmProvider` interface. This is an overview of all the commands:
 
 ## Add
 
