@@ -55,8 +55,24 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 public class GitExeScmProvider extends AbstractGitScmProvider {
     private final Map<String, String> environmentVariables;
 
+    /**
+     * The environment variable that controls whether Git prompts for credentials in the terminal.
+     * @see <a href="https://git-scm.com/docs/git-credential#Documentation/git-credential.txt-envGIT_TERMINAL_PROMPT">GIT_TERMINAL_PROMPT</a>
+     */
+    private static final String GIT_TERMINAL_PROMPT = "GIT_TERMINAL_PROMPT";
+
     public GitExeScmProvider() {
         environmentVariables = new HashMap<>();
+    }
+
+    @Override
+    public void setInteractive(boolean interactive) {
+        if (interactive) {
+            // This is the default behavior therefore make sure to remove the variable if it was set before.
+            environmentVariables.remove(GIT_TERMINAL_PROMPT);
+        } else {
+            environmentVariables.put(GIT_TERMINAL_PROMPT, "0");
+        }
     }
 
     /** {@inheritDoc} */
