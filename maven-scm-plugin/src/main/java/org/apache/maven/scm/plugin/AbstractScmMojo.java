@@ -95,27 +95,45 @@ public abstract class AbstractScmMojo extends AbstractMojo {
 
     /**
      * The user name.
+     * @see <a href="https://maven.apache.org/scm/authentication.html">Authentication</a>
      */
     @Parameter(property = "username")
     private String username;
 
     /**
      * The user password.
+     * @see <a href="https://maven.apache.org/scm/authentication.html">Authentication</a>
      */
     @Parameter(property = "password")
     private String password;
 
     /**
      * The private key.
+     * @see <a href="https://maven.apache.org/scm/authentication.html">Authentication</a>
      */
     @Parameter(property = "privateKey")
     private String privateKey;
 
     /**
      * The passphrase.
+     * @see <a href="https://maven.apache.org/scm/authentication.html">Authentication</a>
      */
     @Parameter(property = "passphrase")
     private String passphrase;
+
+    /**
+     * The server id of the server which provides the credentials for the SCM in the <a href="https://maven.apache.org/settings.html">settings.xml</a> file.
+     * If not set the default lookup uses the SCM URL to construct the server id like this:
+     * {@code server-id=scm-host[":"scm-port]}.
+     * <p>
+     * Currently the POM does not allow to specify a server id for the SCM section.
+     * <p>
+     * Explicit authentication information provided via {@link #username}, {@link #password} or {@link #privateKey} will take precedence.
+     * @see <a href="https://maven.apache.org/scm/authentication.html">Authentication</a>
+     * @since 2.2.0
+     */
+    @Parameter(property = "project.scm.id", defaultValue = "${project.scm.id}")
+    private String serverId;
 
     /**
      * The url of tags base directory (used by svn protocol). It is not
@@ -147,7 +165,7 @@ public abstract class AbstractScmMojo extends AbstractMojo {
     private Settings settings;
 
     /**
-     * List of System properties to pass to the JUnit tests.
+     * List of System properties to set before executing the SCM command.
      */
     @Parameter
     private Properties systemProperties;
@@ -338,15 +356,17 @@ public abstract class AbstractScmMojo extends AbstractMojo {
      */
     private void loadInfosFromSettings(ScmProviderRepositoryWithHost repo) {
         if (username == null || password == null) {
-            String host = repo.getHost();
-
-            int port = repo.getPort();
-
-            if (port > 0) {
-                host += ":" + port;
+            String serverId = this.serverId;
+            if (serverId == null || serverId.isEmpty()) {
+                // construct server id from scm repository host and port
+                serverId = repo.getHost();
+                int port = repo.getPort();
+                if (port > 0) {
+                    serverId += ":" + port;
+                }
             }
 
-            Server server = this.settings.getServer(host);
+            Server server = this.settings.getServer(serverId);
 
             if (server != null) {
                 server = decrypt(server);
