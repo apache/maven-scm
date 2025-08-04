@@ -34,6 +34,7 @@
         <item name="Local" href="/local.html"/>
         <item name="Subversion" href="/subversion.html"/>
       </item>
+      <item name="Authentication" href="authentication.html" />
       <item name="SCM Commands" href="/scm-commands.html"/>
       <item name="Guides" href="/guide/index.html" collapse="true">
         <item name="How to use Maven SCM in my application" href="/guide/usage.html"/>
