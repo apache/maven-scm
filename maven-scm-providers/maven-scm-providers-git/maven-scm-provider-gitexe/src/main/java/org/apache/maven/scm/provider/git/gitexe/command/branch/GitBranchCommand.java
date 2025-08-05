@@ -24,7 +24,6 @@ import java.util.Map;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.branch.AbstractBranchCommand;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -40,7 +39,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
  */
-public class GitBranchCommand extends AbstractBranchCommand implements GitCommand {
+public class GitBranchCommand extends AbstractBranchCommand implements GitCommand<BranchScmResult> {
     private final Map<String, String> environmentVariables;
 
     public GitBranchCommand(Map<String, String> environmentVariables) {
@@ -48,8 +47,8 @@ public class GitBranchCommand extends AbstractBranchCommand implements GitComman
     }
 
     /** {@inheritDoc} */
-    public ScmResult executeBranchCommand(ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message)
-            throws ScmException {
+    public BranchScmResult executeBranchCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message) throws ScmException {
         if (branch == null || branch.trim().isEmpty()) {
             throw new ScmException("branch name must be specified");
         }

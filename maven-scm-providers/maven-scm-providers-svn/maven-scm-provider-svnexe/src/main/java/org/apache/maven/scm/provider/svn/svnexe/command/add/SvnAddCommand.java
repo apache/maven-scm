@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.add.AbstractAddCommand;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -39,9 +38,9 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
  */
-public class SvnAddCommand extends AbstractAddCommand implements SvnCommand {
+public class SvnAddCommand extends AbstractAddCommand implements SvnCommand<AddScmResult> {
     /** {@inheritDoc} */
-    protected ScmResult executeAddCommand(
+    protected AddScmResult executeAddCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean binary) throws ScmException {
         if (fileSet.getFileList().isEmpty()) {
             throw new ScmException("You must provide at least one file/directory to add");

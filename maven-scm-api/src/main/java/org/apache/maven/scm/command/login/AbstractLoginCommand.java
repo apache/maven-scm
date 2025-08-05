@@ -21,7 +21,6 @@ package org.apache.maven.scm.command.login;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
@@ -29,12 +28,12 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public abstract class AbstractLoginCommand extends AbstractCommand {
+public abstract class AbstractLoginCommand extends AbstractCommand<LoginScmResult> {
     public abstract LoginScmResult executeLoginCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException;
 
     /** {@inheritDoc} */
-    protected ScmResult executeCommand(
+    protected LoginScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         return executeLoginCommand(repository, fileSet, parameters);
     }

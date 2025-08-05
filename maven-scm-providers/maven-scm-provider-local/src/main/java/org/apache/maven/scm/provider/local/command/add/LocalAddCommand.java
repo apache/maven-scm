@@ -26,7 +26,6 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.add.AbstractAddCommand;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -37,9 +36,9 @@ import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
  */
-public class LocalAddCommand extends AbstractAddCommand implements LocalCommand {
+public class LocalAddCommand extends AbstractAddCommand implements LocalCommand<AddScmResult> {
     /** {@inheritDoc} */
-    protected ScmResult executeAddCommand(
+    protected AddScmResult executeAddCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean binary) throws ScmException {
         LocalScmProviderRepository localRepo = (LocalScmProviderRepository) repository;
 

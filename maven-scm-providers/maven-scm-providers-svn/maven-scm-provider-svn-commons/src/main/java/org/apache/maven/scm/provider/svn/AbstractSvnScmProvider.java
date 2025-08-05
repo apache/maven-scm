@@ -247,107 +247,107 @@ public abstract class AbstractSvnScmProvider extends AbstractScmProvider {
         return result;
     }
 
-    protected abstract SvnCommand getAddCommand();
+    protected abstract SvnCommand<AddScmResult> getAddCommand();
 
     /**
      * {@inheritDoc}
      */
     public AddScmResult add(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        return (AddScmResult) executeCommand(getAddCommand(), repository, fileSet, parameters);
+        return executeCommand(getAddCommand(), repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getBranchCommand();
+    protected abstract SvnCommand<BranchScmResult> getBranchCommand();
 
     /**
      * {@inheritDoc}
      */
     protected BranchScmResult branch(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        return (BranchScmResult) executeCommand(getBranchCommand(), repository, fileSet, parameters);
+        return executeCommand(getBranchCommand(), repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getChangeLogCommand();
+    protected abstract SvnCommand<ChangeLogScmResult> getChangeLogCommand();
 
     /**
      * {@inheritDoc}
      */
     public ChangeLogScmResult changelog(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
-        return (ChangeLogScmResult) executeCommand(getChangeLogCommand(), repository, fileSet, parameters);
+        return executeCommand(getChangeLogCommand(), repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getCheckInCommand();
+    protected abstract SvnCommand<CheckInScmResult> getCheckInCommand();
 
     /**
      * {@inheritDoc}
      */
     public CheckInScmResult checkin(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        return (CheckInScmResult) executeCommand(getCheckInCommand(), repository, fileSet, parameters);
+        return executeCommand(getCheckInCommand(), repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getCheckOutCommand();
+    protected abstract SvnCommand<CheckOutScmResult> getCheckOutCommand();
 
     /**
      * {@inheritDoc}
      */
     public CheckOutScmResult checkout(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
-        return (CheckOutScmResult) executeCommand(getCheckOutCommand(), repository, fileSet, parameters);
+        return executeCommand(getCheckOutCommand(), repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getDiffCommand();
+    protected abstract SvnCommand<DiffScmResult> getDiffCommand();
 
     /**
      * {@inheritDoc}
      */
     public DiffScmResult diff(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        return (DiffScmResult) executeCommand(getDiffCommand(), repository, fileSet, parameters);
+        return executeCommand(getDiffCommand(), repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getExportCommand();
+    protected abstract SvnCommand<ExportScmResult> getExportCommand();
 
     /**
      * {@inheritDoc}
      */
     protected ExportScmResult export(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        return (ExportScmResult) executeCommand(getExportCommand(), repository, fileSet, parameters);
+        return executeCommand(getExportCommand(), repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getRemoveCommand();
+    protected abstract SvnCommand<RemoveScmResult> getRemoveCommand();
 
     /**
      * {@inheritDoc}
      */
     public RemoveScmResult remove(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        return (RemoveScmResult) executeCommand(getRemoveCommand(), repository, fileSet, parameters);
+        return executeCommand(getRemoveCommand(), repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getStatusCommand();
+    protected abstract SvnCommand<StatusScmResult> getStatusCommand();
 
     /**
      * {@inheritDoc}
      */
     public StatusScmResult status(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        return (StatusScmResult) executeCommand(getStatusCommand(), repository, fileSet, parameters);
+        return executeCommand(getStatusCommand(), repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getTagCommand();
+    protected abstract SvnCommand<TagScmResult> getTagCommand();
 
     /**
      * {@inheritDoc}
      */
     public TagScmResult tag(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        return (TagScmResult) executeCommand(getTagCommand(), repository, fileSet, parameters);
+        return executeCommand(getTagCommand(), repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getUntagCommand();
+    protected abstract SvnCommand<UntagScmResult> getUntagCommand();
 
     /**
      * {@inheritDoc}
@@ -355,45 +355,40 @@ public abstract class AbstractSvnScmProvider extends AbstractScmProvider {
     @Override
     public UntagScmResult untag(ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        return (UntagScmResult)
-                executeCommand(getUntagCommand(), repository.getProviderRepository(), fileSet, parameters);
+        return executeCommand(getUntagCommand(), repository.getProviderRepository(), fileSet, parameters);
     }
 
-    protected abstract SvnCommand getUpdateCommand();
+    protected abstract SvnCommand<UpdateScmResult> getUpdateCommand();
 
     /**
      * {@inheritDoc}
      */
     public UpdateScmResult update(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        return (UpdateScmResult) executeCommand(getUpdateCommand(), repository, fileSet, parameters);
+        return executeCommand(getUpdateCommand(), repository, fileSet, parameters);
     }
 
-    protected ScmResult executeCommand(
-            SvnCommand command, ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+    protected <T extends ScmResult> T executeCommand(
+            SvnCommand<T> command, ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         return command.execute(repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getListCommand();
+    protected abstract SvnCommand<ListScmResult> getListCommand();
 
     /**
      * {@inheritDoc}
      */
     public ListScmResult list(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        SvnCommand cmd = getListCommand();
-
-        return (ListScmResult) executeCommand(cmd, repository, fileSet, parameters);
+        return executeCommand(getListCommand(), repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getInfoCommand();
+    protected abstract SvnCommand<InfoScmResult> getInfoCommand();
 
     public InfoScmResult info(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        SvnCommand cmd = getInfoCommand();
-
-        return (InfoScmResult) executeCommand(cmd, repository, fileSet, parameters);
+        return executeCommand(getInfoCommand(), repository, fileSet, parameters);
     }
 
     /**
@@ -401,24 +396,20 @@ public abstract class AbstractSvnScmProvider extends AbstractScmProvider {
      */
     protected BlameScmResult blame(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        SvnCommand cmd = getBlameCommand();
-
-        return (BlameScmResult) executeCommand(cmd, repository, fileSet, parameters);
+        return executeCommand(getBlameCommand(), repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getBlameCommand();
+    protected abstract SvnCommand<BlameScmResult> getBlameCommand();
 
     /**
      * {@inheritDoc}
      */
     public MkdirScmResult mkdir(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
-        SvnCommand cmd = getMkdirCommand();
-
-        return (MkdirScmResult) executeCommand(cmd, repository, fileSet, parameters);
+        return executeCommand(getMkdirCommand(), repository, fileSet, parameters);
     }
 
-    protected abstract SvnCommand getMkdirCommand();
+    protected abstract SvnCommand<MkdirScmResult> getMkdirCommand();
 
     /**
      * @param repository

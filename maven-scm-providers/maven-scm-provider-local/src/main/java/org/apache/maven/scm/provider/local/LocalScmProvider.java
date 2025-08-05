@@ -138,7 +138,7 @@ public class LocalScmProvider extends AbstractScmProvider {
             throws ScmException {
         LocalStatusCommand command = new LocalStatusCommand();
 
-        return (StatusScmResult) command.execute(repository, fileSet, parameters);
+        return command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
@@ -147,7 +147,7 @@ public class LocalScmProvider extends AbstractScmProvider {
             throws ScmException {
         LocalTagCommand command = new LocalTagCommand();
 
-        return (TagScmResult) command.execute(repository, fileSet, parameters);
+        return command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
@@ -156,7 +156,7 @@ public class LocalScmProvider extends AbstractScmProvider {
             throws ScmException {
         LocalAddCommand command = new LocalAddCommand();
 
-        return (AddScmResult) command.execute(repository, fileSet, parameters);
+        return command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */
@@ -174,7 +174,7 @@ public class LocalScmProvider extends AbstractScmProvider {
             throws ScmException {
         LocalCheckInCommand command = new LocalCheckInCommand();
 
-        return (CheckInScmResult) command.execute(repository, fileSet, parameters);
+        return command.execute(repository, fileSet, parameters);
     }
 
     /** {@inheritDoc} */

@@ -23,7 +23,6 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
-import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
@@ -33,10 +32,10 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
  * @author Olivier Lamy
  * @since 1.5
  */
-public class HgInfoCommand extends AbstractCommand implements Command {
+public class HgInfoCommand extends AbstractCommand<InfoScmResult> {
 
     @Override
-    protected ScmResult executeCommand(
+    protected InfoScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         String[] revCmd = new String[] {HgCommandConstants.REVNO_CMD, "-i"};
         HgInfoConsumer consumer = new HgInfoConsumer();

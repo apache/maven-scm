@@ -29,16 +29,17 @@ import org.slf4j.LoggerFactory;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @param <T>
  *
  */
-public abstract class AbstractCommand implements Command {
+public abstract class AbstractCommand<T extends ScmResult> implements Command<T> {
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected abstract ScmResult executeCommand(
+    protected abstract T executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException;
 
     /** {@inheritDoc} */
-    public final ScmResult execute(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+    public final T execute(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         if (repository == null) {
             throw new NullPointerException("repository cannot be null");

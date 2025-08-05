@@ -23,7 +23,6 @@ import java.io.IOException;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmUntagParameters;
 import org.apache.maven.scm.command.untag.AbstractUntagCommand;
@@ -45,11 +44,11 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  * @since 1.11.2
  */
-public class SvnUntagCommand extends AbstractUntagCommand implements SvnCommand {
+public class SvnUntagCommand extends AbstractUntagCommand implements SvnCommand<UntagScmResult> {
 
     /** {@inheritDoc} */
     @Override
-    public ScmResult executeUntagCommand(
+    public UntagScmResult executeUntagCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmUntagParameters scmUntagParameters) throws ScmException {
         String tag = scmUntagParameters.getTag();
         if (tag == null || tag.trim().isEmpty()) {

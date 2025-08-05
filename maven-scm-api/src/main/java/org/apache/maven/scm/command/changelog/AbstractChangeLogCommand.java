@@ -25,7 +25,6 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -35,7 +34,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author Olivier Lamy
  *
  */
-public abstract class AbstractChangeLogCommand extends AbstractCommand implements ChangeLogCommand {
+public abstract class AbstractChangeLogCommand extends AbstractCommand<ChangeLogScmResult> implements ChangeLogCommand {
     @Deprecated
     protected abstract ChangeLogScmResult executeChangeLogCommand(
             ScmProviderRepository repository,
@@ -67,8 +66,8 @@ public abstract class AbstractChangeLogCommand extends AbstractCommand implement
     /**
      * {@inheritDoc}
      */
-    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException {
+    public ChangeLogScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         Date startDate = parameters.getDate(CommandParameter.START_DATE, null);
 
         Date endDate = parameters.getDate(CommandParameter.END_DATE, null);

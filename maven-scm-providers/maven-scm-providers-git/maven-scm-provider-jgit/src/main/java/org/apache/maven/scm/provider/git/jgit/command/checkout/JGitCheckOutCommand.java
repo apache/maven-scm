@@ -63,7 +63,7 @@ import org.slf4j.Logger;
  * @since 1.9
  */
 public class JGitCheckOutCommand extends AbstractCheckOutCommand
-        implements GitCommand, CustomizableSshSessionFactoryCommand {
+        implements GitCommand<CheckOutScmResult>, CustomizableSshSessionFactoryCommand {
     private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
 
     public JGitCheckOutCommand() {

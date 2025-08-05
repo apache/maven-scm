@@ -75,7 +75,7 @@ import org.slf4j.Logger;
  * @since 1.9
  */
 public class JGitCheckInCommand extends AbstractCheckInCommand
-        implements GitCommand, CustomizableSshSessionFactoryCommand {
+        implements GitCommand<CheckInScmResult>, CustomizableSshSessionFactoryCommand {
 
     protected static final String GIT_MAVEN_SECTION = "maven-scm";
 

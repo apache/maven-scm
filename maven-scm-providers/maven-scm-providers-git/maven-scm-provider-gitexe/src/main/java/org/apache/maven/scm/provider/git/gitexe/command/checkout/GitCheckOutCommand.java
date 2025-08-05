@@ -28,7 +28,6 @@ import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
@@ -48,7 +47,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
  */
-public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCommand {
+public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCommand<CheckOutScmResult> {
     private final Map<String, String> environmentVariables;
 
     public GitCheckOutCommand(Map<String, String> environmentVariables) {
@@ -65,8 +64,8 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
      * {@inheritDoc}
      */
     @Override
-    public ScmResult executeCommand(ScmProviderRepository repo, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException {
+    public CheckOutScmResult executeCommand(
+            ScmProviderRepository repo, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         ScmVersion version = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
         boolean binary = parameters.getBoolean(CommandParameter.BINARY, false);
         boolean shallow = parameters.getBoolean(CommandParameter.SHALLOW, false);

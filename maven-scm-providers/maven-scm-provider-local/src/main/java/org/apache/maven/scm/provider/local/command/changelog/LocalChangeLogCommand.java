@@ -33,6 +33,7 @@ import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -41,7 +42,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @author Olivier Lamy
  *
  */
-public class LocalChangeLogCommand extends AbstractChangeLogCommand {
+public class LocalChangeLogCommand extends AbstractChangeLogCommand implements LocalCommand<ChangeLogScmResult> {
     /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand(
             ScmProviderRepository repository,

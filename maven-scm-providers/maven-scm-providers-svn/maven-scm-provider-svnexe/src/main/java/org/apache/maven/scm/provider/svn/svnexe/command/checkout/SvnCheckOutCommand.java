@@ -45,7 +45,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  *
  */
-public class SvnCheckOutCommand extends AbstractCheckOutCommand implements SvnCommand {
+public class SvnCheckOutCommand extends AbstractCheckOutCommand implements SvnCommand<CheckOutScmResult> {
     /**
      * {@inheritDoc}
      */

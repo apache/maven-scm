@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.remove.AbstractRemoveCommand;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -39,11 +38,11 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  *
  */
-public class GitRemoveCommand extends AbstractRemoveCommand implements GitCommand {
+public class GitRemoveCommand extends AbstractRemoveCommand implements GitCommand<RemoveScmResult> {
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeRemoveCommand(ScmProviderRepository repo, ScmFileSet fileSet, String message)
+    protected RemoveScmResult executeRemoveCommand(ScmProviderRepository repo, ScmFileSet fileSet, String message)
             throws ScmException {
 
         if (fileSet.getFileList().isEmpty()) {

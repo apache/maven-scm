@@ -25,6 +25,12 @@ import javax.inject.Singleton;
 
 import java.util.function.Consumer;
 
+import org.apache.maven.scm.command.branch.BranchScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.untag.UntagScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.CustomizableSshSessionFactoryCommand;
@@ -81,7 +87,7 @@ public class JGitTestScmProvider extends JGitScmProvider implements ScmProvider 
     }
 
     @Override
-    protected GitCommand getCheckInCommand() {
+    protected GitCommand<CheckInScmResult> getCheckInCommand() {
         JGitCheckInCommand command = (JGitCheckInCommand) super.getCheckInCommand();
         if (checkInCommandCallback != null) {
             checkInCommandCallback.accept(command);
@@ -90,7 +96,7 @@ public class JGitTestScmProvider extends JGitScmProvider implements ScmProvider 
     }
 
     @Override
-    protected GitCommand getCheckOutCommand() {
+    protected GitCommand<CheckOutScmResult> getCheckOutCommand() {
         JGitCheckOutCommand command = (JGitCheckOutCommand) super.getCheckOutCommand();
         if (checkOutCommandCallback != null) {
             checkOutCommandCallback.accept(command);
@@ -99,7 +105,7 @@ public class JGitTestScmProvider extends JGitScmProvider implements ScmProvider 
     }
 
     @Override
-    protected GitCommand getRemoteInfoCommand() {
+    protected GitCommand<RemoteInfoScmResult> getRemoteInfoCommand() {
         JGitRemoteInfoCommand command = (JGitRemoteInfoCommand) super.getRemoteInfoCommand();
         if (remoteInfoCommandCallback != null) {
             remoteInfoCommandCallback.accept(command);
@@ -108,7 +114,7 @@ public class JGitTestScmProvider extends JGitScmProvider implements ScmProvider 
     }
 
     @Override
-    protected GitCommand getBranchCommand() {
+    protected GitCommand<BranchScmResult> getBranchCommand() {
         JGitBranchCommand command = (JGitBranchCommand) super.getBranchCommand();
         if (branchCommandCallback != null) {
             branchCommandCallback.accept(command);
@@ -117,7 +123,7 @@ public class JGitTestScmProvider extends JGitScmProvider implements ScmProvider 
     }
 
     @Override
-    protected GitCommand getTagCommand() {
+    protected GitCommand<TagScmResult> getTagCommand() {
         JGitTagCommand command = (JGitTagCommand) super.getTagCommand();
         if (tagCommandCallback != null) {
             tagCommandCallback.accept(command);
@@ -126,7 +132,7 @@ public class JGitTestScmProvider extends JGitScmProvider implements ScmProvider 
     }
 
     @Override
-    protected GitCommand getUntagCommand() {
+    protected GitCommand<UntagScmResult> getUntagCommand() {
         JGitUntagCommand command = (JGitUntagCommand) super.getUntagCommand();
         if (untagCommandCallback != null) {
             untagCommandCallback.accept(command);

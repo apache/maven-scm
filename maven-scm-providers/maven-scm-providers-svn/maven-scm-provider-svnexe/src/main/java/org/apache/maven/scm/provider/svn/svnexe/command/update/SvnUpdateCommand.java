@@ -47,7 +47,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class SvnUpdateCommand extends AbstractUpdateCommand implements SvnCommand {
+public class SvnUpdateCommand extends AbstractUpdateCommand implements SvnCommand<UpdateScmResult> {
     /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version)
             throws ScmException {
