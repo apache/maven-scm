@@ -18,7 +18,6 @@
  */
 package org.apache.maven.scm.provider.git.jgit;
 
-import javax.annotation.Priority;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -36,6 +35,7 @@ import org.apache.maven.scm.provider.git.jgit.command.tag.JGitTagCommand;
 import org.apache.maven.scm.provider.git.jgit.command.untag.JGitUntagCommand;
 import org.codehaus.plexus.components.interactivity.Prompter;
 import org.eclipse.jgit.api.TransportCommand;
+import org.eclipse.sisu.Priority;
 
 /**
  * Allows to register callbacks for all commands leveraging {@link TransportCommand}.

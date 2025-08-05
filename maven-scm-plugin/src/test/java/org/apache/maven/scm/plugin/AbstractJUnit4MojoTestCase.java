@@ -26,25 +26,25 @@ import org.junit.After;
 import org.junit.Before;
 
 public abstract class AbstractJUnit4MojoTestCase extends AbstractMojoTestCase {
-    private static final PlexusJUnit4TestCase plexusJUnit4TestCase = new PlexusJUnit4TestCase();
+    private static final PlexusJUnit4TestCase PLEXUS_JUNIT4_TEST_CASE = new PlexusJUnit4TestCase();
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        plexusJUnit4TestCase.setUp();
+        PLEXUS_JUNIT4_TEST_CASE.setUp();
     }
 
     @After
     public void tearDown() throws Exception {
         super.tearDown();
-        plexusJUnit4TestCase.tearDown();
+        PLEXUS_JUNIT4_TEST_CASE.tearDown();
     }
 
     public static String getBasedir() {
-        return plexusJUnit4TestCase.getBasedir();
+        return PLEXUS_JUNIT4_TEST_CASE.getBasedir();
     }
 
     public static File getTestFile(final String path) {
-        return plexusJUnit4TestCase.getTestFile(getBasedir(), path);
+        return PLEXUS_JUNIT4_TEST_CASE.getTestFile(getBasedir(), path);
     }
 }

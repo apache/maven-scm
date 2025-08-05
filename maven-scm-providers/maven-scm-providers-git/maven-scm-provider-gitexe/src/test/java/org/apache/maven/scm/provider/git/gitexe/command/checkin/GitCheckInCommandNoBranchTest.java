@@ -54,10 +54,10 @@ public class GitCheckInCommandNoBranchTest extends ScmTestCase {
     public void testCheckinNoBranch() throws Exception {
         checkScmPresence(GIT_COMMAND_LINE);
 
-        File repo_orig = new File("src/test/resources/repository_no_branch");
+        File repoOriginal = new File("src/test/resources/repository_no_branch");
         File repo = getTestFile("target/git_copy");
         FileUtils.deleteDirectory(repo);
-        FileUtils.copyDirectoryStructure(repo_orig, repo);
+        FileUtils.copyDirectoryStructure(repoOriginal, repo);
 
         ScmRepository scmRepository = getScmManager()
                 .makeScmRepository(

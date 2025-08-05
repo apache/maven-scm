@@ -48,10 +48,10 @@ import static org.junit.Assert.assertTrue;
  *
  */
 public class LocalUpdateCommandTckTest extends UpdateCommandTckTest {
-    private static final String moduleName = "update-tck";
+    private static final String MODULE_NAME = "update-tck";
 
     public String getScmUrl() throws Exception {
-        return "scm:local|" + getRepositoryRoot() + "|" + moduleName;
+        return "scm:local|" + getRepositoryRoot() + "|" + MODULE_NAME;
     }
 
     public void initRepo() throws Exception {
@@ -77,7 +77,7 @@ public class LocalUpdateCommandTckTest extends UpdateCommandTckTest {
         assertFalse(newFileLocal.exists());
 
         // Delete readme.txt from repository
-        File readmeFileRepo = new File(getRepositoryRoot(), moduleName + "/readme.txt");
+        File readmeFileRepo = new File(getRepositoryRoot(), MODULE_NAME + "/readme.txt");
         assertTrue(readmeFileRepo.exists());
         assertTrue("Could not delete", readmeFileRepo.delete());
         assertFalse(readmeFileRepo.exists());
@@ -131,7 +131,7 @@ public class LocalUpdateCommandTckTest extends UpdateCommandTckTest {
         assertTrue("Expected metadata file .maven-scm-local does not exist", metadataFile.exists());
         try (Reader reader = Files.newBufferedReader(metadataFile.toPath())) {
             LocalScmMetadata metadata = new LocalScmMetadataXpp3Reader().read(reader);
-            File root = new File(getRepositoryRoot() + "/" + moduleName);
+            File root = new File(getRepositoryRoot() + "/" + MODULE_NAME);
             @SuppressWarnings("unchecked")
             List<String> fileNames = FileUtils.getFileNames(root, "**", null, false);
             assertEquals(fileNames, metadata.getRepositoryFileNames());
@@ -139,14 +139,14 @@ public class LocalUpdateCommandTckTest extends UpdateCommandTckTest {
     }
 
     private void makeRepo(File workingDirectory) throws Exception {
-        makeFile(workingDirectory, moduleName + "/pom.xml", "/pom.xml");
+        makeFile(workingDirectory, MODULE_NAME + "/pom.xml", "/pom.xml");
 
-        makeFile(workingDirectory, moduleName + "/readme.txt", "/readme.txt");
+        makeFile(workingDirectory, MODULE_NAME + "/readme.txt", "/readme.txt");
 
-        makeFile(workingDirectory, moduleName + "/src/main/java/Application.java", "/src/main/java/Application.java");
+        makeFile(workingDirectory, MODULE_NAME + "/src/main/java/Application.java", "/src/main/java/Application.java");
 
-        makeFile(workingDirectory, moduleName + "/src/test/java/Test.java", "/src/test/java/Test.java");
+        makeFile(workingDirectory, MODULE_NAME + "/src/test/java/Test.java", "/src/test/java/Test.java");
 
-        makeDirectory(workingDirectory, moduleName + "/src/test/resources");
+        makeDirectory(workingDirectory, MODULE_NAME + "/src/test/resources");
     }
 }
