@@ -64,7 +64,7 @@ One can use encryption or interpolation (preferred) to store the credentials in 
 
 The following Maven plugins support this configuration possibility:
 
-- [maven-scm-plugin](maven-svm-plugin/)
+- [maven-scm-plugin](maven-scm-plugin/)
 - [maven-release-plugin](https://maven.apache.org/plugins/maven-release-plugin/)
 - [maven-scm-publish-plugin](https://maven.apache.org/plugins/maven-scm-publish-plugin/)
 
@@ -75,6 +75,6 @@ Only in special cases one should rely on plugin parameters to pass authenticatio
 
 For details how to configure refer to the individual Maven plugin like 
 
-- [maven-scm-plugin](maven-svm-plugin/)
+- [maven-scm-plugin](maven-scm-plugin/)
 - [maven-release-plugin](https://maven.apache.org/plugins/maven-release-plugin/)
 - [maven-scm-publish-plugin](https://maven.apache.org/plugins/maven-scm-publish-plugin/)
