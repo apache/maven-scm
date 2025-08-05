@@ -21,8 +21,6 @@ date: 2013-10-27
 <!-- KIND, either express or implied.  See the License for the-->
 <!-- specific language governing permissions and limitations-->
 <!-- under the License.-->
-<!-- NOTE: For help with the syntax of this file, see:-->
-<!-- http://maven.apache.org/doxia/references/apt-format.html-->
 # Maven SCM
 
 Maven SCM supports Maven plugins \(for example [maven-release-plugin](https://maven.apache.org/plugins/maven-release-plugin/)\) and other tools by providing them with [a common API](./maven-scm-api/apidocs) for source code management operations. You can look at [the list of SCMs](./scms-overview.html) for more information on using Maven SCM with your favorite SCM tool.
