@@ -21,8 +21,6 @@ date: 2013-09-07
 <!-- KIND, either express or implied.  See the License for the-->
 <!-- specific language governing permissions and limitations-->
 <!-- under the License.-->
-<!-- NOTE: For help with the syntax of this file, see:-->
-<!-- http://maven.apache.org/doxia/references/apt-format.html-->
 # How to define a non Apache Maven hosted implementation?
 
 Apache Maven supports a lot of implementations, but not all. However, with the following steps you can make Maven use this implementation for all your projects.

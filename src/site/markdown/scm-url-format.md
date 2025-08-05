@@ -21,8 +21,6 @@ date: 2005-06-05
 <!-- KIND, either express or implied.  See the License for the-->
 <!-- specific language governing permissions and limitations-->
 <!-- under the License.-->
-<!-- NOTE: For help with the syntax of this file, see:-->
-<!-- http://maven.apache.org/doxia/references/apt-format.html-->
 # SCM URL Format
 
 ## SCM URL

@@ -1,0 +1,227 @@
+---
+title: Other SCM Commands
+author: 
+  - Pete Marvin King
+date: 2008-08-13
+---
+
+<!-- Licensed to the Apache Software Foundation (ASF) under one-->
+<!-- or more contributor license agreements.  See the NOTICE file-->
+<!-- distributed with this work for additional information-->
+<!-- regarding copyright ownership.  The ASF licenses this file-->
+<!-- to you under the Apache License, Version 2.0 (the-->
+<!-- "License"); you may not use this file except in compliance-->
+<!-- with the License.  You may obtain a copy of the License at-->
+<!---->
+<!--   http://www.apache.org/licenses/LICENSE-2.0-->
+<!---->
+<!-- Unless required by applicable law or agreed to in writing,-->
+<!-- software distributed under the License is distributed on an-->
+<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY-->
+<!-- KIND, either express or implied.  See the License for the-->
+<!-- specific language governing permissions and limitations-->
+<!-- under the License.-->
+# Other SCM Commands
+
+The SCM plugin requires the SCM to be configured in the `pom.xml`.
+
+```unknown
+<project>
+  ...
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>SCM Sample Project</name>
+  <url>http://somecompany.com</url>
+  <scm>
+    <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
+    <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
+    <url>http://somerepository.com/view.cgi</url>
+  </scm>
+  ...
+</project>
+```
+
+Alternatively you can configure the SCM url also in via plugin parameters.
+
+If you want to change the used SCM provider implementation, for example you want to use the JGit instead of the CLI based default implementation, you must configure your plugin like that:
+
+```unknown
+<project>
+  ...
+  <build>
+    ...
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+          <providerImplementations>
+            <git>jgit</git>
+          </providerImplementations>
+        </configuration>
+      </plugin>
+      ...
+    </plugins>
+    ...
+  </build>
+  ...
+</project>
+```
+
+Once the SCM has been configured, SCM operations can be performed.
+
+## changelog - displays the project commit changes for each revisions
+
+`pom.xml` configuration :
+
+```unknown
+<project>
+  ...
+  <build>
+    ...
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+          <startDate>YYYY-MM-DD</startDate>
+          <endDate>YYYY-MM-DD</endDate>
+        </configuration>
+      </plugin>
+      ...
+    </plugins>
+    ...
+  </build>
+  ...
+</project>
+```
+
+Command :
+
+```unknown
+  mvn scm:changelog
+```
+
+or you can specify the startDate and endDate on the commandline
+
+```unknown
+  mvn -DstartDate=YYYY-MM-DD -DendDate=YYYY-MM-DD scm:changelog
+```
+
+## diff
+
+`pom.xml` configuration :
+
+```unknown
+<project>
+  ...
+  <build>
+    ...
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+          <startRevision>connection</startRevision>
+          <endRevision>connection</endRevision>
+        </configuration>
+      </plugin>
+      ...
+    </plugins>
+    ...
+  </build>
+  ...
+</project>
+```
+
+Command :
+
+```unknown
+   mvn scm:diff
+```
+
+or you can specify the startRevision and endRevision in the command line
+
+```unknown
+   mvn -DstartRevision=<revision> -DendRevision=<revision> scm:diff
+```
+
+## edit - set the edit status of the file, locking the project sources if supported.
+
+Command :
+
+```unknown
+  mvn scm:edit
+```
+
+## status - displays the modified files in the project.
+
+Command :
+
+```unknown
+   mvn scm:status
+```
+
+## tag
+
+`pom.xml` configuration :
+
+```unknown
+<project>
+  ...
+  <build>
+    ...
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+          <tag>tag name</tag>
+        </configuration>
+      </plugin>
+      ...
+    </plugins>
+    ...
+  </build>
+  ...
+</project>
+```
+
+Command :
+
+```unknown
+   mvn scm:tag
+```
+
+or you can specify the tag name in the command line
+
+```unknown
+   mvn -Dtag="<tag name>" scm:tag
+```
+
+## unedit - unset the edit status of the project sources and unlocking it if supported.
+
+Command :
+
+```unknown
+   mvn scm:unedit
+```
+
+## validate - check if the scm urls configured in the `pom.xml` is valid.
+
+Command :
+
+```unknown
+   mvn scm:validate
+```
+
+or passing the scmConnection or/and the developerConnection in the command line
+
+```unknown
+   mvn -DscmConnection="<scm url>" -DscmDeveloperConnection="<scm url>" scm:validate
+```
+

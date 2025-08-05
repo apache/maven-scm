@@ -21,8 +21,6 @@ date: 2005-12-01
 <!-- KIND, either express or implied.  See the License for the-->
 <!-- specific language governing permissions and limitations-->
 <!-- under the License.-->
-<!-- NOTE: For help with the syntax of this file, see:-->
-<!-- http://maven.apache.org/doxia/references/apt-format.html-->
 # Maven SCM Commands
 
 Maven SCM uses a exposes a fixed set of commands for it users. The providers for each SCM must implements those commands through the `ScmProvider` interface. This is an overview of all the commands:
