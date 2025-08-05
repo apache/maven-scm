@@ -44,7 +44,7 @@ public class SvnExeScmProviderTest {
     // SCM-435
     @Test
     @Ignore("This test is for now ignore: it mock Logger and then asserts against it")
-    public void testGetRepositoryURL_Windows() throws Exception {
+    public void testGetRepositoryURLWindows() throws Exception {
         Assume.assumeTrue(Os.isFamily(Os.FAMILY_WINDOWS));
 
         // prepare

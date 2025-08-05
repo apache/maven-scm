@@ -128,8 +128,6 @@ public class LocalUpdateCommand extends AbstractUpdateCommand implements LocalCo
         for (Iterator<File> i = files.iterator(); i.hasNext(); ) {
             File repositoryFile = i.next();
 
-            File repositoryDirectory = repositoryFile.getParentFile();
-
             String dest = repositoryFile.getAbsolutePath().substring(sourcePath.length() + 1);
 
             File destinationFile = new File(baseDestination, dest);

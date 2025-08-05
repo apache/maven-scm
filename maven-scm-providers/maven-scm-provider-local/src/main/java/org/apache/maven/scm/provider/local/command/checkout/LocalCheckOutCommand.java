@@ -126,8 +126,6 @@ public class LocalCheckOutCommand extends AbstractCheckOutCommand implements Loc
 
             FileUtils.copyFileToDirectory(file, destination);
 
-            File parent = file.getParentFile();
-
             String fileName = "/" + module + "/" + dest;
 
             checkedOutFiles.add(new ScmFile(fileName, ScmFileStatus.CHECKED_OUT));

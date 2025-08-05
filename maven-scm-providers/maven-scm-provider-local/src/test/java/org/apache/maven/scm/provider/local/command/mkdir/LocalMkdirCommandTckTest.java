@@ -34,10 +34,10 @@ import static org.junit.Assert.assertTrue;
  *
  */
 public class LocalMkdirCommandTckTest extends MkdirCommandTckTest {
-    private static final String moduleName = "checkin-tck";
+    private static final String MODULE_NAME = "checkin-tck";
 
     public String getScmUrl() throws Exception {
-        return "scm:local|" + getRepositoryRoot() + "|" + moduleName;
+        return "scm:local|" + getRepositoryRoot() + "|" + MODULE_NAME;
     }
 
     public void initRepo() throws Exception {
@@ -45,15 +45,15 @@ public class LocalMkdirCommandTckTest extends MkdirCommandTckTest {
     }
 
     private void makeRepo(File workingDirectory) throws Exception {
-        makeFile(workingDirectory, moduleName + "/pom.xml", "/pom.xml");
+        makeFile(workingDirectory, MODULE_NAME + "/pom.xml", "/pom.xml");
 
-        makeFile(workingDirectory, moduleName + "/readme.txt", "/readme.txt");
+        makeFile(workingDirectory, MODULE_NAME + "/readme.txt", "/readme.txt");
 
-        makeFile(workingDirectory, moduleName + "/src/main/java/Application.java", "/src/main/java/Application.java");
+        makeFile(workingDirectory, MODULE_NAME + "/src/main/java/Application.java", "/src/main/java/Application.java");
 
-        makeFile(workingDirectory, moduleName + "/src/test/java/Test.java", "/src/test/java/Test.java");
+        makeFile(workingDirectory, MODULE_NAME + "/src/test/java/Test.java", "/src/test/java/Test.java");
 
-        makeDirectory(workingDirectory, moduleName + "/src/test/resources");
+        makeDirectory(workingDirectory, MODULE_NAME + "/src/test/resources");
     }
 
     @Test

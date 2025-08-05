@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.apache.maven</groupId>
     <artifactId>maven-parent</artifactId>
-    <version>41</version>
+    <version>45</version>
     <relativePath />
   </parent>
 
@@ -148,7 +148,7 @@
   <scm>
     <connection>scm:git:https://gitbox.apache.org/repos/asf/maven-scm.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/maven-scm.git</developerConnection>
-    <tag>maven-scm-2.0.0</tag>
+    <tag>master</tag>
     <url>https://github.com/apache/maven-scm/tree/${project.scm.tag}</url>
   </scm>
 
@@ -175,8 +175,6 @@
     <checkstyle.violation.ignore>RedundantThrows,NewlineAtEndOfFile,ParameterNumber,MethodLength,FileLength,InnerAssignment,MagicNumber</checkstyle.violation.ignore>
     <checkstyle.failOnViolation>true</checkstyle.failOnViolation>
     <project.build.outputTimestamp>2024-04-11T12:24:41Z</project.build.outputTimestamp>
-    <version.maven-fluido-skin>2.1.0</version.maven-fluido-skin>
-    <version.maven-site-plugin>3.21.0</version.maven-site-plugin>
   </properties>
 
   <dependencyManagement>
@@ -324,6 +322,13 @@
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <!-- Git and Subversion create read-only files (https://stackoverflow.com/q/6867336) which must be deleted by clean as well-->
+          <configuration>
+            <force>true</force>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>

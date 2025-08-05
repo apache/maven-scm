@@ -63,7 +63,7 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
      * Initial modifications should be empty.
      */
     @Test
-    public void testGetModifications_Initial() {
+    public void testGetModificationsInitial() {
         assertTrue(
                 "Initial modifications should be empty",
                 consumer.getModifications().isEmpty());
@@ -75,7 +75,7 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
      * @throws Exception if any problem occurs.
      */
     @Test
-    public void testConsumeLine_ValidOutput() throws Exception {
+    public void testConsumeLineValidOutput() throws Exception {
         final File svnLog = getTestFile("/src/test/resources/svn/changelog/svnLogValidOutput.txt");
 
         consumeLog(svnLog);
@@ -107,7 +107,7 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
      * @throws Exception
      */
     @Test
-    public void testConsumeLine_InvalidReason() throws Exception {
+    public void testConsumeLineInvalidReason() throws Exception {
         final File svnLog = getTestFile("/src/test/resources/svn/changelog/svnLogInvalidReason.txt");
 
         try {
@@ -124,7 +124,7 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
      * @throws Exception
      */
     @Test
-    public void testConsumeLine_InvalidDate() throws Exception {
+    public void testConsumeLineInvalidDate() throws Exception {
         final File svnLog = getTestFile("/src/test/resources/svn/changelog/svnLogInvalidDate.txt");
         try {
             consumeLog(svnLog);
