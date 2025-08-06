@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.Os;
 
 /**
@@ -97,26 +96,18 @@ public class SvnConfigFileReader {
      */
     private List<String> getConfLines() {
         List<String> lines = new ArrayList<>();
-
-        BufferedReader reader = null;
-
-        try {
-            if (getConfigDirectory().exists()) {
-                reader = new BufferedReader(new FileReader(new File(getConfigDirectory(), "config")));
+        if (getConfigDirectory().exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(new File(getConfigDirectory(), "config")))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     if (!line.startsWith("#") && (line != null && !line.isEmpty())) {
                         lines.add(line);
                     }
                 }
+            } catch (IOException e) {
+                lines.clear();
             }
-        } catch (IOException e) {
-            lines.clear();
-        } finally {
-            IOUtil.close(reader);
-            reader = null;
         }
-
         return lines;
     }
 }
