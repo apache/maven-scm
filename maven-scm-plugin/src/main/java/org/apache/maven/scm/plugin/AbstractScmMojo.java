@@ -285,10 +285,8 @@ public abstract class AbstractScmMojo extends AbstractMojo {
     }
 
     public ScmRepository getScmRepository() throws ScmException {
-        ScmRepository repository;
-
         try {
-            repository = getScmManager().makeScmRepository(getConnectionUrl());
+            ScmRepository repository = getScmManager().makeScmRepository(getConnectionUrl());
 
             ScmProviderRepository providerRepo = repository.getProviderRepository();
 
@@ -334,17 +332,18 @@ public abstract class AbstractScmMojo extends AbstractMojo {
 
                 svnRepo.setTagBase(tagBase);
             }
+
+            return repository;
         } catch (ScmRepositoryException e) {
             if (!e.getValidationMessages().isEmpty()) {
                 for (String message : e.getValidationMessages()) {
                     getLog().error(message);
                 }
             }
-
+            throw new ScmException("Can't load the scm provider.", e);
+        } catch (RuntimeException e) {
             throw new ScmException("Can't load the scm provider.", e);
         }
-
-        return repository;
     }
 
     /**

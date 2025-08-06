@@ -196,21 +196,20 @@ public class JGitCheckOutCommand extends AbstractCheckOutCommand
             RevCommit commit = revWalk.parseCommit(git.getRepository().resolve(Constants.HEAD));
             revWalk.close();
 
-            final TreeWalk walk = new TreeWalk(git.getRepository());
-            walk.reset(); // drop the first empty tree, which we do not need here
-            walk.setRecursive(true);
-            walk.addTree(commit.getTree());
+            try (TreeWalk walk = new TreeWalk(git.getRepository())) {
+                walk.reset(); // drop the first empty tree, which we do not need here
+                walk.setRecursive(true);
+                walk.addTree(commit.getTree());
 
-            List<ScmFile> listedFiles = new ArrayList<>();
-            while (walk.next()) {
-                listedFiles.add(new ScmFile(walk.getPathString(), ScmFileStatus.CHECKED_OUT));
+                List<ScmFile> listedFiles = new ArrayList<>();
+                while (walk.next()) {
+                    listedFiles.add(new ScmFile(walk.getPathString(), ScmFileStatus.CHECKED_OUT));
+                }
+                logger.debug("current branch: " + git.getRepository().getBranch());
+
+                return new CheckOutScmResult("checkout via JGit", listedFiles);
             }
-            walk.close();
-
-            logger.debug("current branch: " + git.getRepository().getBranch());
-
-            return new CheckOutScmResult("checkout via JGit", listedFiles);
-        } catch (IOException | GitAPIException e) {
+        } catch (RuntimeException | IOException | GitAPIException e) {
             throw new ScmException("JGit checkout failure!", e);
         } finally {
             JGitUtils.closeRepo(git);
