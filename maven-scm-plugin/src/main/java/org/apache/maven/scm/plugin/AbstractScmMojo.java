@@ -132,7 +132,7 @@ public abstract class AbstractScmMojo extends AbstractMojo {
      * @see <a href="https://maven.apache.org/scm/authentication.html">Authentication</a>
      * @since 2.2.0
      */
-    @Parameter(property = "project.scm.id", defaultValue = "${project.scm.id}")
+    @Parameter(property = "project.scm.id")
     private String serverId;
 
     /**
