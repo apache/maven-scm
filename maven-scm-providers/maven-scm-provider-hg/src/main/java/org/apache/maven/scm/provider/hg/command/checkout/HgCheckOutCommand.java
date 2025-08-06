@@ -55,8 +55,8 @@ public class HgCheckOutCommand extends AbstractCheckOutCommand implements Comman
 
         File checkoutDir = fileSet.getBasedir();
         try {
-            if (logger.isInfoEnabled()) {
-                logger.info("Removing " + checkoutDir);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Removing " + checkoutDir);
             }
             FileUtils.deleteDirectory(checkoutDir);
         } catch (IOException e) {
