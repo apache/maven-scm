@@ -123,15 +123,15 @@ public class HgScmProviderRepositoryTest {
     public void testParseHostAndPort() throws Exception {
         String url = "http://localhost:8000/";
         HgScmProviderRepository repo = new HgScmProviderRepository(url);
-        assertEquals(repo.getURI(), url);
+        assertEquals(url, repo.getURI());
 
         url = "http://localhost/";
         repo = new HgScmProviderRepository(url);
-        assertEquals(repo.getURI(), url);
+        assertEquals(url, repo.getURI());
 
         url = "http://www.myhost.com:81/dev/maven";
         repo = new HgScmProviderRepository(url);
-        assertEquals(repo.getURI(), url);
+        assertEquals(url, repo.getURI());
     }
 
     /**
