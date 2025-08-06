@@ -220,11 +220,11 @@ public class ChangeLogMojo extends AbstractScmMojo {
         }
 
         try {
-            return format.parse(date.toString());
+            return format.parse(date);
         } catch (ParseException e) {
             throw new MojoExecutionException(
                     "Please use this date pattern: "
-                            + format.toLocalizedPattern().toString(),
+                            + format.toLocalizedPattern(),
                     e);
         }
     }

@@ -115,8 +115,8 @@ public class ScmProviderStub implements ScmProvider {
      */
     public ScmProviderStub() {
         setScmSpecificFilename("");
-        setAddScmResult(new AddScmResult("", Collections.<ScmFile>emptyList()));
-        setBranchScmResult(new BranchScmResult("", Collections.<ScmFile>emptyList()));
+        setAddScmResult(new AddScmResult("", Collections.emptyList()));
+        setBranchScmResult(new BranchScmResult("", Collections.emptyList()));
         setChangeLogScmResult(new ChangeLogScmResult("", "", "", true));
         setCheckInScmResult(new CheckInScmResult("", "", "", true));
         setCheckOutScmResult(new CheckOutScmResult("", "", "", true));
