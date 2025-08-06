@@ -342,8 +342,6 @@ public abstract class AbstractScmMojo extends AbstractMojo {
             }
 
             throw new ScmException("Can't load the scm provider.", e);
-        } catch (Exception e) {
-            throw new ScmException("Can't load the scm provider.", e);
         }
 
         return repository;

@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.git.jgit.command.checkout;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -48,6 +49,7 @@ import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.api.TransportConfigCallback;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -208,7 +210,7 @@ public class JGitCheckOutCommand extends AbstractCheckOutCommand
             logger.debug("current branch: " + git.getRepository().getBranch());
 
             return new CheckOutScmResult("checkout via JGit", listedFiles);
-        } catch (Exception e) {
+        } catch (IOException | GitAPIException e) {
             throw new ScmException("JGit checkout failure!", e);
         } finally {
             JGitUtils.closeRepo(git);

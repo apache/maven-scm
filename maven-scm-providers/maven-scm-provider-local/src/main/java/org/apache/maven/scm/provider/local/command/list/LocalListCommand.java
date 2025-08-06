@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.local.command.list;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,14 +78,14 @@ public class LocalListCommand extends AbstractListCommand {
 
                 return new LocalListScmResult(null, files);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             return new ListScmResult(null, "The svn command failed.", e.getMessage(), false);
         }
     }
 
-    private List<ScmFile> getFiles(File source, File directory, boolean recursive) throws Exception {
+    private List<ScmFile> getFiles(File source, File directory, boolean recursive) throws IOException {
         if (!directory.exists()) {
-            throw new Exception("Directory '" + directory.getAbsolutePath() + "' doesn't exist.");
+            throw new IOException("Directory '" + directory.getAbsolutePath() + "' doesn't exist.");
         }
 
         List<ScmFile> files = new ArrayList<>();
