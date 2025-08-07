@@ -152,7 +152,7 @@ public class JGitChangeLogCommand extends AbstractChangeLogCommand implements Gi
             changeLogSet.setEndVersion(endVersion);
 
             return new ChangeLogScmResult("JGit changelog", changeLogSet);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new ScmException("JGit changelog failure!", e);
         } finally {
             JGitUtils.closeRepo(git);

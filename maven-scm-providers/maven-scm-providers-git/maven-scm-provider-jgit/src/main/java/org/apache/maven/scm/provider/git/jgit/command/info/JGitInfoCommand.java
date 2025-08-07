@@ -74,7 +74,7 @@ public class JGitInfoCommand extends AbstractCommand implements GitCommand {
                 }
             }
             return new InfoScmResult(infoItems, new ScmResult("JGit.resolve(HEAD)", "", objectId.toString(), true));
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new ScmException("JGit resolve failure!", e);
         } finally {
             JGitUtils.closeRepo(git);

@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.git.jgit.command.checkin;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collections;
@@ -50,6 +51,7 @@ import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.TransportConfigCallback;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.UserConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -189,7 +191,7 @@ public class JGitCheckInCommand extends AbstractCheckInCommand
         } catch (PushException e) {
             logger.debug("Failed to push commits", e);
             return new CheckInScmResult("JGit checkin", "Failed to push changes: " + e.getMessage(), "", false);
-        } catch (Exception e) {
+        } catch (IOException | GitAPIException e) {
             throw new ScmException("JGit checkin failure!", e);
         } finally {
             JGitUtils.closeRepo(git);

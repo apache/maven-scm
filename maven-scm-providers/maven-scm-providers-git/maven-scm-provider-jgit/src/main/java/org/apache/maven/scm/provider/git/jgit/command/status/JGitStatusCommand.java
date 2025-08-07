@@ -18,6 +18,7 @@
  */
 package org.apache.maven.scm.provider.git.jgit.command.status;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -33,6 +34,7 @@ import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.errors.GitAPIException;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -51,7 +53,7 @@ public class JGitStatusCommand extends AbstractStatusCommand implements GitComma
             List<ScmFile> changedFiles = getFileStati(status);
 
             return new StatusScmResult("JGit status", changedFiles);
-        } catch (Exception e) {
+        } catch (IOException | GitAPIException e) {
             throw new ScmException("JGit status failure!", e);
         } finally {
             JGitUtils.closeRepo(git);

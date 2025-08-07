@@ -18,6 +18,7 @@
  */
 package org.apache.maven.scm.provider.git.jgit.command.tag;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -42,6 +43,7 @@ import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessio
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.TransportConfigCallback;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -138,7 +140,7 @@ public class JGitTagCommand extends AbstractTagCommand implements GitCommand, Cu
         } catch (PushException e) {
             logger.debug("Failed to push tag", e);
             return new TagScmResult("JGit tag", "Failed to push tag: " + e.getMessage(), "", false);
-        } catch (Exception e) {
+        } catch (IOException | GitAPIException e) {
             throw new ScmException("JGit tag failure!", e);
         } finally {
             JGitUtils.closeRepo(git);

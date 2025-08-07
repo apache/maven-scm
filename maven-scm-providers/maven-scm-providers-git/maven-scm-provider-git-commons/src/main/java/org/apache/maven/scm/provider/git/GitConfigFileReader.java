@@ -108,7 +108,7 @@ public class GitConfigFileReader {
                         new BufferedReader(new FileReader(new File(getConfigDirectory(), "config")))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        if (!line.startsWith("#") && (line != null && !line.isEmpty())) {
+                        if (!line.startsWith("#") && !line.isEmpty()) {
                             lines.add(line);
                         }
                     }
