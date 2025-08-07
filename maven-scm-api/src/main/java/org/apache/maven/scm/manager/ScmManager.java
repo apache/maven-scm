@@ -63,7 +63,7 @@ public interface ScmManager {
     // ----------------------------------------------------------------------
 
     /**
-     * Generate a SCMRepository from a SCM url.
+     * Generate a SCMRepository  from an SCM URL.
      *
      * @param scmUrl the scm url
      * @return The scm repository
@@ -102,7 +102,7 @@ public interface ScmManager {
      * Set a provider to be used for a type of SCM. If there was already a designed provider for that type it will be
      * replaced.
      *
-     * @param providerType the type of SCM, eg. <code>svn</code>, <code>git</code>
+     * @param providerType the type of SCM, e.g. <code>svn</code>, <code>git</code>
      * @param provider     the provider that will be used for that SCM type
      */
     void setScmProvider(String providerType, ScmProvider provider);
@@ -110,8 +110,8 @@ public interface ScmManager {
     /**
      * Set the provider implementation
      *
-     * @param providerType           The provider type, eg. <code>git</code>
-     * @param providerImplementation The provider implementation (the role-hint of the provider), eg. <code>git</code>,
+     * @param providerType           The provider type, e.g. <code>git</code>
+     * @param providerImplementation The provider implementation (the role-hint of the provider), e.g. <code>git</code>,
      *                               <code>svn</code>
      */
     void setScmProviderImplementation(String providerType, String providerImplementation);
@@ -378,9 +378,9 @@ public interface ScmManager {
             throws ScmException;
 
     /**
-     * Make a file editable. This is used in source control systems where you look at read-only files and you need to
-     * make them not read-only anymore before you can edit them. This can also mean that no other user in the system can
-     * make the file not read-only anymore.
+     * Make a file editable. This is used in source control systems where you look at read-only files, and you need to
+     * make them writable before you can edit them. This can also mean that no other user in the system can
+     * make the file writable.
      *
      * @param repository the source control system
      * @param fileSet    the files to make editable
