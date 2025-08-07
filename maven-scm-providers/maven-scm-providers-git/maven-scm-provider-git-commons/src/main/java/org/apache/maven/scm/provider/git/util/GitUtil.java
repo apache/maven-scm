@@ -33,7 +33,7 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  */
 public class GitUtil {
-    protected static final String GIT_SETTINGS_FILENAME = "git-settings.xml";
+    public static final String GIT_SETTINGS_FILENAME = "git-settings.xml";
 
     public static final File DEFAULT_SETTINGS_DIRECTORY = new File(System.getProperty("user.home"), ".scm");
 
