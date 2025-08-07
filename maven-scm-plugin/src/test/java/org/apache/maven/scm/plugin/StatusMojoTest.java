@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
+import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -35,7 +35,7 @@ import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
 public class StatusMojoTest extends AbstractJUnit4MojoTestCase {
     @Test
     public void testStatusMojo() throws Exception {
-        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         StatusMojo mojo = (StatusMojo) lookupMojo("status", getTestFile("src/test/resources/mojos/status/status.xml"));
 

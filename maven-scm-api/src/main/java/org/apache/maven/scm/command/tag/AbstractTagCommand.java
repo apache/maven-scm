@@ -20,6 +20,7 @@ package org.apache.maven.scm.command.tag;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.CommandParameters.SignOption;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -70,6 +71,10 @@ public abstract class AbstractTagCommand extends AbstractCommand {
             scmTagParameters.setMessage("[maven-scm] copy for tag " + tagName);
         }
 
+        SignOption signOption = parameters.getSignOption(CommandParameter.SIGN_OPTION);
+        if (signOption != null) {
+            scmTagParameters.setSignOption(signOption);
+        }
         return executeTagCommand(repository, fileSet, tagName, scmTagParameters);
     }
 }

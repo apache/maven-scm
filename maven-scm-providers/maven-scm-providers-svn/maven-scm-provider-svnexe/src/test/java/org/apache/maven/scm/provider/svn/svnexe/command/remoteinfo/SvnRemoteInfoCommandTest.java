@@ -32,7 +32,7 @@ import static org.junit.Assert.assertTrue;
 public class SvnRemoteInfoCommandTest extends ScmTestCase {
     @Test
     public void testExist() throws Exception {
-        checkScmPresence(SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SVN_COMMAND_LINE);
 
         SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand(false);
 
@@ -43,7 +43,7 @@ public class SvnRemoteInfoCommandTest extends ScmTestCase {
 
     @Test
     public void testNotExist() throws Exception {
-        checkScmPresence(SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SVN_COMMAND_LINE);
 
         SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand(false);
 

@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
+import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
 
 @RunWith(JUnit4.class)
 public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
@@ -45,7 +45,7 @@ public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
 
         repository = getTestFile("target/repository");
 
-        checkScmPresence(GitScmTestUtils.GIT_COMMAND_LINE);
+        checkSystemCmdPresence(GitScmTestUtils.GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/git", repository, checkoutDir);
 
@@ -68,12 +68,10 @@ public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
 
     @Test
     public void testUntag() throws Exception {
-        checkScmPresence(GitScmTestUtils.GIT_COMMAND_LINE);
+        checkSystemCmdPresence(GitScmTestUtils.GIT_COMMAND_LINE);
 
         TagMojo tagMojo = (TagMojo) lookupMojo("tag", getTestFile("src/test/resources/mojos/untag/tag.xml"));
         tagMojo.setWorkingDirectory(checkoutDir);
-        tagMojo.setSign(false);
-        tagMojo.setForceNoSign(true);
         tagMojo.setConnectionUrl(getConnectionLocalAddress(tagMojo));
         tagMojo.execute();
 

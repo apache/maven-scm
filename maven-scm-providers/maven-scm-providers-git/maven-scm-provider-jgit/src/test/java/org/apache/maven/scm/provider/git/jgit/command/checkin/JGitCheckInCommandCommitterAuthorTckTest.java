@@ -258,7 +258,6 @@ public class JGitCheckInCommandCommitterAuthorTckTest extends GitCheckInCommandT
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString(CommandParameter.MESSAGE, "Commit message");
-        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
 
         CheckInScmResult result = getScmManager()
                 .checkIn(scmRepository, new ScmFileSet(getWorkingCopy(), "**/Foo.java"), commandParameters);

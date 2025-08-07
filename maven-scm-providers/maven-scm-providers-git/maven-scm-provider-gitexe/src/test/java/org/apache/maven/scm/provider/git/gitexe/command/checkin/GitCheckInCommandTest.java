@@ -19,7 +19,12 @@
 package org.apache.maven.scm.provider.git.gitexe.command.checkin;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.CommandParameters.SignOption;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmVersion;
@@ -28,6 +33,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.apache.maven.scm.provider.git.gitexe.GpgTestUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -90,7 +96,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
         File repo = getRepositoryRoot();
         File checkedOutRepo = getWorkingCopy();
 
-        checkScmPresence(GIT_COMMAND_LINE);
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory());
 
@@ -144,7 +150,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
         File repo = getRepositoryRoot();
         File checkedOutRepo = getWorkingCopy();
 
-        checkScmPresence(GIT_COMMAND_LINE);
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory());
 
@@ -178,6 +184,49 @@ public class GitCheckInCommandTest extends ScmTestCase {
         checkInScmResult = getScmManager()
                 .checkIn(scmRepository, new ScmFileSet(checkedOutRepo, "whiskey.xml"), "Checking beer file");
         assertResultIsSuccess(checkInScmResult);
+    }
+
+    @Test
+    public void testSignedCheckin() throws Exception {
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
+        checkSystemCmdPresence(GpgTestUtils.BINARY_NAME);
+
+        File repo = getRepositoryRoot();
+        File checkedOutRepo = getWorkingCopy();
+
+        GitScmTestUtils.initRepo("src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory());
+
+        ScmRepository scmRepository = getScmManager()
+                .makeScmRepository(
+                        "scm:git:" + repo.toPath().toAbsolutePath().toUri().toASCIIString());
+        assertResultIsSuccess(checkoutRepoInto(checkedOutRepo, scmRepository));
+
+        // use the GPG key of John Doe for signing
+        GitScmTestUtils.setDefaultGitConfig(checkedOutRepo, fw -> {
+            try {
+                fw.append("[user]\n");
+                fw.append("\tsigningKey = " + GpgTestUtils.FINGERPRINT_JOHN_DOE_SECRET_KEY + "\n");
+            } catch (IOException e) {
+                throw new UncheckedIOException("Error writing to git config file", e);
+            }
+        });
+
+        GpgTestUtils.importKey(GpgTestUtils.JOHN_DOE_SECRET_KEY_RESOURCE_NAME);
+        try {
+            // Creating beer.xml
+            File beerFile = new File(checkedOutRepo.getAbsolutePath(), "beer.xml");
+            FileUtils.fileWrite(beerFile.getAbsolutePath(), "1/2 litre");
+
+            CommandParameters parameters = new CommandParameters();
+            parameters.setSignOption(CommandParameter.SIGN_OPTION, SignOption.FORCE_SIGN);
+            parameters.setString(CommandParameter.MESSAGE, "Created beer file");
+            CheckInScmResult checkInScmResult =
+                    getScmManager().checkIn(scmRepository, new ScmFileSet(checkedOutRepo, "beer.xml"), parameters);
+            assertResultIsSuccess(checkInScmResult);
+        } finally {
+            // Clean up GPG key after test
+            GpgTestUtils.deleteSecretKey(GpgTestUtils.FINGERPRINT_JOHN_DOE_SECRET_KEY);
+        }
     }
 
     // ----------------------------------------------------------------------
