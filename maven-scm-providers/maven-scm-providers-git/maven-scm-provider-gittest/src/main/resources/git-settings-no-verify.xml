@@ -1,0 +1,4 @@
+<git-settings xmlns="http://maven.apache.org/SCM/GIT/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SCM/GIT/1.1.0 http://maven.apache.org/xsd/scm-git-1.1.0.xsd">
+  <commitNoVerify>true</commitNoVerify>
+</git-settings>

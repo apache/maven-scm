@@ -45,6 +45,7 @@ import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.jgit.command.PushException;
 import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
@@ -154,6 +155,9 @@ public class JGitCheckInCommand extends AbstractCheckInCommand
                         .setAuthor(author.name, author.email)
                         .setCommitter(committer.name, committer.email)
                         .setSign(parameters.getBoolean(CommandParameter.SCM_COMMIT_SIGN, true));
+                if (GitUtil.getSettings().isCommitNoVerify()) {
+                    command.setNoVerify(true);
+                }
                 RevCommit commitRev = command.call();
 
                 logger.info("commit done: " + commitRev.getShortMessage());
