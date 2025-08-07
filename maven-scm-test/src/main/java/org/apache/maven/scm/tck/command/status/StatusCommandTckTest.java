@@ -64,7 +64,6 @@ public abstract class StatusCommandTckTest extends ScmTckTestCase {
     protected void commit(File workingDirectory, ScmRepository repository) throws Exception {
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString(CommandParameter.MESSAGE, "No msg");
-        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
         CheckInScmResult result =
                 getScmManager().checkIn(repository, new ScmFileSet(workingDirectory), commandParameters);
 

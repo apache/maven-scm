@@ -269,6 +269,48 @@ public class CommandParameters implements Serializable {
     }
 
     // ----------------------------------------------------------------------
+    // SigningOption (Git specific)
+    // ----------------------------------------------------------------------
+    /**
+     * The sign option for a commit or tag.
+     * <p>
+     * This is only relevant for SCM providers that support signing commits/tags, such as Git.
+     * </p>
+     * @see <a href="https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work">Git Tools - Signing Your Work</a>
+     */
+    public enum SignOption {
+        /**
+         * Signs the commit/tag irrespective of the Git configuration setting {@code commit.gpgSign} or {@code tag.gpgSign}.
+         * Only has an effect for supported SCM providers. Others may be silently ignoring this setting.
+         */
+        FORCE_SIGN,
+        /**
+         * Just uses the default value in the Git configuration for setting {@code commit.gpgSign} or {@code tag.gpgSign}.
+         * Only has an effect for supported SCM providers. Others may be silently ignoring this setting.
+         */
+        DEFAULT,
+        /**
+         * Does not sign the commit/tag irrespective of the Git configuration setting {@code commit.gpgSign} or {@code tag.gpgSign}.
+         */
+        FORCE_NO_SIGN
+    }
+
+    public void setSignOption(CommandParameter parameter, SignOption signOption) throws ScmException {
+        setObject(parameter, signOption);
+    }
+
+    /**
+     * Return the sign option.
+     *
+     * @param parameter The parameter
+     * @return The sign option or null if not set
+     * @throws ScmException if the parameter has the wrong type.
+     */
+    public SignOption getSignOption(CommandParameter parameter) throws ScmException {
+        return getObject(SignOption.class, parameter, null);
+    }
+
+    // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
@@ -280,8 +322,8 @@ public class CommandParameters implements Serializable {
      * @return The parameter value
      * @throws ScmException if the parameter doesn't exist
      */
-    private Object getObject(Class<?> clazz, CommandParameter parameter) throws ScmException {
-        Object object = getObject(clazz, parameter, null);
+    private <T> T getObject(Class<T> clazz, CommandParameter parameter) throws ScmException {
+        T object = getObject(clazz, parameter, null);
 
         if (object == null) {
             throw new ScmException("Missing parameter: '" + parameter.getName() + "'.");
@@ -299,7 +341,8 @@ public class CommandParameters implements Serializable {
      * @return The parameter value
      * @throws ScmException if the defaultValue is in the wrong type
      */
-    private Object getObject(Class<?> clazz, CommandParameter parameter, Object defaultValue) throws ScmException {
+    @SuppressWarnings("unchecked")
+    private <T> T getObject(Class<T> clazz, CommandParameter parameter, T defaultValue) throws ScmException {
         Object object = parameters.get(parameter.getName());
 
         if (object == null) {
@@ -311,7 +354,7 @@ public class CommandParameters implements Serializable {
                     + clazz.getName() + ", got: " + object.getClass().getName());
         }
 
-        return object;
+        return (T) object;
     }
 
     /**

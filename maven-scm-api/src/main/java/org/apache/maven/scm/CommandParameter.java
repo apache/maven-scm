@@ -94,11 +94,12 @@ public class CommandParameter implements Serializable {
     public static final CommandParameter IGNORE_WHITESPACE = new CommandParameter("ignoreWhitespace");
 
     /**
-     * Parameter to indicate whether the commit should be signed or not.
-     * if false (default true) this will be used by the Git provider to pass the --no-signoff option to the commit command.
-     * @since 2.1.1
+     * Parameter to indicate whether the commit/tag should be signed or not.
+     * This is only applicable to Git for now.
+     * Possible values are outlined in {@link CommandParameters.SignOption}
+     * @since 2.2.1
      */
-    public static final CommandParameter SCM_COMMIT_SIGN = new CommandParameter("gitCommitSign");
+    public static final CommandParameter SIGN_OPTION = new CommandParameter("sign");
 
     /**
      * Parameter name
