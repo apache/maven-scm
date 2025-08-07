@@ -227,7 +227,7 @@ public abstract class AbstractScmMojo extends AbstractMojo {
             for (Entry<String, String> entry : providerImplementations.entrySet()) {
                 String providerType = entry.getKey();
                 String providerImplementation = entry.getValue();
-                getLog().info("Change the default '" + providerType + "' provider implementation to '"
+                getLog().debug("Change the default '" + providerType + "' provider implementation to '"
                         + providerImplementation + "'.");
                 getScmManager().setScmProviderImplementation(providerType, providerImplementation);
             }

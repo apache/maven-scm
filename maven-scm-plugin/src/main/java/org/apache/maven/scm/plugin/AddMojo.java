@@ -54,7 +54,7 @@ public class AddMojo extends AbstractScmMojo {
 
             checkResult(result);
 
-            getLog().info("" + result.getAddedFiles().size() + " files successfully added.");
+            getLog().debug("" + result.getAddedFiles().size() + " files successfully added.");
 
         } catch (IOException | ScmException e) {
             throw new MojoExecutionException("Cannot run add command : ", e);

@@ -61,7 +61,7 @@ public class CheckLocalModificationsMojo extends AbstractScmMojo {
 
     public void execute() throws MojoExecutionException {
         if (skip) {
-            getLog().info("check-local-modification execution has been skipped");
+            getLog().debug("check-local-modification execution has been skipped");
             return;
         }
         super.execute();

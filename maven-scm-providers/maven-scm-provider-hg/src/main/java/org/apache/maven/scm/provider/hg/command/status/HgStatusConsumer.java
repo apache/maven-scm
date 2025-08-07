@@ -44,17 +44,17 @@ class HgStatusConsumer extends HgConsumer {
         // Only include real files (not directories)
         File tmpFile = new File(workingDir, trimmedLine);
         if (!tmpFile.exists()) {
-            if (logger.isInfoEnabled()) {
-                logger.info("Not a file: " + tmpFile + ". Ignoring");
+            if (logger.isDebugEnabled()) {
+                logger.debug("Not a file: " + tmpFile + ". Ignoring");
             }
         } else if (tmpFile.isDirectory()) {
-            if (logger.isInfoEnabled()) {
-                logger.info("New directory added: " + tmpFile);
+            if (logger.isDebugEnabled()) {
+                logger.debug("New directory added: " + tmpFile);
             }
         } else {
             ScmFile scmFile = new ScmFile(trimmedLine, status);
-            if (logger.isInfoEnabled()) {
-                logger.info(scmFile.toString());
+            if (logger.isDebugEnabled()) {
+                logger.debug(scmFile.toString());
             }
             repositoryStatus.add(scmFile);
         }
