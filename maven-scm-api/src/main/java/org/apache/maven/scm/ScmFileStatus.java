@@ -27,8 +27,8 @@ import java.io.Serializable;
  * </p>
  * <p>
  * There are two types of status defined in this class: <br>
- * 1) Status: Changes in the working tree, not yet committed to the repository eg. MODIFIED <br>
- * 2) Transaction: The file is part of some transaction with the repository eg. CHECKED_IN
+ * 1) Status: Changes in the working tree, not yet committed to the repository e.g. MODIFIED <br>
+ * 2) Transaction: The file is part of some transaction with the repository e.g. CHECKED_IN
  * </p>
  *
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>

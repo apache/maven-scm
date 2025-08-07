@@ -165,7 +165,7 @@ public abstract class ScmProviderRepository {
 
     /**
      * Get a {@link ScmProviderRepository} that represents the parent folder in the repository.
-     * Useful when the repository does not exist yet and we need to create it from the parent.
+     * Useful when the repository does not exist yet, and we need to create it from the parent.
      *
      * @return the parent repository
      * @throws UnsupportedOperationException unless overridden by subclass

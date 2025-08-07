@@ -129,8 +129,7 @@ public class JGitUtils {
      *
      * @param git        the instance to configure (only in memory, not saved)
      * @param repository the repo config to be used
-     * @return {@link CredentialsProvider} in case there are credentials
-     * informations configured in the repository.
+     * @return {@link CredentialsProvider} in case credential information is configured in the repository.
      */
     public static CredentialsProvider prepareSession(Git git, GitScmProviderRepository repository) {
         StoredConfig config = git.getRepository().getConfig();

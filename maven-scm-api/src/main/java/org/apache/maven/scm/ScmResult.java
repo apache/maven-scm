@@ -46,7 +46,7 @@ public class ScmResult implements Serializable {
      * Copy constructor.
      * <p>
      * Typically used from derived classes when wrapping a ScmResult
-     * into a specific type eg. AddScmResult
+     * into a specific type e.g. AddScmResult
      *
      * @param scmResult not null
      */
@@ -87,7 +87,7 @@ public class ScmResult implements Serializable {
 
     /**
      * @return A message from the provider. On success this would typically be null or
-     *         an empty string. On failure it would be the error message from the provider
+     *         an empty string. On failure, it would be the error message from the provider
      */
     public String getProviderMessage() {
         return providerMessage;

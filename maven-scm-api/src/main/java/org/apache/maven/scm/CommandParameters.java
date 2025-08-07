@@ -98,9 +98,9 @@ public class CommandParameters implements Serializable {
     /**
      * Return the parameter value as int or the default value if it doesn't exist.
      *
-     * @param parameter    The parameter
-     * @param defaultValue The defaultValue
-     * @return The parameter value as a int
+     * @param parameter    the parameter
+     * @param defaultValue the default value
+     * @return the parameter value as an int
      * @throws ScmException if the value is in the wrong type
      */
     public int getInt(CommandParameter parameter, int defaultValue) throws ScmException {

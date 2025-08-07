@@ -158,7 +158,7 @@ public class BootstrapMojo extends CheckoutMojo {
 
     /**
      * Determines the path of the working directory. By default, this is the checkout directory. For some SCMs,
-     * the project root directory is not the checkout directory itself, but a SCM-specific subdirectory. The
+     * the project root directory is not the checkout directory itself, but an SCM-specific subdirectory. The
      * build can furthermore optionally be executed in a subdirectory of this project directory, in case.
      *
      * @param checkoutDirectory

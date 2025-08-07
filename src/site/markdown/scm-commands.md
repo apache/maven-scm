@@ -23,7 +23,7 @@ date: 2005-12-01
 <!-- under the License.-->
 # Maven SCM Commands
 
-Maven SCM uses a exposes a fixed set of commands for it users. The providers for each SCM must implements those commands through the `ScmProvider` interface. This is an overview of all the commands:
+Maven SCM exposes a fixed set of commands. The providers for each SCM must implement those commands through the `ScmProvider` interface. This is an overview of all the commands:
 
 ## Add
 
@@ -43,7 +43,7 @@ Copy \(part of\) the contents of the source control system to a certain location
 
 ## Edit
 
-Mark a file as editable with the source control system. This is used in source control systems where you look at read-only files and you need to make them not read-only anymore before you can edit them. In some scm&apos;s this means that no other user can then do an edit at the same time.
+Mark a file as editable with the source control system. This is used in source control systems where you look at read-only files, and you need to make them writable before you can edit them. In some scm&apos;s this means that no other user can then do an edit at the same time.
 
 ## Diff
 

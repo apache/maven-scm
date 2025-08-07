@@ -94,7 +94,7 @@ public class MyScmProviderRepository
 }
 ```
 
-Before you add more information to this class, you can look at the `ScmProviderRepository` sub-classes, if they are already implemented.
+Before you add more information to this class, you can look at the `ScmProviderRepository` subclasses, if they are already implemented.
 
 ## Create the Provider class
 

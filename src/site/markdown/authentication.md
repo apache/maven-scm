@@ -40,7 +40,7 @@ There are multiple ways how the authentication can be configured. They are liste
 
 ### Implicit
 
-Most SCM providers have built-in authentication configuration means. On demand they will interactively ask for credentials (in case Maven is not running in batch mode and the credentials are not yet known) and persist those throughout the session or even longer. Often one can also configure the credentials in advance in dedicated files.
+Most SCM providers have built-in authentication configuration means. On demand, they will interactively ask for credentials (in case Maven is not running in batch mode and the credentials are not yet known) and persist those throughout the session or even longer. Often one can also configure the credentials in advance in dedicated files.
 
 - [Subversion Credentials](https://svnbook.red-bean.com/en/1.8/svn.serverconfig.netmodel.html#svn.serverconfig.netmodel.creds)
 - [Git Credentials](https://git-scm.com/docs/gitcredentials)

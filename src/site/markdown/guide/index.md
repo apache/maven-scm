@@ -25,9 +25,9 @@ date: 2007-03-12
 
 ## [How to use Maven SCM in my application?](./usage.html)
 
-This [document](./usage.html) describe API usage for a SCM client.
+This [document](./usage.html) describes API usage for a SCM client.
 
 ## [How to write a new SCM provider?](./new_provider.html)
 
-This [document](./new_provider.html) describe step by step the implementation of a new SCM provider.
+This [document](./new_provider.html) describse step by step the implementation of a new SCM provider.
 
