@@ -50,7 +50,7 @@ public class SvnCheckOutCommandTest extends ScmTestCase {
 
         recursive = true;
         workingDirectory = getTestFile("target/svn-checkout-command-test");
-        if (workingDirectory != null && workingDirectory.isDirectory()) {
+        if (workingDirectory.isDirectory()) {
             FileUtils.deleteDirectory(workingDirectory);
         }
     }
