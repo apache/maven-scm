@@ -204,7 +204,7 @@ public class ChangeSetTest {
         int hashCode1 = instance.hashCode();
         instance.setAuthor("anotherAuthor");
 
-        assertFalse(hashCode1 == instance.hashCode());
+        assertNotEquals(hashCode1, instance.hashCode());
         instance.setAuthor("dion");
         assertEquals(hashCode1, instance.hashCode());
     }
