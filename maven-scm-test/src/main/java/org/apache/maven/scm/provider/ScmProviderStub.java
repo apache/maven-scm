@@ -28,7 +28,6 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmVersion;
