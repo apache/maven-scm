@@ -52,7 +52,7 @@ public class SvnConfigFileReader {
     }
 
     public String getProperty(String group, String propertyName) {
-        List<String> lines = getConfLines();
+        List<String> lines = getConfigLines();
 
         boolean inGroup = false;
         for (Iterator<String> i = lines.iterator(); i.hasNext(); ) {
@@ -94,7 +94,7 @@ public class SvnConfigFileReader {
      *
      * @return the list of all lines
      */
-    private List<String> getConfLines() {
+    private List<String> getConfigLines() {
         List<String> lines = new ArrayList<>();
         if (getConfigDirectory().exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(new File(getConfigDirectory(), "config")))) {
