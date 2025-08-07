@@ -192,8 +192,6 @@ public class MavenScmCli {
             System.err.println("Error while executing the SCM command.");
 
             ex.printStackTrace(System.err);
-
-            return;
         }
     }
 

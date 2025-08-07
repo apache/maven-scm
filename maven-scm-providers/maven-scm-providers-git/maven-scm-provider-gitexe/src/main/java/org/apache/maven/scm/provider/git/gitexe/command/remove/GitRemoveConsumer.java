@@ -72,8 +72,6 @@ public class GitRemoveConsumer extends AbstractConsumer {
             if (logger.isInfoEnabled()) {
                 logger.info("could not parse line: " + line);
             }
-
-            return;
         }
     }
 

@@ -136,8 +136,7 @@ public class GitUpdateCommand extends AbstractUpdateCommand implements GitComman
         // same as --topo-order, but ensure ordering of merges
         cl.createArg().setValue("--date-order");
 
-        if (scmVersion != null
-                && scmVersion instanceof ScmBranch
+        if (scmVersion instanceof ScmBranch
                 && scmVersion.getName() != null
                 && scmVersion.getName().length() > 0) {
             // if any branch is given, lets take em

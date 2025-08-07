@@ -41,7 +41,7 @@ public class HgAddConsumer extends HgConsumer {
 
     /** {@inheritDoc} */
     public void doConsume(ScmFileStatus status, String trimmedLine) {
-        if (status != null && status == ScmFileStatus.ADDED) {
+        if (status == ScmFileStatus.ADDED) {
             // Only include real files (not directories)
             File tmpFile = new File(workingDir, trimmedLine);
             if (!tmpFile.exists()) {

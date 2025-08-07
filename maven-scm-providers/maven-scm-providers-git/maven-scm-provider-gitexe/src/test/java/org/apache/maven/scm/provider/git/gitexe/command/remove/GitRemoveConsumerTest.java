@@ -74,8 +74,8 @@ public class GitRemoveConsumerTest extends ScmTestCase {
 
         assertEquals(2, changedFiles.size());
 
-        testScmFile((ScmFile) changedFiles.get(0), "src/main/java/Application.java", ScmFileStatus.DELETED);
-        testScmFile((ScmFile) changedFiles.get(1), "src/test/java/Test.java", ScmFileStatus.DELETED);
+        testScmFile(changedFiles.get(0), "src/main/java/Application.java", ScmFileStatus.DELETED);
+        testScmFile(changedFiles.get(1), "src/test/java/Test.java", ScmFileStatus.DELETED);
     }
 
     @Test

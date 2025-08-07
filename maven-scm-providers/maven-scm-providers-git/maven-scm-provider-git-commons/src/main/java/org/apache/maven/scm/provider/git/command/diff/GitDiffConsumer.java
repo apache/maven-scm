@@ -124,7 +124,6 @@ public class GitDiffConsumer extends AbstractConsumer {
                 logger.warn("Unparseable line: '" + line + "'");
             }
             patch.append(line).append("\n");
-            return;
         } else if (line.startsWith(INDEX_LINE_TOKEN)) {
             // skip, though could parse to verify start revision and end revision
             patch.append(line).append("\n");

@@ -42,7 +42,7 @@ public class HgRemoveConsumer extends HgConsumer {
 
     /** {@inheritDoc} */
     public void doConsume(ScmFileStatus status, String trimmedLine) {
-        if (status != null && status == ScmFileStatus.DELETED) {
+        if (status == ScmFileStatus.DELETED) {
             // Only include real files (not directories)
             File tmpFile = new File(workingDir, trimmedLine);
             if (!tmpFile.exists()) {

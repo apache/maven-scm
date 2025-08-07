@@ -50,8 +50,6 @@ public class SvnMkdirConsumer extends AbstractConsumer {
             String revisionString = line.substring(COMMITTED_REVISION_TOKEN.length() + 1, line.length() - 1);
 
             revision = Integer.parseInt(revisionString);
-
-            return;
         } else if (statusString.equals("A")) {
             String file = line.substring(3);
 
@@ -62,8 +60,6 @@ public class SvnMkdirConsumer extends AbstractConsumer {
             if (logger.isInfoEnabled()) {
                 logger.info("Unknown line: '" + line + "'");
             }
-
-            return;
         }
     }
 
