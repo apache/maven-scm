@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.tag;
 
 import java.io.File;
 
+import org.apache.maven.scm.CommandParameters.SignOption;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -55,8 +56,7 @@ public class GitTagCommandTest extends ScmTestCase {
                 "scm:git:http://foo.com/git/trunk",
                 "my-tag-1",
                 "git tag " + messageFileString + " my-tag-1",
-                false,
-                false);
+                SignOption.DEFAULT);
     }
 
     @Test
@@ -65,8 +65,7 @@ public class GitTagCommandTest extends ScmTestCase {
                 "scm:git:http://anonymous@foo.com/git/trunk",
                 "my-tag-1",
                 "git tag " + messageFileString + " my-tag-1",
-                false,
-                false);
+                SignOption.DEFAULT);
     }
 
     @Test
@@ -75,8 +74,7 @@ public class GitTagCommandTest extends ScmTestCase {
                 "scm:git:http://anonymous@foo.com/git/trunk",
                 "my-tag-1",
                 "git tag --no-sign " + messageFileString + " my-tag-1",
-                false,
-                true);
+                SignOption.FORCE_NO_SIGN);
     }
 
     @Test
@@ -85,15 +83,14 @@ public class GitTagCommandTest extends ScmTestCase {
                 "scm:git:http://anonymous@foo.com/git/trunk",
                 "my-tag-1",
                 "git tag -s " + messageFileString + " my-tag-1",
-                true,
-                false);
+                SignOption.FORCE_SIGN);
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine(String scmUrl, String tag, String commandLine, boolean sign, boolean forceNoSign)
+    private void testCommandLine(String scmUrl, String tag, String commandLine, SignOption signOption)
             throws Exception {
         File workingDirectory = getTestFile("target/git-checkin-command-test");
 
@@ -101,8 +98,7 @@ public class GitTagCommandTest extends ScmTestCase {
 
         GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl =
-                GitTagCommand.createCommandLine(gitRepository, workingDirectory, tag, messageFile, sign, forceNoSign);
+        Commandline cl = GitTagCommand.createCommandLine(gitRepository, workingDirectory, tag, messageFile, signOption);
 
         assertCommandLine(commandLine, workingDirectory, cl);
     }

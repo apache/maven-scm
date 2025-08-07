@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
+import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -51,11 +51,11 @@ public class TagMojoTest extends AbstractJUnit4MojoTestCase {
 
         FileUtils.forceDelete(repository);
 
-        checkScmPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);
 
-        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         CheckoutMojo checkoutMojo = (CheckoutMojo)
                 lookupMojo("checkout", getTestFile("src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml"));
@@ -77,7 +77,7 @@ public class TagMojoTest extends AbstractJUnit4MojoTestCase {
 
     @Test
     public void testTag() throws Exception {
-        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         TagMojo mojo = (TagMojo) lookupMojo("tag", getTestFile("src/test/resources/mojos/tag/tag.xml"));
         mojo.setWorkingDirectory(checkoutDir);
@@ -105,7 +105,7 @@ public class TagMojoTest extends AbstractJUnit4MojoTestCase {
 
     @Test
     public void testTagWithTimestamp() throws Exception {
-        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         TagMojo mojo = (TagMojo) lookupMojo("tag", getTestFile("src/test/resources/mojos/tag/tagWithTimestamp.xml"));
         mojo.setWorkingDirectory(checkoutDir);

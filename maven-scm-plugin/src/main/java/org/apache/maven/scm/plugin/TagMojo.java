@@ -27,6 +27,7 @@ import java.util.Date;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.scm.CommandParameters.SignOption;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -100,20 +101,22 @@ public class TagMojo extends AbstractScmMojo {
     private boolean pinExternals;
 
     /**
-     * Enable the "--sign" in Git
+     * Enable the "--sign" in Git.
+     * Same as {@link #signOption} set to either {@link SignOption#FORCE_SIGN} or {@link SignOption#DEFAULT}.
      *
      * @since 1.11.0
+     * @deprecated since 2.1.1, use {@link #signOption} instead
      */
     @Parameter(property = "sign", defaultValue = "false")
     private boolean sign;
 
     /**
-     * Enable the "--no-sign" in Git
+     * Toggles the signing for the tag command (only applicable to SCMs that support signing).
      *
-     * @since 2.1.1
+     * @since 2.2.1
      */
-    @Parameter(property = "forceNoSign", defaultValue = "false")
-    private boolean forceNoSign;
+    @Parameter(property = "signOption")
+    private SignOption signOption = SignOption.DEFAULT;
 
     @Inject
     public TagMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
@@ -157,8 +160,12 @@ public class TagMojo extends AbstractScmMojo {
             ScmTagParameters scmTagParameters = new ScmTagParameters(message);
             scmTagParameters.setRemoteTagging(remoteTagging);
             scmTagParameters.setPinExternals(pinExternals);
-            scmTagParameters.setSign(sign);
-            scmTagParameters.setForceNoSign(forceNoSign);
+            if (signOption != null) {
+                scmTagParameters.setSignOption(signOption);
+            } else if (sign) {
+                getLog().warn("The 'sign' parameter is deprecated, use 'signOption' instead.");
+                scmTagParameters.setSign(sign);
+            }
 
             TagScmResult result = provider.tag(repository, getFileSet(), finalTag, scmTagParameters);
 
@@ -166,21 +173,5 @@ public class TagMojo extends AbstractScmMojo {
         } catch (IOException | ScmException e) {
             throw new MojoExecutionException("Cannot run tag command : ", e);
         }
-    }
-
-    public boolean isSign() {
-        return sign;
-    }
-
-    public void setSign(boolean sign) {
-        this.sign = sign;
-    }
-
-    public boolean isForceNoSign() {
-        return forceNoSign;
-    }
-
-    public void setForceNoSign(boolean forceNoSign) {
-        this.forceNoSign = forceNoSign;
     }
 }

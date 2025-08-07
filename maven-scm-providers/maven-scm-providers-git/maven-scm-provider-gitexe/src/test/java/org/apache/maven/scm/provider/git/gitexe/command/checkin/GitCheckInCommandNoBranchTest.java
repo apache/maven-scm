@@ -52,7 +52,7 @@ public class GitCheckInCommandNoBranchTest extends ScmTestCase {
 
     @Test
     public void testCheckinNoBranch() throws Exception {
-        checkScmPresence(GIT_COMMAND_LINE);
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
 
         File repoOriginal = new File("src/test/resources/repository_no_branch");
         File repo = getTestFile("target/git_copy");

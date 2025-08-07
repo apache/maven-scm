@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
+import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
 
 /**
  *
@@ -51,11 +51,11 @@ public class ExportMojoTest extends AbstractJUnit4MojoTestCase {
 
     @Test
     public void testExport() throws Exception {
-        checkScmPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);
 
-        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         ExportMojo mojo = (ExportMojo) lookupMojo("export", getTestFile("src/test/resources/mojos/export/export.xml"));
 
@@ -83,13 +83,13 @@ public class ExportMojoTest extends AbstractJUnit4MojoTestCase {
 
     @Test
     public void testExcludeInclude() throws Exception {
-        checkScmPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);
 
         exportDir.mkdirs();
 
-        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         ExportMojo mojo = (ExportMojo)
                 lookupMojo("export", getTestFile("src/test/resources/mojos/export/exportWithExcludesIncludes.xml"));

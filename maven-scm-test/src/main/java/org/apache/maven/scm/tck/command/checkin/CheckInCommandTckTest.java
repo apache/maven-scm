@@ -87,7 +87,6 @@ public abstract class CheckInCommandTckTest extends ScmTckTestCase {
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString(CommandParameter.MESSAGE, "Commit message");
-        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
 
         CheckInScmResult result =
                 getScmManager().checkIn(getScmRepository(), new ScmFileSet(getWorkingCopy()), commandParameters);
@@ -157,7 +156,6 @@ public abstract class CheckInCommandTckTest extends ScmTckTestCase {
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString(CommandParameter.MESSAGE, "Commit message");
-        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
 
         CheckInScmResult result = getScmManager()
                 .checkIn(getScmRepository(), new ScmFileSet(getWorkingCopy(), "**/Foo.java", null), commandParameters);
@@ -222,7 +220,6 @@ public abstract class CheckInCommandTckTest extends ScmTckTestCase {
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString(CommandParameter.MESSAGE, "Commit message");
-        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
 
         CheckInScmResult result = getScmManager()
                 .checkIn(

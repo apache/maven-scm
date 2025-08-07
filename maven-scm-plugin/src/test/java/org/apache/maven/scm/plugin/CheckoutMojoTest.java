@@ -30,7 +30,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
+import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
 import static org.junit.Assert.assertNotEquals;
 
 /**
@@ -72,13 +72,13 @@ public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
 
     @Test
     public void testSkipCheckoutWithConnectionUrl() throws Exception {
-        checkScmPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         FileUtils.forceDelete(checkoutDir);
 
         SvnScmTestUtils.initializeRepository(repository);
 
-        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         CheckoutMojo mojo = (CheckoutMojo)
                 lookupMojo("checkout", getTestFile("src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml"));
@@ -113,7 +113,7 @@ public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
 
     @Test
     public void testUseExport() throws Exception {
-        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         FileUtils.forceDelete(checkoutDir);
 
@@ -132,7 +132,7 @@ public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
 
     @Test
     public void testExcludeInclude() throws Exception {
-        checkScmPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         FileUtils.forceDelete(checkoutDir);
 
@@ -140,7 +140,7 @@ public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
 
         SvnScmTestUtils.initializeRepository(repository);
 
-        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         CheckoutMojo mojo = (CheckoutMojo) lookupMojo(
                 "checkout", getTestFile("src/test/resources/mojos/checkout/checkoutWithExcludesIncludes.xml"));

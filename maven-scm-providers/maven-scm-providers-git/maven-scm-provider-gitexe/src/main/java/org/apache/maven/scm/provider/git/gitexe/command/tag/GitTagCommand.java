@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.maven.scm.CommandParameters.SignOption;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -89,12 +90,7 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
             int exitCode;
 
             Commandline clTag = createCommandLine(
-                    repository,
-                    fileSet.getBasedir(),
-                    tag,
-                    messageFile,
-                    scmTagParameters.isSign(),
-                    scmTagParameters.isForceNoSign());
+                    repository, fileSet.getBasedir(), tag, messageFile, scmTagParameters.getSignOption());
 
             exitCode = GitCommandLineUtils.execute(clTag, stdout, stderr);
             if (exitCode != 0) {
@@ -142,15 +138,19 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
             File workingDirectory,
             String tag,
             File messageFile,
-            boolean sign,
-            boolean forceNoSign) {
+            SignOption signOption) {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "tag");
 
-        if (sign) {
-            cl.createArg().setValue("-s");
-        }
-        if (forceNoSign) {
-            cl.createArg().setValue("--no-sign");
+        switch (signOption) {
+            case FORCE_SIGN:
+                cl.createArg().setValue("-s");
+                break;
+            case FORCE_NO_SIGN:
+                cl.createArg().setValue("--no-sign");
+                break;
+            default:
+                // no CLI argument needed when default option from git config should be used
+                break;
         }
 
         cl.createArg().setValue("-F");

@@ -33,16 +33,14 @@ public class ScmTagParameters implements Serializable {
 
     private boolean pinExternals = false;
 
-    private boolean sign = false;
-
-    private boolean forceNoSign = false;
+    private CommandParameters.SignOption signOption;
 
     private String scmRevision;
 
     public ScmTagParameters() {
         this.remoteTagging = false;
         this.pinExternals = false;
-        this.sign = false;
+        this.signOption = CommandParameters.SignOption.DEFAULT;
     }
 
     public ScmTagParameters(String message) {
@@ -73,12 +71,24 @@ public class ScmTagParameters implements Serializable {
         this.pinExternals = pinExternals;
     }
 
+    /**
+     *
+     * @return true if the tag operation should be signed, false otherwise.
+     * @deprecated use {@link #getSignOption()} instead.
+     */
+    @Deprecated
     public boolean isSign() {
-        return sign;
+        return signOption == CommandParameters.SignOption.FORCE_SIGN;
     }
 
+    /**
+     * Set the signing option for the tag operation.
+     * @param sign
+     * @deprecated use {@link #setSignOption(org.apache.maven.scm.CommandParameters.SignOption)} instead.
+     */
+    @Deprecated
     public void setSign(boolean sign) {
-        this.sign = sign;
+        signOption = sign ? CommandParameters.SignOption.FORCE_SIGN : CommandParameters.SignOption.DEFAULT;
     }
 
     public String getScmRevision() {
@@ -89,12 +99,22 @@ public class ScmTagParameters implements Serializable {
         this.scmRevision = scmRevision;
     }
 
-    public boolean isForceNoSign() {
-        return forceNoSign;
+    /**
+     * Get the signing option for the tag operation.
+     * @return the signing option
+     * @since 2.2.1
+     */
+    public CommandParameters.SignOption getSignOption() {
+        return signOption;
     }
 
-    public void setForceNoSign(boolean forceNoSign) {
-        this.forceNoSign = forceNoSign;
+    /**
+     * Set the signing option for the tag operation.
+     * @param signOption
+     * @since 2.2.1
+     */
+    public void setSignOption(CommandParameters.SignOption signOption) {
+        this.signOption = signOption;
     }
 
     @Override
@@ -102,9 +122,8 @@ public class ScmTagParameters implements Serializable {
         return "ScmTagParameters{" + "message='"
                 + message + '\'' + ", remoteTagging="
                 + remoteTagging + ", pinExternals="
-                + pinExternals + ", sign="
-                + sign + ", forceNoSign="
-                + forceNoSign + ", scmRevision='"
+                + pinExternals + ", signOption="
+                + signOption + ", scmRevision='"
                 + scmRevision + '\'' + '}';
     }
 }

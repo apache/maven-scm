@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.maven.scm.CommandParameters.SignOption;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -61,9 +62,17 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
         this.environmentVariables = environmentVariables;
     }
 
+    @Override
+    protected CheckInScmResult executeCheckInCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, String message, ScmVersion scmVersion)
+            throws ScmException {
+        return executeCheckInCommand(repository, fileSet, message, scmVersion, SignOption.DEFAULT);
+    }
+
     /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand(
-            ScmProviderRepository repo, ScmFileSet fileSet, String message, ScmVersion version) throws ScmException {
+            ScmProviderRepository repo, ScmFileSet fileSet, String message, ScmVersion version, SignOption signOption)
+            throws ScmException {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
@@ -133,7 +142,8 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
                 return new CheckInScmResult(null, statusConsumer.getChangedFiles());
             }
 
-            Commandline clCommit = createCommitCommandLine(repository, fileSet, messageFile, environmentVariables);
+            Commandline clCommit =
+                    createCommitCommandLine(repository, fileSet, messageFile, environmentVariables, signOption);
 
             exitCode = GitCommandLineUtils.execute(clCommit, stdout, stderr);
             if (exitCode != 0) {
@@ -202,16 +212,28 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
         return cl;
     }
 
+    @Deprecated
     public static Commandline createCommitCommandLine(
             GitScmProviderRepository repository, ScmFileSet fileSet, File messageFile) throws ScmException {
         return createCommitCommandLine(repository, fileSet, messageFile, Collections.emptyMap());
+    }
+
+    @Deprecated
+    public static Commandline createCommitCommandLine(
+            GitScmProviderRepository repository,
+            ScmFileSet fileSet,
+            File messageFile,
+            Map<String, String> environmentVariables)
+            throws ScmException {
+        return createCommitCommandLine(repository, fileSet, messageFile, environmentVariables, SignOption.DEFAULT);
     }
 
     public static Commandline createCommitCommandLine(
             GitScmProviderRepository repository,
             ScmFileSet fileSet,
             File messageFile,
-            Map<String, String> environmentVariables)
+            Map<String, String> environmentVariables,
+            SignOption signOption)
             throws ScmException {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "commit");
 
@@ -230,6 +252,19 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
             cl.createArg().setValue("--no-verify");
         }
 
+        if (signOption != null) {
+            switch (signOption) {
+                case FORCE_SIGN:
+                    cl.createArg().setValue("--gpg-sign");
+                    break;
+                case FORCE_NO_SIGN:
+                    cl.createArg().setValue("--no-gpg-sign");
+                    break;
+                default:
+                    // do nothing, this is the default
+                    break;
+            }
+        }
         return cl;
     }
 }

@@ -42,7 +42,7 @@ public class GitInfoCommandTest extends ScmTestCase {
 
     @Test
     public void testInfoCommand() throws Exception {
-        checkScmPresence(GIT_COMMAND_LINE);
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy());
 
@@ -59,7 +59,7 @@ public class GitInfoCommandTest extends ScmTestCase {
 
     @Test
     public void testInfoCommandWithShortRevision() throws Exception {
-        checkScmPresence(GIT_COMMAND_LINE);
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy());
 
@@ -78,7 +78,7 @@ public class GitInfoCommandTest extends ScmTestCase {
 
     @Test
     public void testInfoCommandWithNegativeShortRevision() throws Exception {
-        checkScmPresence(GIT_COMMAND_LINE);
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy());
 
@@ -97,7 +97,7 @@ public class GitInfoCommandTest extends ScmTestCase {
 
     @Test
     public void testInfoCommandWithZeroShortRevision() throws Exception {
-        checkScmPresence(GIT_COMMAND_LINE);
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy());
 

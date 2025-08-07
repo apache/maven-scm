@@ -152,8 +152,7 @@ public class JGitCheckInCommand extends AbstractCheckInCommand
                 CommitCommand command = git.commit()
                         .setMessage(message)
                         .setAuthor(author.name, author.email)
-                        .setCommitter(committer.name, committer.email)
-                        .setSign(parameters.getBoolean(CommandParameter.SCM_COMMIT_SIGN, true));
+                        .setCommitter(committer.name, committer.email);
                 RevCommit commitRev = command.call();
 
                 logger.info("commit done: " + commitRev.getShortMessage());
