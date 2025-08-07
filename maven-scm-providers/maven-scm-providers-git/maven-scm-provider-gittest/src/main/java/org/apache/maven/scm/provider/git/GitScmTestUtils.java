@@ -137,6 +137,10 @@ public final class GitScmTestUtils {
         setupRejectAllCommitsHook(workspaceRoot, false, "pre-push");
     }
 
+    public static void setupRejectAllCommitsPreCommitHook(File workspaceRoot) throws IOException {
+        setupRejectAllCommitsHook(workspaceRoot, false, "pre-commit");
+    }
+
     private static void setupRejectAllCommitsHook(
             File repositoryOrWorkspaceRootFile, boolean isServerSide, String hookName) throws IOException {
         File hooksDir;
