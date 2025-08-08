@@ -72,7 +72,6 @@ public abstract class TagCommandTckTest extends ScmTckTestCase {
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString(CommandParameter.MESSAGE, "Commit message");
-        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
 
         CheckInScmResult checkinResult =
                 getScmManager().checkIn(getScmRepository(), new ScmFileSet(getWorkingCopy()), commandParameters);

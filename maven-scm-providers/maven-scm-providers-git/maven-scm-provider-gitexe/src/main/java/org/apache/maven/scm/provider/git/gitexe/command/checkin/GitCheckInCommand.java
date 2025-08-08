@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.maven.scm.CommandParameters.SignOption;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -213,6 +214,16 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
             File messageFile,
             Map<String, String> environmentVariables)
             throws ScmException {
+        return createCommitCommandLine(repository, fileSet, messageFile, environmentVariables, SignOption.DEFAULT);
+    }
+
+    public static Commandline createCommitCommandLine(
+            GitScmProviderRepository repository,
+            ScmFileSet fileSet,
+            File messageFile,
+            Map<String, String> environmentVariables,
+            SignOption signOption)
+            throws ScmException {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "commit");
 
         cl.createArg().setValue("--verbose");
@@ -230,6 +241,17 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
             cl.createArg().setValue("--no-verify");
         }
 
+        switch (signOption) {
+            case FORCE_SIGN:
+                cl.createArg().setValue("--gpg-sign");
+                break;
+            case FORCE_NO_SIGN:
+                cl.createArg().setValue("--no-gpg-sign");
+                break;
+            default:
+                // do nothing, this is the default
+                break;
+        }
         return cl;
     }
 }

@@ -70,10 +70,7 @@ public abstract class ChangeLogCommandTckTest extends ScmTckTestCase {
 
         ChangeLogScmResult firstResult =
                 provider.changeLog(getScmRepository(), fileSet, null, null, 0, (ScmBranch) null, null);
-        assertTrue(
-                firstResult.getProviderMessage() + ": " + firstResult.getCommandLine() + "\n"
-                        + firstResult.getCommandOutput(),
-                firstResult.isSuccess());
+        assertResultIsSuccess(firstResult);
 
         // for svn and git the repo get recreated for each test and therefore initial changelog size is 1
         int firstLogSize = firstResult.getChangeLog().getChangeSets().size();
@@ -90,17 +87,16 @@ public abstract class ChangeLogCommandTckTest extends ScmTckTestCase {
         ScmTestCase.makeFile(getWorkingCopy(), "/readme.txt", "changed readme.txt");
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString(CommandParameter.MESSAGE, COMMIT_MSG);
-        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
         CheckInScmResult checkInResult = provider.checkIn(getScmRepository(), fileSet, commandParameters);
         assertTrue("Unable to checkin changes to the repository", checkInResult.isSuccess());
 
         ScmTagParameters scmTagParameters = new ScmTagParameters();
         TagScmResult tagResult = provider.tag(getScmRepository(), fileSet, COMMIT_TAG, scmTagParameters);
-        assertTrue("Unable to tag the changes in the repository", tagResult.isSuccess());
+        assertResultIsSuccess(tagResult);
 
         ChangeLogScmRequest changeLogScmRequest = new ChangeLogScmRequest(getScmRepository(), fileSet);
         ChangeLogScmResult secondResult = provider.changeLog(changeLogScmRequest);
-        assertTrue(secondResult.getProviderMessage(), secondResult.isSuccess());
+        assertResultIsSuccess(secondResult);
 
         List<ChangeSet> changeSets = secondResult.getChangeLog().getChangeSets();
 
@@ -130,7 +126,7 @@ public abstract class ChangeLogCommandTckTest extends ScmTckTestCase {
         ChangeLogScmResult thirdResult = provider.changeLog(changeLogScmRequest);
 
         // Thorough assert of the last result
-        assertTrue(thirdResult.getProviderMessage(), thirdResult.isSuccess());
+        assertResultIsSuccess(thirdResult);
 
         List<ChangeSet> thirdChangeSets = thirdResult.getChangeLog().getChangeSets();
         assertEquals(lastCommitIsCausedByTagging ? 2 : 1, thirdChangeSets.size());

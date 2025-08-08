@@ -25,7 +25,11 @@ import java.io.IOException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.CommandParameters.SignOption;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -62,6 +66,14 @@ public class CheckinMojo extends AbstractScmMojo {
     @Parameter(property = "scmVersion")
     private String scmVersion;
 
+    /**
+     * Toggles the signing for the commit used during checkin (only applicable to SCMs that support signing).
+     *
+     * @since 2.2.1
+     */
+    @Parameter(property = "signOption")
+    private SignOption signOption;
+
     @Inject
     public CheckinMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
         super(manager, settingsDecrypter);
@@ -76,8 +88,19 @@ public class CheckinMojo extends AbstractScmMojo {
         try {
             ScmRepository repository = getScmRepository();
 
-            CheckInScmResult result = getScmManager()
-                    .checkIn(repository, getFileSet(), getScmVersion(scmVersionType, scmVersion), message);
+            CommandParameters parameters = new CommandParameters();
+
+            ScmVersion version = getScmVersion(scmVersionType, scmVersion);
+            if (version != null) {
+                parameters.setScmVersion(CommandParameter.SCM_VERSION, version);
+            }
+            if (message != null) {
+                parameters.setString(CommandParameter.MESSAGE, message);
+            }
+            if (signOption != null) {
+                parameters.setSignOption(CommandParameter.SIGN_OPTION, signOption);
+            }
+            CheckInScmResult result = getScmManager().checkIn(repository, getFileSet(), parameters);
 
             checkResult(result);
         } catch (IOException | ScmException e) {

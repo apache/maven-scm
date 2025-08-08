@@ -88,7 +88,6 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString(CommandParameter.MESSAGE, "Blocking commit");
-        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
 
         CheckInScmResult blockingResult = getScmManager().checkIn(scmRepository, blockingFileSet, commandParameters);
         assertResultIsSuccess(blockingResult);
@@ -97,7 +96,6 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
 
         commandParameters = new CommandParameters();
         commandParameters.setString(CommandParameter.MESSAGE, "Rejected commit");
-        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
 
         CheckInScmResult checkInScmResult = getScmManager().checkIn(scmRepository, rejectedFileSet, commandParameters);
         assertFalse(
