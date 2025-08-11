@@ -81,7 +81,7 @@ public abstract class AbstractScmManager implements ScmManager {
     }
 
     /**
-     * @param providerType the type of SCM, eg. <code>svn</code>, <code>git</code>
+     * @param providerType the type of SCM, e.g. <code>svn</code>, <code>git</code>
      * @param provider     the provider that will be used for that SCM type
      * @deprecated use {@link #setScmProvider(String, ScmProvider)} instead
      */
@@ -94,7 +94,7 @@ public abstract class AbstractScmManager implements ScmManager {
      * Set a provider to be used for a type of SCM.
      * If there was already a designed provider for that type it will be replaced.
      *
-     * @param providerType the type of SCM, eg. <code>svn</code>, <code>git</code>
+     * @param providerType the type of SCM, e.g. <code>svn</code>, <code>git</code>
      * @param provider     the provider that will be used for that SCM type
      */
     @Override

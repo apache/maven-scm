@@ -43,7 +43,7 @@ import static org.junit.Assume.assumeTrue;
 /**
  * Base class for all TcK tests.
  * <p>
- * Basically all it does is to setup a default test enviroment
+ * Basically all it does is to set up a default test enviroment
  * common for all tck tests. The default setup includes:
  * <ol>
  * <li>Delete all default locations (working copy, updating copy etc)</li>
