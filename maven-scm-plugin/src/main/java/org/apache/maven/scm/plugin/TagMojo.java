@@ -105,7 +105,7 @@ public class TagMojo extends AbstractScmMojo {
      * Same as {@link #signOption} set to either {@link SignOption#FORCE_SIGN} or {@link SignOption#DEFAULT}.
      *
      * @since 1.11.0
-     * @deprecated since 2.1.1, use {@link #signOption} instead
+     * @deprecated since 2.2.1, use {@link #signOption} instead
      */
     @Parameter(property = "sign", defaultValue = "false")
     private boolean sign;
