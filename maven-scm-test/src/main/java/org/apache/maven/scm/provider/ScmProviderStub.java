@@ -28,7 +28,6 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmVersion;
@@ -115,8 +114,8 @@ public class ScmProviderStub implements ScmProvider {
      */
     public ScmProviderStub() {
         setScmSpecificFilename("");
-        setAddScmResult(new AddScmResult("", Collections.<ScmFile>emptyList()));
-        setBranchScmResult(new BranchScmResult("", Collections.<ScmFile>emptyList()));
+        setAddScmResult(new AddScmResult("", Collections.emptyList()));
+        setBranchScmResult(new BranchScmResult("", Collections.emptyList()));
         setChangeLogScmResult(new ChangeLogScmResult("", "", "", true));
         setCheckInScmResult(new CheckInScmResult("", "", "", true));
         setCheckOutScmResult(new CheckOutScmResult("", "", "", true));

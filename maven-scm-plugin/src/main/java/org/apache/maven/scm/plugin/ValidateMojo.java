@@ -108,7 +108,7 @@ public class ValidateMojo extends AbstractScmMojo {
             Iterator<String> iter = messages.iterator();
 
             while (iter.hasNext()) {
-                getLog().error(iter.next().toString());
+                getLog().error(iter.next());
             }
 
             getLog().error("The invalid scm url connection: '" + connectionString + "'.");

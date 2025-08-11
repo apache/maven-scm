@@ -79,7 +79,7 @@ public class ScmFileSetTest {
 
         Iterator<File> it = files.iterator();
         while (it.hasNext()) {
-            File file = (File) it.next();
+            File file = it.next();
             if (removeBasedir(file.getAbsolutePath()).indexOf("exclude") != -1) {
                 fail("Found excludes in file set: " + file);
             }

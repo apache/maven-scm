@@ -431,7 +431,7 @@ public class ChangeSet implements Serializable {
     }
 
     public Set<String> getMergedRevisions() {
-        return mergedRevisions == null ? Collections.<String>emptySet() : mergedRevisions;
+        return mergedRevisions == null ? Collections.emptySet() : mergedRevisions;
     }
 
     public void setMergedRevisions(Set<String> mergedRevisions) {

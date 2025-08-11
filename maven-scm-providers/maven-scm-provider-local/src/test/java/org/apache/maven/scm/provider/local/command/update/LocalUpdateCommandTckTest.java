@@ -110,7 +110,7 @@ public class LocalUpdateCommandTckTest extends UpdateCommandTckTest {
         Iterator<ScmFile> files = new TreeSet<ScmFile>(updatedFiles).iterator();
 
         // readme.txt
-        ScmFile file = (ScmFile) files.next();
+        ScmFile file = files.next();
         assertPath("/readme.txt", file.getPath());
         assertTrue(file.getStatus().isUpdate());
 

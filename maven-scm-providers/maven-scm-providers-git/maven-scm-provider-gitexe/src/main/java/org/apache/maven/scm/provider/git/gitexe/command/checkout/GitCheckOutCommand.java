@@ -183,7 +183,7 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
             gitClone.createArg().setValue("1");
         }
 
-        if (version != null && (version instanceof ScmBranch)) {
+        if (version instanceof ScmBranch) {
 
             gitClone.createArg().setValue("--branch");
 
