@@ -41,7 +41,7 @@ public class GitLatestRevisionCommandConsumer extends AbstractConsumer {
         if (logger.isDebugEnabled()) {
             logger.debug("GitLatestRevisionCommandConsumer consumeLine : " + line);
         }
-        if (line == null || (line == null || line.isEmpty())) {
+        if (line == null || line.isEmpty()) {
             return;
         }
 

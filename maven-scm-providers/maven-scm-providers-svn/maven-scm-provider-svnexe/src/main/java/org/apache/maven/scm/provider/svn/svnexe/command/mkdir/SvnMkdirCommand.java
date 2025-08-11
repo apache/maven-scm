@@ -118,7 +118,7 @@ public class SvnMkdirCommand extends AbstractMkdirCommand implements SvnCommand 
         Iterator<File> it = fileSet.getFileList().iterator();
         String dirPath = it.next().getPath();
         // replacing \ with / for windauze
-        if (dirPath != null && Os.isFamily(Os.FAMILY_WINDOWS)) {
+        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
             dirPath = StringUtils.replace(dirPath, "\\", "/");
         }
 
