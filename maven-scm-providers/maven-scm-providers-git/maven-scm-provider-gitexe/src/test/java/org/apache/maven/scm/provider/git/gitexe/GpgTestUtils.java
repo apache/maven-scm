@@ -29,7 +29,8 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 public class GpgTestUtils {
 
-    public static final String FINGERPRINT_JOHN_DOE_SECRET_KEY = "DB91A1890A878E54C01ADEAC821EAC9D0567A97F";
+    public static final String JOHN_DOE_KEY_FINGERPRINT = "DB91A1890A878E54C01ADEAC821EAC9D0567A97F";
+    public static final String JOHN_DOE_KEY_LONG_ID = "821EAC9D0567A97F";
     public static final String JOHN_DOE_SECRET_KEY_RESOURCE_NAME = "/gpg/john-doe-secret-key.asc";
     public static final String BINARY_NAME = "gpg";
 
