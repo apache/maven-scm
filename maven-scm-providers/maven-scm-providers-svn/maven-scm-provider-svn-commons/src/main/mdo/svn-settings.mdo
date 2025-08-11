@@ -22,7 +22,7 @@
 <model xmlns="https://codehaus-plexus.github.io/MODELLO/1.8.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="https://codehaus-plexus.github.io/MODELLO/1.8.0 https://codehaus-plexus.github.io/modello/xsd/modello-1.8.0.xsd"
   xml.namespace="http://maven.apache.org/SCM/SVN/${version}"
-  xml.schemaLocation="http://maven.apache.org/xsd/svn-settings-${version}.xsd">
+  xml.schemaLocation="https://maven.apache.org/xsd/svn-settings-${version}.xsd">
   <id>svn-settings</id>
   <name>Svn</name>
   <description>Subversion Provider Settings, read from ${user.home}/.scm/svn-settings.xml</description>
