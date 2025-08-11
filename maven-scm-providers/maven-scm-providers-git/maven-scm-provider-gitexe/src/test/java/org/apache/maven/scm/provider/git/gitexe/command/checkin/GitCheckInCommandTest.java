@@ -44,6 +44,7 @@ import org.junit.Test;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeNoException;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -211,7 +212,11 @@ public class GitCheckInCommandTest extends ScmTestCase {
             }
         });
 
-        GpgTestUtils.importKey(GpgTestUtils.JOHN_DOE_SECRET_KEY_RESOURCE_NAME);
+        try {
+            GpgTestUtils.importKey(GpgTestUtils.JOHN_DOE_SECRET_KEY_RESOURCE_NAME);
+        } catch (Exception e) {
+            assumeNoException("GPG key import failed, skipping test: " + e.getMessage(), e);
+        }
         try {
             // Creating beer.xml
             File beerFile = new File(checkedOutRepo.getAbsolutePath(), "beer.xml");
