@@ -206,7 +206,8 @@ public class GitCheckInCommandTest extends ScmTestCase {
         GitScmTestUtils.setDefaultGitConfig(checkedOutRepo, fw -> {
             try {
                 fw.append("[user]\n");
-                fw.append("\tsigningKey = " + GpgTestUtils.FINGERPRINT_JOHN_DOE_SECRET_KEY + "\n");
+                // Windows GPG dpesn't properly support fingerprint, so we use long ID
+                fw.append("\tsigningKey = " + GpgTestUtils.JOHN_DOE_KEY_LONG_ID + "\n");
             } catch (IOException e) {
                 throw new UncheckedIOException("Error writing to git config file", e);
             }
@@ -230,7 +231,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
             assertResultIsSuccess(checkInScmResult);
         } finally {
             // Clean up GPG key after test
-            GpgTestUtils.deleteSecretKey(GpgTestUtils.FINGERPRINT_JOHN_DOE_SECRET_KEY);
+            GpgTestUtils.deleteSecretKey(GpgTestUtils.JOHN_DOE_KEY_FINGERPRINT);
         }
     }
 
