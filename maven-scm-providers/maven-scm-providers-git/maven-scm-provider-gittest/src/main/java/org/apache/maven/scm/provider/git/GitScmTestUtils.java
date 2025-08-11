@@ -21,6 +21,10 @@ package org.apache.maven.scm.provider.git;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.function.Consumer;
 
 import org.apache.maven.scm.PlexusJUnit4TestCase;
@@ -88,6 +92,28 @@ public final class GitScmTestUtils {
         }
     }
 
+    /**
+     * Creates a new file below a new temporary directory and copies the content of a classpath resource into it.
+     * The caller is responsible for deleting the temporary directory afterwards.
+     * @param clazz
+     * @param resourceName (relative to {@code clazz})
+     * @param fileName
+     * @return the newly created file
+     * @throws IOException
+     */
+    public static Path createTempFileFromClasspathResource(Class<?> clazz, String resourceName, String fileName)
+            throws IOException {
+        Path tmpDirectory = Files.createTempDirectory("maven-scm-git-test-");
+        Path tmpFile = tmpDirectory.resolve(fileName);
+        try (InputStream inputStream = clazz.getResourceAsStream(resourceName)) {
+            if (inputStream == null) {
+                throw new IOException("Resource not found: " + resourceName);
+            }
+            Files.copy(inputStream, tmpFile, StandardCopyOption.REPLACE_EXISTING);
+        }
+        return tmpFile;
+    }
+
     public static void setDefaultGitConfig(File repositoryRootFile) throws IOException {
         setDefaultGitConfig(repositoryRootFile, null);
     }
@@ -135,6 +161,10 @@ public final class GitScmTestUtils {
      */
     public static void setupRejectAllCommitsPrePushHook(File workspaceRoot) throws IOException {
         setupRejectAllCommitsHook(workspaceRoot, false, "pre-push");
+    }
+
+    public static void setupRejectAllCommitsPreCommitHook(File workspaceRoot) throws IOException {
+        setupRejectAllCommitsHook(workspaceRoot, false, "pre-commit");
     }
 
     private static void setupRejectAllCommitsHook(
