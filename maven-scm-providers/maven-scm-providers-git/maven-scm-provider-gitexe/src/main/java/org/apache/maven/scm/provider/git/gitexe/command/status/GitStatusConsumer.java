@@ -376,7 +376,7 @@ public class GitStatusConsumer extends AbstractConsumer {
                 break;
             }
         }
-      // explicitly say UTF-8, otherwise it'll fail at least on Windows cmdline
-      return new String(outba, 0, outSub, StandardCharsets.UTF_8);
+        // explicitly say UTF-8, otherwise it'll fail at least on Windows cmdline
+        return new String(outba, 0, outSub, StandardCharsets.UTF_8);
     }
 }
