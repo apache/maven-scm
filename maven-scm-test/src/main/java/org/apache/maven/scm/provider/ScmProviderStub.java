@@ -60,7 +60,7 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
  * Stub implementation of ScmProvider for unit testing purposes.
  * It allows setting the expected results that the different methods will return.
  * More information about Stubs on
- * <a href="http://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
+ * <a href="https://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  *

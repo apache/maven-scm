@@ -23,7 +23,7 @@ import org.apache.maven.scm.provider.ScmProviderRepositoryStub;
 /**
  * Stub for ScmRepository for unit testing purposes.
  * More information about Stubs on
- * <a href="http://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
+ * <a href="https://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  *
