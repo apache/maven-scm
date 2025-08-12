@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
@@ -40,29 +41,25 @@ public class GpgTestUtils {
         return commandLine;
     }
 
-    private static void execute(Commandline commandLine) {
-        try {
-            int exitCode = CommandLineUtils.executeCommandLine(
-                    commandLine,
-                    new StreamConsumer() {
-                        @Override
-                        public void consumeLine(String line) {
-                            // Handle output from the command if needed
-                            System.out.println(line);
-                        }
-                    },
-                    new StreamConsumer() {
-                        @Override
-                        public void consumeLine(String line) {
-                            // Handle error output from the command if needed
-                            System.err.println(line);
-                        }
-                    });
-            if (exitCode != 0) {
-                throw new RuntimeException("GPG command failed with exit code: " + exitCode);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to execute GPG command", e);
+    private static void execute(Commandline commandLine) throws CommandLineException {
+        int exitCode = CommandLineUtils.executeCommandLine(
+                commandLine,
+                new StreamConsumer() {
+                    @Override
+                    public void consumeLine(String line) {
+                        // Handle output from the command if needed
+                        System.out.println(line);
+                    }
+                },
+                new StreamConsumer() {
+                    @Override
+                    public void consumeLine(String line) {
+                        // Handle error output from the command if needed
+                        System.err.println(line);
+                    }
+                });
+        if (exitCode != 0) {
+            throw new CommandLineException("GPG command failed with exit code: " + exitCode);
         }
     }
 
@@ -70,7 +67,7 @@ public class GpgTestUtils {
         Path tmpFile = Files.createTempFile("gpg-secret-key", ".key");
         try (InputStream input = GpgTestUtils.class.getResourceAsStream(pgpKeyResourceName)) {
             if (input == null) {
-                throw new IllegalArgumentException("Secret GPG file not found: " + pgpKeyResourceName);
+                throw new IOException("Secret GPG file not found: " + pgpKeyResourceName);
             }
             Files.copy(input, tmpFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         }
@@ -79,16 +76,22 @@ public class GpgTestUtils {
             cmdLine.createArg().setValue("--import");
             cmdLine.createArg().setFile(tmpFile.toFile());
             execute(cmdLine);
+        } catch (CommandLineException e) {
+            throw new IOException("Importing key failed", e);
         } finally {
             Files.delete(tmpFile);
         }
     }
 
-    public static void deleteSecretKey(String fingerprint) {
+    public static void deleteSecretKey(String fingerprint) throws IOException {
         Commandline cmdLine = createCommandline();
         cmdLine.createArg().setValue("--yes");
         cmdLine.createArg().setValue("--delete-secret-key");
         cmdLine.createArg().setValue(fingerprint);
-        execute(cmdLine);
+        try {
+            execute(cmdLine);
+        } catch (CommandLineException e) {
+            throw new IOException("Deleting key failed", e);
+        }
     }
 }
