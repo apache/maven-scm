@@ -18,6 +18,7 @@
  */
 package org.apache.maven.scm.provider.git.jgit.command.branch;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -134,7 +135,7 @@ public class JGitBranchCommand extends AbstractBranchCommand
         } catch (PushException e) {
             logger.debug("Failed to push branch", e);
             return new BranchScmResult("JGit branch", "Failed to push changes: " + e.getMessage(), "", false);
-        } catch (Exception e) {
+        } catch (IOException | GitAPIException e) {
             throw new ScmException("JGit branch failed!", e);
         } finally {
             JGitUtils.closeRepo(git);
