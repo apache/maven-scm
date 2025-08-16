@@ -61,8 +61,7 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
 /**
- * Mercurial (HG) is a decentralized revision control system.
- * <a href="http://www.selenic.com/mercurial">http://www.selenic.com/mercurial</a>
+ * <a href="https://www.mercurial-scm.org/">Mercurial (HG)</a> is a decentralized revision control system.
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  */
