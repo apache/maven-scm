@@ -97,7 +97,7 @@ public class UpdateMojo extends AbstractScmMojo {
                     project.getProperties().put(revisionKey, revision);
                 }
 
-                getLog().debug("Project at revision " + revision);
+                getLog().info("Project at revision " + revision);
             }
         } catch (IOException | ScmException e) {
             throw new MojoExecutionException("Cannot run update command : ", e);
