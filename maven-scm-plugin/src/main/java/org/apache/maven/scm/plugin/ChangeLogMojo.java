@@ -201,7 +201,7 @@ public class ChangeLogMojo extends AbstractScmMojo {
             ChangeLogSet changeLogSet = result.getChangeLog();
 
             for (ChangeSet changeSet : changeLogSet.getChangeSets()) {
-                getLog().info(changeSet.toString());
+                getLog().debug(changeSet.toString());
             }
 
         } catch (IOException | ScmException e) {

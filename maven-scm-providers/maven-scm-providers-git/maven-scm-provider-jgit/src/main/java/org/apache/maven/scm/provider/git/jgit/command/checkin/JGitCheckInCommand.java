@@ -155,7 +155,7 @@ public class JGitCheckInCommand extends AbstractCheckInCommand
                         .setCommitter(committer.name, committer.email);
                 RevCommit commitRev = command.call();
 
-                logger.info("commit done: " + commitRev.getShortMessage());
+                logger.debug("commit done: " + commitRev.getShortMessage());
                 checkedInFiles = JGitUtils.getFilesInCommit(git.getRepository(), commitRev, fileSet.getBasedir());
                 if (logger.isDebugEnabled()) {
                     for (ScmFile scmFile : checkedInFiles) {

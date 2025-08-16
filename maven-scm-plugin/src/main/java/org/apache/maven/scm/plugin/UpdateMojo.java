@@ -90,7 +90,7 @@ public class UpdateMojo extends AbstractScmMojo {
             if (result instanceof UpdateScmResultWithRevision) {
                 String revision = ((UpdateScmResultWithRevision) result).getRevision();
 
-                getLog().info("Storing revision in '" + revisionKey + "' project property.");
+                getLog().debug("Storing revision in '" + revisionKey + "' project property.");
 
                 if (project.getProperties() != null) // Remove the test when we'll use plugin-test-harness 1.0-alpha-2
                 {

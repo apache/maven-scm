@@ -91,7 +91,7 @@ public class DiffMojo extends AbstractScmMojo {
 
             checkResult(result);
 
-            getLog().info(result.getPatch());
+            getLog().debug(result.getPatch());
 
             try {
                 if (outputFile != null) {
