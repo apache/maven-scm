@@ -22,7 +22,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.GeneralSecurityException;
 
+import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
@@ -40,7 +42,7 @@ public class GpgTestUtils {
         return commandLine;
     }
 
-    private static void execute(Commandline commandLine) {
+    private static void execute(Commandline commandLine) throws GeneralSecurityException {
         try {
             int exitCode = CommandLineUtils.executeCommandLine(
                     commandLine,
@@ -59,18 +61,24 @@ public class GpgTestUtils {
                         }
                     });
             if (exitCode != 0) {
-                throw new RuntimeException("GPG command failed with exit code: " + exitCode);
+                throw new GeneralSecurityException("GPG command failed with exit code: " + exitCode);
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to execute GPG command", e);
+        } catch (CommandLineException e) {
+            throw new GeneralSecurityException("Failed to execute GPG command", e);
         }
     }
 
+    /**
+     * Imports a PGP key from a resource file.
+     *
+     * @param pgpKeyResourceName the name of the resource containing the PGP key
+     * @throws IOException if an I/O error occurs while reading the resource
+     */
     public static void importKey(String pgpKeyResourceName) throws IOException {
         Path tmpFile = Files.createTempFile("gpg-secret-key", ".key");
         try (InputStream input = GpgTestUtils.class.getResourceAsStream(pgpKeyResourceName)) {
             if (input == null) {
-                throw new IllegalArgumentException("Secret GPG file not found: " + pgpKeyResourceName);
+                throw new IOException("Secret GPG file not found: " + pgpKeyResourceName);
             }
             Files.copy(input, tmpFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         }
@@ -79,12 +87,20 @@ public class GpgTestUtils {
             cmdLine.createArg().setValue("--import");
             cmdLine.createArg().setFile(tmpFile.toFile());
             execute(cmdLine);
+        } catch (GeneralSecurityException e) {
+            throw new IOException(e);
         } finally {
             Files.delete(tmpFile);
         }
     }
 
-    public static void deleteSecretKey(String fingerprint) {
+    /**
+     * Deletes a secret key by its fingerprint.
+     *
+     * @param fingerprint the fingerprint of the secret key to delete
+     * @throws GeneralSecurityException if an error occurs while executing the command
+     */
+    public static void deleteSecretKey(String fingerprint) throws GeneralSecurityException {
         Commandline cmdLine = createCommandline();
         cmdLine.createArg().setValue("--yes");
         cmdLine.createArg().setValue("--delete-secret-key");
