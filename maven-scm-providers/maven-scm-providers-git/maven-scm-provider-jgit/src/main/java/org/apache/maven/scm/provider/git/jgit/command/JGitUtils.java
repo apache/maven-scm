@@ -464,7 +464,7 @@ public class JGitUtils {
             } else {
                 final ObjectId head = repo.resolve(Constants.HEAD);
                 if (head == null) {
-                    throw new RuntimeException("Cannot resolve " + Constants.HEAD);
+                    throw new IOException("Cannot resolve " + Constants.HEAD);
                 }
                 RevCommit real = walk.parseCommit(head);
                 walk.markStart(real);
