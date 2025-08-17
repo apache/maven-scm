@@ -66,22 +66,20 @@ public class CheckLocalModificationsMojo extends AbstractScmMojo {
         }
         super.execute();
 
-        StatusScmResult result = null;
-
         try {
             ScmRepository repository = getScmRepository();
-            result = getScmManager().status(repository, getFileSet());
+            StatusScmResult result = getScmManager().status(repository, getFileSet());
+
+            if (!result.isSuccess()) {
+                throw new MojoExecutionException(
+                        "Unable to check for local modifications : " + result.getProviderMessage());
+            }
+
+            if (!result.getChangedFiles().isEmpty()) {
+                throw new MojoExecutionException(errorMessage);
+            }
         } catch (IOException | ScmException e) {
             throw new MojoExecutionException(e.getMessage(), e);
-        }
-
-        if (!result.isSuccess()) {
-            throw new MojoExecutionException(
-                    "Unable to check for local modifications : " + result.getProviderMessage());
-        }
-
-        if (!result.getChangedFiles().isEmpty()) {
-            throw new MojoExecutionException(errorMessage);
         }
     }
 }
