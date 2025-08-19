@@ -18,6 +18,7 @@
  */
 package org.apache.maven.scm.provider.git.jgit.command.add;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.maven.scm.ScmException;
@@ -30,6 +31,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -60,7 +62,7 @@ public class JGitAddCommand extends AbstractAddCommand implements GitCommand {
 
             return new AddScmResult("JGit add", addedFiles);
 
-        } catch (Exception e) {
+        } catch (IOException | GitAPIException e) {
             throw new ScmException("JGit add failure!", e);
         } finally {
             JGitUtils.closeRepo(git);

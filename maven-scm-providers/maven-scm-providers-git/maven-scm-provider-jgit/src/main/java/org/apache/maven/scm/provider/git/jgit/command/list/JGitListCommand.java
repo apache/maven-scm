@@ -18,6 +18,7 @@
  */
 package org.apache.maven.scm.provider.git.jgit.command.list;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -37,6 +38,7 @@ import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.slf4j.Logger;
@@ -82,7 +84,7 @@ public class JGitListCommand extends AbstractListCommand implements GitCommand {
             }
 
             return new ListScmResult("JGit ls-remote", list);
-        } catch (Exception e) {
+        } catch (IOException | GitAPIException e) {
             throw new ScmException("JGit ls-remote failure!", e);
         } finally {
             JGitUtils.closeRepo(git);

@@ -18,6 +18,7 @@
  */
 package org.apache.maven.scm.provider.git.jgit.command.remove;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.maven.scm.ScmException;
@@ -30,6 +31,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 
 /**
  * @author Georg Tsakumagos
@@ -58,7 +60,7 @@ public class JGitRemoveCommand extends AbstractRemoveCommand implements GitComma
 
             return new RemoveScmResult("JGit remove", removedFiles);
 
-        } catch (Exception e) {
+        } catch (IOException | GitAPIException e) {
             throw new ScmException("JGit remove failure!", e);
         } finally {
             JGitUtils.closeRepo(git);
