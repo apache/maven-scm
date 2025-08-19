@@ -76,7 +76,6 @@ public class CheckLocalModificationsMojo extends AbstractScmMojo {
             }
 
             if (!result.getChangedFiles().isEmpty()) {
-                getLog().error(errorMessage);
                 throw new MojoExecutionException(errorMessage);
             }
         } catch (IOException | ScmException e) {

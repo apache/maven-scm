@@ -140,7 +140,6 @@ public class TagMojo extends AbstractScmMojo {
                     getLog().info("Using timestamp '" + tagTimestamp + "'");
                 } catch (IllegalArgumentException e) {
                     String msg = "The timestamp format '" + timestampFormat + "' is invalid.";
-                    getLog().error(msg, e);
                     throw new MojoExecutionException(msg, e);
                 }
 
