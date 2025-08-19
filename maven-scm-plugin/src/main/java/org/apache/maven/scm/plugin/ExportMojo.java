@@ -99,7 +99,7 @@ public class ExportMojo extends AbstractScmMojo {
 
             try {
                 if (this.exportDirectory.exists()) {
-                    this.getLog().info("Removing " + this.exportDirectory);
+                    this.getLog().debug("Removing " + this.exportDirectory);
 
                     FileUtils.deleteDirectory(this.exportDirectory);
                 }
