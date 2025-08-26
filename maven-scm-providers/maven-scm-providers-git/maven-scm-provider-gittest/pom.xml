@@ -33,7 +33,7 @@
 
   <properties>
     <!-- newer versions clash with Sshd dependencies from JGit 5.x-->
-    <minaSshdVersion>2.11.0</minaSshdVersion>
+    <minaSshdVersion>2.16.0</minaSshdVersion>
   </properties>
 
   <dependencies>
