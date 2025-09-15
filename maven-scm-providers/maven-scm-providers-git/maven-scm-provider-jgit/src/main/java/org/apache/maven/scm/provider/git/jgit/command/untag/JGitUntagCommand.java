@@ -45,7 +45,9 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.slf4j.Logger;
 
-/** {@inheritDoc} */
+/**
+ * {@inheritDoc}
+ */
 public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand, CustomizableSshSessionFactoryCommand {
 
     private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;

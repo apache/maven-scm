@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public abstract class AbstractConsumer implements StreamConsumer {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -41,7 +40,7 @@ public abstract class AbstractConsumer implements StreamConsumer {
      * @param date TODO
      * @param userPattern TODO
      * @param defaultPattern TODO
-     * @return A date representing the timestamp of the log entry.
+     * @return a date representing the timestamp of the log entry
      */
     protected Date parseDate(String date, String userPattern, String defaultPattern) {
         return parseDate(date, userPattern, defaultPattern, null);
@@ -54,7 +53,7 @@ public abstract class AbstractConsumer implements StreamConsumer {
      * @param userPattern TODO
      * @param defaultPattern TODO
      * @param locale TODO
-     * @return A date representing the timestamp of the log entry.
+     * @return a date representing the timestamp of the log entry
      */
     protected Date parseDate(String date, String userPattern, String defaultPattern, Locale locale) {
         DateFormat format;

@@ -23,9 +23,10 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 /**
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
- *
  */
 public class HgTagConsumer extends HgConsumer {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void doConsume(ScmFileStatus status, String trimmedLine) {}
 }

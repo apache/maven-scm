@@ -31,8 +31,8 @@ import org.codehaus.plexus.util.cli.Commandline;
  * Parses output of {@code git log} with a particular format and populates a {@link InfoItem}.
  *
  * @author Olivier Lamy
- * @since 1.5
  * @see <a href="https://git-scm.com/docs/git-log#_pretty_formats">Pretty Formats</a>
+ * @since 1.5
  */
 public class GitInfoConsumer extends AbstractConsumer {
 
@@ -64,7 +64,7 @@ public class GitInfoConsumer extends AbstractConsumer {
     }
 
     /**
-     * @param line the line which is supposed to have the format as specified by {@link #getFormatArgument()}.
+     * @param line the line which is supposed to have the format as specified by {@link #getFormatArgument()}
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */
     public void consumeLine(String line) {
@@ -96,6 +96,7 @@ public class GitInfoConsumer extends AbstractConsumer {
 
     /**
      * The format argument to use with {@code git log}
+     *
      * @return the format argument to use {@code git log} command
      * @see <a href="https://git-scm.com/docs/git-log#_pretty_formats">Pretty Formats</a>
      */

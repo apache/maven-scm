@@ -31,14 +31,14 @@ public class RemoteInfoScmResult extends ScmResult {
     private static final long serialVersionUID = -5571403202068311222L;
 
     /**
-     * depending on scm, information can be different
-     * svn: branch name / remote url
+     * Depending on scm, information can be different
+     * svn: branch name / remote url.
      */
     private Map<String, String> branches = new HashMap<>();
 
     /**
-     * depending on scm, information can be different
-     * svn: branch name / remote url
+     * Depending on scm, information can be different
+     * svn: branch name / remote url.
      */
     private Map<String, String> tags = new HashMap<>();
 

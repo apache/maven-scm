@@ -26,10 +26,9 @@ import org.apache.maven.scm.ScmResult;
 
 /**
  * Result of {@link org.apache.maven.scm.provider.ScmProvider#list(org.apache.maven.scm.repository.ScmRepository,
- * org.apache.maven.scm.ScmFileSet, boolean, org.apache.maven.scm.ScmVersion)} operation
+ * org.apache.maven.scm.ScmFileSet, boolean, org.apache.maven.scm.ScmVersion)} operation.
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- *
  */
 public class ListScmResult extends ScmResult {
     private static final long serialVersionUID = 5402161066844465281L;

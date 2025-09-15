@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.svn;
  * Command utilities for svn commands.
  *
  * @author <a href="mailto:jerome@coffeebreaks.org">Jerome Lacoste</a>
- *
  */
 public final class SvnCommandUtils {
 

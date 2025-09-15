@@ -27,7 +27,7 @@ import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 /**
- * Validate scm connection string recursively for all projects
+ * Validate scm connection string recursively for all projects.
  */
 @Mojo(name = "validate-recursively", requiresProject = true)
 @Execute(phase = LifecyclePhase.VALIDATE)

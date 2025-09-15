@@ -25,7 +25,6 @@ import org.apache.maven.scm.ScmResult;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class ExportScmResult extends ScmResult {
     private static final long serialVersionUID = 8564643361304165292L;

@@ -21,10 +21,9 @@ package org.apache.maven.scm.provider.hg.command.inventory;
 import org.apache.maven.scm.ChangeSet;
 
 /**
- * Mercurial changeset
+ * Mercurial changeset.
  *
  * @author <a href="mailto:lperez@xebia.fr">Laurent Perez</a>
- *
  */
 public class HgChangeSet extends ChangeSet {
 

@@ -28,6 +28,7 @@ import java.util.Date;
 /**
  * Thread-safe version of java.text.DateFormat.
  * You can declare it as a static final variable:
+ *
  * @author Olivier Lamy
  * <code>
  * private static final ThreadSafeDateFormat DATE_FORMAT = new ThreadSafeDateFormat( DATE_PATTERN );

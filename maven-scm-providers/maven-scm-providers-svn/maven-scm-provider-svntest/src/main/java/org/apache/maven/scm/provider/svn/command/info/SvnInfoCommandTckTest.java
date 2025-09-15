@@ -24,12 +24,16 @@ import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.tck.command.info.InfoCommandTckTest;
 
 public class SvnInfoCommandTckTest extends InfoCommandTckTest {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmUrl() throws Exception {
         return SvnScmTestUtils.getScmUrl(new File(getRepositoryRoot(), "trunk"));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void initRepo() throws Exception {
         SvnScmTestUtils.initializeRepository(getRepositoryRoot());
     }

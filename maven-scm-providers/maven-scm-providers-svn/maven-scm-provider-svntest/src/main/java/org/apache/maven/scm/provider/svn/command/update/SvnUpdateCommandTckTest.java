@@ -25,15 +25,18 @@ import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public class SvnUpdateCommandTckTest extends UpdateCommandTckTest {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmUrl() throws Exception {
         return SvnScmTestUtils.getScmUrl(new File(getRepositoryRoot(), "trunk"));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void initRepo() throws Exception {
         SvnScmTestUtils.initializeRepository(getRepositoryRoot());
     }

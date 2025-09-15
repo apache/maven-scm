@@ -46,7 +46,9 @@ import static org.junit.Assert.assertEquals;
 public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest {
     public static final long SLEEP_TIME_IN_MILLIS = 250L;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void initRepo() throws Exception {
         GitScmTestUtils.initRepo("src/test/resources/linear-changelog/", getRepositoryRoot(), getWorkingCopy());
     }

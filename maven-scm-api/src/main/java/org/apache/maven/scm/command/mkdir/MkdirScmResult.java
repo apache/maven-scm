@@ -27,7 +27,6 @@ import org.apache.maven.scm.ScmResult;
  * Result of making directories in SCM.
  *
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- *
  */
 public class MkdirScmResult extends ScmResult {
     private static final long serialVersionUID = -8717329738246682608L;

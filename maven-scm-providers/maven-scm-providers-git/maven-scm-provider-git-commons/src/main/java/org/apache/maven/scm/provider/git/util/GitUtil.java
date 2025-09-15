@@ -37,9 +37,11 @@ public class GitUtil {
 
     public static final File DEFAULT_SETTINGS_DIRECTORY = new File(System.getProperty("user.home"), ".scm");
 
-    /** The password placeholder must contain delimiters.
-     *  Otherwise replacing may replace other portions of the URL as well
-     *  and in worst case passwords could be guessed. */
+    /**
+     * The password placeholder must contain delimiters.
+     * Otherwise replacing may replace other portions of the URL as well
+     * and in worst case passwords could be guessed.
+     */
     public static final String PASSWORD_PLACE_HOLDER_WITH_DELIMITERS = ":********@";
 
     private static final Pattern PASSWORD_IN_URL_PATTERN = Pattern.compile("^.*(:[^/].*@).*$");

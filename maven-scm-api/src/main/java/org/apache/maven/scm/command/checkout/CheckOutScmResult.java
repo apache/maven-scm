@@ -26,7 +26,6 @@ import org.apache.maven.scm.ScmResult;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- *
  */
 public class CheckOutScmResult extends ScmResult {
 
@@ -104,7 +103,7 @@ public class CheckOutScmResult extends ScmResult {
      * Checked-out revision.
      * SCM's that have no revision per repository (or branch) should store <code>null</code> here.
      *
-     * @return the revision that was checked out.
+     * @return the revision that was checked out
      * @since 1.8
      */
     public String getRevision() {

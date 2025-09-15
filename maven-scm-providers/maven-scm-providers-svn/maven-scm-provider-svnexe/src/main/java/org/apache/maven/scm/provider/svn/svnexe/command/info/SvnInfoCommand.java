@@ -38,7 +38,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
- *
  */
 public class SvnInfoCommand extends AbstractCommand implements SvnCommand {
     private final boolean interactive;
@@ -47,7 +46,9 @@ public class SvnInfoCommand extends AbstractCommand implements SvnCommand {
         this.interactive = interactive;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         return executeInfoCommand((SvnScmProviderRepository) repository, fileSet, parameters, false, null);

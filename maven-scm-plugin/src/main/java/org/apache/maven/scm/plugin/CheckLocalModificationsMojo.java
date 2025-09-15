@@ -32,7 +32,7 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 /**
- * This mojo will fail the build if there is any local modifications
+ * This mojo will fail the build if there is any local modifications.
  *
  * @author Olivier Lamy
  * @since 1.2
@@ -41,7 +41,7 @@ import org.apache.maven.settings.crypto.SettingsDecrypter;
 public class CheckLocalModificationsMojo extends AbstractScmMojo {
 
     /**
-     * Custom error message
+     * Custom error message.
      */
     @Parameter(
             property = "scm.checkLocalModification.errorMessage",

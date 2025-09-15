@@ -20,12 +20,13 @@ package org.apache.maven.scm;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class ScmTag extends ScmBranch {
     private static final long serialVersionUID = 2286671802987769257L;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getType() {
         return "Tag";
     }

@@ -32,13 +32,12 @@ import java.io.Serializable;
  * </p>
  *
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public final class ScmFileStatus implements Serializable {
     private static final long serialVersionUID = -7840223279162817915L;
 
     /**
-     * File is added to the working tree and does not yet exist in the repository
+     * File is added to the working tree and does not yet exist in the repository.
      */
     public static final ScmFileStatus ADDED = new ScmFileStatus("added");
 
@@ -56,12 +55,14 @@ public final class ScmFileStatus implements Serializable {
 
     /**
      * The file has been renamed or moved in the working tree.
+     *
      * @since 1.7
      */
     public static final ScmFileStatus RENAMED = new ScmFileStatus("renamed");
 
     /**
      * The file has been copied in the working tree.
+     *
      * @since 1.7
      */
     public static final ScmFileStatus COPIED = new ScmFileStatus("copied");
@@ -72,12 +73,12 @@ public final class ScmFileStatus implements Serializable {
     public static final ScmFileStatus MISSING = new ScmFileStatus("missing");
 
     /**
-     * File from working tree is checked into the repository
+     * File from working tree is checked into the repository.
      */
     public static final ScmFileStatus CHECKED_IN = new ScmFileStatus("checked-in");
 
     /**
-     * File is checked out from the repository and into the working tree
+     * File is checked out from the repository and into the working tree.
      */
     public static final ScmFileStatus CHECKED_OUT = new ScmFileStatus("checked-out");
 
@@ -115,12 +116,12 @@ public final class ScmFileStatus implements Serializable {
 
     /**
      * @since 1.5
-     * The file is being edited
+ * The file is being edited
      */
     public static final ScmFileStatus EDITED = new ScmFileStatus("edit");
 
     /**
-     * The status name
+     * The status name.
      */
     private final String name;
 
@@ -128,7 +129,9 @@ public final class ScmFileStatus implements Serializable {
         this.name = name;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String toString() {
         return name;
     }
@@ -137,7 +140,7 @@ public final class ScmFileStatus implements Serializable {
      * There are changes in the working tree that are not committed to the repository, or <br>
      * the file is unknown for the working tree.
      *
-     * @return true on changes in the working tree or if the file is unknown.
+     * @return true on changes in the working tree or if the file is unknown
      */
     public boolean isStatus() {
         return this == UNKNOWN || isDiff();
@@ -153,7 +156,7 @@ public final class ScmFileStatus implements Serializable {
     }
 
     /**
-     * @return true if the file was part of a transaction with the repository.
+     * @return true if the file was part of a transaction with the repository
      */
     public boolean isTransaction() {
         return this == CHECKED_IN || this == CHECKED_OUT || this == LOCKED || this == TAGGED || isUpdate();
@@ -166,7 +169,7 @@ public final class ScmFileStatus implements Serializable {
      * An update indicates the opposite, that the repository was changed compared to
      * the working tree and that it is now synchronized unless there are conflicts.
      *
-     * @return true if the status is conflict, updated or patched.
+     * @return true if the status is conflict, updated or patched
      */
     public boolean isUpdate() {
         return this == CONFLICT || this == UPDATED || this == PATCHED;

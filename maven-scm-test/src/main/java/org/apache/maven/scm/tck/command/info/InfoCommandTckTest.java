@@ -33,7 +33,6 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * This test tests the info command.
- *
  */
 public abstract class InfoCommandTckTest extends ScmTckTestCase {
 

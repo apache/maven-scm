@@ -33,15 +33,18 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- *
  */
 public class SvnMkdirCommandTckTest extends MkdirCommandTckTest {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmUrl() throws Exception {
         return SvnScmTestUtils.getScmUrl(new File(getRepositoryRoot(), "trunk"));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void initRepo() throws Exception {
         SvnScmTestUtils.initializeRepository(getRepositoryRoot());
     }

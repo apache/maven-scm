@@ -21,28 +21,28 @@ package org.apache.maven.scm.provider.git.repository;
 /**
  * This class is a container which holds information about
  * repository URL.
- * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  *
+ * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @since 1.3
  */
 public class RepositoryUrl {
 
-    /** the protocol used to access the upstream repository */
+    /** The protocol used to access the upstream repository. */
     private String protocol;
 
-    /** the server to access the upstream repository */
+    /** The server to access the upstream repository. */
     private String host;
 
-    /** the port to access the upstream repository */
+    /** The port to access the upstream repository. */
     private String port;
 
-    /** the path on the server to access the upstream repository */
+    /** The path on the server to access the upstream repository. */
     private String path;
 
-    /** the user name from the repository URL */
+    /** The user name from the repository URL. */
     private String userName;
 
-    /** the password from the repository URL */
+    /** The password from the repository URL. */
     private String password;
 
     public String getProtocol() {

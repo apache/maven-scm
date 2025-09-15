@@ -27,13 +27,14 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public abstract class AbstractStatusCommand extends AbstractCommand {
     protected abstract StatusScmResult executeStatusCommand(ScmProviderRepository repository, ScmFileSet fileSet)
             throws ScmException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         return executeStatusCommand(repository, fileSet);

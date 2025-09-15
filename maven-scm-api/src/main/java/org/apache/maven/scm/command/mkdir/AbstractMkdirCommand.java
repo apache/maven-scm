@@ -28,7 +28,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- *
  */
 public abstract class AbstractMkdirCommand extends AbstractCommand {
     /**
@@ -45,7 +44,9 @@ public abstract class AbstractMkdirCommand extends AbstractCommand {
             ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean createInLocal)
             throws ScmException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         if (fileSet.getFileList().isEmpty()) {

@@ -38,7 +38,6 @@ import org.codehaus.plexus.util.FileUtils;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- *
  */
 public class LocalMkdirCommand extends AbstractMkdirCommand {
     protected MkdirScmResult executeMkdirCommand(

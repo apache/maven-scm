@@ -31,12 +31,12 @@ import org.apache.maven.scm.util.AbstractConsumer;
 public class GitRemoteInfoConsumer extends AbstractConsumer {
 
     /**
-     * The pattern used to match branches
+     * The pattern used to match branches.
      */
     private static final Pattern BRANCH_PATTERN = Pattern.compile("^(.*)\\s+refs/heads/(.*)");
 
     /**
-     * The pattern used to match tags
+     * The pattern used to match tags.
      */
     private static final Pattern TAGS_PATTERN = Pattern.compile("^(.*)\\s+refs/tags/(.*)");
 

@@ -90,8 +90,9 @@ public class JGitUtils {
 
     /**
      * Opens a JGit repository in the current directory or a parent directory.
-     * @param basedir The directory to start with
-     * @throws IOException If the repository cannot be opened
+     *
+     * @param basedir the directory to start with
+     * @throws IOException if the repository cannot be opened
      */
     public static Git openRepo(File basedir) throws IOException {
         return new Git(new RepositoryBuilder()
@@ -102,7 +103,8 @@ public class JGitUtils {
     }
 
     /**
-     * Closes the repository wrapped by the passed git object
+     * Closes the repository wrapped by the passed git object.
+     *
      * @param git
      */
     public static void closeRepo(Git git) {
@@ -129,7 +131,7 @@ public class JGitUtils {
      *
      * @param git        the instance to configure (only in memory, not saved)
      * @param repository the repo config to be used
-     * @return {@link CredentialsProvider} in case credential information is configured in the repository.
+     * @return {@link CredentialsProvider} in case credential information is configured in the repository
      */
     public static CredentialsProvider prepareSession(Git git, GitScmProviderRepository repository) {
         StoredConfig config = git.getRepository().getConfig();
@@ -205,15 +207,15 @@ public class JGitUtils {
     }
 
     /**
-     * get a list of all files in the given commit
+     * Get a list of all files in the given commit.
      *
      * @param repository the repo
      * @param commit     the commit to get the files from
      * @return a list of files included in the commit
-     * @throws MissingObjectException
-     * @throws IncorrectObjectTypeException
      * @throws CorruptObjectException
+     * @throws IncorrectObjectTypeException
      * @throws IOException
+     * @throws MissingObjectException
      */
     public static List<ScmFile> getFilesInCommit(Repository repository, RevCommit commit)
             throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException {
@@ -221,18 +223,17 @@ public class JGitUtils {
     }
 
     /**
-     * get a list of all files in the given commit
+     * Get a list of all files in the given commit.
      *
      * @param repository the repo
      * @param commit     the commit to get the files from
      * @param baseDir    the directory to which the returned files should be relative.
      *                   May be {@code null} in case they should be relative to the working directory root.
      * @return a list of files included in the commit
-     *
-     * @throws MissingObjectException
-     * @throws IncorrectObjectTypeException
      * @throws CorruptObjectException
+     * @throws IncorrectObjectTypeException
      * @throws IOException
+     * @throws MissingObjectException
      */
     public static List<ScmFile> getFilesInCommit(Repository repository, RevCommit commit, File baseDir)
             throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException {
@@ -336,6 +337,7 @@ public class JGitUtils {
     /**
      * Convert each file in the {@code fileSet} to their relative file path to workingCopyDirectory
      * and return them in a list.
+     *
      * @param workingCopyDirectory the working copy root directory
      * @param fileSet the file set to convert
      */
@@ -352,7 +354,8 @@ public class JGitUtils {
     }
 
     /**
-     * Converts the given file to a string only containing forward slashes
+     * Converts the given file to a string only containing forward slashes.
+     *
      * @param file
      * @return the normalized file path
      */
@@ -395,9 +398,9 @@ public class JGitUtils {
      * @param toDate   until which date
      * @param maxLines max number of lines
      * @return a list of commits, might be empty, but never <code>null</code>
+     * @throws IncorrectObjectTypeException
      * @throws IOException
      * @throws MissingObjectException
-     * @throws IncorrectObjectTypeException
      */
     public static List<RevCommit> getRevCommits(
             Repository repo,

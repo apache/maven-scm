@@ -27,7 +27,6 @@ import org.apache.maven.scm.ScmResult;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- *
  */
 public class CheckInScmResult extends ScmResult {
     private static final long serialVersionUID = 954225589449445354L;
@@ -72,8 +71,8 @@ public class CheckInScmResult extends ScmResult {
     }
 
     /**
-     * @since 1.2
      * @return can be null for some providers (implemented at least for svn)
+     * @since 1.2
      */
     public String getScmRevision() {
         return scmRevision;

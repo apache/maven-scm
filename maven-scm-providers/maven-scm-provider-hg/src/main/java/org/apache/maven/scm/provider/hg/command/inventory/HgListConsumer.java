@@ -26,16 +26,17 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 /**
- * Get a list of all files in the repository
+ * Get a list of all files in the repository.
  *
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
- *
  */
 public class HgListConsumer extends HgConsumer {
 
     private final List<ScmFile> files = new ArrayList<>();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void doConsume(ScmFileStatus status, String trimmedLine) {
         files.add(new ScmFile(trimmedLine, status));
     }

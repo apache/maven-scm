@@ -29,7 +29,6 @@ import org.eclipse.jgit.transport.URIish;
 
 /**
  * {@link CredentialsProvider} leveraging the {@link Prompter} component.
- *
  */
 public class PlexusInteractivityCredentialsProvider extends CredentialsProvider {
     private boolean interactive;

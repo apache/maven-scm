@@ -95,6 +95,7 @@ public abstract class AbstractScmMojo extends AbstractMojo {
 
     /**
      * The user name.
+     *
      * @see <a href="https://maven.apache.org/scm/authentication.html">Authentication</a>
      */
     @Parameter(property = "username")
@@ -102,6 +103,7 @@ public abstract class AbstractScmMojo extends AbstractMojo {
 
     /**
      * The user password.
+     *
      * @see <a href="https://maven.apache.org/scm/authentication.html">Authentication</a>
      */
     @Parameter(property = "password")
@@ -109,6 +111,7 @@ public abstract class AbstractScmMojo extends AbstractMojo {
 
     /**
      * The private key.
+     *
      * @see <a href="https://maven.apache.org/scm/authentication.html">Authentication</a>
      */
     @Parameter(property = "privateKey")
@@ -116,6 +119,7 @@ public abstract class AbstractScmMojo extends AbstractMojo {
 
     /**
      * The passphrase.
+     *
      * @see <a href="https://maven.apache.org/scm/authentication.html">Authentication</a>
      */
     @Parameter(property = "passphrase")
@@ -129,6 +133,7 @@ public abstract class AbstractScmMojo extends AbstractMojo {
      * Currently the POM does not allow to specify a server id for the SCM section.
      * <p>
      * Explicit authentication information provided via {@link #username}, {@link #password} or {@link #privateKey} will take precedence.
+     *
      * @see <a href="https://maven.apache.org/scm/authentication.html">Authentication</a>
      * @since 2.2.0
      */
@@ -173,6 +178,7 @@ public abstract class AbstractScmMojo extends AbstractMojo {
     /**
      * List of remapped provider implementations. Allows to bind a different implementation than the default one to a provider id.
      * The key is the remapped provider id, the value is the default provider id the implementation is bound to.
+     *
      * @see <a href="https://maven.apache.org/scm/scms-overview.html">Supported SCMs</a>
      */
     @Parameter
@@ -208,7 +214,9 @@ public abstract class AbstractScmMojo extends AbstractMojo {
         this.settingsDecrypter = settingsDecrypter;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void execute() throws MojoExecutionException {
         if (systemProperties != null) {
             // Add all system properties configured by the user
@@ -350,7 +358,7 @@ public abstract class AbstractScmMojo extends AbstractMojo {
     }
 
     /**
-     * Load username password from settings if user has not set them in JVM properties
+     * Load username password from settings if user has not set them in JVM properties.
      *
      * @param repo not null
      */

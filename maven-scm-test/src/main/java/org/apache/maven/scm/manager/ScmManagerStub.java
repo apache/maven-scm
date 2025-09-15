@@ -60,7 +60,6 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
  * <a href="https://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- *
  */
 public class ScmManagerStub implements ScmManager {
 
@@ -71,7 +70,7 @@ public class ScmManagerStub implements ScmManager {
     private List<String> messages;
 
     /**
-     * Creates a new stub with stub repository and provider, and empty list of messages
+     * Creates a new stub with stub repository and provider, and empty list of messages.
      */
     public ScmManagerStub() {
         setScmRepository(new ScmRepositoryStub());
@@ -110,7 +109,7 @@ public class ScmManagerStub implements ScmManager {
     }
 
     /**
-     * Set the messages to return in validateScmRepository
+     * Set the messages to return in validateScmRepository.
      *
      * @param messages <code>List</code> of <code>String</code> objects
      */
@@ -119,7 +118,7 @@ public class ScmManagerStub implements ScmManager {
     }
 
     /**
-     * Get the messages to return in validateScmRepository
+     * Get the messages to return in validateScmRepository.
      *
      * @return <code>List</code> of <code>String</code> objects
      */

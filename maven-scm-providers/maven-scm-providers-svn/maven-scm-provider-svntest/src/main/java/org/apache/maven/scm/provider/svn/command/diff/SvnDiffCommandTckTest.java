@@ -25,15 +25,18 @@ import org.apache.maven.scm.tck.command.diff.DiffCommandTckTest;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public class SvnDiffCommandTckTest extends DiffCommandTckTest {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmUrl() throws Exception {
         return SvnScmTestUtils.getScmUrl(new File(getRepositoryRoot(), "trunk"));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void initRepo() throws Exception {
         SvnScmTestUtils.initializeRepository(getRepositoryRoot());
     }

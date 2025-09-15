@@ -22,6 +22,5 @@ import org.apache.maven.scm.command.Command;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public interface LocalCommand extends Command {}

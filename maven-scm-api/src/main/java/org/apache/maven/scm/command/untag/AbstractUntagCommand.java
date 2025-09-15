@@ -27,10 +27,10 @@ import org.apache.maven.scm.ScmUntagParameters;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
-/** Removes a tag */
+/** Removes a tag. */
 public abstract class AbstractUntagCommand extends AbstractCommand {
     /**
-     * execute untag command
+     * Execute untag command.
      *
      * @param repository         scm repo
      * @param fileSet            set of files (unused)
@@ -42,7 +42,9 @@ public abstract class AbstractUntagCommand extends AbstractCommand {
             ScmProviderRepository repository, ScmFileSet fileSet, ScmUntagParameters scmUntagParameters)
             throws ScmException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {

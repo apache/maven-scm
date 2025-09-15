@@ -39,10 +39,11 @@ import org.codehaus.plexus.util.FileUtils;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public class LocalCheckInCommand extends AbstractCheckInCommand implements LocalCommand {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected CheckInScmResult executeCheckInCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String message, ScmVersion version) throws ScmException {
         LocalScmProviderRepository repository = (LocalScmProviderRepository) repo;

@@ -42,7 +42,6 @@ import org.slf4j.LoggerFactory;
  * Common code for executing hg commands.
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- *
  */
 public final class HgUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(HgUtils.class);
@@ -54,16 +53,16 @@ public final class HgUtils {
     }
 
     /**
-     * Map between command and its valid exit codes
+     * Map between command and its valid exit codes.
      */
     private static final Map<String, List<Integer>> EXIT_CODE_MAP = new HashMap<>();
 
     /**
-     * Default exit codes for entries not in exitCodeMap
+     * Default exit codes for entries not in exitCodeMap.
      */
     private static final List<Integer> DEFAULT_EXIT_CODES = new ArrayList<>();
 
-    /** Setup exit codes*/
+    /** Setup exit codes. */
     static {
         DEFAULT_EXIT_CODES.add(Integer.valueOf(0));
 
@@ -218,7 +217,7 @@ public final class HgUtils {
     }
 
     /**
-     * Get current (working) branch name
+     * Get current (working) branch name.
      */
     private static class HgBranchnameConsumer extends HgConsumer {
 
@@ -232,7 +231,9 @@ public final class HgUtils {
             return branchName;
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         public void consumeLine(String line) {
             if (logger.isDebugEnabled()) {
                 logger.debug(line);

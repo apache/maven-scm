@@ -58,7 +58,6 @@ import static org.junit.Assert.assertTrue;
  * </ol>
  *
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public abstract class UpdateCommandTckTest extends ScmTckTestCase {
 

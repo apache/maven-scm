@@ -37,10 +37,11 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public class SvnAddCommand extends AbstractAddCommand implements SvnCommand {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ScmResult executeAddCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean binary) throws ScmException {
         if (fileSet.getFileList().isEmpty()) {

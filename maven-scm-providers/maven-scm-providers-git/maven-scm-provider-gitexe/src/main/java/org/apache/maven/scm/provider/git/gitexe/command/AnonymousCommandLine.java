@@ -22,7 +22,8 @@ import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
- * CommandLine extension to mask password
+ * CommandLine extension to mask password.
+ *
  * @since 1.9.3
  */
 public class AnonymousCommandLine extends Commandline {

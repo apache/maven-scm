@@ -212,7 +212,7 @@ public class ChangeLogMojo extends AbstractScmMojo {
     /**
      * Converts the localized date string pattern to date object.
      *
-     * @return A date
+     * @return a date
      */
     private Date parseDate(SimpleDateFormat format, String date) throws MojoExecutionException {
         if (date == null || date.trim().length() == 0) {

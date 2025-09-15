@@ -20,7 +20,9 @@ package org.apache.maven.scm.command.untag;
 
 import org.apache.maven.scm.ScmResult;
 
-/** {@inheritDoc} */
+/**
+ * {@inheritDoc}
+ */
 public class UntagScmResult extends ScmResult {
     private static final long serialVersionUID = -5068975000282095635L;
 

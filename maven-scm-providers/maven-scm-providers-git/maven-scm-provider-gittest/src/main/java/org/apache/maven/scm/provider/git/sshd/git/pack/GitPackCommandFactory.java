@@ -26,7 +26,7 @@ import org.apache.sshd.git.GitLocationResolver;
 import org.apache.sshd.server.command.CommandFactory;
 
 /**
- * TODO Add javadoc
+ * TODO Add javadoc.
  *
  * @author <a href="mailto:dev@mina.apache.org">Apache MINA SSHD Project</a>
  */

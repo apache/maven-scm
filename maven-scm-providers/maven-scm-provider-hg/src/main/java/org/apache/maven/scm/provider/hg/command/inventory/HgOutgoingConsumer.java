@@ -24,10 +24,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 /**
- * Get a list of outgoing changes
+ * Get a list of outgoing changes.
  *
  * @author <a href="mailto:lperez@xebia.fr">Laurent Perez</a>
- *
  */
 public class HgOutgoingConsumer extends HgConsumer {
     private List<HgChangeSet> changes = new CopyOnWriteArrayList<>();

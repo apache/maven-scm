@@ -35,67 +35,66 @@ import org.apache.maven.scm.util.AbstractConsumer;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Olivier Lamy
- *
  */
 public class GitChangeLogConsumer extends AbstractConsumer {
     /**
      * Date formatter for git timestamp
-     * we use iso format cli git log --date=iso sample : 2008-08-06 01:37:18 +0200
+     * we use iso format cli git log --date=iso sample : 2008-08-06 01:37:18 +0200.
      */
     private static final String GIT_TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss Z";
 
     /**
-     * State machine constant: expecting header
+     * State machine constant: expecting header.
      */
     private static final int STATUS_GET_HEADER = 1;
 
     /**
-     * State machine constant: expecting author information
+     * State machine constant: expecting author information.
      */
     private static final int STATUS_GET_AUTHOR = 2;
 
     /**
-     * State machine constant: expecting parent hash information
+     * State machine constant: expecting parent hash information.
      */
     private static final int STATUS_RAW_TREE = 21;
 
     /**
-     * State machine constant: expecting parent hash information
+     * State machine constant: expecting parent hash information.
      */
     private static final int STATUS_RAW_PARENT = 22;
 
     /**
-     * State machine constant: expecting author name, email and timestamp information
+     * State machine constant: expecting author name, email and timestamp information.
      */
     private static final int STATUS_RAW_AUTHOR = 23;
 
     /**
-     * State machine constant: expecting committer name, email and timestamp information
+     * State machine constant: expecting committer name, email and timestamp information.
      */
     private static final int STATUS_RAW_COMMITTER = 24;
 
     /**
-     * State machine constant: expecting date information
+     * State machine constant: expecting date information.
      */
     private static final int STATUS_GET_DATE = 3;
 
     /**
-     * State machine constant: expecting file information
+     * State machine constant: expecting file information.
      */
     private static final int STATUS_GET_FILE = 4;
 
     /**
-     * State machine constant: expecting comments
+     * State machine constant: expecting comments.
      */
     private static final int STATUS_GET_COMMENT = 5;
 
     /**
-     * The pattern used to match git header lines
+     * The pattern used to match git header lines.
      */
     private static final Pattern HEADER_PATTERN = Pattern.compile("^commit ([A-Fa-f0-9]+)(?: \\((.*)\\))?$");
 
     /**
-     * The pattern used to match git author lines
+     * The pattern used to match git author lines.
      */
     private static final Pattern AUTHOR_PATTERN = Pattern.compile("^Author: (.*)");
 
@@ -120,38 +119,38 @@ public class GitChangeLogConsumer extends AbstractConsumer {
     private static final Pattern RAW_COMMITTER_PATTERN = Pattern.compile("^committer (.+ <.+>) ([0-9]+) (.*)");
 
     /**
-     * The pattern used to match git date lines
+     * The pattern used to match git date lines.
      */
     private static final Pattern DATE_PATTERN = Pattern.compile("^Date:\\s*(.*)");
 
     /**
-     * The pattern used to match git file lines
+     * The pattern used to match git file lines.
      */
     private static final Pattern FILE_PATTERN =
             Pattern.compile("^:\\d* \\d* [A-Fa-f0-9]*\\.* [A-Fa-f0-9]*\\.* ([A-Z])[0-9]*\\t([^\\t]*)(\\t(.*))?");
 
     /**
-     * Current status of the parser
+     * Current status of the parser.
      */
     private int status = STATUS_GET_HEADER;
 
     /**
-     * List of change log entries
+     * List of change log entries.
      */
     private final List<ChangeSet> entries = new ArrayList<>();
 
     /**
-     * The current log entry being processed by the parser
+     * The current log entry being processed by the parser.
      */
     private ChangeSet currentChange;
 
     /**
-     * The current revision of the entry being processed by the parser
+     * The current revision of the entry being processed by the parser.
      */
     private String currentRevision;
 
     /**
-     * The current comment of the entry being processed by the parser
+     * The current comment of the entry being processed by the parser.
      */
     private StringBuilder currentComment;
 
@@ -223,7 +222,7 @@ public class GitChangeLogConsumer extends AbstractConsumer {
      * branch is given a single revision number, which is also used for
      * the revision number of each file.
      *
-     * @param line A line of text from the git log output
+     * @param line a line of text from the git log output
      */
     private void processGetHeader(String line) {
         Matcher matcher = HEADER_PATTERN.matcher(line);
@@ -413,7 +412,7 @@ public class GitChangeLogConsumer extends AbstractConsumer {
      * the revision number for the entire entry is used for the revision
      * number of each file.
      *
-     * @param line A line of text from the git log output
+     * @param line a line of text from the git log output
      */
     private void processGetFile(String line) {
         if (line.length() == 0) {

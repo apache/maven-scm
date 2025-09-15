@@ -60,6 +60,7 @@ public class ValidateMojo extends AbstractScmMojo {
     /**
      * <em>(Subversion specific)</em> Enables checking that "URL" field returned by 'svn info' matches what is
      * specified under the scm tag.
+     *
      * @see AbstractSvnScmProvider#CURRENT_WORKING_DIRECTORY
      */
     @Parameter(property = "scmCheckWorkingDirectoryUrl", defaultValue = "false")

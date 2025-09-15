@@ -34,36 +34,32 @@ import org.apache.maven.scm.util.ThreadSafeDateFormat;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class ChangeSet implements Serializable {
-    /**
-     *
-     */
     private static final long serialVersionUID = 7097705862222539801L;
 
     /**
-     * Escaped <code>&lt;</code> entity
+     * Escaped <code>&lt;</code> entity.
      */
     public static final String LESS_THAN_ENTITY = "&lt;";
 
     /**
-     * Escaped <code>&gt;</code> entity
+     * Escaped <code>&gt;</code> entity.
      */
     public static final String GREATER_THAN_ENTITY = "&gt;";
 
     /**
-     * Escaped <code>&amp;</code> entity
+     * Escaped <code>&amp;</code> entity.
      */
     public static final String AMPERSAND_ENTITY = "&amp;";
 
     /**
-     * Escaped <code>'</code> entity
+     * Escaped <code>'</code> entity.
      */
     public static final String APOSTROPHE_ENTITY = "&apos;";
 
     /**
-     * Escaped <code>"</code> entity
+     * Escaped <code>"</code> entity.
      */
     public static final String QUOTE_ENTITY = "&quot;";
 
@@ -93,54 +89,57 @@ public class ChangeSet implements Serializable {
     private static final ThreadSafeDateFormat TIMESTAMP_FORMAT_4 = new ThreadSafeDateFormat("yyyy-MM-dd HH:mm:ss z");
 
     /**
-     * Date the changes were committed
+     * Date the changes were committed.
      */
     private Date date;
 
     /**
-     * User who made changes
+     * User who made changes.
      */
     private String author;
 
     /**
-     * comment provided at commit time
+     * Comment provided at commit time.
      */
     private String comment = "";
 
     /**
-     * List of ChangeFile
+     * List of ChangeFile.
      */
     private List<ChangeFile> files;
 
     /**
-     * List of tags
+     * List of tags.
      */
     private List<String> tags;
 
     /**
      * The SCM revision id for this changeset.
+     *
      * @since 1.3
      */
     private String revision;
 
     /**
-     * Revision from which this one originates
+     * Revision from which this one originates.
+     *
      * @since 1.7
      */
     private String parentRevision;
 
     /**
-     * Revisions that were merged into this one
+     * Revisions that were merged into this one.
+     *
      * @since 1.7
      */
     private Set<String> mergedRevisions;
 
     /**
-     * @param strDate         Date the changes were committed
+     * @param strDate         date the changes were committed
      * @param userDatePattern pattern of date
      * @param comment         comment provided at commit time
-     * @param author          User who made changes
-     * @param files           The ChangeFile list
+     * @param author          user who made changes
+     * @param files           the ChangeFile list
      */
     public ChangeSet(String strDate, String userDatePattern, String comment, String author, List<ChangeFile> files) {
         this(null, comment, author, files);
@@ -149,10 +148,10 @@ public class ChangeSet implements Serializable {
     }
 
     /**
-     * @param date    Date the changes were committed
+     * @param date    date the changes were committed
      * @param comment comment provided at commit time
-     * @param author  User who made changes
-     * @param files   The ChangeFile list
+     * @param author  user who made changes
+     * @param files   the ChangeFile list
      */
     public ChangeSet(Date date, String comment, String author, List<ChangeFile> files) {
         setDate(date);
@@ -165,7 +164,7 @@ public class ChangeSet implements Serializable {
     }
 
     /**
-     * Constructor used when attributes aren't available until later
+     * Constructor used when attributes aren't available until later.
      */
     public ChangeSet() {
         // no op
@@ -174,7 +173,7 @@ public class ChangeSet implements Serializable {
     /**
      * Getter for ChangeFile list.
      *
-     * @return List of ChangeFile.
+     * @return list of ChangeFile
      */
     public List<ChangeFile> getFiles() {
         if (files == null) {
@@ -186,7 +185,7 @@ public class ChangeSet implements Serializable {
     /**
      * Setter for ChangeFile list.
      *
-     * @param files List of ChangeFiles.
+     * @param files list of ChangeFiles
      */
     public void setFiles(List<ChangeFile> files) {
         this.files = files;
@@ -201,10 +200,10 @@ public class ChangeSet implements Serializable {
     }
 
     /**
-     * @deprecated Use method {@link #containsFilename(String)}
      * @param filename TODO
      * @param repository NOT USED
      * @return TODO
+     * @deprecated use method {@link #containsFilename(String)}
      */
     public boolean containsFilename(String filename, ScmProviderRepository repository) {
         return containsFilename(filename);
@@ -227,7 +226,7 @@ public class ChangeSet implements Serializable {
     /**
      * Getter for property author.
      *
-     * @return Value of property author.
+     * @return value of property author
      */
     public String getAuthor() {
         return author;
@@ -236,7 +235,7 @@ public class ChangeSet implements Serializable {
     /**
      * Setter for property author.
      *
-     * @param author New value of property author.
+     * @param author new value of property author
      */
     public void setAuthor(String author) {
         this.author = author;
@@ -245,7 +244,7 @@ public class ChangeSet implements Serializable {
     /**
      * Getter for property comment.
      *
-     * @return Value of property comment.
+     * @return value of property comment
      */
     public String getComment() {
         return comment;
@@ -254,7 +253,7 @@ public class ChangeSet implements Serializable {
     /**
      * Setter for property comment.
      *
-     * @param comment New value of property comment.
+     * @param comment new value of property comment
      */
     public void setComment(String comment) {
         this.comment = comment;
@@ -263,7 +262,7 @@ public class ChangeSet implements Serializable {
     /**
      * Getter for property date.
      *
-     * @return Value of property date.
+     * @return value of property date
      */
     public Date getDate() {
         if (date != null) {
@@ -276,7 +275,7 @@ public class ChangeSet implements Serializable {
     /**
      * Setter for property date.
      *
-     * @param date New value of property date.
+     * @param date new value of property date
      */
     public void setDate(Date date) {
         if (date != null) {
@@ -285,19 +284,19 @@ public class ChangeSet implements Serializable {
     }
 
     /**
-     * Setter for property date that takes a string and parses it
+     * Setter for property date that takes a string and parses it.
      *
-     * @param date - a string in yyyy/MM/dd HH:mm:ss format
+     * @param date a string in yyyy/MM/dd HH:mm:ss format
      */
     public void setDate(String date) {
         setDate(date, null);
     }
 
     /**
-     * Setter for property date that takes a string and parses it
+     * Setter for property date that takes a string and parses it.
      *
-     * @param date            - a string in yyyy/MM/dd HH:mm:ss format
-     * @param userDatePattern - pattern of date
+     * @param date            a string in yyyy/MM/dd HH:mm:ss format
+     * @param userDatePattern pattern of date
      */
     public void setDate(String date, String userDatePattern) {
         try {
@@ -362,7 +361,7 @@ public class ChangeSet implements Serializable {
     /**
      * Getter for property tags.
      *
-     * @return Value of property author.
+     * @return value of property author
      */
     public List<String> getTags() {
         if (tags == null) {
@@ -374,7 +373,7 @@ public class ChangeSet implements Serializable {
     /**
      * Setter for property tags.
      *
-     * @param tags New value of property tags. This replaces the existing list (if any).
+     * @param tags new value of property tags. This replaces the existing list (if any).
      */
     public void setTags(List<String> tags) {
         this.tags = tags;
@@ -383,7 +382,7 @@ public class ChangeSet implements Serializable {
     /**
      * Setter for property tags.
      *
-     * @param tag New tag to add to the list of tags.
+     * @param tag new tag to add to the list of tags
      */
     public void addTag(String tag) {
         if (tag == null) {
@@ -438,7 +437,9 @@ public class ChangeSet implements Serializable {
         this.mergedRevisions = mergedRevisions;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String toString() {
         StringBuilder result = new StringBuilder(author == null ? " null " : author);
         result.append("\n").append(date == null ? "null " : date.toString()).append("\n");
@@ -530,7 +531,9 @@ public class ChangeSet implements Serializable {
         return buffer.toString();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public boolean equals(Object obj) {
         if (obj instanceof ChangeSet) {
             ChangeSet changeSet = (ChangeSet) obj;
@@ -543,7 +546,9 @@ public class ChangeSet implements Serializable {
         return false;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -557,9 +562,9 @@ public class ChangeSet implements Serializable {
     }
 
     /**
-     * remove a <code>]]></code> from comments (replace it with <code>] ] ></code>).
+     * Remove a <code>]]></code> from comments (replace it with <code>] ] ></code>).
      *
-     * @param message The message to modify
+     * @param message the message to modify
      * @return a clean string
      */
     private String removeCDataEnd(String message) {
@@ -575,7 +580,7 @@ public class ChangeSet implements Serializable {
      * <p>Escape the <code>toString</code> of the given object.
      * For use in an attribute value.</p>
      * <p>
-     * swiped from jakarta-commons/betwixt -- XMLUtils.java
+     * swiped from jakarta-commons/betwixt -- XMLUtils.java.
      *
      * @param value escape <code>value.toString()</code>
      * @return text with characters restricted (for use in attributes) escaped

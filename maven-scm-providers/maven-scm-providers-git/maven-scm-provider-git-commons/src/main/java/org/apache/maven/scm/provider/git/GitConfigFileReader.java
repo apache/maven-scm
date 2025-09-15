@@ -28,7 +28,6 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class GitConfigFileReader {
     private File configDirectory;
@@ -95,7 +94,7 @@ public class GitConfigFileReader {
     }
 
     /**
-     * Load the git config file
+     * Load the git config file.
      *
      * @return the list of all lines
      */

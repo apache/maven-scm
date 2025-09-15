@@ -25,15 +25,18 @@ import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class SvnCheckOutCommandTckTest extends CheckOutCommandTckTest {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmUrl() throws Exception {
         return SvnScmTestUtils.getScmUrl(new File(getRepositoryRoot(), "trunk"));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void initRepo() throws Exception {
         SvnScmTestUtils.initializeRepository(getRepositoryRoot());
     }

@@ -35,10 +35,11 @@ import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public class LocalAddCommand extends AbstractAddCommand implements LocalCommand {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ScmResult executeAddCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean binary) throws ScmException {
         LocalScmProviderRepository localRepo = (LocalScmProviderRepository) repository;

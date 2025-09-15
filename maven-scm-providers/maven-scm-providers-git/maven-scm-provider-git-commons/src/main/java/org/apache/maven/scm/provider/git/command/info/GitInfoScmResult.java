@@ -25,7 +25,6 @@ import org.apache.maven.scm.command.info.InfoScmResult;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
- *
  */
 public class GitInfoScmResult extends InfoScmResult {
 

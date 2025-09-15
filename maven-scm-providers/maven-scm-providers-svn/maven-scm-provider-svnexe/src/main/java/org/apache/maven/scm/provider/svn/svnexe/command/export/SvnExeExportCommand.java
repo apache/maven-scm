@@ -44,7 +44,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class SvnExeExportCommand extends AbstractExportCommand implements SvnCommand {
     private final boolean interactive;
@@ -53,7 +52,9 @@ public class SvnExeExportCommand extends AbstractExportCommand implements SvnCom
         this.interactive = interactive;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ExportScmResult executeExportCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version, String outputDirectory)
             throws ScmException {

@@ -42,7 +42,6 @@ import org.slf4j.LoggerFactory;
  *
  * @author Brett Porter
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public final class GitCommandLineUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(GitCommandLineUtils.class);

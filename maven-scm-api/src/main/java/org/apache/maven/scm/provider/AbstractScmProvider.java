@@ -65,7 +65,6 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- *
  */
 public abstract class AbstractScmProvider implements ScmProvider {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -697,7 +696,7 @@ public abstract class AbstractScmProvider implements ScmProvider {
      * @param repository the source control system
      * @param fileSet    the files to list
      * @param parameters TODO
-     * @return The list of files in the repository
+     * @return the list of files in the repository
      * @throws NoSuchCommandScmException unless overriden by subclass
      * @throws ScmException              if any
      */

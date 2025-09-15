@@ -31,7 +31,6 @@ import java.util.List;
  * </p>
  *
  * @author <a href="mailto:dennisl@apache.org">Dennis Lundberg</a>
- *
  */
 public abstract class ScmUrlUtils {
     private static final String ILLEGAL_SCM_URL =
@@ -41,8 +40,8 @@ public abstract class ScmUrlUtils {
     /**
      * Get the delimiter used in the scm url.
      *
-     * @param scmUrl A valid scm url to parse
-     * @return The delimiter used in the scm url
+     * @param scmUrl a valid scm url to parse
+     * @return the delimiter used in the scm url
      */
     public static String getDelimiter(String scmUrl) {
         scmUrl = scmUrl.substring(4);
@@ -63,8 +62,8 @@ public abstract class ScmUrlUtils {
     /**
      * Get the scm provider from the scm url.
      *
-     * @param scmUrl A valid scm url to parse
-     * @return The scm provider from the scm url
+     * @param scmUrl a valid scm url to parse
+     * @return the scm provider from the scm url
      */
     public static String getProvider(String scmUrl) {
         String delimiter = getDelimiter(scmUrl);
@@ -79,8 +78,8 @@ public abstract class ScmUrlUtils {
     /**
      * Get the provider specific part of the scm url.
      *
-     * @param scmUrl A valid scm url to parse
-     * @return The provider specific part of the scm url
+     * @param scmUrl a valid scm url to parse
+     * @return the provider specific part of the scm url
      */
     public static String getProviderSpecificPart(String scmUrl) {
         String delimiter = getDelimiter(scmUrl);
@@ -98,7 +97,7 @@ public abstract class ScmUrlUtils {
      * <strong>Note</strong>: does not validate scm provider specific format.
      * </p>
      *
-     * @param scmUrl The scm url to validate
+     * @param scmUrl the scm url to validate
      * @return <code>true</code> if the scm url is in the correct format,
      *         otherwise <code>false</code>
      */
@@ -114,8 +113,8 @@ public abstract class ScmUrlUtils {
      * <strong>Note</strong>: does not validate scm provider specific format.
      * </p>
      *
-     * @param scmUrl The scm url to validate
-     * @return A <code>List</code> that contains the errors that occured
+     * @param scmUrl the scm url to validate
+     * @return a <code>List</code> that contains the errors that occured
      */
     public static List<String> validate(String scmUrl) {
         List<String> messages = new ArrayList<>();

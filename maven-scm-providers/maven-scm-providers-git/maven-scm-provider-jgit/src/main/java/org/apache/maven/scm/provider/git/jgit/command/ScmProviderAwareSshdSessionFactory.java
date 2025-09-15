@@ -36,7 +36,6 @@ import org.slf4j.Logger;
 
 /**
  * {@link SshdSessionFactory} considering the settings from {@link GitScmProviderRepository}.
- *
  */
 public class ScmProviderAwareSshdSessionFactory extends SshdSessionFactory {
     private final GitScmProviderRepository repo;

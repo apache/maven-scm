@@ -30,7 +30,6 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class SvnChangeSet extends ChangeSet {
 
@@ -48,7 +47,9 @@ public class SvnChangeSet extends ChangeSet {
         super(date, comment, author, files);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public boolean containsFilename(String filename, ScmProviderRepository repository) {
         SvnScmProviderRepository repo = (SvnScmProviderRepository) repository;
 

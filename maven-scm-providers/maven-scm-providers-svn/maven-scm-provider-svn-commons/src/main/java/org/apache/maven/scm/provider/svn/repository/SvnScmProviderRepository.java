@@ -24,10 +24,8 @@ import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class SvnScmProviderRepository extends ScmProviderRepositoryWithHost {
-    /** */
     private String url;
 
     private String protocol;
@@ -176,7 +174,9 @@ public class SvnScmProviderRepository extends ScmProviderRepositoryWithHost {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmProviderRepository getParent() {
         String newUrl = getUrl().substring(getProtocol().length());
 
@@ -198,7 +198,9 @@ public class SvnScmProviderRepository extends ScmProviderRepositoryWithHost {
         return new SvnScmProviderRepository(getProtocol() + newUrl, getUser(), getPassword());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getRelativePath(ScmProviderRepository ancestor) {
         if (ancestor instanceof SvnScmProviderRepository) {
             SvnScmProviderRepository svnAncestor = (SvnScmProviderRepository) ancestor;
@@ -212,7 +214,9 @@ public class SvnScmProviderRepository extends ScmProviderRepositoryWithHost {
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String toString() {
         return getUrl();
     }

@@ -54,10 +54,9 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
 /**
- * SCM Provider for Subversion
+ * SCM Provider for Subversion.
  *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public abstract class AbstractSvnScmProvider extends AbstractScmProvider {
     // ----------------------------------------------------------------------

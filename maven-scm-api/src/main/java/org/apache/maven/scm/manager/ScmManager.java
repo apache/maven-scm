@@ -55,7 +55,6 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- *
  */
 public interface ScmManager {
     // ----------------------------------------------------------------------
@@ -66,9 +65,9 @@ public interface ScmManager {
      * Generate a SCMRepository  from an SCM URL.
      *
      * @param scmUrl the scm url
-     * @return The scm repository
-     * @throws ScmRepositoryException     if an error occurs in the scm repository construction
+     * @return the scm repository
      * @throws NoSuchScmProviderException if the provider doesn't exist
+     * @throws ScmRepositoryException     if an error occurs in the scm repository construction
      */
     ScmRepository makeScmRepository(String scmUrl) throws ScmRepositoryException, NoSuchScmProviderException;
 
@@ -88,10 +87,10 @@ public interface ScmManager {
     /**
      * Returns the default provider registered for this providerType or a specific implementation if the
      * 'maven.scm.provider.providerType.implementation' system property is defined. For example:
-     * maven.scm.provider.git.implementation=git
+     * maven.scm.provider.git.implementation=git.
      *
-     * @param providerType The provider type (git, svn...)
-     * @return The scm provider
+     * @param providerType the provider type (git, svn...)
+     * @return the scm provider
      * @throws NoSuchScmProviderException if the provider doesn't exist
      */
     ScmProvider getProviderByType(String providerType) throws NoSuchScmProviderException;
@@ -108,28 +107,27 @@ public interface ScmManager {
     void setScmProvider(String providerType, ScmProvider provider);
 
     /**
-     * Set the provider implementation
+     * Set the provider implementation.
      *
-     * @param providerType           The provider type, e.g. <code>git</code>
-     * @param providerImplementation The provider implementation (the role-hint of the provider), e.g. <code>git</code>,
+     * @param providerType           the provider type, e.g. <code>git</code>
+     * @param providerImplementation the provider implementation (the role-hint of the provider), e.g. <code>git</code>,
      *                               <code>svn</code>
      */
     void setScmProviderImplementation(String providerType, String providerImplementation);
 
     /**
-     * Adds the given files to the source control system
+     * Adds the given files to the source control system.
      *
      * @param repository the source control system
      * @param fileSet    the files to be added
      * @return an {@link AddScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
      * have been added
      * @throws ScmException if any
-     *
      */
     AddScmResult add(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
-     * Adds the given files to the source control system
+     * Adds the given files to the source control system.
      *
      * @param repository the source control system
      * @param fileSet    the files to be added
@@ -141,7 +139,7 @@ public interface ScmManager {
     AddScmResult add(ScmRepository repository, ScmFileSet fileSet, String message) throws ScmException;
 
     /**
-     * Branch (or label in some systems) will create a branch of the source file with a certain branch name
+     * Branch (or label in some systems) will create a branch of the source file with a certain branch name.
      *
      * @param repository the source control system
      * @param fileSet    the files to branch. Implementations can also give the changes from the
@@ -153,7 +151,7 @@ public interface ScmManager {
     BranchScmResult branch(ScmRepository repository, ScmFileSet fileSet, String branchName) throws ScmException;
 
     /**
-     * Branch (or label in some systems) will create a branch of the source file with a certain branch name
+     * Branch (or label in some systems) will create a branch of the source file with a certain branch name.
      *
      * @param repository the source control system
      * @param fileSet    the files to branch. Implementations can also give the changes from the
@@ -168,7 +166,7 @@ public interface ScmManager {
 
     /**
      * Returns the changes that have happend in the source control system in a certain period of time. This can be
-     * adding, removing, updating, ... of files
+     * adding, removing, updating, ... of files.
      *
      * @param repository the source control system
      * @param fileSet    the files to know the changes about. Implementations can also give the changes from the
@@ -177,7 +175,7 @@ public interface ScmManager {
      * @param endDate    the end date of the period
      * @param numDays    the number days before the current time if startdate and enddate are null
      * @param branch     the branch/tag
-     * @return The SCM result of the changelog command
+     * @return the SCM result of the changelog command
      * @throws ScmException if any
      * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
@@ -188,7 +186,7 @@ public interface ScmManager {
 
     /**
      * Returns the changes that have happend in the source control system in a certain period of time. This can be
-     * adding, removing, updating, ... of files
+     * adding, removing, updating, ... of files.
      *
      * @param repository  the source control system
      * @param fileSet     the files to know the changes about. Implementations can also give the changes from the
@@ -198,7 +196,7 @@ public interface ScmManager {
      * @param numDays     the number days before the current time if startdate and enddate are null
      * @param branch      the branch/tag
      * @param datePattern the date pattern use in changelog output returned by scm tool
-     * @return The SCM result of the changelog command
+     * @return the SCM result of the changelog command
      * @throws ScmException if any
      * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
@@ -215,10 +213,10 @@ public interface ScmManager {
 
     /**
      * Returns the changes that have happend in the source control system in a certain period of time. This can be
-     * adding, removing, updating, ... of files
+     * adding, removing, updating, ... of files.
      *
      * @param scmRequest request wrapping detailed parameters for the changelog command
-     * @return The SCM result of the changelog command
+     * @return the SCM result of the changelog command
      * @throws ScmException if any
      * @since 1.8
      */
@@ -226,14 +224,14 @@ public interface ScmManager {
 
     /**
      * Returns the changes that have happend in the source control system between two tags. This can be adding,
-     * removing, updating, ... of files
+     * removing, updating, ... of files.
      *
      * @param repository   the source control system
      * @param fileSet      the files to know the changes about. Implementations can also give the changes from the
      *                     {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param startVersion the start branch/tag/revision
      * @param endVersion   the end branch/tag/revision
-     * @return The SCM result of the changelog command
+     * @return the SCM result of the changelog command
      * @throws ScmException if any
      * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
@@ -244,7 +242,7 @@ public interface ScmManager {
 
     /**
      * Returns the changes that have happend in the source control system between two tags. This can be adding,
-     * removing, updating, ... of files
+     * removing, updating, ... of files.
      *
      * @param repository    the source control system
      * @param fileSet       the files to know the changes about. Implementations can also give the changes from the
@@ -275,8 +273,8 @@ public interface ScmManager {
      * @param repository the source control system
      * @param fileSet    the files to check in (sometimes called commit)
      * @param message    a string that is a comment on the changes that where done
-     * @return  a {@link CheckInScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
-     * have been checked in.
+     * @return a {@link CheckInScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
+     * have been checked in
      * @throws ScmException if any
      */
     CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, String message) throws ScmException;
@@ -291,8 +289,8 @@ public interface ScmManager {
      * @param repository the source control system
      * @param fileSet    the files to check in (sometimes called commit)
      * @param commandParameters parameters for the command, such as commit message and whether to sign the commit. {@link CommandParameters}
-     * @return  a {@link CheckInScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
-     * have been checked in.
+     * @return a {@link CheckInScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
+     * have been checked in
      * @throws ScmException if any
      */
     CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, CommandParameters commandParameters)
@@ -309,15 +307,15 @@ public interface ScmManager {
      * @param fileSet    the files to check in (sometimes called commit)
      * @param revision   branch/tag/revision
      * @param message    a string that is a comment on the changes that where done
-     * @return  a {@link CheckInScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
-     * have been checked in.
+     * @return a {@link CheckInScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
+     * have been checked in
      * @throws ScmException if any
      */
     CheckInScmResult checkIn(ScmRepository repository, ScmFileSet fileSet, ScmVersion revision, String message)
             throws ScmException;
 
     /**
-     * Create a copy of the repository on your local machine
+     * Create a copy of the repository on your local machine.
      *
      * @param repository the source control system
      * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
@@ -327,7 +325,7 @@ public interface ScmManager {
     CheckOutScmResult checkOut(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
-     * Create a copy of the repository on your local machine
+     * Create a copy of the repository on your local machine.
      *
      * @param repository the source control system
      * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
@@ -390,7 +388,7 @@ public interface ScmManager {
     EditScmResult edit(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
-     * Create an exported copy of the repository on your local machine
+     * Create an exported copy of the repository on your local machine.
      *
      * @param repository the source control system
      * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
@@ -400,7 +398,7 @@ public interface ScmManager {
     ExportScmResult export(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
-     * Create an exported copy of the repository on your local machine
+     * Create an exported copy of the repository on your local machine.
      *
      * @param repository the source control system
      * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
@@ -411,7 +409,7 @@ public interface ScmManager {
     ExportScmResult export(ScmRepository repository, ScmFileSet fileSet, ScmVersion version) throws ScmException;
 
     /**
-     * Create an exported copy of the repository on your local machine
+     * Create an exported copy of the repository on your local machine.
      *
      * @param repository      the source control system
      * @param fileSet         the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
@@ -422,7 +420,7 @@ public interface ScmManager {
     ExportScmResult export(ScmRepository repository, ScmFileSet fileSet, String outputDirectory) throws ScmException;
 
     /**
-     * Create an exported copy of the repository on your local machine
+     * Create an exported copy of the repository on your local machine.
      *
      * @param repository      the source control system
      * @param fileSet         the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
@@ -461,7 +459,7 @@ public interface ScmManager {
             throws ScmException;
 
     /**
-     * Removes the given files from the source control system
+     * Removes the given files from the source control system.
      *
      * @param repository the source control system
      * @param fileSet    the files to be removed
@@ -485,7 +483,7 @@ public interface ScmManager {
     StatusScmResult status(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
-     * Tag (or label in some systems) will tag the source file with a certain tag
+     * Tag (or label in some systems) will tag the source file with a certain tag.
      *
      * @param repository the source control system
      * @param fileSet    the files to tag. Implementations can also give the changes from the
@@ -497,7 +495,7 @@ public interface ScmManager {
     TagScmResult tag(ScmRepository repository, ScmFileSet fileSet, String tagName) throws ScmException;
 
     /**
-     * Tag (or label in some systems) will tag the source file with a certain tag
+     * Tag (or label in some systems) will tag the source file with a certain tag.
      *
      * @param repository the source control system
      * @param fileSet    the files to tag. Implementations can also give the changes from the
@@ -522,7 +520,7 @@ public interface ScmManager {
     UnEditScmResult unedit(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
-     * Updates the copy on the local machine with the changes in the repository
+     * Updates the copy on the local machine with the changes in the repository.
      *
      * @param repository the source control system
      * @param fileSet    location of your local copy
@@ -532,7 +530,7 @@ public interface ScmManager {
     UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet) throws ScmException;
 
     /**
-     * Updates the copy on the local machine with the changes in the repository
+     * Updates the copy on the local machine with the changes in the repository.
      *
      * @param repository the source control system
      * @param fileSet    location of your local copy
@@ -543,23 +541,23 @@ public interface ScmManager {
     UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, ScmVersion version) throws ScmException;
 
     /**
-     * Updates the copy on the local machine with the changes in the repository
+     * Updates the copy on the local machine with the changes in the repository.
      *
      * @param repository   the source control system
      * @param fileSet      location of your local copy
-     * @param runChangelog Run the changelog command after the update
+     * @param runChangelog run the changelog command after the update
      * @return TODO
      * @throws ScmException if any
      */
     UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, boolean runChangelog) throws ScmException;
 
     /**
-     * Updates the copy on the local machine with the changes in the repository
+     * Updates the copy on the local machine with the changes in the repository.
      *
      * @param repository   the source control system
      * @param fileSet      location of your local copy
      * @param version      use the version defined by the branch/tag/revision
-     * @param runChangelog Run the changelog command after the update
+     * @param runChangelog run the changelog command after the update
      * @return TODO
      * @throws ScmException if any
      */
@@ -567,7 +565,7 @@ public interface ScmManager {
             throws ScmException;
 
     /**
-     * Updates the copy on the local machine with the changes in the repository
+     * Updates the copy on the local machine with the changes in the repository.
      *
      * @param repository  the source control system
      * @param fileSet     location of your local copy
@@ -578,7 +576,7 @@ public interface ScmManager {
     UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, String datePattern) throws ScmException;
 
     /**
-     * Updates the copy on the local machine with the changes in the repository
+     * Updates the copy on the local machine with the changes in the repository.
      *
      * @param repository  the source control system
      * @param fileSet     location of your local copy
@@ -591,7 +589,7 @@ public interface ScmManager {
             throws ScmException;
 
     /**
-     * Updates the copy on the local machine with the changes in the repository
+     * Updates the copy on the local machine with the changes in the repository.
      *
      * @param repository the source control system
      * @param fileSet    location of your local copy
@@ -602,7 +600,7 @@ public interface ScmManager {
     UpdateScmResult update(ScmRepository repository, ScmFileSet fileSet, Date lastUpdate) throws ScmException;
 
     /**
-     * Updates the copy on the local machine with the changes in the repository
+     * Updates the copy on the local machine with the changes in the repository.
      *
      * @param repository the source control system
      * @param fileSet    location of your local copy
@@ -615,11 +613,11 @@ public interface ScmManager {
             throws ScmException;
 
     /**
-     * Updates the copy on the local machine with the changes in the repository
+     * Updates the copy on the local machine with the changes in the repository.
      *
      * @param repository  the source control system
      * @param fileSet     location of your local copy
-     * @param lastUpdate  Date of last update
+     * @param lastUpdate  date of last update
      * @param datePattern the date pattern use in changelog output returned by scm tool
      * @return TODO
      * @throws ScmException if any
@@ -628,12 +626,12 @@ public interface ScmManager {
             throws ScmException;
 
     /**
-     * Updates the copy on the local machine with the changes in the repository
+     * Updates the copy on the local machine with the changes in the repository.
      *
      * @param repository  the source control system
      * @param fileSet     location of your local copy
      * @param version     use the version defined by the branch/tag/revision
-     * @param lastUpdate  Date of last update
+     * @param lastUpdate  date of last update
      * @param datePattern the date pattern use in changelog output returned by scm tool
      * @return TODO
      * @throws ScmException if any
@@ -643,7 +641,7 @@ public interface ScmManager {
             throws ScmException;
 
     /**
-     * Returns the blame of specified file
+     * Returns the blame of specified file.
      *
      * @param repository the source control system
      * @param fileSet    location of your local copy

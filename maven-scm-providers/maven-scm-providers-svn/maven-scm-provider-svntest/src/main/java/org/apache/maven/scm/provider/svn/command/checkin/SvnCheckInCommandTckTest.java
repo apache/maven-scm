@@ -25,15 +25,18 @@ import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public class SvnCheckInCommandTckTest extends CheckInCommandTckTest {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmUrl() throws Exception {
         return SvnScmTestUtils.getScmUrl(new File(getRepositoryRoot(), "trunk"));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void initRepo() throws Exception {
         SvnScmTestUtils.initializeRepository(getRepositoryRoot());
     }

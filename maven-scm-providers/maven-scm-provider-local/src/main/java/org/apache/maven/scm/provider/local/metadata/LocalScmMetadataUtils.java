@@ -34,21 +34,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Utils for dealing with LocalScmMetadata
+ * Utils for dealing with LocalScmMetadata.
  *
  * @author <a href="mailto:arne@degenring.de">Arne Degenring</a>
- *
  */
 public class LocalScmMetadataUtils {
     /**
-     * The name of the metadata file
+     * The name of the metadata file.
      */
     public static final String FILENAME = ".maven-scm-local";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LocalScmMetadataUtils.class);
 
     /**
-     * Builds LocalScmMetadata based on contents of repository
+     * Builds LocalScmMetadata based on contents of repository.
      *
      * @param repository
      * @return TODO
@@ -63,7 +62,7 @@ public class LocalScmMetadataUtils {
     }
 
     /**
-     * Writes metadata file
+     * Writes metadata file.
      *
      * @param destinationDir
      * @param metadata
@@ -81,7 +80,7 @@ public class LocalScmMetadataUtils {
     /**
      * Reads metadata file from given directory.
      *
-     * @param dir The directory that should contain the metadata file
+     * @param dir the directory that should contain the metadata file
      * @return LocalScmMetadata or <code>null</code> in case of problems
      */
     public LocalScmMetadata readMetadata(File dir) {

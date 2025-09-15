@@ -57,6 +57,7 @@ public class GitExeScmProvider extends AbstractGitScmProvider {
 
     /**
      * The environment variable that controls whether Git prompts for credentials in the terminal.
+     *
      * @see <a href="https://git-scm.com/docs/git-credential#Documentation/git-credential.txt-envGIT_TERMINAL_PROMPT">GIT_TERMINAL_PROMPT</a>
      */
     private static final String GIT_TERMINAL_PROMPT = "GIT_TERMINAL_PROMPT";
@@ -75,82 +76,114 @@ public class GitExeScmProvider extends AbstractGitScmProvider {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getAddCommand() {
         return new GitAddCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getBranchCommand() {
         return new GitBranchCommand(environmentVariables);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getChangeLogCommand() {
         return new GitChangeLogCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getCheckInCommand() {
         return new GitCheckInCommand(environmentVariables);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getCheckOutCommand() {
         return new GitCheckOutCommand(environmentVariables);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getDiffCommand() {
         return new GitDiffCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getExportCommand() {
         return null; // X TODO
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getRemoveCommand() {
         return new GitRemoveCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getStatusCommand() {
         return new GitStatusCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getTagCommand() {
         return new GitTagCommand(environmentVariables);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getUntagCommand() {
         return new GitUntagCommand(environmentVariables);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getUpdateCommand() {
         return new GitUpdateCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public GitCommand getInfoCommand() {
         return new GitInfoCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getBlameCommand() {
         return new GitBlameCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected GitCommand getRemoteInfoCommand() {
         return new GitRemoteInfoCommand(environmentVariables);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected String getRepositoryURL(File path) throws ScmException {
         // Note: I need to supply just 1 absolute path, but ScmFileSet won't let me without
         // a basedir (which isn't used here anyway), so use a dummy file.

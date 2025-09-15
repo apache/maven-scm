@@ -22,7 +22,6 @@ import java.io.Serializable;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public abstract class AbstractScmVersion implements ScmVersion, Serializable {
     private static final long serialVersionUID = -3388495744009098066L;
@@ -36,12 +35,16 @@ public abstract class AbstractScmVersion implements ScmVersion, Serializable {
         setName(name);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getName() {
         return name;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void setName(String name) {
         if (name != null) {
             name = name.trim();
@@ -49,7 +52,9 @@ public abstract class AbstractScmVersion implements ScmVersion, Serializable {
         this.name = name;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String toString() {
         return getName();
     }

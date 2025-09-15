@@ -26,7 +26,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public class GitListCommand {
     public static Commandline createCommandLine(GitScmProviderRepository repository, File workingDirectory) {

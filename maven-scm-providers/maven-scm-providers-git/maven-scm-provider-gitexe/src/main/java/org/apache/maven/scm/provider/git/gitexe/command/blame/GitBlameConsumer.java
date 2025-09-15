@@ -55,7 +55,7 @@ public class GitBlameConsumer extends AbstractConsumer {
      * this information somwehere.
      *
      * key: the sha-1 of the commit
-     * value: the {@link BlameLine} containing the full committer/author info
+     * value: the {@link BlameLine} containing the full committer/author info.
      */
     private final Map<String, BlameLine> commitInfo = new HashMap<>();
 

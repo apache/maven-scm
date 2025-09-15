@@ -183,7 +183,7 @@ public abstract class AbstractScmManager implements ScmManager {
     }
 
     /**
-     * Clean the SCM url by removing all ../ in path
+     * Clean the SCM url by removing all ../ in path.
      *
      * @param scmUrl the SCM url
      * @return the cleaned SCM url

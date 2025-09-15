@@ -43,10 +43,11 @@ import org.codehaus.plexus.util.FileUtils;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- *
  */
 public class LocalUpdateCommand extends AbstractUpdateCommand implements LocalCommand {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected UpdateScmResult executeUpdateCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version)
             throws ScmException {
         LocalScmProviderRepository repository = (LocalScmProviderRepository) repo;
@@ -169,7 +170,9 @@ public class LocalUpdateCommand extends AbstractUpdateCommand implements LocalCo
         return updatedFiles;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ChangeLogCommand getChangeLogCommand() {
         return new LocalChangeLogCommand();
     }

@@ -23,7 +23,6 @@ import org.apache.maven.scm.ScmResult;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- *
  */
 public class ChangeLogScmResult extends ScmResult {
     private static final long serialVersionUID = 559431861541372265L;

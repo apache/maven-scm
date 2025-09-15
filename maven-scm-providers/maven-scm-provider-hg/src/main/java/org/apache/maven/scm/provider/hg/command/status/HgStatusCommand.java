@@ -39,7 +39,9 @@ public class HgStatusCommand extends AbstractStatusCommand implements Command {
         super();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public StatusScmResult executeStatusCommand(ScmProviderRepository repo, ScmFileSet fileSet) throws ScmException {
 
         File workingDir = fileSet.getBasedir();

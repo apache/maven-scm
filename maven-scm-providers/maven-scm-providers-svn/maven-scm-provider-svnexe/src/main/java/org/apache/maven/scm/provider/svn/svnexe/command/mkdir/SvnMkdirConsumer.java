@@ -28,7 +28,6 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- *
  */
 public class SvnMkdirConsumer extends AbstractConsumer {
     private static final String COMMITTED_REVISION_TOKEN = "Committed revision";
@@ -37,7 +36,9 @@ public class SvnMkdirConsumer extends AbstractConsumer {
 
     private final List<ScmFile> createdDirs = new ArrayList<>();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine(String line) {
         if (StringUtils.isBlank(line)) {
             return;

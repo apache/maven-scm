@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
 
 /**
  * Thrown when the output of an svn log command isn't recognized.
+ *
  * @since 1.3
  */
 @SuppressWarnings("serial")
@@ -28,7 +29,7 @@ public class IllegalOutputException extends RuntimeException {
     /**
      * Create the exception with a message.
      *
-     * @param message the message.
+     * @param message the message
      */
     public IllegalOutputException(final String message) {
         super(message);

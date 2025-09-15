@@ -44,7 +44,7 @@ import org.codehaus.plexus.util.FileUtils;
 @Mojo(name = "checkout", requiresProject = false)
 public class CheckoutMojo extends AbstractScmMojo {
     /**
-     * Use Export instead of checkout
+     * Use Export instead of checkout.
      */
     @Parameter(property = "useExport", defaultValue = "false")
     private boolean useExport;
@@ -82,7 +82,7 @@ public class CheckoutMojo extends AbstractScmMojo {
     private boolean shallow = false;
 
     /**
-     * allow extended mojo (ie BootStrap ) to see checkout result
+     * Allow extended mojo (ie BootStrap ) to see checkout result.
      */
     private ScmResult checkoutResult;
 
@@ -91,7 +91,9 @@ public class CheckoutMojo extends AbstractScmMojo {
         super(manager, settingsDecrypter);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void execute() throws MojoExecutionException {
         super.execute();
 

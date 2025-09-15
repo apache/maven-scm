@@ -34,7 +34,9 @@ import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-/** {@inheritDoc} */
+/**
+ * {@inheritDoc}
+ */
 public class GitUntagCommand extends AbstractUntagCommand implements GitCommand {
     private final Map<String, String> environmentVariables;
 
@@ -42,7 +44,9 @@ public class GitUntagCommand extends AbstractUntagCommand implements GitCommand 
         this.environmentVariables = environmentVariables;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmResult executeUntagCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmUntagParameters scmUntagParameters) throws ScmException {
         String tag = scmUntagParameters.getTag();

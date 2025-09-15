@@ -36,10 +36,11 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
  * Add no recursive.
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- *
  */
 public class HgAddCommand extends AbstractAddCommand implements Command {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ScmResult executeAddCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String message, boolean binary) throws ScmException {
         // String[] addCmd = new String[] { ADD_CMD, NO_RECURSE_OPTION };

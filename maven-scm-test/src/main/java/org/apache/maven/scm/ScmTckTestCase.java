@@ -52,7 +52,6 @@ import static org.junit.Assume.assumeTrue;
  * </ol>
  *
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
- *
  */
 public abstract class ScmTckTestCase extends ScmTestCase {
     private ScmRepository scmRepository;
@@ -62,14 +61,15 @@ public abstract class ScmTckTestCase extends ScmTestCase {
     /**
      * Some tests can only run if the appropriate application has been installed.
      * If the provided name is not a runnable application all tests in the class are skipped.
-     * @return The commandline command for the specific scm provider. Or null if none is needed.
+     *
+     * @return the commandline command for the specific scm provider. Or null if none is needed.
      */
     public String getScmProviderCommand() {
         return null;
     }
 
     /**
-     * @return A provider specific and valid url for the repository
+     * @return a provider specific and valid url for the repository
      * @throws Exception if any
      */
     public abstract String getScmUrl() throws Exception;
@@ -160,7 +160,7 @@ public abstract class ScmTckTestCase extends ScmTestCase {
     }
 
     /**
-     * Convenience method to get the ScmRepository for this provider
+     * Convenience method to get the ScmRepository for this provider.
      */
     protected ScmRepository getScmRepository() throws Exception {
         if (scmRepository == null) {
@@ -171,7 +171,7 @@ public abstract class ScmTckTestCase extends ScmTestCase {
     }
 
     /**
-     * Convenience method to check out files from the repository
+     * Convenience method to check out files from the repository.
      */
     protected CheckOutScmResult checkOut(File workingDirectory, ScmRepository repository) throws Exception {
         CheckOutScmResult result = getScmManager()
@@ -184,7 +184,7 @@ public abstract class ScmTckTestCase extends ScmTestCase {
     }
 
     /**
-     * Convenience method to check in files to the repository
+     * Convenience method to check in files to the repository.
      */
     protected CheckInScmResult checkIn(File workingDirectory, ScmRepository repository) throws Exception {
         CheckInScmResult result = getScmManager()
@@ -197,7 +197,7 @@ public abstract class ScmTckTestCase extends ScmTestCase {
     }
 
     /**
-     * Convenience method to remove files from the repository
+     * Convenience method to remove files from the repository.
      */
     protected RemoveScmResult remove(File workingDirectory, ScmRepository repository) throws Exception {
         RemoveScmResult result = getScmManager()
@@ -210,7 +210,7 @@ public abstract class ScmTckTestCase extends ScmTestCase {
     }
 
     /**
-     * Convenience method to add a file to the working tree at the working directory
+     * Convenience method to add a file to the working tree at the working directory.
      */
     protected void addToWorkingTree(File workingDirectory, File file, ScmRepository repository) throws Exception {
         ScmProvider provider = getScmManager().getProviderByUrl(getScmUrl());
@@ -231,7 +231,7 @@ public abstract class ScmTckTestCase extends ScmTestCase {
     }
 
     /**
-     * take the files of the given list, add them to a TreeMap and
+     * Take the files of the given list, add them to a TreeMap and
      * use the pathName String as key for the Map.
      * This function is useful for every TCK which has to check for the
      * existence of more than 1 file of the returned ScmResult, regardless
@@ -239,8 +239,8 @@ public abstract class ScmTckTestCase extends ScmTestCase {
      * All backslashes in the path will be replaced by forward slashes
      * for Windows compatibility.
      *
-     * @param files List with {@code ScmFile}s
-     * @return Map key=pathName, value=ScmFile
+     * @param files list with {@code ScmFile}s
+     * @return map key=pathName, value=ScmFile
      */
     protected Map<String, ScmFile> mapFilesByPath(List<ScmFile> files) {
         if (files == null) {

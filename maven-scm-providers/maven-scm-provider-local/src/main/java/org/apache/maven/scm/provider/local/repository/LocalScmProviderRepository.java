@@ -25,7 +25,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public class LocalScmProviderRepository extends ScmProviderRepository {
     private String root;
@@ -45,14 +44,14 @@ public class LocalScmProviderRepository extends ScmProviderRepository {
     }
 
     /**
-     * @return Returns the root.
+     * @return returns the root
      */
     public String getRoot() {
         return root;
     }
 
     /**
-     * @return Returns the module.
+     * @return returns the module
      */
     public String getModule() {
         return module;

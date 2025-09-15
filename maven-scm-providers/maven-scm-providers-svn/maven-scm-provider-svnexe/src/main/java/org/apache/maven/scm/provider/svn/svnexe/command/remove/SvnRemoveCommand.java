@@ -38,10 +38,11 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author Olivier Lamy
- *
  */
 public class SvnRemoveCommand extends AbstractRemoveCommand implements SvnCommand {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ScmResult executeRemoveCommand(ScmProviderRepository repository, ScmFileSet fileSet, String message)
             throws ScmException {
         if (fileSet.getFileList().isEmpty()) {

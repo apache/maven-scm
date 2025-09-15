@@ -49,8 +49,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author Olivier Lamy
- *
- * TODO since this is just a copy, use that instead.
+ * TODO since this is just a copy, use that instead
  */
 public class SvnTagCommand extends AbstractTagCommand implements SvnCommand {
     private final boolean interactive;
@@ -68,7 +67,9 @@ public class SvnTagCommand extends AbstractTagCommand implements SvnCommand {
         return executeTagCommand(repo, fileSet, tag, scmTagParameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmResult executeTagCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String tag, ScmTagParameters scmTagParameters)
             throws ScmException {
@@ -172,12 +173,12 @@ public class SvnTagCommand extends AbstractTagCommand implements SvnCommand {
     // ----------------------------------------------------------------------
 
     /**
-     * @deprecated
      * @param repository
      * @param workingDirectory
      * @param tag
      * @param messageFile
      * @return TODO
+     * @deprecated
      */
     public Commandline createCommandLine(
             SvnScmProviderRepository repository, File workingDirectory, String tag, File messageFile) {

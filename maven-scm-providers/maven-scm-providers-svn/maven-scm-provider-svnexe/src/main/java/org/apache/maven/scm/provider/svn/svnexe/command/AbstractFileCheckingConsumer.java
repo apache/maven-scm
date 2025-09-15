@@ -29,7 +29,6 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
- *
  */
 public abstract class AbstractFileCheckingConsumer extends AbstractConsumer {
     protected File workingDirectory;
@@ -44,7 +43,9 @@ public abstract class AbstractFileCheckingConsumer extends AbstractConsumer {
         this.workingDirectory = workingDirectory;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public final void consumeLine(String line) {
         if (line.length() <= 3) {
             return;

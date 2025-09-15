@@ -43,7 +43,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- *
  */
 public class SvnCheckOutCommand extends AbstractCheckOutCommand implements SvnCommand {
     private final boolean interactive;
@@ -113,7 +112,7 @@ public class SvnCheckOutCommand extends AbstractCheckOutCommand implements SvnCo
      * @param workingDirectory not null
      * @param version          not null
      * @param url              not null
-     * @return the SVN command line for the SVN check out.
+     * @return the SVN command line for the SVN check out
      * @see #createCommandLine(SvnScmProviderRepository, File, ScmVersion, String, boolean)
      */
     public Commandline createCommandLine(
@@ -128,8 +127,8 @@ public class SvnCheckOutCommand extends AbstractCheckOutCommand implements SvnCo
      * @param workingDirectory not null
      * @param version          not null
      * @param url              not null
-     * @param recursive        <code>true</code> if recursive check out is wanted, <code>false</code> otherwise.
-     * @return the SVN command line for the SVN check out.
+     * @param recursive        <code>true</code> if recursive check out is wanted, <code>false</code> otherwise
+     * @return the SVN command line for the SVN check out
      * @since 1.1.1
      */
     public Commandline createCommandLine(

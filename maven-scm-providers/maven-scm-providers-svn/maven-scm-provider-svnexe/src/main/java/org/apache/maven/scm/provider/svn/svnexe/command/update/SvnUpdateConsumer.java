@@ -31,7 +31,6 @@ import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingCons
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public class SvnUpdateConsumer extends AbstractFileCheckingConsumer {
     private static final String UPDATED_TO_REVISION_TOKEN = "Updated to revision";
@@ -56,7 +55,9 @@ public class SvnUpdateConsumer extends AbstractFileCheckingConsumer {
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected void parseLine(String line) {
         line = line.trim();
 

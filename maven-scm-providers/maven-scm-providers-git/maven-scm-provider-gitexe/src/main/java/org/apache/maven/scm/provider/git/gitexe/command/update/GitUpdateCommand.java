@@ -42,10 +42,11 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  * @author <a href="mailto:struberg@yahoo.de">struberg</a>
  * @since 10 august 2008
- *
  */
 public class GitUpdateCommand extends AbstractUpdateCommand implements GitCommand {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected UpdateScmResult executeUpdateCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion scmVersion) throws ScmException {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
@@ -100,13 +101,15 @@ public class GitUpdateCommand extends AbstractUpdateCommand implements GitComman
         return new UpdateScmResultWithRevision(cl.toString(), diffRawConsumer.getChangedFiles(), latestRevision);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ChangeLogCommand getChangeLogCommand() {
         return new GitChangeLogCommand();
     }
 
     /**
-     * create the command line for updating the current branch with the info from the foreign repository.
+     * Create the command line for updating the current branch with the info from the foreign repository.
      */
     public static Commandline createCommandLine(
             GitScmProviderRepository repository, File workingDirectory, ScmVersion scmVersion) {

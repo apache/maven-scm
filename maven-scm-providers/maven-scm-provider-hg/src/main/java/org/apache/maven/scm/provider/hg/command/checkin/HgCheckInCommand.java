@@ -42,7 +42,6 @@ import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author Olivier Lamy
- *
  */
 public class HgCheckInCommand extends AbstractCheckInCommand {
     /**

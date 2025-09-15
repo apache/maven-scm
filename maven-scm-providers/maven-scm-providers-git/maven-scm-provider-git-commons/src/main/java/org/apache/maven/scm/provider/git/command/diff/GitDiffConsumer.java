@@ -34,7 +34,6 @@ import org.apache.maven.scm.util.AbstractConsumer;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Olivier Lamy
- *
  */
 public class GitDiffConsumer extends AbstractConsumer {
     // diff --git a/readme.txt b/readme.txt
@@ -47,9 +46,9 @@ public class GitDiffConsumer extends AbstractConsumer {
     // +new version of /readme.txt
 
     /**
-     * patern matches the index line of the diff comparison
+     * Patern matches the index line of the diff comparison
      * paren.1 matches the first file
-     * paren.2 matches the 2nd file
+     * paren.2 matches the 2nd file.
      */
     private static final Pattern DIFF_FILES_PATTERN = Pattern.compile("^diff --git\\sa/(.*)\\sb/(.*)");
 
@@ -101,7 +100,9 @@ public class GitDiffConsumer extends AbstractConsumer {
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine(String line) {
         Matcher matcher = DIFF_FILES_PATTERN.matcher(line);
         if (matcher.matches()) {

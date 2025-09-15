@@ -33,9 +33,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-/**
- *
- */
 public abstract class GitSshBranchCommandTckTest extends BranchCommandTckTest {
     protected final GitSshServer gitSshServer;
 
@@ -48,7 +45,9 @@ public abstract class GitSshBranchCommandTckTest extends BranchCommandTckTest {
 
     protected abstract String getScmProvider();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmUrl() throws Exception {
         return "scm:" + getScmProvider() + ":ssh://localhost:" + gitSshServer.getPort() + "/repository";
     }
@@ -63,7 +62,9 @@ public abstract class GitSshBranchCommandTckTest extends BranchCommandTckTest {
         providerRepository.setPassphrase(passphrase); // may be null
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void initRepo() throws Exception {
         GitScmTestUtils.initRepo("src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory());
         gitSshServer.start(getRepositoryRoot().getParentFile().toPath());

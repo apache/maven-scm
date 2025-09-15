@@ -32,11 +32,10 @@ import org.apache.maven.scm.util.AbstractConsumer;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Olivier Lamy
- *
  */
 public class GitRemoveConsumer extends AbstractConsumer {
     /**
-     * The pattern used to match deleted file lines
+     * The pattern used to match deleted file lines.
      */
     private static final Pattern REMOVED_PATTERN = Pattern.compile("^rm\\s'(.*)'");
 

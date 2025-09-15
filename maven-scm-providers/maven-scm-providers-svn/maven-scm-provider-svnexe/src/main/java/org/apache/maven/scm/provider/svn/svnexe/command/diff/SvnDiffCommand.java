@@ -39,7 +39,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author Olivier Lamy
- *
  */
 public class SvnDiffCommand extends AbstractDiffCommand implements SvnCommand {
     private final boolean interactive;
@@ -48,7 +47,9 @@ public class SvnDiffCommand extends AbstractDiffCommand implements SvnCommand {
         this.interactive = interactive;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected DiffScmResult executeDiffCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion, ScmVersion endVersion)
             throws ScmException {

@@ -34,14 +34,15 @@ import org.codehaus.plexus.util.FileUtils;
  * Consists of the base directory of the files and a list of files relative to that directory.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public class ScmFileSet implements Serializable {
     private static final long serialVersionUID = -5978597349974797556L;
 
     private static final String DELIMITER = ",";
 
-    /** @see DirectoryScanner#DEFAULTEXCLUDES */
+    /**
+     * @see DirectoryScanner#DEFAULTEXCLUDES
+     */
     private static final String DEFAULT_EXCLUDES = StringUtils.join(DirectoryScanner.DEFAULTEXCLUDES, DELIMITER);
 
     private final File basedir;
@@ -79,9 +80,9 @@ public class ScmFileSet implements Serializable {
      * using includes and excludes provided.
      *
      * @param basedir  directory files are relative to
-     * @param includes Ant pattern for files to include
-     * @param excludes Ant pattern for files to exclude,
-     *                 if null DEFAULT_EXCLUDES is used, else DEFAULT_EXCLUDES is added.
+     * @param includes ant pattern for files to include
+     * @param excludes ant pattern for files to exclude,
+     *                 if null DEFAULT_EXCLUDES is used, else DEFAULT_EXCLUDES is added
      * @throws IOException if any
      */
     public ScmFileSet(File basedir, String includes, String excludes) throws IOException {
@@ -101,7 +102,7 @@ public class ScmFileSet implements Serializable {
      * Create a file set with files from basefile, using includes provided and default excludes.
      *
      * @param basedir  directory files are relative to
-     * @param includes Ant pattern for files to include
+     * @param includes ant pattern for files to include
      * @throws IOException if any
      * @since 1.0
      */
@@ -149,7 +150,7 @@ public class ScmFileSet implements Serializable {
     }
 
     /**
-     * Get the list of files in the set, relative to basedir
+     * Get the list of files in the set, relative to basedir.
      *
      * @return files in this set
      * @deprecated use getFileList() instead
@@ -159,9 +160,9 @@ public class ScmFileSet implements Serializable {
     }
 
     /**
-     * Get the list of files in the set, relative to basedir
+     * Get the list of files in the set, relative to basedir.
      *
-     * @return List of File objects
+     * @return list of File objects
      */
     public List<File> getFileList() {
         return this.files;
@@ -181,7 +182,9 @@ public class ScmFileSet implements Serializable {
         return this.excludes;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String toString() {
         return "basedir = " + basedir + "; files = " + files;
     }

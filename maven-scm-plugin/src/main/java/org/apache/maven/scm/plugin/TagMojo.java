@@ -81,7 +81,7 @@ public class TagMojo extends AbstractScmMojo {
     private String timestampPrefix;
 
     /**
-     * currently only implemented with svn scm. Enable a workaround to prevent issue
+     * Currently only implemented with svn scm. Enable a workaround to prevent issue
      * due to svn client > 1.5.0 (https://issues.apache.org/jira/browse/SCM-406)
      *
      * @since 1.2
@@ -93,9 +93,8 @@ public class TagMojo extends AbstractScmMojo {
      * Currently only implemented with Subversion. Enable the "--pin-externals"
      * option in svn copy commands which is new in Subversion 1.9.
      *
-     * @since 1.11.0
-     *
      * @see https://subversion.apache.org/docs/release-notes/1.9.html
+     * @since 1.11.0
      */
     @Parameter(property = "pinExternals", defaultValue = "false")
     private boolean pinExternals;
@@ -123,7 +122,9 @@ public class TagMojo extends AbstractScmMojo {
         super(manager, settingsDecrypter);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void execute() throws MojoExecutionException {
         super.execute();
 

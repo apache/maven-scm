@@ -47,7 +47,9 @@ public class StatusMojo extends AbstractScmMojo {
         super(manager, settingsDecrypter);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void execute() throws MojoExecutionException {
         super.execute();
 
@@ -82,7 +84,7 @@ public class StatusMojo extends AbstractScmMojo {
      *
      * @param baseDir
      * @param path
-     * @return The relative path
+     * @return the relative path
      */
     protected String getRelativePath(File baseDir, String path) {
         if (path.equals(baseDir.getAbsolutePath())) {

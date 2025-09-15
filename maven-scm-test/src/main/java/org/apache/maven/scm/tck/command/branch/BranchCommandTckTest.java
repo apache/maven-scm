@@ -41,7 +41,6 @@ import static org.junit.Assert.assertFalse;
  * This test tests the branch command.
  *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public abstract class BranchCommandTckTest extends ScmTckTestCase {
 

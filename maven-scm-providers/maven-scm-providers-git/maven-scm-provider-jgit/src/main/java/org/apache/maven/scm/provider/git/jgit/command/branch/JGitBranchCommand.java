@@ -142,7 +142,7 @@ public class JGitBranchCommand extends AbstractBranchCommand
     }
 
     /**
-     * gets a set of names of the available branches in the given repo
+     * Gets a set of names of the available branches in the given repo.
      *
      * @param git the repo to list the branches for
      * @return set of short branch names

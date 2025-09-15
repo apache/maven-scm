@@ -31,7 +31,6 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
- *
  */
 public class HgConfig {
     // Minimum version for the Hg SCM
@@ -56,14 +55,14 @@ public class HgConfig {
     }
 
     /**
-     * @return True if one can run basic hg commands
+     * @return true if one can run basic hg commands
      */
     private boolean isInstalled() {
         return hgVersion.isVersionOk(HG_REQ);
     }
 
     /**
-     * @return True if all modules for hg are installed.
+     * @return true if all modules for hg are installed
      */
     private boolean isComplete() {
         return isInstalled();
@@ -84,7 +83,7 @@ public class HgConfig {
 
     /**
      * Iterate through two dot-notation version strings, normalize them to the same length, then
-     * do alphabetic comparison
+     * do alphabetic comparison.
      *
      * @param version1
      * @param version2

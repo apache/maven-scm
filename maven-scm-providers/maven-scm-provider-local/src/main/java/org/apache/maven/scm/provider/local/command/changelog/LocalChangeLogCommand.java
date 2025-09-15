@@ -39,10 +39,11 @@ import org.codehaus.plexus.util.FileUtils;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- *
  */
 public class LocalChangeLogCommand extends AbstractChangeLogCommand {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ChangeLogScmResult executeChangeLogCommand(
             ScmProviderRepository repository,
             ScmFileSet fileSet,
