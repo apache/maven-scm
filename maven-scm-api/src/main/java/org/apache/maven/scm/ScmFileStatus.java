@@ -116,7 +116,7 @@ public final class ScmFileStatus implements Serializable {
 
     /**
      * @since 1.5
- * The file is being edited
+     * The file is being edited
      */
     public static final ScmFileStatus EDITED = new ScmFileStatus("edit");
 
