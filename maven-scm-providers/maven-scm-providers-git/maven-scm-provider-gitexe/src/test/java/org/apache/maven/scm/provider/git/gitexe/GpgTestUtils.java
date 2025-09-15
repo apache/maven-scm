@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.GeneralSecurityException;
 
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -59,15 +60,21 @@ public class GpgTestUtils {
                     }
                 });
         if (exitCode != 0) {
-            throw new RuntimeException("GPG command failed with exit code: " + exitCode);
+            throw new CommandLineException("GPG command failed with exit code: " + exitCode);
         }
     }
 
+    /**
+     * Imports a PGP key from a resource file.
+     *
+     * @param pgpKeyResourceName the name of the resource containing the PGP key
+     * @throws IOException if an I/O error occurs while reading the resource
+     */
     public static void importKey(String pgpKeyResourceName) throws IOException {
         Path tmpFile = Files.createTempFile("gpg-secret-key", ".key");
         try (InputStream input = GpgTestUtils.class.getResourceAsStream(pgpKeyResourceName)) {
             if (input == null) {
-                throw new IllegalArgumentException("Secret GPG file not found: " + pgpKeyResourceName);
+                throw new IOException("Secret GPG file not found: " + pgpKeyResourceName);
             }
             Files.copy(input, tmpFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         }
@@ -83,7 +90,13 @@ public class GpgTestUtils {
         }
     }
 
-    public static void deleteSecretKey(String fingerprint) throws IOException {
+    /**
+     * Deletes a secret key by its fingerprint.
+     *
+     * @param fingerprint the fingerprint of the secret key to delete
+     * @throws GeneralSecurityException if an error occurs while executing the command
+     */
+    public static void deleteSecretKey(String fingerprint) throws GeneralSecurityException {
         Commandline cmdLine = createCommandline();
         cmdLine.createArg().setValue("--yes");
         cmdLine.createArg().setValue("--delete-secret-key");
@@ -91,7 +104,7 @@ public class GpgTestUtils {
         try {
             execute(cmdLine);
         } catch (CommandLineException e) {
-            throw new IOException("Deleting key failed", e);
+            throw new GeneralSecurityException("Deleting key failed", e);
         }
     }
 }
