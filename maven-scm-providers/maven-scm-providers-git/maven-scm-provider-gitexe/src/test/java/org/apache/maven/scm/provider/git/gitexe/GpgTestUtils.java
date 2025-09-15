@@ -42,29 +42,25 @@ public class GpgTestUtils {
         return commandLine;
     }
 
-    private static void execute(Commandline commandLine) throws GeneralSecurityException {
-        try {
-            int exitCode = CommandLineUtils.executeCommandLine(
-                    commandLine,
-                    new StreamConsumer() {
-                        @Override
-                        public void consumeLine(String line) {
-                            // Handle output from the command if needed
-                            System.out.println(line);
-                        }
-                    },
-                    new StreamConsumer() {
-                        @Override
-                        public void consumeLine(String line) {
-                            // Handle error output from the command if needed
-                            System.err.println(line);
-                        }
-                    });
-            if (exitCode != 0) {
-                throw new GeneralSecurityException("GPG command failed with exit code: " + exitCode);
-            }
-        } catch (CommandLineException e) {
-            throw new GeneralSecurityException("Failed to execute GPG command", e);
+    private static void execute(Commandline commandLine) throws CommandLineException {
+        int exitCode = CommandLineUtils.executeCommandLine(
+                commandLine,
+                new StreamConsumer() {
+                    @Override
+                    public void consumeLine(String line) {
+                        // Handle output from the command if needed
+                        System.out.println(line);
+                    }
+                },
+                new StreamConsumer() {
+                    @Override
+                    public void consumeLine(String line) {
+                        // Handle error output from the command if needed
+                        System.err.println(line);
+                    }
+                });
+        if (exitCode != 0) {
+            throw new CommandLineException("GPG command failed with exit code: " + exitCode);
         }
     }
 
@@ -87,8 +83,8 @@ public class GpgTestUtils {
             cmdLine.createArg().setValue("--import");
             cmdLine.createArg().setFile(tmpFile.toFile());
             execute(cmdLine);
-        } catch (GeneralSecurityException e) {
-            throw new IOException(e);
+        } catch (CommandLineException e) {
+            throw new IOException("Importing key failed", e);
         } finally {
             Files.delete(tmpFile);
         }
@@ -105,6 +101,10 @@ public class GpgTestUtils {
         cmdLine.createArg().setValue("--yes");
         cmdLine.createArg().setValue("--delete-secret-key");
         cmdLine.createArg().setValue(fingerprint);
-        execute(cmdLine);
+        try {
+            execute(cmdLine);
+        } catch (CommandLineException e) {
+            throw new GeneralSecurityException("Deleting key failed", e);
+        }
     }
 }
