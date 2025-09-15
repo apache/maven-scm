@@ -78,7 +78,7 @@ public class MyApp
     }
 ```
 
-## Run a SCM command
+## Run an SCM command
 
 Before you call a command, the SCM manager needs an `ScmRepository`. This object contains all the information about the SCM connection.
 

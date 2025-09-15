@@ -61,7 +61,7 @@ Check the [Maven SCM list](http://maven.apache.org/scm/scms-overview.html) for t
 
 # Committing and updating changes through Maven
 
-Assuming that SCM has been configured in the `pom.xml` and the project directory is managed by a SCM, invoking the checkin goal in the SCM will start the commit process for all configured sources in your `pom.xml`.
+Assuming that SCM has been configured in the `pom.xml` and the project directory is managed by an SCM, invoking the checkin goal in the SCM will start the commit process for all configured sources in your `pom.xml`.
 
 **The files should be added beforehand by an external scm client.**
 

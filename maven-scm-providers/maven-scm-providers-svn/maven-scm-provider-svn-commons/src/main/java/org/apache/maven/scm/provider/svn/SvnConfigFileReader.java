@@ -18,15 +18,17 @@
  */
 package org.apache.maven.scm.provider.svn;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.Os;
 
 /**
@@ -53,7 +55,7 @@ public class SvnConfigFileReader {
     }
 
     public String getProperty(String group, String propertyName) {
-        List<String> lines = getConfLines();
+        List<String> lines = getConfigLines();
 
         boolean inGroup = false;
         for (Iterator<String> i = lines.iterator(); i.hasNext(); ) {
@@ -91,32 +93,22 @@ public class SvnConfigFileReader {
     }
 
     /**
-     * Load the svn config file
+     * Load the svn config file.
      *
-     * @return the list of all lines
+     * @return the list of all non-comment, non-empty lines in the config file
      */
-    private List<String> getConfLines() {
-        List<String> lines = new ArrayList<>();
-
-        BufferedReader reader = null;
-
-        try {
-            if (getConfigDirectory().exists()) {
-                reader = new BufferedReader(new FileReader(new File(getConfigDirectory(), "config")));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (!line.startsWith("#") && (line != null && !line.isEmpty())) {
-                        lines.add(line);
-                    }
-                }
+    private List<String> getConfigLines() {
+        Path configPath = getConfigDirectory().toPath().resolve("config");
+        if (Files.exists(configPath)) {
+            try {
+                return Files.lines(configPath, StandardCharsets.UTF_8)
+                        .filter(line -> !line.isEmpty())
+                        .filter(line -> !line.startsWith("#"))
+                        .collect(Collectors.toCollection(ArrayList::new));
+            } catch (UncheckedIOException | IOException e) {
+                return new ArrayList<>();
             }
-        } catch (IOException e) {
-            lines.clear();
-        } finally {
-            IOUtil.close(reader);
-            reader = null;
         }
-
-        return lines;
+        return new ArrayList<>();
     }
 }

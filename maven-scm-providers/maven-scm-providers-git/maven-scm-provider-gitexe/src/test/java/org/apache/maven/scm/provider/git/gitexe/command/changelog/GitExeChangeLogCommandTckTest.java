@@ -18,8 +18,12 @@
  */
 package org.apache.maven.scm.provider.git.gitexe.command.changelog;
 
+import java.io.File;
+
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.changelog.GitChangeLogCommandTckTest;
+import org.apache.maven.scm.repository.ScmRepository;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
 
@@ -30,6 +34,15 @@ public class GitExeChangeLogCommandTckTest extends GitChangeLogCommandTckTest {
     @Override
     public String getScmProviderCommand() {
         return GIT_COMMAND_LINE;
+    }
+
+    @Override
+    protected CheckOutScmResult checkOut(File workingDirectory, ScmRepository repository) throws Exception {
+        try {
+            return super.checkOut(workingDirectory, repository);
+        } finally {
+            GitScmTestUtils.setDefaultGitConfig(workingDirectory);
+        }
     }
 
     /** {@inheritDoc} */

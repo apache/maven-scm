@@ -86,7 +86,7 @@ public class BranchMojo extends AbstractScmMojo {
             ScmProvider provider = getScmManager().getProviderByRepository(repository);
 
             String finalBranch = provider.sanitizeTagName(branch);
-            getLog().info("Final Branch Name: '" + finalBranch + "'");
+            getLog().debug("Final Branch Name: '" + finalBranch + "'");
 
             ScmBranchParameters scmBranchParameters = new ScmBranchParameters(message);
             scmBranchParameters.setRemoteBranching(remoteBranching);

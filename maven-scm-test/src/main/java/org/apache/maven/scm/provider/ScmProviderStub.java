@@ -28,7 +28,6 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmVersion;
@@ -61,7 +60,7 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
  * Stub implementation of ScmProvider for unit testing purposes.
  * It allows setting the expected results that the different methods will return.
  * More information about Stubs on
- * <a href="http://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
+ * <a href="https://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  *
@@ -115,8 +114,8 @@ public class ScmProviderStub implements ScmProvider {
      */
     public ScmProviderStub() {
         setScmSpecificFilename("");
-        setAddScmResult(new AddScmResult("", Collections.<ScmFile>emptyList()));
-        setBranchScmResult(new BranchScmResult("", Collections.<ScmFile>emptyList()));
+        setAddScmResult(new AddScmResult("", Collections.emptyList()));
+        setBranchScmResult(new BranchScmResult("", Collections.emptyList()));
         setChangeLogScmResult(new ChangeLogScmResult("", "", "", true));
         setCheckInScmResult(new CheckInScmResult("", "", "", true));
         setCheckOutScmResult(new CheckOutScmResult("", "", "", true));

@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.git;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.function.Consumer;
 
 import org.apache.maven.scm.PlexusJUnit4TestCase;
 import org.codehaus.plexus.util.FileUtils;
@@ -87,7 +88,12 @@ public final class GitScmTestUtils {
         }
     }
 
-    public static void setDefaultGitConfig(File repositoryRootFile) {
+    public static void setDefaultGitConfig(File repositoryRootFile) throws IOException {
+        setDefaultGitConfig(repositoryRootFile, null);
+    }
+
+    public static void setDefaultGitConfig(File repositoryRootFile, Consumer<FileWriter> configWriterCustomizer)
+            throws IOException {
         File gitConfigFile = new File(new File(repositoryRootFile, ".git"), "config");
 
         try (FileWriter fw = new FileWriter(gitConfigFile, true)) {
@@ -95,11 +101,13 @@ public final class GitScmTestUtils {
             fw.append("\tname = John Doe\n");
             fw.append("\temail = john.doe@nowhere.com\n");
             fw.append("[commit]\n");
+            // disable gpg signing for commits and tags by default
             fw.append("\tgpgsign = false\n");
-            fw.flush();
-        } catch (IOException e) {
-            System.err.println("cannot setup a default user for tests purpose inside " + gitConfigFile);
-            e.printStackTrace();
+            fw.append("[tag]\n");
+            fw.append("\tgpgsign = false\n");
+            if (configWriterCustomizer != null) {
+                configWriterCustomizer.accept(fw);
+            }
         }
     }
 
@@ -127,6 +135,10 @@ public final class GitScmTestUtils {
      */
     public static void setupRejectAllCommitsPrePushHook(File workspaceRoot) throws IOException {
         setupRejectAllCommitsHook(workspaceRoot, false, "pre-push");
+    }
+
+    public static void setupRejectAllCommitsPreCommitHook(File workspaceRoot) throws IOException {
+        setupRejectAllCommitsHook(workspaceRoot, false, "pre-commit");
     }
 
     private static void setupRejectAllCommitsHook(

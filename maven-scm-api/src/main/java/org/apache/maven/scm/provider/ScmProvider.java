@@ -865,9 +865,9 @@ public interface ScmProvider {
             throws ScmException;
 
     /**
-     * Make a file editable. This is used in source control systems where you look at read-only files
-     * and you need to make them not read-only anymore before you can edit them. This can also mean
-     * that no other user in the system can make the file not read-only anymore.
+     * Make a file editable. This is used in source control systems where you look at read-only files,
+     * and you need to make them writable before you can edit them. This can also mean
+     * that no other user in the system can make the file writable.
      *
      * @param repository the source control system
      * @param fileSet    the files to make editable

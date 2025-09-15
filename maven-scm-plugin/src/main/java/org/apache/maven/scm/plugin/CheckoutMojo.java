@@ -76,7 +76,7 @@ public class CheckoutMojo extends AbstractScmMojo {
     /**
      * Currently only implemented with Git Executable. Perform a shallow checkout.
      *
-     * @since 2.1.1
+     * @since 2.2.1
      */
     @Parameter(property = "shallow", defaultValue = "false")
     private boolean shallow = false;
@@ -146,7 +146,7 @@ public class CheckoutMojo extends AbstractScmMojo {
 
     private void prepareOutputDirectory(File ouputDirectory) throws MojoExecutionException {
         try {
-            this.getLog().info("Removing " + ouputDirectory);
+            this.getLog().debug("Removing " + ouputDirectory);
 
             FileUtils.deleteDirectory(getCheckoutDirectory());
         } catch (IOException e) {

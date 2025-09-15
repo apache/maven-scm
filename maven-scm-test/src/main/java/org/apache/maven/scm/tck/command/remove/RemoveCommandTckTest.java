@@ -68,7 +68,6 @@ public abstract class RemoveCommandTckTest extends ScmTckTestCase {
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString(CommandParameter.MESSAGE, "Commit message");
-        commandParameters.setString(CommandParameter.SCM_COMMIT_SIGN, "false");
 
         // checkin changes
         CheckInScmResult checkinResult =

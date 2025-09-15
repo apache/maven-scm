@@ -201,7 +201,7 @@ public class ChangeLogMojo extends AbstractScmMojo {
             ChangeLogSet changeLogSet = result.getChangeLog();
 
             for (ChangeSet changeSet : changeLogSet.getChangeSets()) {
-                getLog().info(changeSet.toString());
+                getLog().debug(changeSet.toString());
             }
 
         } catch (IOException | ScmException e) {
@@ -220,12 +220,9 @@ public class ChangeLogMojo extends AbstractScmMojo {
         }
 
         try {
-            return format.parse(date.toString());
+            return format.parse(date);
         } catch (ParseException e) {
-            throw new MojoExecutionException(
-                    "Please use this date pattern: "
-                            + format.toLocalizedPattern().toString(),
-                    e);
+            throw new MojoExecutionException("Please use this date pattern: " + format.toLocalizedPattern(), e);
         }
     }
 }

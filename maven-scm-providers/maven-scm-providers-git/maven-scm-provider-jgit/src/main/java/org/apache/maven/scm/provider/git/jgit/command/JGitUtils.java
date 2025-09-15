@@ -129,8 +129,7 @@ public class JGitUtils {
      *
      * @param git        the instance to configure (only in memory, not saved)
      * @param repository the repo config to be used
-     * @return {@link CredentialsProvider} in case there are credentials
-     * informations configured in the repository.
+     * @return {@link CredentialsProvider} in case credential information is configured in the repository.
      */
     public static CredentialsProvider prepareSession(Git git, GitScmProviderRepository repository) {
         StoredConfig config = git.getRepository().getConfig();
@@ -465,7 +464,7 @@ public class JGitUtils {
             } else {
                 final ObjectId head = repo.resolve(Constants.HEAD);
                 if (head == null) {
-                    throw new RuntimeException("Cannot resolve " + Constants.HEAD);
+                    throw new IOException("Cannot resolve " + Constants.HEAD);
                 }
                 RevCommit real = walk.parseCommit(head);
                 walk.markStart(real);

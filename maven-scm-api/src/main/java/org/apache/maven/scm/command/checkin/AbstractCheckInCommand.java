@@ -20,6 +20,7 @@ package org.apache.maven.scm.command.checkin;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.CommandParameters.SignOption;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -36,6 +37,27 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractCheckInCommand extends AbstractCommand {
     public static final String NAME = "check-in";
 
+    protected CheckInScmResult executeCheckInCommand(
+            ScmProviderRepository repository,
+            ScmFileSet fileSet,
+            String message,
+            ScmVersion scmVersion,
+            SignOption signOption)
+            throws ScmException {
+        return executeCheckInCommand(repository, fileSet, message, scmVersion);
+    }
+
+    /**
+     *
+     * @param repository
+     * @param fileSet
+     * @param message
+     * @param scmVersion
+     * @return
+     * @throws ScmException
+     * @deprecated use {@link #executeCheckInCommand(ScmProviderRepository, ScmFileSet, String, ScmVersion, SignOption)}
+     */
+    @Deprecated
     protected abstract CheckInScmResult executeCheckInCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String message, ScmVersion scmVersion)
             throws ScmException;
@@ -45,7 +67,7 @@ public abstract class AbstractCheckInCommand extends AbstractCommand {
         String message = parameters.getString(CommandParameter.MESSAGE);
 
         ScmVersion scmVersion = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
-
-        return executeCheckInCommand(repository, fileSet, message, scmVersion);
+        SignOption signOption = parameters.getSignOption(CommandParameter.SIGN_OPTION);
+        return executeCheckInCommand(repository, fileSet, message, scmVersion, signOption);
     }
 }

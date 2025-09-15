@@ -55,7 +55,7 @@ public abstract class CheckOutCommandTckTest extends ScmTckTestCase {
             for (Iterator<ScmFile> it = files.iterator(); it.hasNext(); i++) {
                 ScmFile scmFile = it.next();
 
-                System.out.println("" + i + ": " + scmFile);
+                System.out.println(i + ": " + scmFile);
             }
 
             fail("Expected 4 files in the updated files list, was " + checkedOutFiles.size());

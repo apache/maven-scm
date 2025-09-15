@@ -59,14 +59,14 @@ public class GitExeCheckOutCommandNoBranchTest extends ScmTestCase {
 
     @Test
     public void testCheckoutNoBranch() throws Exception {
-        checkScmPresence(GIT_COMMAND_LINE);
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
         CheckOutScmResult result = checkoutRepo();
         assertEquals(0, result.getCheckedOutFiles().size());
     }
 
     @Test
     public void testDoubleCheckoutNoBranch() throws Exception {
-        checkScmPresence(GIT_COMMAND_LINE);
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
         CheckOutScmResult result = checkoutRepo();
         assertEquals(0, result.getCheckedOutFiles().size());
         CheckOutScmResult result2 = checkoutRepo();

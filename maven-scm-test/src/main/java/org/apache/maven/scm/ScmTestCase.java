@@ -299,7 +299,7 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
         assertEquals(expectedCommandLineAsExecuted, actualCommandLineAsExecuted);
     }
 
-    public static void checkScmPresence(String scmProviderCommand) {
+    public static void checkSystemCmdPresence(String scmProviderCommand) {
         assumeTrue(
                 "Skipping tests because the required command '" + scmProviderCommand + "' is not available.",
                 ScmTestCase.isSystemCmd(scmProviderCommand));

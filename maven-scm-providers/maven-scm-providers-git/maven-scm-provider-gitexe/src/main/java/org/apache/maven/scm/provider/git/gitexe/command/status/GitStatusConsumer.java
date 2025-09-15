@@ -19,9 +19,9 @@
 package org.apache.maven.scm.provider.git.gitexe.command.status;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -376,11 +376,7 @@ public class GitStatusConsumer extends AbstractConsumer {
                 break;
             }
         }
-        try {
-            // explicit say UTF-8, otherwise it'll fail at least on Windows cmdline
-            return new String(outba, 0, outSub, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        // explicitly say UTF-8, otherwise it'll fail at least on Windows cmdline
+        return new String(outba, 0, outSub, StandardCharsets.UTF_8);
     }
 }

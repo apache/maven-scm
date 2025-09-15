@@ -30,7 +30,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
+import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -48,14 +48,14 @@ public class ChangeLogMojoTest extends AbstractJUnit4MojoTestCase {
 
         FileUtils.forceDelete(repository);
 
-        checkScmPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);
     }
 
     @Test
     public void testChangeLog() throws Exception {
-        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
         ChangeLogMojo mojo = (ChangeLogMojo)
                 lookupMojo("changelog", getTestFile("src/test/resources/mojos/changelog/changelog.xml"));
 
@@ -71,7 +71,7 @@ public class ChangeLogMojoTest extends AbstractJUnit4MojoTestCase {
 
     @Test
     public void testChangeLogWithParameters() throws Exception {
-        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         ChangeLogMojo mojo = (ChangeLogMojo)
                 lookupMojo("changelog", getTestFile("src/test/resources/mojos/changelog/changelogWithParameters.xml"));
@@ -109,7 +109,7 @@ public class ChangeLogMojoTest extends AbstractJUnit4MojoTestCase {
 
     @Test
     public void testChangeLogWithBadConnectionUrl() throws Exception {
-        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
+        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         ChangeLogMojo mojo = (ChangeLogMojo) lookupMojo(
                 "changelog", getTestFile("src/test/resources/mojos/changelog/changelogWithBadConnectionUrl.xml"));
