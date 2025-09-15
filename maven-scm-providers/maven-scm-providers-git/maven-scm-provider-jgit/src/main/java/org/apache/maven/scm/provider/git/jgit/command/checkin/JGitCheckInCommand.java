@@ -45,6 +45,7 @@ import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.jgit.command.PushException;
 import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
@@ -153,9 +154,12 @@ public class JGitCheckInCommand extends AbstractCheckInCommand
                         .setMessage(message)
                         .setAuthor(author.name, author.email)
                         .setCommitter(committer.name, committer.email);
+                if (GitUtil.getSettings().isCommitNoVerify()) {
+                    command.setNoVerify(true);
+                }
                 RevCommit commitRev = command.call();
 
-                logger.info("commit done: " + commitRev.getShortMessage());
+                logger.debug("commit done: " + commitRev.getShortMessage());
                 checkedInFiles = JGitUtils.getFilesInCommit(git.getRepository(), commitRev, fileSet.getBasedir());
                 if (logger.isDebugEnabled()) {
                     for (ScmFile scmFile : checkedInFiles) {

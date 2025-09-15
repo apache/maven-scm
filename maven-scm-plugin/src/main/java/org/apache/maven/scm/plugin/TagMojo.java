@@ -134,13 +134,12 @@ public class TagMojo extends AbstractScmMojo {
 
             if (addTimestamp) {
                 try {
-                    getLog().info("Using timestamp pattern '" + timestampFormat + "'");
+                    getLog().debug("Using timestamp pattern '" + timestampFormat + "'");
                     dateFormat = new SimpleDateFormat(timestampFormat);
                     tagTimestamp = dateFormat.format(new Date());
-                    getLog().info("Using timestamp '" + tagTimestamp + "'");
+                    getLog().debug("Using timestamp '" + tagTimestamp + "'");
                 } catch (IllegalArgumentException e) {
                     String msg = "The timestamp format '" + timestampFormat + "' is invalid.";
-                    getLog().error(msg, e);
                     throw new MojoExecutionException(msg, e);
                 }
 
@@ -155,7 +154,7 @@ public class TagMojo extends AbstractScmMojo {
             ScmProvider provider = getScmManager().getProviderByRepository(repository);
 
             finalTag = provider.sanitizeTagName(finalTag);
-            getLog().info("Final Tag Name: '" + finalTag + "'");
+            getLog().debug("Final Tag Name: '" + finalTag + "'");
 
             ScmTagParameters scmTagParameters = new ScmTagParameters(message);
             scmTagParameters.setRemoteTagging(remoteTagging);

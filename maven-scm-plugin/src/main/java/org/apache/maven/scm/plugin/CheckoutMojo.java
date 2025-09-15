@@ -146,7 +146,7 @@ public class CheckoutMojo extends AbstractScmMojo {
 
     private void prepareOutputDirectory(File ouputDirectory) throws MojoExecutionException {
         try {
-            this.getLog().info("Removing " + ouputDirectory);
+            this.getLog().debug("Removing " + ouputDirectory);
 
             FileUtils.deleteDirectory(getCheckoutDirectory());
         } catch (IOException e) {

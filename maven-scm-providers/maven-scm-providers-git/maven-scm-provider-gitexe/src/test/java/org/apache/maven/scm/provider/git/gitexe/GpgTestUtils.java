@@ -59,7 +59,7 @@ public class GpgTestUtils {
                     }
                 });
         if (exitCode != 0) {
-            throw new CommandLineException("GPG command failed with exit code: " + exitCode);
+            throw new RuntimeException("GPG command failed with exit code: " + exitCode);
         }
     }
 
@@ -67,7 +67,7 @@ public class GpgTestUtils {
         Path tmpFile = Files.createTempFile("gpg-secret-key", ".key");
         try (InputStream input = GpgTestUtils.class.getResourceAsStream(pgpKeyResourceName)) {
             if (input == null) {
-                throw new IOException("Secret GPG file not found: " + pgpKeyResourceName);
+                throw new IllegalArgumentException("Secret GPG file not found: " + pgpKeyResourceName);
             }
             Files.copy(input, tmpFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         }
