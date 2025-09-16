@@ -18,6 +18,7 @@
  */
 package org.apache.maven.scm.provider.git.jgit.command.remoteinfo;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +37,7 @@ import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessio
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LsRemoteCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -92,7 +94,7 @@ public class JGitRemoteInfoCommand extends AbstractRemoteInfoCommand implements 
             }
 
             return new RemoteInfoScmResult("JGit remoteinfo", heads, tag);
-        } catch (Exception e) {
+        } catch (IOException | GitAPIException e) {
             throw new ScmException("JGit remoteinfo failure!", e);
         } finally {
             JGitUtils.closeRepo(git);

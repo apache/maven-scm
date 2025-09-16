@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.git.jgit.command.blame;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.blame.BlameResult;
 
 /**
@@ -61,7 +63,7 @@ public class JGitBlameCommand extends AbstractBlameCommand implements GitCommand
             }
 
             return new BlameScmResult("JGit blame", lines);
-        } catch (Exception e) {
+        } catch (IOException | GitAPIException e) {
             throw new ScmException("JGit blame failure!", e);
         } finally {
             JGitUtils.closeRepo(git);

@@ -88,7 +88,7 @@ public class MavenScmCli {
     public void stop() {
         try {
             plexus.dispose();
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
             // ignore
         }
     }

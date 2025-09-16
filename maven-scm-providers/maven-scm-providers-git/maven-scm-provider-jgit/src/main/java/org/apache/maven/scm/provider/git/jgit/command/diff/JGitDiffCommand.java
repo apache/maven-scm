@@ -57,7 +57,7 @@ public class JGitDiffCommand extends AbstractDiffCommand implements GitCommand {
             DiffScmResult diff = callDiff(git, startRevision, endRevision);
             git.getRepository().close();
             return diff;
-        } catch (Exception e) {
+        } catch (IOException | GitAPIException e) {
             throw new ScmException("JGit diff failure!", e);
         } finally {
             JGitUtils.closeRepo(git);
