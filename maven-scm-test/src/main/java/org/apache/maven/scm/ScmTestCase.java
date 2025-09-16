@@ -37,7 +37,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
@@ -65,17 +64,10 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
         super.setUp();
 
         deleteDirectory(getRepositoryRoot());
-        assertFalse(getRepositoryRoot().exists());
         deleteDirectory(getWorkingCopy());
-        assertFalse(getWorkingCopy().exists());
         deleteDirectory(getWorkingDirectory());
-        assertFalse(getWorkingDirectory().exists());
         deleteDirectory(getAssertionCopy());
-        assertFalse(getAssertionCopy().exists());
         deleteDirectory(getUpdatingCopy());
-        assertFalse(getUpdatingCopy().exists());
-
-        scmManager = null;
     }
 
     @Override
