@@ -28,7 +28,6 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- *
  */
 class HgStatusConsumer extends HgConsumer {
     private final List<ScmFile> repositoryStatus = new ArrayList<>();
@@ -39,7 +38,9 @@ class HgStatusConsumer extends HgConsumer {
         this.workingDir = workingDir;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void doConsume(ScmFileStatus status, String trimmedLine) {
         // Only include real files (not directories)
         File tmpFile = new File(workingDir, trimmedLine);

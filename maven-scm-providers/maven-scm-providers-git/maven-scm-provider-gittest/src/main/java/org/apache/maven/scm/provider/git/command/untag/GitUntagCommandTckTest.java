@@ -35,9 +35,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 
-/** {@inheritDoc} */
+/**
+ * {@inheritDoc}
+ */
 public abstract class GitUntagCommandTckTest extends UntagCommandTckTest {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void initRepo() throws Exception {
         GitScmTestUtils.initRepo("src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory());
     }

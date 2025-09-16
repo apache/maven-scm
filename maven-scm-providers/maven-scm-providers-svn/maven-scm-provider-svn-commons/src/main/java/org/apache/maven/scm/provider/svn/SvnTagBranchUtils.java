@@ -24,9 +24,6 @@ import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 
-/**
- *
- */
 public final class SvnTagBranchUtils {
 
     private SvnTagBranchUtils() {}
@@ -44,7 +41,7 @@ public final class SvnTagBranchUtils {
     /**
      * Simple helper function to concatenate two paths together with a "/".
      * Handles trailing / on basePath.
-     * Returns no trailing "/" if the addlPath is null
+     * Returns no trailing "/" if the addlPath is null.
      */
     static String appendPath(String basePath, String addlPath) {
         basePath = StringUtils.stripEnd(basePath, "/");
@@ -59,9 +56,9 @@ public final class SvnTagBranchUtils {
     /**
      * Returns the project root for the given repository url,
      * where "project root" is the root of the /trunk, /branches, /tags
-     * directories
+     * directories.
      *
-     * @param repoPath Repository path/url to be searched
+     * @param repoPath repository path/url to be searched
      * @return TODO
      */
     public static String getProjectRoot(String repoPath) {
@@ -168,10 +165,10 @@ public final class SvnTagBranchUtils {
      * Else, the result is in the format of <code>projectRoot/subdir/branchTagName</code> directory.<br>
      *
      * @param repositoryUrl string url for the repository
-     * @param tagBase       tagBase to use.
-     * @param subdir        Subdirectory to append to the project root
+     * @param tagBase       tagBase to use
+     * @param subdir        subdirectory to append to the project root
      *                      (for branching use "branches", tags use "tags")
-     * @param branchTag     Name of the actual branch or tag. Can be an absolute url, simple tag/branch name,
+     * @param branchTag     name of the actual branch or tag. Can be an absolute url, simple tag/branch name,
      *                      or even contain a relative path to the root like "branches/my-branch"
      * @return TODO
      */
@@ -243,7 +240,7 @@ public final class SvnTagBranchUtils {
      * "PREV"
      * <p>
      * For command such as diff, the revision argument can be in the format of:
-     * IDENTIFIER:IDENTIFIER   where IDENTIFIER is one of the args listed above
+     * IDENTIFIER:IDENTIFIER   where IDENTIFIER is one of the args listed above.
      */
     public static boolean isRevisionSpecifier(ScmVersion version) {
         if (version == null) {

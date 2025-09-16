@@ -38,7 +38,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public class GitBranchCommand extends AbstractBranchCommand implements GitCommand {
     private final Map<String, String> environmentVariables;
@@ -47,7 +46,9 @@ public class GitBranchCommand extends AbstractBranchCommand implements GitComman
         this.environmentVariables = environmentVariables;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmResult executeBranchCommand(ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message)
             throws ScmException {
         if (branch == null || branch.trim().isEmpty()) {
@@ -120,7 +121,7 @@ public class GitBranchCommand extends AbstractBranchCommand implements GitComman
     }
 
     /**
-     * Helper function to detect the current branch
+     * Helper function to detect the current branch.
      */
     public static String getCurrentBranch(GitScmProviderRepository repository, ScmFileSet fileSet) throws ScmException {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "symbolic-ref");

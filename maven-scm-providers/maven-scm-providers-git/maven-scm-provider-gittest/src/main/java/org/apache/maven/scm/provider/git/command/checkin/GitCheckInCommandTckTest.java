@@ -43,11 +43,12 @@ import static org.junit.Assert.assertFalse;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void initRepo() throws Exception {
         GitScmTestUtils.initRepo("src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory());
     }
@@ -163,6 +164,7 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
     /**
      * Creates a new file below a new temporary directory and copies the content of a classpath resource into it.
      * The caller is responsible for deleting the temporary directory afterwards.
+     *
      * @param resourceName from where to populate the file (relative to {@code clazz})
      * @param fileName the file name to create below
      * @return the newly created file

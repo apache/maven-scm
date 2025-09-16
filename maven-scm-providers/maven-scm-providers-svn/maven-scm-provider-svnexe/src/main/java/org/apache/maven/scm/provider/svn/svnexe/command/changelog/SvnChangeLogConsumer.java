@@ -32,7 +32,6 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class SvnChangeLogConsumer extends AbstractConsumer {
     /**
@@ -41,22 +40,22 @@ public class SvnChangeLogConsumer extends AbstractConsumer {
     private static final String SVN_TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss zzzzzzzzz";
 
     /**
-     * State machine constant: expecting header
+     * State machine constant: expecting header.
      */
     private static final int GET_HEADER = 1;
 
     /**
-     * State machine constant: expecting file information
+     * State machine constant: expecting file information.
      */
     private static final int GET_FILE = 2;
 
     /**
-     * State machine constant: expecting comments
+     * State machine constant: expecting comments.
      */
     private static final int GET_COMMENT = 3;
 
     /**
-     * There is always action and affected path; when copying/moving, recognize also original path and revision
+     * There is always action and affected path; when copying/moving, recognize also original path and revision.
      */
     private static final Pattern FILE_PATTERN = Pattern.compile("^\\s\\s\\s([A-Z])\\s(.+)$");
 
@@ -67,43 +66,43 @@ public class SvnChangeLogConsumer extends AbstractConsumer {
     private static final Pattern ORIG_FILE_PATTERN = Pattern.compile("\\([A-Za-z]+ (.+):(\\d+)\\)");
 
     /**
-     * The file section ends with a blank line
+     * The file section ends with a blank line.
      */
     private static final String FILE_END_TOKEN = "";
 
     /**
-     * The comment section ends with a dashed line
+     * The comment section ends with a dashed line.
      */
     private static final String COMMENT_END_TOKEN =
             "------------------------------------" + "------------------------------------";
 
     /**
-     * Current status of the parser
+     * Current status of the parser.
      */
     private int status = GET_HEADER;
 
     /**
-     * List of change log entries
+     * List of change log entries.
      */
     private final List<ChangeSet> entries = new ArrayList<>();
 
     /**
-     * The current log entry being processed by the parser
+     * The current log entry being processed by the parser.
      */
     private SvnChangeSet currentChange;
 
     /**
-     * The current revision of the entry being processed by the parser
+     * The current revision of the entry being processed by the parser.
      */
     private String currentRevision;
 
     /**
-     * The current comment of the entry being processed by the parser
+     * The current comment of the entry being processed by the parser.
      */
     private StringBuilder currentComment;
 
     /**
-     * The regular expression used to match header lines
+     * The regular expression used to match header lines.
      */
     private static final Pattern HEADER_REG_EXP = Pattern.compile("^(.+) \\| (.+) \\| (.+) \\|.*$");
 
@@ -172,7 +171,7 @@ public class SvnChangeLogConsumer extends AbstractConsumer {
      * repository is given a single revision number, which is used for
      * the revision number of each file.
      *
-     * @param line A line of text from the svn log output
+     * @param line a line of text from the svn log output
      */
     private void processGetHeader(String line) {
         Matcher matcher = HEADER_REG_EXP.matcher(line);
@@ -217,7 +216,7 @@ public class SvnChangeLogConsumer extends AbstractConsumer {
      * the revision number for the entire entry is used for the revision
      * number of each file.
      *
-     * @param line A line of text from the svn log output
+     * @param line a line of text from the svn log output
      */
     private void processGetFile(String line) {
         Matcher matcher = FILE_PATTERN.matcher(line);
@@ -292,8 +291,8 @@ public class SvnChangeLogConsumer extends AbstractConsumer {
      * Converts the date time stamp from the svn output into a date
      * object.
      *
-     * @param dateOutput The date output from an svn log command.
-     * @return A date representing the time stamp of the log entry.
+     * @param dateOutput the date output from an svn log command
+     * @return a date representing the time stamp of the log entry
      */
     private Date getDate(final String dateOutput) {
         Matcher matcher = DATE_REG_EXP.matcher(dateOutput);

@@ -30,19 +30,20 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 /**
  * TODO: Better support for entire filesets.
  * TODO: Better support for entire changesets (ie consistency between revision handling in SVN).
- * TODO: Consistent handling of revisions, tags and dates - currently only revisions supported
+ * TODO: Consistent handling of revisions, tags and dates - currently only revisions supported.
  *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public abstract class AbstractDiffCommand extends AbstractCommand {
     protected abstract DiffScmResult executeDiffCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, ScmVersion startRevision, ScmVersion endRevision)
             throws ScmException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         ScmVersion startRevision = parameters.getScmVersion(CommandParameter.START_SCM_VERSION, null);

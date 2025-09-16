@@ -27,12 +27,16 @@ import org.apache.maven.scm.tck.command.remove.RemoveCommandTckTest;
  * @author Georg Tsakumagos
  */
 public abstract class GitRemoveCommandTckTest extends RemoveCommandTckTest {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmUrl() throws Exception {
         return GitScmTestUtils.getScmUrl(getRepositoryRoot(), "git");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void initRepo() throws Exception {
         GitScmTestUtils.initRepo("src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory());
     }

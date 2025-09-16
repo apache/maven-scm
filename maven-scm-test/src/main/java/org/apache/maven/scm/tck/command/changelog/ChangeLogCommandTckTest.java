@@ -56,7 +56,8 @@ public abstract class ChangeLogCommandTckTest extends ScmTckTestCase {
 
     /**
      * In some SCMs (Hg) adding a tag creates an extra commit which offsets the expectations.
-     * @return If an extra commit will be present for a tag.
+     *
+     * @return if an extra commit will be present for a tag
      */
     public boolean isTagAnExtraCommit() {
         return false;

@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public abstract class ScmProviderRepositoryWithHost extends ScmProviderRepository {
     private String host;

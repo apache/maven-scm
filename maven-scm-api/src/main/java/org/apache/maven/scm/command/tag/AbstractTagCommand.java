@@ -31,17 +31,16 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public abstract class AbstractTagCommand extends AbstractCommand {
     /**
-     * @deprecated use method {@link #executeTagCommand(ScmProviderRepository, ScmFileSet, String, ScmTagParameters)}
      * @param repository TODO
      * @param fileSet TODO
      * @param tagName TODO
      * @param message TODO
      * @return TODO
      * @throws ScmException if any
+     * @deprecated use method {@link #executeTagCommand(ScmProviderRepository, ScmFileSet, String, ScmTagParameters)}
      */
     protected ScmResult executeTagCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String tagName, String message) throws ScmException {
@@ -52,7 +51,9 @@ public abstract class AbstractTagCommand extends AbstractCommand {
             ScmProviderRepository repository, ScmFileSet fileSet, String tagName, ScmTagParameters scmTagParameters)
             throws ScmException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         String tagName = parameters.getString(CommandParameter.TAG_NAME);

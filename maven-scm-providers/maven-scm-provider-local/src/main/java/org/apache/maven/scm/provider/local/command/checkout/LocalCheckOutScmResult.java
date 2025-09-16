@@ -25,7 +25,6 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public class LocalCheckOutScmResult extends CheckOutScmResult {
     private static final long serialVersionUID = -2646018573623668026L;

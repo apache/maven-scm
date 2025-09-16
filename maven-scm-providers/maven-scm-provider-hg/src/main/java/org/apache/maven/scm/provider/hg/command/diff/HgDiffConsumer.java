@@ -31,7 +31,6 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author Olivier Lamy
- *
  */
 public class HgDiffConsumer extends HgConsumer {
 
@@ -78,7 +77,9 @@ public class HgDiffConsumer extends HgConsumer {
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine(String line) {
         if (line.startsWith(INDEX_TOKEN)) {
             // start a new file

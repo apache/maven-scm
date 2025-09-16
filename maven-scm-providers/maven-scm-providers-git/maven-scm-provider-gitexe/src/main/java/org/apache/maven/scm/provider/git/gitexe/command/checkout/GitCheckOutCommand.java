@@ -46,7 +46,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCommand {
     private final Map<String, String> environmentVariables;
@@ -164,7 +163,7 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
     }
 
     /**
-     * create a git-clone repository command
+     * Create a git-clone repository command.
      */
     private Commandline createCloneCommand(
             GitScmProviderRepository repository,

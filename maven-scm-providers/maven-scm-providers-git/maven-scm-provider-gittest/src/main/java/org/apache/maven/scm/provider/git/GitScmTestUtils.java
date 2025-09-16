@@ -30,10 +30,9 @@ import org.junit.Assert;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public final class GitScmTestUtils {
-    /** 'git' command line */
+    /** 'git' command line. */
     public static final String GIT_COMMAND_LINE = "git";
 
     private GitScmTestUtils() {}
@@ -116,7 +115,6 @@ public final class GitScmTestUtils {
      * This is useful for testing scenarios where you want to simulate a repository
      * that doesn't allow any new commits.
      * This hook is <a href="https://github.com/eclipse-jgit/jgit/issues/192">not supported by JGit</a>.
-     *
      *
      * @param repositoryRootFile the root directory of the git repository
      * @throws IOException if there's an error creating or writing the hook file

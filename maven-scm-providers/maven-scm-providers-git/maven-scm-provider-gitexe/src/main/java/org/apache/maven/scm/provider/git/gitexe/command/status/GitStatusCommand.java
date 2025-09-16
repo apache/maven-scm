@@ -34,10 +34,11 @@ import org.slf4j.Logger;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public class GitStatusCommand extends AbstractStatusCommand implements GitCommand {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected StatusScmResult executeStatusCommand(ScmProviderRepository repo, ScmFileSet fileSet) throws ScmException {
         int exitCode;
         CommandLineUtils.StringStreamConsumer stderr;
@@ -68,10 +69,10 @@ public class GitStatusCommand extends AbstractStatusCommand implements GitComman
     /**
      * Get the dir relative to the repository root.
      *
-     * @param logger the caller command logger.
-     * @param fileSet in which subdir to execute.
-     * @return the relative URI.
-     * @throws ScmException if execute() fails.
+     * @param logger the caller command logger
+     * @param fileSet in which subdir to execute
+     * @return the relative URI
+     * @throws ScmException if execute() fails
      */
     public static URI getRelativeCWD(Logger logger, ScmFileSet fileSet) throws ScmException {
         Commandline clRevparse = createRevparseShowPrefix(fileSet);

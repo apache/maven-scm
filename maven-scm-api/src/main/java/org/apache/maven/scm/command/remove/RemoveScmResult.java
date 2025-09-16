@@ -26,7 +26,6 @@ import org.apache.maven.scm.ScmResult;
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author Olivier Lamy
- *
  */
 public class RemoveScmResult extends ScmResult {
     private static final long serialVersionUID = 8852310735079996771L;

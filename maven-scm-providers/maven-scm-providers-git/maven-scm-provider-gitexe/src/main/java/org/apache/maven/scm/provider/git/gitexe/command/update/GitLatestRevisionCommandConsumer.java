@@ -25,18 +25,19 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public class GitLatestRevisionCommandConsumer extends AbstractConsumer {
 
     /**
-     * The pattern used to match git log latest revision lines
+     * The pattern used to match git log latest revision lines.
      */
     private static final Pattern LATESTREV_PATTERN = Pattern.compile("^commit \\s*(.*)");
 
     private String latestRevision;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine(String line) {
         if (logger.isDebugEnabled()) {
             logger.debug("GitLatestRevisionCommandConsumer consumeLine : " + line);
@@ -53,9 +54,9 @@ public class GitLatestRevisionCommandConsumer extends AbstractConsumer {
     }
 
     /**
-     * Process the current input line for the latest revision
+     * Process the current input line for the latest revision.
      *
-     * @param line A line of text from the git log output
+     * @param line a line of text from the git log output
      */
     private void processGetLatestRevision(String line) {
         Matcher matcher = LATESTREV_PATTERN.matcher(line);

@@ -36,10 +36,11 @@ import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class LocalListCommand extends AbstractListCommand {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ListScmResult executeListCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive, ScmVersion version) throws ScmException {
         if (version != null) {

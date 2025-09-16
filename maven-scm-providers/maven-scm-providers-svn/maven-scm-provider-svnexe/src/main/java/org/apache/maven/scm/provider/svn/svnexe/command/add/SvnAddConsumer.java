@@ -27,7 +27,6 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public class SvnAddConsumer extends AbstractConsumer {
     private final List<ScmFile> addedFiles = new ArrayList<>();
@@ -36,7 +35,9 @@ public class SvnAddConsumer extends AbstractConsumer {
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine(String line) {
         if (line.length() <= 3) {
             if (logger.isWarnEnabled()) {

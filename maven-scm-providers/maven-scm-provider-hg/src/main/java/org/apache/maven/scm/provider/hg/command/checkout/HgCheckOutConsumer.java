@@ -29,7 +29,6 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author Olivier Lamy
- *
  */
 public class HgCheckOutConsumer extends HgConsumer {
 
@@ -41,7 +40,9 @@ public class HgCheckOutConsumer extends HgConsumer {
         this.workingDirectory = workingDirectory;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void doConsume(ScmFileStatus status, String line) {
         File file = new File(workingDirectory, line);
         if (file.isFile()) {

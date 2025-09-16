@@ -39,13 +39,14 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public abstract class AbstractUpdateCommand extends AbstractCommand {
     protected abstract UpdateScmResult executeUpdateCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, ScmVersion scmVersion) throws ScmException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         ScmVersion scmVersion = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);

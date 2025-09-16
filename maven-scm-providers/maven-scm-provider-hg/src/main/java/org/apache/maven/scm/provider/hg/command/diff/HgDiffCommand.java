@@ -32,10 +32,11 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- *
  */
 public class HgDiffCommand extends AbstractDiffCommand implements Command {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected DiffScmResult executeDiffCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startRevision, ScmVersion endRevision)
             throws ScmException {

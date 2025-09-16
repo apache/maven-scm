@@ -20,7 +20,6 @@ package org.apache.maven.scm;
 
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class ScmException extends Exception {
     static final long serialVersionUID = 5041965569154385323L;

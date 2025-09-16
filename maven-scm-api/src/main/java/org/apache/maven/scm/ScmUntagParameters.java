@@ -21,28 +21,28 @@ package org.apache.maven.scm;
 import java.io.Serializable;
 
 /**
- * parameters used by implementation to perform untag operation
+ * Parameters used by implementation to perform untag operation.
  *
  * @since 1.11.2
  */
 public class ScmUntagParameters implements Serializable {
     /**
-     * serial version id
+     * Serial version id.
      */
     private static final long serialVersionUID = -7508529445894924957L;
 
     /**
-     * id of tag to delete/remove
+     * Id of tag to delete/remove.
      */
     private String tag;
 
     /**
-     * commit message
+     * Commit message.
      */
     private String message;
 
     /**
-     * constructor with tag and message
+     * Constructor with tag and message.
      *
      * @param tag     tag id
      * @param message commit message
@@ -53,7 +53,7 @@ public class ScmUntagParameters implements Serializable {
     }
 
     /**
-     * get tag id
+     * Get tag id.
      *
      * @return tag id
      */
@@ -62,7 +62,7 @@ public class ScmUntagParameters implements Serializable {
     }
 
     /**
-     * set tag id
+     * Set tag id.
      *
      * @param tag tag id
      */
@@ -71,7 +71,7 @@ public class ScmUntagParameters implements Serializable {
     }
 
     /**
-     * get commit message
+     * Get commit message.
      *
      * @return commit message
      */
@@ -80,7 +80,7 @@ public class ScmUntagParameters implements Serializable {
     }
 
     /**
-     * set commit message
+     * Set commit message.
      *
      * @param message commit message
      */

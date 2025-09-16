@@ -20,6 +20,5 @@ package org.apache.maven.scm.manager;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class BasicScmManager extends AbstractScmManager {}

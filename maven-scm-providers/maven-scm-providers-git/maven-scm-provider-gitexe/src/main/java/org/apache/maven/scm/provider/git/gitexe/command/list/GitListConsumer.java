@@ -28,7 +28,6 @@ import org.apache.maven.scm.provider.git.gitexe.command.AbstractFileCheckingCons
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Olivier Lamy
- *
  */
 public class GitListConsumer extends AbstractFileCheckingConsumer {
     private final ScmFileStatus fileStatus;
@@ -43,7 +42,9 @@ public class GitListConsumer extends AbstractFileCheckingConsumer {
         this.fileStatus = fileStatus;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected void parseLine(String line) {
 
         addFile(new ScmFile(line, fileStatus));

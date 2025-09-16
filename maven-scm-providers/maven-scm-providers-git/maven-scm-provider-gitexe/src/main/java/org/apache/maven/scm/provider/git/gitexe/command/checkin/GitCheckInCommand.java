@@ -52,7 +52,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Olivier Lamy
- *
  */
 public class GitCheckInCommand extends AbstractCheckInCommand implements GitCommand {
     private final Map<String, String> environmentVariables;
@@ -69,7 +68,9 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
         return executeCheckInCommand(repository, fileSet, message, scmVersion, SignOption.DEFAULT);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected CheckInScmResult executeCheckInCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String message, ScmVersion version, SignOption signOption)
             throws ScmException {

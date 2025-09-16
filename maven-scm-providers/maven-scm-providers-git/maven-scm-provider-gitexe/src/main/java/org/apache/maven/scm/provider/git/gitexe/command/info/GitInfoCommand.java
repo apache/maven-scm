@@ -39,6 +39,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * Uses {@code git log} command to retrieve info about the most recent commits related to specific files.
+ *
  * @author Olivier Lamy
  * @since 1.5
  */
@@ -86,7 +87,7 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
     }
 
     /**
-     * Get the revision length from the parameters
+     * Get the revision length from the parameters.
      *
      * @param parameters
      * @return -1 if parameter {@link CommandParameter.SCM_SHORT_REVISION_LENGTH} is absent, <br>

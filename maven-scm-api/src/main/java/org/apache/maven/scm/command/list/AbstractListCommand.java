@@ -29,11 +29,10 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- *
  */
 public abstract class AbstractListCommand extends AbstractCommand {
     /**
-     * List contents of the remote repository
+     * List contents of the remote repository.
      *
      * @param repository what to list
      * @param fileSet    the files to list
@@ -46,7 +45,9 @@ public abstract class AbstractListCommand extends AbstractCommand {
             ScmProviderRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion scmVersion)
             throws ScmException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         if (fileSet.getFileList().isEmpty()) {

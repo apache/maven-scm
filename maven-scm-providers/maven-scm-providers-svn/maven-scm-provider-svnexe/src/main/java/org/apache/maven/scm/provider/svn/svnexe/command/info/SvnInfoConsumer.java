@@ -28,7 +28,6 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
- *
  */
 public class SvnInfoConsumer extends AbstractConsumer {
     private final List<InfoItem> infoItems = new ArrayList<>();
@@ -37,7 +36,9 @@ public class SvnInfoConsumer extends AbstractConsumer {
 
     private static final DateTimeFormatter DT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine(String s) {
         if (s.equals("")) {
             if (currentItem != null) {

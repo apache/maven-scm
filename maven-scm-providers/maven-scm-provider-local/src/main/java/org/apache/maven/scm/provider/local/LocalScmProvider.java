@@ -57,13 +57,17 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 @Singleton
 @Named("local")
 public class LocalScmProvider extends AbstractScmProvider {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getScmType() {
         return "local";
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScmProviderRepository makeProviderScmRepository(String scmSpecificUrl, char delimiter)
             throws ScmRepositoryException {
@@ -132,7 +136,9 @@ public class LocalScmProvider extends AbstractScmProvider {
         return module;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public StatusScmResult status(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
@@ -141,7 +147,9 @@ public class LocalScmProvider extends AbstractScmProvider {
         return (StatusScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public TagScmResult tag(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
@@ -150,7 +158,9 @@ public class LocalScmProvider extends AbstractScmProvider {
         return (TagScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public AddScmResult add(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
@@ -159,7 +169,9 @@ public class LocalScmProvider extends AbstractScmProvider {
         return (AddScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected ChangeLogScmResult changelog(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
@@ -168,7 +180,9 @@ public class LocalScmProvider extends AbstractScmProvider {
         return (ChangeLogScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CheckInScmResult checkin(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
@@ -177,7 +191,9 @@ public class LocalScmProvider extends AbstractScmProvider {
         return (CheckInScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CheckOutScmResult checkout(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
@@ -186,7 +202,9 @@ public class LocalScmProvider extends AbstractScmProvider {
         return (CheckOutScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected ListScmResult list(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
@@ -195,7 +213,9 @@ public class LocalScmProvider extends AbstractScmProvider {
         return (ListScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected MkdirScmResult mkdir(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
@@ -204,7 +224,9 @@ public class LocalScmProvider extends AbstractScmProvider {
         return (MkdirScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UpdateScmResult update(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {

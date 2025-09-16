@@ -70,6 +70,7 @@ public class ScmRequest implements Serializable {
     /**
      * The files being processed. Implementations can also work with all files from the
      *      {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
+     *
      * @param scmFileSet working copy and its selected files
      */
     public void setScmFileSet(ScmFileSet scmFileSet) {
@@ -79,6 +80,7 @@ public class ScmRequest implements Serializable {
     /**
      * Holds all parameter values passed to the implementing part.
      * These parameters are usually translated to commandline options or arguments.
+     *
      * @return command parameters
      */
     public CommandParameters getCommandParameters() {

@@ -50,7 +50,6 @@ import static org.junit.Assume.assumeTrue;
  * test environment and implements convenience methods.
  *
  * @author <a href="mailto:jason@maven.org">Jason van Zyl</a>
- *
  */
 public abstract class ScmTestCase extends PlexusJUnit4TestCase {
     protected static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone("GMT");
@@ -91,7 +90,7 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
     }
 
     /**
-     * @return Location of the revisioned (read only) repository
+     * @return location of the revisioned (read only) repository
      */
     protected File getRepository() {
         return PlexusJUnit4TestCase.getTestFile("/src/test/repository");
@@ -191,7 +190,7 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
     }
 
     /**
-     * Execute the command line
+     * Execute the command line.
      *
      * @param workingDirectory not null
      * @param executable       not null, should be a system command
@@ -306,7 +305,7 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
     }
 
     /**
-     * @param cmd the executable to run, not null.
+     * @param cmd the executable to run, not null
      * @return true if and only if the command is on the path
      */
     public static boolean isSystemCmd(String cmd) {

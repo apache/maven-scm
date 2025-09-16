@@ -43,7 +43,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public class GitTagCommand extends AbstractTagCommand implements GitCommand {
     private final Map<String, String> environmentVariables;
@@ -57,7 +56,9 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
         return executeTagCommand(repo, fileSet, tag, new ScmTagParameters(message));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmResult executeTagCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String tag, ScmTagParameters scmTagParameters)
             throws ScmException {

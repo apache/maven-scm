@@ -63,7 +63,6 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
  * <a href="https://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- *
  */
 public class ScmProviderStub implements ScmProvider {
 
@@ -110,7 +109,7 @@ public class ScmProviderStub implements ScmProvider {
     private UntagScmResult untagScmResult;
 
     /**
-     * Create a new ScmProviderStub with bogus (not null) attributes
+     * Create a new ScmProviderStub with bogus (not null) attributes.
      */
     public ScmProviderStub() {
         setScmSpecificFilename("");

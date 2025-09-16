@@ -35,15 +35,15 @@ import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.util.FS;
 
 /**
- * TODO Add javadoc
+ * TODO Add javadoc.
  *
  * @author <a href="mailto:dev@mina.apache.org">Apache MINA SSHD Project</a>
  */
 public class GitPackCommand extends AbstractGitCommand {
     /**
-     * @param rootDirResolver Resolver for GIT root directory
-     * @param command         Command to execute
-     * @param executorService An {@link CloseableExecutorService} to be used when
+     * @param rootDirResolver resolver for GIT root directory
+     * @param command         command to execute
+     * @param executorService an {@link CloseableExecutorService} to be used when
      *                        {@code start(ChannelSession, Environment)}-ing execution. If {@code null} an ad-hoc
      *                        single-threaded service is created and used.
      */

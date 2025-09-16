@@ -31,20 +31,19 @@ import org.apache.maven.scm.util.AbstractConsumer;
  * Base consumer to do common parsing for all hg commands.
  * <p>
  * More specific: log line each line if debug is enabled, get file status
- * and detect warnings from hg
+ * and detect warnings from hg.
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- *
  */
 public class HgConsumer extends AbstractConsumer {
 
     /**
-     * A list of known keywords from hg
+     * A list of known keywords from hg.
      */
     private static final Map<String, ScmFileStatus> IDENTIFIERS = new HashMap<>();
 
     /**
-     * A list of known message prefixes from hg
+     * A list of known message prefixes from hg.
      */
     private static final Map<String, String> MESSAGES = new HashMap<>();
 
@@ -88,7 +87,9 @@ public class HgConsumer extends AbstractConsumer {
         // override this
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine(String line) {
         if (logger.isDebugEnabled()) {
             logger.debug(line);
@@ -118,7 +119,7 @@ public class HgConsumer extends AbstractConsumer {
      * Warnings and errors is usually printed out in Std.Err, thus for derived consumers
      * operating on Std.Out this would typically return an empty string.
      *
-     * @return Return the last lines interpreted as an warning or an error
+     * @return return the last lines interpreted as an warning or an error
      */
     public String getStdErr() {
         StringBuilder str = new StringBuilder();

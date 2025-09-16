@@ -25,7 +25,6 @@ import org.apache.maven.scm.ScmResult;
 
 /**
  * @author Olivier Lamy
- *
  */
 public class UnEditScmResult extends ScmResult {
     private static final long serialVersionUID = 257465331122587798L;

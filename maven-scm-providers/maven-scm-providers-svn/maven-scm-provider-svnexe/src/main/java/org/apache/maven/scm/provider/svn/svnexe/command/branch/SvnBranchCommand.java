@@ -48,8 +48,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- *
- * TODO since this is just a copy, use that instead.
+ * TODO since this is just a copy, use that instead
  */
 public class SvnBranchCommand extends AbstractBranchCommand implements SvnCommand {
     private final boolean interactive;
@@ -132,7 +131,9 @@ public class SvnBranchCommand extends AbstractBranchCommand implements SvnComman
         return new BranchScmResult(cl.toString(), fileList);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmResult executeBranchCommand(ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message)
             throws ScmException {
         ScmBranchParameters scmBranchParameters = new ScmBranchParameters(message);

@@ -23,8 +23,8 @@ import org.apache.maven.scm.util.AbstractConsumer;
 /**
  * This logger parses the output of <i>git symbolic-ref HEAD</i>
  * to determine the current branch.
- * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
+ * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 public class GitCurrentBranchConsumer extends AbstractConsumer {
 
@@ -40,7 +40,9 @@ public class GitCurrentBranchConsumer extends AbstractConsumer {
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine(String line) {
         line = line.trim();
 

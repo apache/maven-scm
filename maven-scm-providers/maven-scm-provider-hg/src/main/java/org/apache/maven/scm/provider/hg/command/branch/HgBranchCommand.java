@@ -44,7 +44,6 @@ import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
  * the branch does not exist (yet) in the repository.
  *
  * @author Henning Schmiedehausen
- *
  */
 public class HgBranchCommand extends AbstractBranchCommand implements Command {
 

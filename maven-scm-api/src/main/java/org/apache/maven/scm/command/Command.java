@@ -27,10 +27,9 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public interface Command {
-    /** Plexus component key */
+    /** Plexus component key. */
     String ROLE = Command.class.getName();
 
     /**

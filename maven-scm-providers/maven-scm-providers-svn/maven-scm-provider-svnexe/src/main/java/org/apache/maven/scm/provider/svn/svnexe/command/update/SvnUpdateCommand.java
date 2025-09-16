@@ -45,7 +45,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class SvnUpdateCommand extends AbstractUpdateCommand implements SvnCommand {
     private final boolean interactive;
@@ -54,7 +53,9 @@ public class SvnUpdateCommand extends AbstractUpdateCommand implements SvnComman
         this.interactive = interactive;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected UpdateScmResult executeUpdateCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version)
             throws ScmException {
         Commandline cl = createCommandLine((SvnScmProviderRepository) repo, fileSet.getBasedir(), version);
@@ -149,7 +150,9 @@ public class SvnUpdateCommand extends AbstractUpdateCommand implements SvnComman
         return cl;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ChangeLogCommand getChangeLogCommand() {
         return new SvnChangeLogCommand(interactive);
     }

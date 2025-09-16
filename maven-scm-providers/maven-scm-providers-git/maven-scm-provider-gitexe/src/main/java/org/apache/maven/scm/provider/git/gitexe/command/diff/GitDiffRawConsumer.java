@@ -27,7 +27,6 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public class GitDiffRawConsumer extends AbstractConsumer {
     private final List<ScmFile> changedFiles = new ArrayList<>();

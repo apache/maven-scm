@@ -28,7 +28,6 @@ import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingCons
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- *
  */
 public class SvnCheckInConsumer extends AbstractFileCheckingConsumer {
     private static final String SENDING_TOKEN = "Sending        ";
@@ -55,7 +54,9 @@ public class SvnCheckInConsumer extends AbstractFileCheckingConsumer {
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected void parseLine(String line) {
         String file;
 

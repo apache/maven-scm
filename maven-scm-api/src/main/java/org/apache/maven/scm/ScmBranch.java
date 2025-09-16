@@ -20,12 +20,13 @@ package org.apache.maven.scm;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class ScmBranch extends AbstractScmVersion {
     private static final long serialVersionUID = 6305050785257168739L;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getType() {
         return "Branch";
     }

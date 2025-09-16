@@ -22,7 +22,6 @@ import org.apache.maven.scm.command.info.InfoItem;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
- *
  * @deprecated use {@link InfoItem}
  */
 public class SvnInfoItem extends InfoItem {

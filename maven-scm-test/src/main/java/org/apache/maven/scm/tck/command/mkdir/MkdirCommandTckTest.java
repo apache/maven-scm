@@ -32,7 +32,6 @@ import static org.junit.Assert.assertNotNull;
  * This test tests the mkdir command.
  *
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- *
  */
 public abstract class MkdirCommandTckTest extends ScmTckTestCase {
     @Test

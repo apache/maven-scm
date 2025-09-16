@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public abstract class AbstractCommand implements Command {
     protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -37,7 +36,9 @@ public abstract class AbstractCommand implements Command {
     protected abstract ScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public final ScmResult execute(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         if (repository == null) {

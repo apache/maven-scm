@@ -29,10 +29,11 @@ import org.apache.maven.scm.provider.local.command.LocalCommand;
 
 /**
  * @author <a href="mailto:matthewm@ambientideas.com">Matthew McCullough</a>
- *
  */
 public class LocalStatusCommand extends AbstractStatusCommand implements LocalCommand {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected StatusScmResult executeStatusCommand(ScmProviderRepository repository, ScmFileSet fileSet)
             throws ScmException {
         return new StatusScmResult(null, Collections.emptyList());

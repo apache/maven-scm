@@ -41,7 +41,6 @@ import static org.junit.Assert.assertFalse;
  * This test tests the tag command.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public abstract class TagCommandTckTest extends ScmTckTestCase {
 

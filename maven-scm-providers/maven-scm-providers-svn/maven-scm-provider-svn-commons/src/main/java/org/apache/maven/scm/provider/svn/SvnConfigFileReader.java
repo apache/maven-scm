@@ -33,7 +33,6 @@ import org.codehaus.plexus.util.Os;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class SvnConfigFileReader {
     private File configDirectory;

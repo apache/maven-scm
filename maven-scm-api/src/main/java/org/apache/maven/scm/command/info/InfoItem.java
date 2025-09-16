@@ -28,7 +28,6 @@ import java.time.temporal.TemporalAccessor;
  *
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
  * @author Olivier Lamy
- *
  * @since 1.5
  */
 public class InfoItem {
@@ -127,7 +126,7 @@ public class InfoItem {
     }
 
     /**
-     * @deprecated Use {@link #getLastChangedDateTime()} instead
+     * @deprecated use {@link #getLastChangedDateTime()} instead
      */
     @Deprecated
     public String getLastChangedDate() {
@@ -135,7 +134,7 @@ public class InfoItem {
     }
 
     /**
-     * @deprecated Use {@link #setLastChangedDateTime(TemporalAccessor)} instead
+     * @deprecated use {@link #setLastChangedDateTime(TemporalAccessor)} instead
      */
     @Deprecated
     public void setLastChangedDate(String lastChangedDate) {
@@ -143,7 +142,6 @@ public class InfoItem {
     }
 
     /**
-     *
      * @return the date when the file indicated via {@link #getPath()} has been changed in the SCM for the last time
      * @since 2.1.0
      */

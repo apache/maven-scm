@@ -195,9 +195,6 @@ public class JGitChangeLogCommand extends AbstractChangeLogCommand implements Gi
         return changes;
     }
 
-    /**
-     *
-     */
     public static final class ChangeEntry {
         private String commitHash;
 

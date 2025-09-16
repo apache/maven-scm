@@ -28,7 +28,6 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- *
  */
 public class HgAddConsumer extends HgConsumer {
     private final File workingDir;
@@ -39,7 +38,9 @@ public class HgAddConsumer extends HgConsumer {
         this.workingDir = workingDir;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void doConsume(ScmFileStatus status, String trimmedLine) {
         if (status == ScmFileStatus.ADDED) {
             // Only include real files (not directories)

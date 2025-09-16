@@ -41,7 +41,6 @@ import org.codehaus.plexus.util.cli.Commandline;
  * Command to list files in SVN ( <code>svn list</code> command )
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- *
  */
 public class SvnListCommand extends AbstractListCommand implements SvnCommand {
     private static final File TMP_DIR = new File(System.getProperty("java.io.tmpdir"));
@@ -51,7 +50,9 @@ public class SvnListCommand extends AbstractListCommand implements SvnCommand {
         this.interactive = interactive;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ListScmResult executeListCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion version)
             throws ScmException {

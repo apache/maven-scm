@@ -22,46 +22,48 @@ import java.io.Serializable;
 
 /**
  * A set of information about revisions of a file as returned by SCM's log
- * command
+ * command.
  *
  * @author <a href="mailto:dion@multitask.com.au">dIon Gillard </a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class ChangeFile implements Serializable {
     private static final long serialVersionUID = 6294855290542668753L;
 
     /**
-     * the name of the file relative to the project directory.
+     * The name of the file relative to the project directory.
      */
     private String name;
 
     /**
-     * the latest revision of the file.
+     * The latest revision of the file.
      */
     private String revision;
 
     /**
-     * edit type on the file
+     * Edit type on the file
      * note: perhaps we should use a different type, ideally enum? this one seems to target quite different usecases ...
+     *
      * @since 1.7
      */
     private ScmFileStatus action;
 
     /**
-     * the name before copying or moving
+     * The name before copying or moving.
+     *
      * @since 1.7
      */
     private String originalName;
 
     /**
-     * the revision from which we {@link ScmFileStatus copied} or {@link ScmFileStatus moved} this file or directory
+     * The revision from which we {@link ScmFileStatus copied} or {@link ScmFileStatus moved} this file or directory.
+     *
      * @since 1.7
      */
     private String originalRevision;
 
     /**
-     * Constructor for the ChangeFile object without all details available
+     * Constructor for the ChangeFile object without all details available.
      *
      * @param name file name
      */
@@ -70,7 +72,7 @@ public class ChangeFile implements Serializable {
     }
 
     /**
-     * Constructor for the ChangeFile object
+     * Constructor for the ChangeFile object.
      *
      * @param name file name
      * @param rev  latest revision of the file
@@ -93,7 +95,7 @@ public class ChangeFile implements Serializable {
     /**
      * Setter for property name.
      *
-     * @param name New value of property name.
+     * @param name new value of property name
      */
     public void setName(String name) {
         this.name = name;
@@ -128,7 +130,7 @@ public class ChangeFile implements Serializable {
     /**
      * Setter for property revision.
      *
-     * @param revision New value of property revision.
+     * @param revision new value of property revision
      */
     public void setRevision(String revision) {
         this.revision = revision;
@@ -143,7 +145,7 @@ public class ChangeFile implements Serializable {
     }
 
     /**
-     * Provide a version of the object as a string for debugging purposes
+     * Provide a version of the object as a string for debugging purposes.
      *
      * @return a {@link String}made up of the properties of the object
      */

@@ -27,7 +27,6 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- *
  */
 public class SvnListConsumer extends AbstractConsumer {
     private final List<ScmFile> files = new ArrayList<>();
@@ -36,7 +35,9 @@ public class SvnListConsumer extends AbstractConsumer {
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine(String line) {
         files.add(new ScmFile(line, ScmFileStatus.CHECKED_IN));
     }

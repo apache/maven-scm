@@ -26,7 +26,6 @@ import org.apache.maven.scm.ScmException;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- *
  */
 public class ScmRepositoryException extends ScmException {
     static final long serialVersionUID = -2191549774722212492L;

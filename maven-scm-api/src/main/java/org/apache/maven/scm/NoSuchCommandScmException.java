@@ -20,7 +20,6 @@ package org.apache.maven.scm;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public class NoSuchCommandScmException extends ScmException {
 
@@ -35,7 +34,7 @@ public class NoSuchCommandScmException extends ScmException {
     /**
      * Return the command name.
      *
-     * @return The command name
+     * @return the command name
      */
     public String getCommandName() {
         return commandName;

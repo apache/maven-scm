@@ -69,7 +69,7 @@ public class BootstrapMojo extends CheckoutMojo {
     private String goalsDirectory;
 
     /**
-     * The path where your maven is installed
+     * The path where your maven is installed.
      */
     @Parameter(property = "mavenHome", defaultValue = "${maven.home}")
     private File mavenHome;
@@ -79,7 +79,9 @@ public class BootstrapMojo extends CheckoutMojo {
         super(manager, settingsDecrypter);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void execute() throws MojoExecutionException {
         super.execute();
 

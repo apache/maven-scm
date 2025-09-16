@@ -27,7 +27,6 @@ import org.apache.maven.scm.ScmResult;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public class UpdateScmResult extends ScmResult {
     private static final long serialVersionUID = -1578149496089492585L;
@@ -55,8 +54,7 @@ public class UpdateScmResult extends ScmResult {
     }
 
     /**
-     *
-     * @return List of {@link ScmFile}
+     * @return list of {@link ScmFile}
      */
     public List<ScmFile> getUpdatedFiles() {
         return updatedFiles;

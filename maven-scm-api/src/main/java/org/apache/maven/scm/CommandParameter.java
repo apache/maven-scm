@@ -22,7 +22,6 @@ import java.io.Serializable;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public class CommandParameter implements Serializable {
     private static final long serialVersionUID = -3391190831054016735L;
@@ -81,14 +80,15 @@ public class CommandParameter implements Serializable {
     public static final CommandParameter SCM_SHORT_REVISION_LENGTH = new CommandParameter("shortRevisionLength");
 
     /**
-     * Parameter to force add
+     * Parameter to force add.
      *
      * @since 1.7
      */
     public static final CommandParameter FORCE_ADD = new CommandParameter("forceAdd");
 
     /**
-     * contains true or false
+     * Contains true or false.
+     *
      * @since 1.8
      */
     public static final CommandParameter IGNORE_WHITESPACE = new CommandParameter("ignoreWhitespace");
@@ -97,24 +97,25 @@ public class CommandParameter implements Serializable {
      * Parameter to indicate whether the commit/tag should be signed or not.
      * This is only applicable to Git for now.
      * Possible values are outlined in {@link CommandParameters.SignOption}
+     *
      * @since 2.2.1
      */
     public static final CommandParameter SIGN_OPTION = new CommandParameter("sign");
 
     /**
-     * Parameter name
+     * Parameter name.
      */
     private String name;
 
     /**
-     * @param name The parameter name
+     * @param name the parameter name
      */
     private CommandParameter(String name) {
         this.name = name;
     }
 
     /**
-     * @return The parameter name
+     * @return the parameter name
      */
     public String getName() {
         return name;

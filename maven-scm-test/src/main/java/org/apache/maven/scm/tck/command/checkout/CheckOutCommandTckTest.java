@@ -34,7 +34,6 @@ import static org.junit.Assert.fail;
  * This test tests the check out command.
  *
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public abstract class CheckOutCommandTckTest extends ScmTckTestCase {
     @Test

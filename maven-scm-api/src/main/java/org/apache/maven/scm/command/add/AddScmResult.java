@@ -25,10 +25,9 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmResult;
 
 /**
- * Result of adding files to the SCM
+ * Result of adding files to the SCM.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public class AddScmResult extends ScmResult {
     private static final long serialVersionUID = 1L;

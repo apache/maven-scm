@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
- *
  */
 public abstract class ScmProviderRepository {
     private String user;
@@ -64,7 +63,7 @@ public abstract class ScmProviderRepository {
     private String workItem;
 
     /**
-     * @return The user.
+     * @return the user
      */
     public String getUser() {
         return user;
@@ -73,14 +72,14 @@ public abstract class ScmProviderRepository {
     /**
      * Set the user.
      *
-     * @param user The user
+     * @param user the user
      */
     public void setUser(String user) {
         this.user = user;
     }
 
     /**
-     * @return The password.
+     * @return the password
      */
     public String getPassword() {
         return password;
@@ -89,7 +88,7 @@ public abstract class ScmProviderRepository {
     /**
      * Set the password.
      *
-     * @param password The user password
+     * @param password the user password
      */
     public void setPassword(String password) {
         this.password = password;
@@ -100,6 +99,7 @@ public abstract class ScmProviderRepository {
      * For many distributed SCMs like Git, a change like a commit
      * is only stored in your local copy of the repository.  Pushing
      * the change allows your to more easily share it with other users.
+     *
      * @return TODO
      * @since 1.4
      */
@@ -108,15 +108,15 @@ public abstract class ScmProviderRepository {
     }
 
     /**
-     * @since 1.4
      * @param pushChanges TODO
+     * @since 1.4
      */
     public void setPushChanges(boolean pushChanges) {
         this.pushChanges = pushChanges;
     }
 
     /**
-     * @return The workItem.
+     * @return the workItem
      * @since 1.9.5
      */
     @Deprecated
@@ -127,7 +127,7 @@ public abstract class ScmProviderRepository {
     /**
      * Set the workItem.
      *
-     * @param workItem The workItem.
+     * @param workItem the workItem
      * @since 1.9.5
      */
     @Deprecated
@@ -147,6 +147,7 @@ public abstract class ScmProviderRepository {
      * "maven.scm.persistcheckout" to true.
      * <p>
      * The default is false.  See SCM-113 for more detail.
+     *
      * @return TODO
      */
     @Deprecated

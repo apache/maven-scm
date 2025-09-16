@@ -45,7 +45,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- *
  */
 public class GitChangeLogCommand extends AbstractChangeLogCommand implements GitCommand {
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
@@ -66,7 +65,9 @@ public class GitChangeLogCommand extends AbstractChangeLogCommand implements Git
                 parameters.getScmVersion(CommandParameter.SCM_VERSION, null));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected ChangeLogScmResult executeChangeLogCommand(
             ScmProviderRepository repo,
@@ -78,7 +79,9 @@ public class GitChangeLogCommand extends AbstractChangeLogCommand implements Git
         return executeChangeLogCommand(repo, fileSet, null, null, null, datePattern, startVersion, endVersion);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected ChangeLogScmResult executeChangeLogCommand(
             ScmProviderRepository repo,
@@ -204,14 +207,14 @@ public class GitChangeLogCommand extends AbstractChangeLogCommand implements Git
      * Since it uses --since and --until for the start and end date, the branch
      * and version parameters can be used simultanously.
      *
-     * @param repository Provider repositry to use.
-     * @param workingDirectory Working copy directory.
-     * @param branch Branch to run command on.
-     * @param startDate Start date of log entries.
-     * @param endDate End date of log entries.
-     * @param startVersion Start version of log entries.
-     * @param endVersion End version of log entries.
-     * @return Command line.
+     * @param repository provider repositry to use
+     * @param workingDirectory working copy directory
+     * @param branch branch to run command on
+     * @param startDate start date of log entries
+     * @param endDate end date of log entries
+     * @param startVersion start version of log entries
+     * @param endVersion end version of log entries
+     * @return command line
      */
     public static Commandline createCommandLine(
             GitScmProviderRepository repository,

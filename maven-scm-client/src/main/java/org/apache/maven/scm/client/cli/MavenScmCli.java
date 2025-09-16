@@ -48,7 +48,6 @@ import org.codehaus.plexus.context.DefaultContext;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class MavenScmCli {
     private PlexusContainer plexus;

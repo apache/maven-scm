@@ -45,10 +45,11 @@ import org.apache.maven.scm.provider.hg.command.diff.HgDiffConsumer;
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author Olivier Lamy
- *
  */
 public class HgUpdateCommand extends AbstractUpdateCommand implements Command {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected UpdateScmResult executeUpdateCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion tag)
             throws ScmException {
         File workingDir = fileSet.getBasedir();

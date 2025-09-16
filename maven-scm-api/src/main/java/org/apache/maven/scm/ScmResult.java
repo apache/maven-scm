@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public class ScmResult implements Serializable {
     private static final long serialVersionUID = 7037918334820621525L;
@@ -46,7 +45,7 @@ public class ScmResult implements Serializable {
      * Copy constructor.
      * <p>
      * Typically used from derived classes when wrapping a ScmResult
-     * into a specific type e.g. AddScmResult
+     * into a specific type e.g. AddScmResult.
      *
      * @param scmResult not null
      */
@@ -63,10 +62,10 @@ public class ScmResult implements Serializable {
     /**
      * ScmResult contructor.
      *
-     * @param commandLine     The provider specific command line used
-     * @param providerMessage The provider message
-     * @param commandOutput   The command output of the scm tool
-     * @param success         True if the command is in success
+     * @param commandLine     the provider specific command line used
+     * @param providerMessage the provider message
+     * @param commandOutput   the command output of the scm tool
+     * @param success         true if the command is in success
      */
     public ScmResult(String commandLine, String providerMessage, String commandOutput, boolean success) {
         this.commandLine = commandLine;
@@ -79,14 +78,14 @@ public class ScmResult implements Serializable {
     }
 
     /**
-     * @return True if the command was in success
+     * @return true if the command was in success
      */
     public boolean isSuccess() {
         return success;
     }
 
     /**
-     * @return A message from the provider. On success this would typically be null or
+     * @return a message from the provider. On success this would typically be null or
      *         an empty string. On failure, it would be the error message from the provider
      */
     public String getProviderMessage() {
@@ -94,7 +93,7 @@ public class ScmResult implements Serializable {
     }
 
     /**
-     * @return Output from Std.Out from the provider during execution
+     * @return output from Std.Out from the provider during execution
      *         of the command that resulted in this
      */
     public String getCommandOutput() {
@@ -102,7 +101,7 @@ public class ScmResult implements Serializable {
     }
 
     /**
-     * @return The actual provider specific command that resulted in this
+     * @return the actual provider specific command that resulted in this
      */
     public String getCommandLine() {
         return commandLine;

@@ -31,7 +31,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- *
  */
 public abstract class AbstractCheckOutCommand extends AbstractCommand {
     /**
@@ -55,8 +54,8 @@ public abstract class AbstractCheckOutCommand extends AbstractCommand {
      * @param repository not null
      * @param fileSet not null
      * @param scmVersion not null
-     * @param recursive <code>true</code> if recursive check out is wanted, <code>false</code> otherwise.
-     * @param shallow <code>true</code> if shallow check out is wanted, <code>false</code> otherwise.
+     * @param recursive <code>true</code> if recursive check out is wanted, <code>false</code> otherwise
+     * @param shallow <code>true</code> if shallow check out is wanted, <code>false</code> otherwise
      * @return the checkout result
      * @throws ScmException if any
      * @since 1.1.1
@@ -69,7 +68,9 @@ public abstract class AbstractCheckOutCommand extends AbstractCommand {
             boolean shallow)
             throws ScmException;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         ScmVersion scmVersion = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);

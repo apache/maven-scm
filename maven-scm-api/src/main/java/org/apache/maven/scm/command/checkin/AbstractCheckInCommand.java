@@ -32,7 +32,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- *
  */
 public abstract class AbstractCheckInCommand extends AbstractCommand {
     public static final String NAME = "check-in";
@@ -48,7 +47,6 @@ public abstract class AbstractCheckInCommand extends AbstractCommand {
     }
 
     /**
-     *
      * @param repository
      * @param fileSet
      * @param message

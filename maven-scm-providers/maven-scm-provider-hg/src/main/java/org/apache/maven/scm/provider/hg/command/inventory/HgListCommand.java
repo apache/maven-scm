@@ -32,13 +32,14 @@ import org.apache.maven.scm.provider.hg.HgUtils;
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 
 /**
- * Get a list of all files in the repository
+ * Get a list of all files in the repository.
  *
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
- *
  */
 public class HgListCommand extends AbstractListCommand implements Command {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ListScmResult executeListCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion scmVersion)
             throws ScmException {

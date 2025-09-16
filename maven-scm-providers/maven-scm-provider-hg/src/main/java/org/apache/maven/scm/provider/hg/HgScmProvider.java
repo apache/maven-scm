@@ -68,7 +68,9 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 @Singleton
 @Named("hg")
 public class HgScmProvider extends AbstractScmProvider {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmSpecificFilename() {
         return ".hg";
     }
@@ -79,7 +81,9 @@ public class HgScmProvider extends AbstractScmProvider {
         private ScmProviderRepository repository;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmProviderRepository makeProviderScmRepository(String scmSpecificUrl, char delimiter)
             throws ScmRepositoryException {
         HgUrlParserResult result = parseScmUrl(scmSpecificUrl);
@@ -131,7 +135,9 @@ public class HgScmProvider extends AbstractScmProvider {
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmProviderRepository makeProviderScmRepository(File path)
             throws ScmRepositoryException, UnknownRepositoryStructure {
         if (path == null) {
@@ -151,19 +157,25 @@ public class HgScmProvider extends AbstractScmProvider {
         return makeProviderScmRepository(path.getAbsolutePath(), ':');
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public List<String> validateScmUrl(String scmSpecificUrl, char delimiter) {
         HgUrlParserResult result = parseScmUrl(scmSpecificUrl);
 
         return result.messages;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmType() {
         return "hg";
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public AddScmResult add(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         HgAddCommand command = new HgAddCommand();
@@ -171,7 +183,9 @@ public class HgScmProvider extends AbstractScmProvider {
         return (AddScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ChangeLogScmResult changelog(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         HgChangeLogCommand command = new HgChangeLogCommand();
@@ -179,7 +193,9 @@ public class HgScmProvider extends AbstractScmProvider {
         return (ChangeLogScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public CheckInScmResult checkin(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         HgCheckInCommand command = new HgCheckInCommand();
@@ -187,7 +203,9 @@ public class HgScmProvider extends AbstractScmProvider {
         return (CheckInScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public CheckOutScmResult checkout(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         HgCheckOutCommand command = new HgCheckOutCommand();
@@ -195,7 +213,9 @@ public class HgScmProvider extends AbstractScmProvider {
         return (CheckOutScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public TagScmResult tag(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         HgTagCommand command = new HgTagCommand();
@@ -203,7 +223,9 @@ public class HgScmProvider extends AbstractScmProvider {
         return (TagScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public DiffScmResult diff(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         HgDiffCommand command = new HgDiffCommand();
@@ -211,7 +233,9 @@ public class HgScmProvider extends AbstractScmProvider {
         return (DiffScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public RemoveScmResult remove(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         HgRemoveCommand command = new HgRemoveCommand();
@@ -219,7 +243,9 @@ public class HgScmProvider extends AbstractScmProvider {
         return (RemoveScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public StatusScmResult status(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         HgStatusCommand command = new HgStatusCommand();
@@ -227,7 +253,9 @@ public class HgScmProvider extends AbstractScmProvider {
         return (StatusScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public UpdateScmResult update(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         HgUpdateCommand command = new HgUpdateCommand();
@@ -235,7 +263,9 @@ public class HgScmProvider extends AbstractScmProvider {
         return (UpdateScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected BlameScmResult blame(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         HgBlameCommand command = new HgBlameCommand();
@@ -243,7 +273,9 @@ public class HgScmProvider extends AbstractScmProvider {
         return (BlameScmResult) command.execute(repository, fileSet, parameters);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public BranchScmResult branch(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         HgBranchCommand command = new HgBranchCommand();
@@ -263,9 +295,10 @@ public class HgScmProvider extends AbstractScmProvider {
     }
 
     /**
-     * returns result of hg id -i
-     * @since 1.5
+     * Returns result of hg id -i.
+     *
      * @see org.apache.maven.scm.provider.AbstractScmProvider#info(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     * @since 1.5
      */
     @Override
     public InfoScmResult info(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)

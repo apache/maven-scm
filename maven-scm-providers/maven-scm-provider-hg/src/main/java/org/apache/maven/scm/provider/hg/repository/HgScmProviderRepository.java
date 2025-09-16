@@ -26,7 +26,6 @@ import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- *
  */
 public class HgScmProviderRepository extends ScmProviderRepositoryWithHost {
     // Known and tested protocols
@@ -59,7 +58,7 @@ public class HgScmProviderRepository extends ScmProviderRepositoryWithHost {
     }
 
     /**
-     * @return A message if the repository as an invalid URI, null if the URI seems fine.
+     * @return a message if the repository as an invalid URI, null if the URI seems fine
      */
     public String validateURI() {
 
@@ -207,7 +206,9 @@ public class HgScmProviderRepository extends ScmProviderRepositoryWithHost {
     private boolean canAuthenticate() {
         return needsAuthentication() || Objects.equals(protocol, HTTP);
     }
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String toString() {
         return "Hg Repository Interpreted from: " + orgUrl + ":\nProtocol: " + protocol + "\nHost: " + getHost()
                 + "\nPort: " + getPort() + "\nUsername: " + getUser() + "\nPassword: " + getPassword() + "\nPath: "

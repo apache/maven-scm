@@ -47,7 +47,6 @@ public class BlameLine implements Serializable {
     }
 
     /**
-     *
      * @param date of the commit
      * @param revision of the commit
      * @param author the person who wrote the line

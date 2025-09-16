@@ -41,7 +41,6 @@ import org.codehaus.plexus.util.FileUtils;
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author Olivier Lamy
- *
  */
 public class HgCheckOutCommand extends AbstractCheckOutCommand implements Command {
     /**

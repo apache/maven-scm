@@ -27,7 +27,6 @@ import org.apache.maven.scm.ScmVersion;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class ChangeLogSet {
     public static final String DEFAULT_ENCODING = "ISO-8859-1";
@@ -45,8 +44,8 @@ public class ChangeLogSet {
     /**
      * Initializes a new instance of this class.
      *
-     * @param startDate the start date/tag for this set.
-     * @param endDate   the end date/tag for this set, or <code>null</code> if this set goes to the present time.
+     * @param startDate the start date/tag for this set
+     * @param endDate   the end date/tag for this set, or <code>null</code> if this set goes to the present time
      */
     public ChangeLogSet(Date startDate, Date endDate) {
         this.startDate = startDate;
@@ -56,9 +55,9 @@ public class ChangeLogSet {
     /**
      * Initializes a new instance of this class.
      *
-     * @param entries   collection of {@link org.apache.maven.scm.ChangeSet} objects for this set.
-     * @param startDate the start date/tag for this set.
-     * @param endDate   the end date/tag for this set, or <code>null</code> if this set goes to the present time.
+     * @param entries   collection of {@link org.apache.maven.scm.ChangeSet} objects for this set
+     * @param startDate the start date/tag for this set
+     * @param endDate   the end date/tag for this set, or <code>null</code> if this set goes to the present time
      */
     public ChangeLogSet(List<ChangeSet> entries, Date startDate, Date endDate) {
         this(startDate, endDate);
@@ -68,7 +67,7 @@ public class ChangeLogSet {
     /**
      * Returns the start date.
      *
-     * @return the start date.
+     * @return the start date
      */
     public Date getStartDate() {
         return startDate;
@@ -77,7 +76,7 @@ public class ChangeLogSet {
     /**
      * Returns the end date for this set.
      *
-     * @return the end date for this set, or <code>null</code> if this set goes to the present time.
+     * @return the end date for this set, or <code>null</code> if this set goes to the present time
      */
     public Date getEndDate() {
         return endDate;
@@ -86,7 +85,7 @@ public class ChangeLogSet {
     /**
      * Returns the start version (revision/branch/label) for this set.
      *
-     * @return the start version (revision/branch/label) for this set, or <code>null</code>.
+     * @return the start version (revision/branch/label) for this set, or <code>null</code>
      */
     public ScmVersion getStartVersion() {
         return startVersion;
@@ -99,7 +98,7 @@ public class ChangeLogSet {
     /**
      * Returns the end version (revision/branch/label) for this set.
      *
-     * @return the end version (revision/branch/label) for this set, or <code>null</code>.
+     * @return the end version (revision/branch/label) for this set, or <code>null</code>
      */
     public ScmVersion getEndVersion() {
         return endVersion;
@@ -112,7 +111,7 @@ public class ChangeLogSet {
     /**
      * Returns the collection of changeSet.
      *
-     * @return the collection of {@link org.apache.maven.scm.ChangeSet} objects for this set.
+     * @return the collection of {@link org.apache.maven.scm.ChangeSet} objects for this set
      */
     public List<ChangeSet> getChangeSets() {
         return entries;

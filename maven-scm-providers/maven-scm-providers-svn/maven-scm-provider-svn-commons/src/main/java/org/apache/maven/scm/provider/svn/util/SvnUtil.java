@@ -28,7 +28,6 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class SvnUtil {
     protected static final String SVN_SETTINGS_FILENAME = "svn-settings.xml";

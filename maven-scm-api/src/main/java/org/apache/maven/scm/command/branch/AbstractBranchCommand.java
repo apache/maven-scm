@@ -31,7 +31,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public abstract class AbstractBranchCommand extends AbstractCommand {
     protected abstract ScmResult executeBranchCommand(
@@ -39,14 +38,15 @@ public abstract class AbstractBranchCommand extends AbstractCommand {
             throws ScmException;
 
     /**
-     * default impl to provide backward comp
-     * @since 1.3
+     * Default impl to provide backward comp.
+     *
      * @param repository TODO
      * @param fileSet TODO
      * @param branchName TODO
      * @param scmBranchParameters TODO
      * @return TODO
      * @throws ScmException if any
+     * @since 1.3
      */
     protected ScmResult executeBranchCommand(
             ScmProviderRepository repository,
@@ -57,7 +57,9 @@ public abstract class AbstractBranchCommand extends AbstractCommand {
         return executeBranchCommand(repository, fileSet, branchName, scmBranchParameters.getMessage());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException {
         String branchName = parameters.getString(CommandParameter.BRANCH_NAME);

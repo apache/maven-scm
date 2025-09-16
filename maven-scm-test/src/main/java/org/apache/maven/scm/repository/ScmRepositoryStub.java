@@ -26,12 +26,11 @@ import org.apache.maven.scm.provider.ScmProviderRepositoryStub;
  * <a href="https://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- *
  */
 public class ScmRepositoryStub extends ScmRepository {
 
     /**
-     * Creates a new stub with a new ScmProviderRepositoryStub as scmProviderRepository
+     * Creates a new stub with a new ScmProviderRepositoryStub as scmProviderRepository.
      */
     public ScmRepositoryStub() {
         super("stub-provider", new ScmProviderRepositoryStub());

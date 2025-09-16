@@ -41,7 +41,7 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
- * scm:untag for provider svn is done by removing the tag dir
+ * Scm:untag for provider svn is done by removing the tag dir.
  *
  * @since 1.11.2
  */
@@ -53,7 +53,9 @@ public class SvnUntagCommand extends AbstractUntagCommand implements SvnCommand 
         this.interactive = interactive;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScmResult executeUntagCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmUntagParameters scmUntagParameters) throws ScmException {
@@ -114,13 +116,13 @@ public class SvnUntagCommand extends AbstractUntagCommand implements SvnCommand 
     }
 
     /**
-     * create command line from parameters
+     * Create command line from parameters.
      *
      * @param repo        svn repo tu delete tag from
      * @param fileSet     file set containing base dir
      * @param tag         tag to delete
      * @param messageFile file containing commit message
-     * @return            command line instance
+     * @return  command line instance
      */
     Commandline createCommandline(SvnScmProviderRepository repo, ScmFileSet fileSet, String tag, File messageFile) {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(fileSet.getBasedir(), repo, interactive);

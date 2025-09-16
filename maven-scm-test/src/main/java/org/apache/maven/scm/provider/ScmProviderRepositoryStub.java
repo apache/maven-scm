@@ -24,23 +24,26 @@ package org.apache.maven.scm.provider;
  * <a href="https://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- *
  */
 public class ScmProviderRepositoryStub extends ScmProviderRepository {
 
     private boolean persistCheckout = false;
 
     /**
-     * Creates a ScmProviderRepositoryStub with null user and password, and persistCheckout false
+     * Creates a ScmProviderRepositoryStub with null user and password, and persistCheckout false.
      */
     public ScmProviderRepositoryStub() {}
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public boolean isPersistCheckout() {
         return persistCheckout;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void setPersistCheckout(boolean persistCheckout) {
         this.persistCheckout = persistCheckout;
     }

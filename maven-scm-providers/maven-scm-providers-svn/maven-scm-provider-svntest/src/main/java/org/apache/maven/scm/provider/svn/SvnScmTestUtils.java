@@ -31,13 +31,12 @@ import org.junit.Assert;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public final class SvnScmTestUtils {
-    /** 'svn' command line */
+    /** 'svn' command line. */
     public static final String SVN_COMMAND_LINE = "svn";
 
-    /** 'svnadmin' command line */
+    /** 'svnadmin' command line. */
     public static final String SVNADMIN_COMMAND_LINE = "svnadmin";
 
     private SvnScmTestUtils() {}

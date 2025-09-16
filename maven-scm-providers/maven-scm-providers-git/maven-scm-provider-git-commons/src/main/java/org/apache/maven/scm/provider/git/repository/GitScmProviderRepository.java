@@ -31,52 +31,51 @@ import org.apache.maven.scm.provider.git.util.GitUtil;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
- *
  */
 public class GitScmProviderRepository extends ScmProviderRepositoryWithHost {
 
     /**
-     * sequence used to delimit the fetch URL
+     * Sequence used to delimit the fetch URL.
      */
     public static final String URL_DELIMITER_FETCH = "[fetch=]";
 
     /**
-     * sequence used to delimit the push URL
+     * Sequence used to delimit the push URL.
      */
     public static final String URL_DELIMITER_PUSH = "[push=]";
 
     /**
-     * this trails every protocol
+     * This trails every protocol.
      */
     public static final String PROTOCOL_SEPARATOR = "://";
 
     /**
-     * use local file as transport
+     * Use local file as transport.
      */
     public static final String PROTOCOL_FILE = "file";
 
     /**
-     * use gits internal protocol
+     * Use gits internal protocol.
      */
     public static final String PROTOCOL_GIT = "git";
 
     /**
-     * use secure shell protocol
+     * Use secure shell protocol.
      */
     public static final String PROTOCOL_SSH = "ssh";
 
     /**
-     * use the standard port 80 http protocol
+     * Use the standard port 80 http protocol.
      */
     public static final String PROTOCOL_HTTP = "http";
 
     /**
-     * use the standard port 443 https protocol
+     * Use the standard port 443 https protocol.
      */
     public static final String PROTOCOL_HTTPS = "https";
 
     /**
-     * use rsync for retrieving the data
+     * Use rsync for retrieving the data
      * TODO implement!
      */
     public static final String PROTOCOL_RSYNC = "rsync";
@@ -86,22 +85,22 @@ public class GitScmProviderRepository extends ScmProviderRepositoryWithHost {
 
     /**
      * No special protocol specified. Git will either use git://
-     * or ssh:// depending on whether we work locally or over the network
+     * or ssh:// depending on whether we work locally or over the network.
      */
     public static final String PROTOCOL_NONE = "";
 
     /**
-     * this may either 'git' or 'jgit' depending on the underlying implementation being used
+     * This may either 'git' or 'jgit' depending on the underlying implementation being used.
      */
     private String provider;
 
     /**
-     * the URL used to fetch from the upstream repository
+     * The URL used to fetch from the upstream repository.
      */
     private RepositoryUrl fetchInfo;
 
     /**
-     * the URL used to push to the upstream repository
+     * The URL used to push to the upstream repository.
      */
     private RepositoryUrl pushInfo;
 

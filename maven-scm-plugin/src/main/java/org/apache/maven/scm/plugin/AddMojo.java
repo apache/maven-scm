@@ -43,7 +43,9 @@ public class AddMojo extends AbstractScmMojo {
         super(manager, settingsDecrypter);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void execute() throws MojoExecutionException {
         super.execute();
 

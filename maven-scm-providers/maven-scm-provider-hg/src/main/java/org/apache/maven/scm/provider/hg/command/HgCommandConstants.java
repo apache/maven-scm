@@ -33,32 +33,32 @@ public final class HgCommandConstants {
     }
 
     /**
-     * Executable for Hg
+     * Executable for Hg.
      */
     public static final String EXEC = "hg";
 
     /**
-     * Use to create an empty branch or before importing an existing project
+     * Use to create an empty branch or before importing an existing project.
      */
     public static final String INIT_CMD = "init";
 
     /**
-     * Default recursive. Common option: --dry-run and --no-recursive
+     * Default recursive. Common option: --dry-run and --no-recursive.
      */
     public static final String ADD_CMD = "add";
 
     /**
-     * Reports the following states: added, removed, modified, unchanged, unknown
+     * Reports the following states: added, removed, modified, unchanged, unknown.
      */
     public static final String STATUS_CMD = "status";
 
     /**
-     * Make a file unversioned
+     * Make a file unversioned.
      */
     public static final String REMOVE_CMD = "remove";
 
     /**
-     * Create a new copy of a branch. Alias get or clone
+     * Create a new copy of a branch. Alias get or clone.
      */
     public static final String CLONE_CMD = "clone";
 
@@ -68,62 +68,62 @@ public final class HgCommandConstants {
     public static final String BRANCH_CMD = "branch";
 
     /**
-     * Commit changes into a new revision
+     * Commit changes into a new revision.
      */
     public static final String COMMIT_CMD = "commit";
 
     /**
-     * update working-copy to tip
+     * Update working-copy to tip.
      */
     public static final String UPDATE_CMD = "update";
 
     /**
-     * Pull any changes from another branch into the current one
+     * Pull any changes from another branch into the current one.
      */
     public static final String PULL_CMD = "pull";
 
     /**
-     * Show log of this branch Common option: --revision
+     * Show log of this branch Common option: --revision.
      */
     public static final String LOG_CMD = "log";
 
     /**
-     * Show differences in workingtree. Common option: --revision
+     * Show differences in workingtree. Common option: --revision.
      */
     public static final String DIFF_CMD = "diff";
 
     /**
-     * Push this branch into another branch
+     * Push this branch into another branch.
      */
     public static final String PUSH_CMD = "push";
 
     /**
-     * Show current revision number
+     * Show current revision number.
      */
     public static final String REVNO_CMD = "id";
 
     /**
-     * Tag this revision
+     * Tag this revision.
      */
     public static final String TAG_CMD = "tag";
 
     /**
-     * Show list of the current working copy or a revision
+     * Show list of the current working copy or a revision.
      */
     public static final String INVENTORY_CMD = "locate";
 
     /**
-     * Outgoing changes command
+     * Outgoing changes command.
      */
     public static final String OUTGOING_CMD = "outgoing";
 
     /**
-     * Named branch command
+     * Named branch command.
      */
     public static final String BRANCH_NAME_CMD = "branch";
 
     /**
-     * no recurse option does not exist in mercurial
+     * No recurse option does not exist in mercurial.
      */
     public static final String NO_RECURSE_OPTION = "";
 
@@ -150,7 +150,7 @@ public final class HgCommandConstants {
     public static final String TEMPLATE_OPTION = "--template";
 
     /**
-     * limit number of changes displayed
+     * Limit number of changes displayed.
      */
     public static final String LIMIT_OPTION = "--limit";
 

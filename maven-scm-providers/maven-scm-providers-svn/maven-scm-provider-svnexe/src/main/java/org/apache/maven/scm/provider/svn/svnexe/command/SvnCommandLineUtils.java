@@ -40,7 +40,6 @@ import org.slf4j.LoggerFactory;
  *
  * @author Brett Porter
  * @author Olivier Lamy
- *
  */
 public final class SvnCommandLineUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(SvnCommandLineUtils.class);

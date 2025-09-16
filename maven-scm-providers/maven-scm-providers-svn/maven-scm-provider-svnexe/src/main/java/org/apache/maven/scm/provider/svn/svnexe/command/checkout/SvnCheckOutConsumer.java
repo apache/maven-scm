@@ -30,7 +30,6 @@ import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingCons
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- *
  */
 public class SvnCheckOutConsumer extends AbstractFileCheckingConsumer {
     private static final String CHECKED_OUT_REVISION_TOKEN = "Checked out revision";

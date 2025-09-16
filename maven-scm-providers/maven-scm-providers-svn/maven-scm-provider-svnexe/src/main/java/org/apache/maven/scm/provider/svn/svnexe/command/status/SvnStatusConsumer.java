@@ -28,7 +28,6 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public class SvnStatusConsumer extends AbstractConsumer {
     private final File workingDirectory;
@@ -47,7 +46,9 @@ public class SvnStatusConsumer extends AbstractConsumer {
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine(String line) {
         if (logger.isDebugEnabled()) {
             logger.debug(line);

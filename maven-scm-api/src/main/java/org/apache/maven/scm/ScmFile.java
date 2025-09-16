@@ -22,7 +22,6 @@ import java.io.Serializable;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public class ScmFile implements Comparable<ScmFile>, Serializable {
     private static final long serialVersionUID = -9133015730693522690L;
@@ -32,8 +31,8 @@ public class ScmFile implements Comparable<ScmFile>, Serializable {
     private ScmFileStatus status;
 
     /**
-     * @param path   The relative path of the file, should <b>never</b> start with any {@link java.io.File#separator}.
-     * @param status The file status
+     * @param path   the relative path of the file, should <b>never</b> start with any {@link java.io.File#separator}
+     * @param status the file status
      */
     public ScmFile(String path, ScmFileStatus status) {
         this.path = path;
@@ -51,7 +50,7 @@ public class ScmFile implements Comparable<ScmFile>, Serializable {
     }
 
     /**
-     * @return The file status
+     * @return the file status
      */
     public ScmFileStatus getStatus() {
         return status;
@@ -61,7 +60,9 @@ public class ScmFile implements Comparable<ScmFile>, Serializable {
     // Comparable Implementation
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public int compareTo(ScmFile other) {
         return other.getPath().compareTo(path);
     }
@@ -70,7 +71,9 @@ public class ScmFile implements Comparable<ScmFile>, Serializable {
     // Object overrides
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public boolean equals(Object other) {
         if (!(other instanceof ScmFile)) {
             return false;
@@ -79,12 +82,16 @@ public class ScmFile implements Comparable<ScmFile>, Serializable {
         return ((ScmFile) other).getPath().equals(path);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public int hashCode() {
         return path.hashCode();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String toString() {
         return "[" + path + ":" + status + "]";
     }

@@ -39,11 +39,10 @@ import org.apache.maven.scm.provider.hg.command.inventory.HgListConsumer;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
 
 /**
- * Tag
+ * Tag.
  *
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
  * @author Olivier Lamy
- *
  */
 public class HgTagCommand extends AbstractTagCommand implements Command {
 

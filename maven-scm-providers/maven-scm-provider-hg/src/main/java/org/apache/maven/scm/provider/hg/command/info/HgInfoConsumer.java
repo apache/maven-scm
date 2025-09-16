@@ -27,7 +27,6 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
 /**
  * @author Olivier Lamy
  * @since 1.5
- *
  */
 public class HgInfoConsumer extends HgConsumer {
 

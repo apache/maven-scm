@@ -79,8 +79,8 @@ public class GitSshServer {
      *
      * @param file the file to write the private key to
      * @param passphrase the passphrase for encryption, or null for unencrypted
-     * @throws IOException if an I/O error occurs
      * @throws GeneralSecurityException if a security error occurs
+     * @throws IOException if an I/O error occurs
      */
     public void writePrivateKeyAsPkcs8(Path file, String passphrase) throws IOException, GeneralSecurityException {
         // encryption only optional

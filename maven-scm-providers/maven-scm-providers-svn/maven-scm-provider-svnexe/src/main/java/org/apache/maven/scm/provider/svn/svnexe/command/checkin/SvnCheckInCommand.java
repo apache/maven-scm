@@ -40,7 +40,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- *
  */
 public class SvnCheckInCommand extends AbstractCheckInCommand implements SvnCommand {
     private final boolean interactive;
@@ -49,7 +48,9 @@ public class SvnCheckInCommand extends AbstractCheckInCommand implements SvnComm
         this.interactive = interactive;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected CheckInScmResult executeCheckInCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String message, ScmVersion version) throws ScmException {
         if (version != null && StringUtils.isNotEmpty(version.getName())) {

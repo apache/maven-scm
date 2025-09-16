@@ -32,10 +32,11 @@ import org.apache.maven.scm.provider.local.command.LocalCommand;
 /**
  * @author <a href="mailto:matthewm@ambientideas.com">Matthew McCullough</a>
  * @author Olivier Lamy
- *
  */
 public class LocalTagCommand extends AbstractTagCommand implements LocalCommand {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ScmResult executeTagCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String message, ScmTagParameters scmTagParameters)
             throws ScmException {
@@ -43,7 +44,9 @@ public class LocalTagCommand extends AbstractTagCommand implements LocalCommand 
     }
 
     // Satisfies deprecated interface
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ScmResult executeTagCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String tagName, String message) throws ScmException {
         return new TagScmResult(null, Collections.emptyList());

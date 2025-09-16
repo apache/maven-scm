@@ -72,9 +72,8 @@ public class ScmTagParameters implements Serializable {
     }
 
     /**
-     *
-     * @return true if the tag operation should be signed, false otherwise.
-     * @deprecated use {@link #getSignOption()} instead.
+     * @return true if the tag operation should be signed, false otherwise
+     * @deprecated use {@link #getSignOption()} instead
      */
     @Deprecated
     public boolean isSign() {
@@ -83,8 +82,9 @@ public class ScmTagParameters implements Serializable {
 
     /**
      * Set the signing option for the tag operation.
+     *
      * @param sign
-     * @deprecated use {@link #setSignOption(org.apache.maven.scm.CommandParameters.SignOption)} instead.
+     * @deprecated use {@link #setSignOption(org.apache.maven.scm.CommandParameters.SignOption)} instead
      */
     @Deprecated
     public void setSign(boolean sign) {
@@ -101,6 +101,7 @@ public class ScmTagParameters implements Serializable {
 
     /**
      * Get the signing option for the tag operation.
+     *
      * @return the signing option
      * @since 2.2.1
      */
@@ -110,6 +111,7 @@ public class ScmTagParameters implements Serializable {
 
     /**
      * Set the signing option for the tag operation.
+     *
      * @param signOption
      * @since 2.2.1
      */

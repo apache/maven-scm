@@ -50,7 +50,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- *
  */
 public class SvnChangeLogCommand extends AbstractChangeLogCommand implements SvnCommand {
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
@@ -75,7 +74,9 @@ public class SvnChangeLogCommand extends AbstractChangeLogCommand implements Svn
                 parameters.getInt(CommandParameter.LIMIT, -1));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Deprecated
     @Override
     protected ChangeLogScmResult executeChangeLogCommand(
@@ -88,7 +89,9 @@ public class SvnChangeLogCommand extends AbstractChangeLogCommand implements Svn
         return executeChangeLogCommand(repo, fileSet, null, null, null, datePattern, startVersion, endVersion, null);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Deprecated
     @Override
     protected ChangeLogScmResult executeChangeLogCommand(

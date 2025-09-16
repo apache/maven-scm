@@ -26,7 +26,6 @@ import org.apache.maven.scm.ScmResult;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- *
  */
 public class TagScmResult extends ScmResult {
     private static final long serialVersionUID = -5068975000282095635L;

@@ -27,15 +27,18 @@ import org.apache.maven.scm.tck.command.untag.UntagCommandTckTest;
  * This test tests the tag command.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public class SvnUntagCommandTckTest extends UntagCommandTckTest {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmUrl() throws Exception {
         return SvnScmTestUtils.getScmUrl(new File(getRepositoryRoot(), "trunk"));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void initRepo() throws Exception {
         SvnScmTestUtils.initializeRepository(getRepositoryRoot());
     }

@@ -22,14 +22,11 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  * TODO clarify need - should be able to merge with ScmProviderRepository?
  */
 public class ScmRepository {
-    /** */
     private String provider;
 
-    /** */
     private ScmProviderRepository providerRepository;
 
     public ScmRepository(String provider, ScmProviderRepository providerRepository) {
@@ -39,20 +36,22 @@ public class ScmRepository {
     }
 
     /**
-     * @return Returns the provider.
+     * @return returns the provider
      */
     public String getProvider() {
         return provider;
     }
 
     /**
-     * @return Returns the provider repository.
+     * @return returns the provider repository
      */
     public ScmProviderRepository getProviderRepository() {
         return providerRepository;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String toString() {
         return provider + ":" + providerRepository;
     }
