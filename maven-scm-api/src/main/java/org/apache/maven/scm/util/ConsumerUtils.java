@@ -27,7 +27,9 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:davide.angelocola+apache@gmail.com">Davide Angelocola</a>
+ * @deprecated an internal test utility that should not be used by model code
  */
+@Deprecated
 public class ConsumerUtils {
 
     private ConsumerUtils() {}
@@ -38,7 +40,9 @@ public class ConsumerUtils {
      * @param f TODO
      * @param consumer TODO
      * @throws IOException if any
+     * @deprecated inline this method if you're using it
      */
+    @Deprecated
     public static void consumeFile(File f, StreamConsumer consumer) throws IOException {
         try (BufferedReader reader = Files.newBufferedReader(f.toPath())) {
             String line;
