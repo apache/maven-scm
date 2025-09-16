@@ -140,9 +140,9 @@ public final class GitCommandLineUtils {
     public static int execute(
             Commandline commandline, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr)
             throws ScmException {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Executing: " + commandline);
-            LOGGER.info(
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Executing: " + commandline);
+            LOGGER.debug(
                     "Working directory: " + commandline.getWorkingDirectory().getAbsolutePath());
         }
 
@@ -161,9 +161,9 @@ public final class GitCommandLineUtils {
             CommandLineUtils.StringStreamConsumer stdout,
             CommandLineUtils.StringStreamConsumer stderr)
             throws ScmException {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Executing: " + commandLine);
-            LOGGER.info(
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Executing: " + commandLine);
+            LOGGER.debug(
                     "Working directory: " + commandLine.getWorkingDirectory().getAbsolutePath());
         }
 
