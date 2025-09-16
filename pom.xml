@@ -33,7 +33,7 @@
   <packaging>pom</packaging>
 
   <name>Maven SCM</name>
-  <description>Maven SCM provides a common API for doing SCM operations.</description>
+  <description>Maven SCM provides a common API for doing source code management (SCM) operations.</description>
   <url>https://maven.apache.org/scm/</url>
   <inceptionYear>2003</inceptionYear>
 
