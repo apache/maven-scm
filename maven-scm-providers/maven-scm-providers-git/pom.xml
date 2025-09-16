@@ -39,6 +39,10 @@
     <module>maven-scm-provider-jgit</module>
   </modules>
 
+  <properties>
+    <minaSshdVersion>2.16.0</minaSshdVersion>
+  </properties>
+
   <profiles>
     <profile>
       <id>tck-git</id>
