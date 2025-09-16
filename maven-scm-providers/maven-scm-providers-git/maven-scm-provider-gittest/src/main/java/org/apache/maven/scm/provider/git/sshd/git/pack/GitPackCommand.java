@@ -70,7 +70,7 @@ public class GitPackCommand extends AbstractGitCommand {
             }
 
             if (args.length != 2) {
-                throw new IllegalArgumentException("Invalid git command line (no arguments): " + command);
+                onExit(-1, "Invalid git command line (no arguments): " + command);
             }
 
             Path rootDir = resolveRootDirectory(command, args);
@@ -82,12 +82,12 @@ public class GitPackCommand extends AbstractGitCommand {
                 } else if (RemoteConfig.DEFAULT_RECEIVE_PACK.equals(subCommand)) {
                     new ReceivePack(db).receive(getInputStream(), getOutputStream(), getErrorStream());
                 } else {
-                    throw new IllegalArgumentException("Unknown git command: " + command);
+                    onExit(-1, "Unknown git command: " + command);
                 }
             }
             onExit(0);
-        } catch (Throwable t) {
-            onExit(-1, t.getClass().getSimpleName());
+        } catch (IOException ex) {
+            onExit(-1, ex.getMessage());
         }
     }
 
