@@ -31,11 +31,6 @@
   <name>Maven SCM Git Provider TCK Tests</name>
   <description>Tests library for SCM Git Provider.</description>
 
-  <properties>
-    <!-- newer versions clash with Sshd dependencies from JGit 5.x-->
-    <minaSshdVersion>2.11.0</minaSshdVersion>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
