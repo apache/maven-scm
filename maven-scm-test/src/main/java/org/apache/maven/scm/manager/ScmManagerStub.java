@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
@@ -139,6 +140,11 @@ public class ScmManagerStub implements ScmManager {
     public ScmRepository makeProviderScmRepository(String providerType, File path)
             throws ScmRepositoryException, UnknownRepositoryStructure, NoSuchScmProviderException {
         return getScmRepository();
+    }
+
+    @Override
+    public Optional<ScmRepository> makeProviderScmRepository(File path) {
+        return Optional.ofNullable(getScmRepository());
     }
 
     /**

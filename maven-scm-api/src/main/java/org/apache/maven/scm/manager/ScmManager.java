@@ -21,6 +21,7 @@ package org.apache.maven.scm.manager;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
@@ -62,17 +63,35 @@ public interface ScmManager {
     // ----------------------------------------------------------------------
 
     /**
-     * Generate a SCMRepository  from an SCM URL.
+     * Generate a {@link ScmRepository} from an SCM URL.
      *
      * @param scmUrl the scm url
-     * @return the scm repository
+     * @return the scm repository (never {@code null})
      * @throws NoSuchScmProviderException if the provider doesn't exist
      * @throws ScmRepositoryException     if an error occurs in the scm repository construction
      */
     ScmRepository makeScmRepository(String scmUrl) throws ScmRepositoryException, NoSuchScmProviderException;
 
+    /**
+     * Generate a {@link ScmRepository} for a specific provider and a given checkout (working) directory
+     * @param providerType
+     * @param path the checkout (working) directory
+     * @return the SCM repository (never {@code null})
+     * @throws ScmRepositoryException if the provider does not recognize the directory
+     * @throws UnknownRepositoryStructure if the provider does not support this way of generating a {@link ScmRepository}
+     * @throws NoSuchScmProviderException if the given provider type does not have a provider implementation bound
+     */
     ScmRepository makeProviderScmRepository(String providerType, File path)
             throws ScmRepositoryException, UnknownRepositoryStructure, NoSuchScmProviderException;
+
+    /**
+     * Generate a {@link ScmRepository} for a given checkout (working) directory.
+     * Determines a suitable SCM provider for the directory by looking for SCM specific metadata files.
+     * @param path the checkout (working) directory
+     * @return the {@link ScmRepository} or empty if no suitable provider found
+     * @since 2.2.1
+     */
+    Optional<ScmRepository> makeProviderScmRepository(File path);
 
     /**
      * Validate a SCM URL.

@@ -20,15 +20,21 @@ package org.apache.maven.scm.tck.command.checkout;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.provider.ScmProvider;
+import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
 /**
  * This test tests the check out command.
@@ -59,5 +65,25 @@ public abstract class CheckOutCommandTckTest extends ScmTckTestCase {
 
             fail("Expected 4 files in the updated files list, was " + checkedOutFiles.size());
         }
+    }
+
+    @Test
+    public void testMakeProviderScmRepositoryFromCheckoutDirectory() throws Exception {
+        assumeTrue(isMakeProviderScmRepositoryFromDirectorySupportedByProvider());
+        CheckOutScmResult result = checkOut(getWorkingCopy(), getScmRepository());
+        assertResultIsSuccess(result);
+        Optional<ScmRepository> repository = getScmManager().makeProviderScmRepository(getWorkingCopy());
+        assertTrue("Could not detect SCM repository for working copy at " + getWorkingCopy(), repository.isPresent());
+    }
+
+    private boolean isMakeProviderScmRepositoryFromDirectorySupportedByProvider() throws Exception {
+        ScmProvider provider = getScmManager().getProviderByUrl(getScmUrl());
+        try {
+            provider.makeProviderScmRepository(getWorkingCopy());
+        } catch (UnknownRepositoryStructure e) {
+            // in this case the provider does not support this operation
+            return false;
+        }
+        return true;
     }
 }

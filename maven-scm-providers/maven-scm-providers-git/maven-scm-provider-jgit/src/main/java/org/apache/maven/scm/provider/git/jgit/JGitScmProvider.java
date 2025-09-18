@@ -44,6 +44,7 @@ import org.apache.maven.scm.provider.git.jgit.command.remove.JGitRemoveCommand;
 import org.apache.maven.scm.provider.git.jgit.command.status.JGitStatusCommand;
 import org.apache.maven.scm.provider.git.jgit.command.tag.JGitTagCommand;
 import org.apache.maven.scm.provider.git.jgit.command.untag.JGitUntagCommand;
+import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.components.interactivity.Prompter;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -188,7 +189,8 @@ public class JGitScmProvider extends AbstractGitScmProvider {
         // Note: I need to supply just 1 absolute path, but ScmFileSet won't let
         // me without
         // a basedir (which isn't used here anyway), so use a dummy file.
-        InfoScmResult result = info(null, new ScmFileSet(new File(""), path), null);
+        InfoScmResult result =
+                info(new GitScmProviderRepository(path.toPath().toUri().toASCIIString()), new ScmFileSet(path), null);
 
         if (result.getInfoItems().size() != 1) {
             throw new ScmRepositoryException("Cannot find URL: "

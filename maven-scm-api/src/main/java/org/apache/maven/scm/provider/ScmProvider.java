@@ -65,6 +65,14 @@ public interface ScmProvider {
     ScmProviderRepository makeProviderScmRepository(String scmSpecificUrl, char delimiter)
             throws ScmRepositoryException;
 
+    /**
+     * Try to create a {@link ScmProviderRepository} for this provider from the given working directory (created through a previous checkout).
+     * This is only successful if the working directory is recognized by this SCM provider.
+     * @param path the checkout(working) directory
+     * @return the repository bound to this provider
+     * @throws ScmRepositoryException in case the given directory does not contain a valid working directory recognized by this provider
+     * @throws UnknownRepositoryStructure in case the provider does not support this way of initializing an ScmProviderRepository
+     */
     ScmProviderRepository makeProviderScmRepository(File path)
             throws ScmRepositoryException, UnknownRepositoryStructure;
 
