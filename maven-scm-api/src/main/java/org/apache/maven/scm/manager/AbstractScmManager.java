@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.maven.scm.CommandParameters;
@@ -243,6 +244,28 @@ public abstract class AbstractScmManager implements ScmManager {
         ScmProviderRepository providerRepository = provider.makeProviderScmRepository(path);
 
         return new ScmRepository(providerType, providerRepository);
+    }
+
+    @Override
+    public Optional<ScmRepository> makeProviderScmRepository(File workingDirectory) {
+        //
+        for (ScmProvider provider : scmProviders.values()) {
+            logger.debug(
+                    "Checking if SCM provider {} is suitable for processing: {}",
+                    provider.getScmType(),
+                    workingDirectory);
+            try {
+                ScmProviderRepository providerRepository = provider.makeProviderScmRepository(workingDirectory);
+                return Optional.of(new ScmRepository(provider.getScmType(), providerRepository));
+            } catch (ScmRepositoryException | UnknownRepositoryStructure e) {
+                logger.debug(
+                        "SCM provider {} is not suitable for processing: {}",
+                        provider.getScmType(),
+                        workingDirectory,
+                        e);
+            }
+        }
+        return Optional.empty();
     }
 
     /**
