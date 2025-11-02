@@ -20,12 +20,12 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkout;
 
 import java.io.File;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.util.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 

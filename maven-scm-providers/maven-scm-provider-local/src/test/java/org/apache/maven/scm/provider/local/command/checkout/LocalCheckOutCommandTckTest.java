@@ -64,7 +64,7 @@ public class LocalCheckOutCommandTckTest extends CheckOutCommandTckTest {
      */
     @Test
     public void testMetadata() throws Exception {
-        FileUtils.deleteDirectory(getWorkingCopy());
+        org.apache.commons.io.FileUtils.deleteDirectory(getWorkingCopy());
 
         CheckOutScmResult result = checkOut(getWorkingCopy(), getScmRepository());
 

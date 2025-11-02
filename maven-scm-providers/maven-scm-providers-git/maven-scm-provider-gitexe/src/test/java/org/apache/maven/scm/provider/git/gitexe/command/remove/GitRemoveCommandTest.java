@@ -44,7 +44,7 @@ public class GitRemoveCommandTest extends ScmTestCase {
 
         assertCommandLine("git rm -- toto.xml", workingDirectory, cl);
 
-        FileUtils.deleteDirectory(workingDirectory);
+        org.apache.commons.io.FileUtils.deleteDirectory(workingDirectory);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class GitRemoveCommandTest extends ScmTestCase {
 
         assertCommandLine("git rm -r -- toto", workingDirectory, cl);
 
-        FileUtils.deleteDirectory(workingDirectory);
+        org.apache.commons.io.FileUtils.deleteDirectory(workingDirectory);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class GitRemoveCommandTest extends ScmTestCase {
 
         assertCommandLine("git rm -r -- toto tata", workingDirectory, cl);
 
-        FileUtils.deleteDirectory(workingDirectory);
+        org.apache.commons.io.FileUtils.deleteDirectory(workingDirectory);
     }
 
     private File createTempDirectory() throws IOException {

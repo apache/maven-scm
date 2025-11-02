@@ -264,7 +264,7 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
     }
 
     protected void deleteDirectory(File directory) throws IOException {
-        FileUtils.deleteDirectory(directory);
+        org.apache.commons.io.FileUtils.deleteDirectory(directory);
     }
 
     public static Date getDate(int year, int month, int day) {

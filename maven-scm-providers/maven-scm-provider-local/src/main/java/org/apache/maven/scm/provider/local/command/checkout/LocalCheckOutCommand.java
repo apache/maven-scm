@@ -72,7 +72,7 @@ public class LocalCheckOutCommand extends AbstractCheckOutCommand implements Loc
 
         try {
             if (baseDestination.exists()) {
-                FileUtils.deleteDirectory(baseDestination);
+                org.apache.commons.io.FileUtils.deleteDirectory(baseDestination);
             }
 
             if (!baseDestination.mkdirs()) {

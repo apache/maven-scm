@@ -99,7 +99,7 @@ public class BranchMojoTest extends AbstractJUnit4MojoTestCase {
 
         File branchCheckoutDir = PlexusJUnit4TestCase.getTestFile("target/branches/mybranch");
         if (branchCheckoutDir.exists()) {
-            FileUtils.deleteDirectory(branchCheckoutDir);
+            org.apache.commons.io.FileUtils.deleteDirectory(branchCheckoutDir);
         }
         checkoutMojo.setCheckoutDirectory(branchCheckoutDir);
 

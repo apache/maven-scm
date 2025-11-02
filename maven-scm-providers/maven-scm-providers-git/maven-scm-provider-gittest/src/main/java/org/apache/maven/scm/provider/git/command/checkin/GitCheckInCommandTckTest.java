@@ -146,7 +146,7 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
     }
 
     private CheckOutScmResult checkoutRepoInto(File workingCopy, ScmRepository scmRepository) throws Exception {
-        FileUtils.deleteDirectory(workingCopy);
+        org.apache.commons.io.FileUtils.deleteDirectory(workingCopy);
         workingCopy.mkdir();
 
         CheckOutScmResult result = getScmManager().checkOut(scmRepository, new ScmFileSet(workingCopy), null);

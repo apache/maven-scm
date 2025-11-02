@@ -56,7 +56,7 @@ public class HgRepoUtils extends ScmTestCase {
     public static void initRepo() throws Exception {
         // Prepare tmp directory
         if (WORKING_DIR.exists()) {
-            FileUtils.deleteDirectory(WORKING_DIR);
+            org.apache.commons.io.FileUtils.deleteDirectory(WORKING_DIR);
 
             if (WORKING_DIR.exists()) {
                 throw new IOException(WORKING_DIR.getAbsolutePath() + " wasn't deleted.");

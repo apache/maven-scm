@@ -240,7 +240,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
     // ----------------------------------------------------------------------
 
     private CheckOutScmResult checkoutRepoInto(File workingCopy, ScmRepository scmRepository) throws Exception {
-        FileUtils.deleteDirectory(workingCopy);
+        org.apache.commons.io.FileUtils.deleteDirectory(workingCopy);
         workingCopy.mkdir();
 
         CheckOutScmResult result =

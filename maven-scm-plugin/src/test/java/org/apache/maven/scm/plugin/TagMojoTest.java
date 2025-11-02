@@ -94,7 +94,7 @@ public class TagMojoTest extends AbstractJUnit4MojoTestCase {
 
         File tagCheckoutDir = getTestFile("target/tags/mytag");
         if (tagCheckoutDir.exists()) {
-            FileUtils.deleteDirectory(tagCheckoutDir);
+            org.apache.commons.io.FileUtils.deleteDirectory(tagCheckoutDir);
         }
         checkoutMojo.setCheckoutDirectory(tagCheckoutDir);
 

@@ -56,7 +56,7 @@ public class GitCheckInCommandNoBranchTest extends ScmTestCase {
 
         File repoOriginal = new File("src/test/resources/repository_no_branch");
         File repo = getTestFile("target/git_copy");
-        FileUtils.deleteDirectory(repo);
+        org.apache.commons.io.FileUtils.deleteDirectory(repo);
         FileUtils.copyDirectoryStructure(repoOriginal, repo);
 
         ScmRepository scmRepository = getScmManager()
@@ -89,7 +89,7 @@ public class GitCheckInCommandNoBranchTest extends ScmTestCase {
     }
 
     protected CheckOutScmResult checkoutRepo(ScmRepository scmRepository) throws Exception {
-        FileUtils.deleteDirectory(workingDirectory);
+        org.apache.commons.io.FileUtils.deleteDirectory(workingDirectory);
 
         CheckOutScmResult result =
                 getScmManager().checkOut(scmRepository, new ScmFileSet(workingDirectory), (ScmVersion) null);

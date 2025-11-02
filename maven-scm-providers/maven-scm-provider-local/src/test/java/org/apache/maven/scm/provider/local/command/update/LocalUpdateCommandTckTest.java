@@ -64,7 +64,7 @@ public class LocalUpdateCommandTckTest extends UpdateCommandTckTest {
      */
     @Test
     public void testDeletion() throws Exception {
-        FileUtils.deleteDirectory(getUpdatingCopy());
+        org.apache.commons.io.FileUtils.deleteDirectory(getUpdatingCopy());
 
         ScmRepository repository = makeScmRepository(getScmUrl());
 

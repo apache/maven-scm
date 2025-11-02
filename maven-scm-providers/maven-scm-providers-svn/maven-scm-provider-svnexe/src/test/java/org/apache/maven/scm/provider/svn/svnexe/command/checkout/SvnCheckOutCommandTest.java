@@ -20,12 +20,12 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkout;
 
 import java.io.File;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.Before;
 import org.junit.Test;

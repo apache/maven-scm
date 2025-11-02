@@ -40,7 +40,7 @@ public final class GitScmTestUtils {
     public static void initRepo(File repository, File workingDirectory, File assertionDirectory) throws IOException {
         initRepo("src/test/repository/", repository, workingDirectory);
 
-        FileUtils.deleteDirectory(assertionDirectory);
+        org.apache.commons.io.FileUtils.deleteDirectory(assertionDirectory);
 
         Assert.assertTrue(assertionDirectory.mkdirs());
     }
@@ -49,7 +49,7 @@ public final class GitScmTestUtils {
         // Copy the repository to target
         File src = PlexusJUnit4TestCase.getTestFile(source);
 
-        FileUtils.deleteDirectory(repository);
+        org.apache.commons.io.FileUtils.deleteDirectory(repository);
 
         Assert.assertTrue(repository.mkdirs());
 
@@ -61,7 +61,7 @@ public final class GitScmTestUtils {
             FileUtils.copyDirectoryStructure(dotGitDirectory, new File(repository, ".git"));
         }
 
-        FileUtils.deleteDirectory(workingDirectory);
+        org.apache.commons.io.FileUtils.deleteDirectory(workingDirectory);
 
         Assert.assertTrue(workingDirectory.mkdirs());
     }
@@ -78,7 +78,7 @@ public final class GitScmTestUtils {
                 File child = childs[i];
                 if (child.isDirectory()) {
                     if (child.getName().equals(pattern)) {
-                        FileUtils.deleteDirectory(child);
+                        org.apache.commons.io.FileUtils.deleteDirectory(child);
                     } else {
                         deleteAllDirectories(child, pattern);
                     }
