@@ -55,7 +55,7 @@ public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
 
         String connectionUrl = checkoutMojo.getConnectionUrl();
         connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() ? connectionUrl : connectionUrl.replace("\\", "/");
         checkoutMojo.setConnectionUrl(connectionUrl);
 
         checkoutMojo.setCheckoutDirectory(checkoutDir);
@@ -109,7 +109,7 @@ public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
     private String getConnectionLocalAddress(AbstractScmMojo mojo) {
         String connectionUrl = mojo.getConnectionUrl();
         connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() ? connectionUrl : connectionUrl.replace("\\", "/");
         return connectionUrl;
     }
 }

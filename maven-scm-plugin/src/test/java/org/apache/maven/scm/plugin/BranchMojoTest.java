@@ -65,7 +65,7 @@ public class BranchMojoTest extends AbstractJUnit4MojoTestCase {
 
         String connectionUrl = checkoutMojo.getConnectionUrl();
         connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() ? connectionUrl : connectionUrl.replace("\\", "/");
         checkoutMojo.setConnectionUrl(connectionUrl);
 
         checkoutMojo.setCheckoutDirectory(checkoutDir);
@@ -82,8 +82,8 @@ public class BranchMojoTest extends AbstractJUnit4MojoTestCase {
         mojo.setWorkingDirectory(checkoutDir);
 
         String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", PlexusJUnit4TestCase.getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() || PlexusJUnit4TestCase.getBasedir() == null ? connectionUrl : connectionUrl.replace("${basedir}", PlexusJUnit4TestCase.getBasedir());
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() ? connectionUrl : connectionUrl.replace("\\", "/");
         mojo.setConnectionUrl(connectionUrl);
 
         mojo.execute();
@@ -93,8 +93,8 @@ public class BranchMojoTest extends AbstractJUnit4MojoTestCase {
         checkoutMojo.setWorkingDirectory(new File(PlexusJUnit4TestCase.getBasedir()));
 
         connectionUrl = checkoutMojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", PlexusJUnit4TestCase.getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() || PlexusJUnit4TestCase.getBasedir() == null ? connectionUrl : connectionUrl.replace("${basedir}", PlexusJUnit4TestCase.getBasedir());
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() ? connectionUrl : connectionUrl.replace("\\", "/");
         checkoutMojo.setConnectionUrl(connectionUrl);
 
         File branchCheckoutDir = PlexusJUnit4TestCase.getTestFile("target/branches/mybranch");

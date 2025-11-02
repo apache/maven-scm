@@ -86,7 +86,7 @@ public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
 
         String connectionUrl = mojo.getConnectionUrl();
         connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() ? connectionUrl : connectionUrl.replace("\\", "/");
         mojo.setConnectionUrl(connectionUrl);
 
         mojo.setCheckoutDirectory(checkoutDir);

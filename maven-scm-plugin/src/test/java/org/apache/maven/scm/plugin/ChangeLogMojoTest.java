@@ -60,8 +60,8 @@ public class ChangeLogMojoTest extends AbstractJUnit4MojoTestCase {
                 lookupMojo("changelog", getTestFile("src/test/resources/mojos/changelog/changelog.xml"));
 
         String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", PlexusJUnit4TestCase.getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() || PlexusJUnit4TestCase.getBasedir() == null ? connectionUrl : connectionUrl.replace("${basedir}", PlexusJUnit4TestCase.getBasedir());
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() ? connectionUrl : connectionUrl.replace("\\", "/");
         mojo.setConnectionUrl(connectionUrl);
         mojo.setWorkingDirectory(new File(PlexusJUnit4TestCase.getBasedir()));
         mojo.setConnectionType("connection");
@@ -77,8 +77,8 @@ public class ChangeLogMojoTest extends AbstractJUnit4MojoTestCase {
                 lookupMojo("changelog", getTestFile("src/test/resources/mojos/changelog/changelogWithParameters.xml"));
 
         String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", PlexusJUnit4TestCase.getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() || PlexusJUnit4TestCase.getBasedir() == null ? connectionUrl : connectionUrl.replace("${basedir}", PlexusJUnit4TestCase.getBasedir());
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() ? connectionUrl : connectionUrl.replace("\\", "/");
         mojo.setConnectionUrl(connectionUrl);
         mojo.setWorkingDirectory(new File(getBasedir()));
         mojo.setConnectionType("connection");
@@ -93,7 +93,7 @@ public class ChangeLogMojoTest extends AbstractJUnit4MojoTestCase {
 
         String connectionUrl = mojo.getConnectionUrl();
         connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() ? connectionUrl : connectionUrl.replace("\\", "/");
         mojo.setConnectionUrl(connectionUrl);
         mojo.setWorkingDirectory(new File(getBasedir()));
         mojo.setConnectionType("connection");
@@ -116,7 +116,7 @@ public class ChangeLogMojoTest extends AbstractJUnit4MojoTestCase {
 
         String connectionUrl = mojo.getConnectionUrl();
         connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() ? connectionUrl : connectionUrl.replace("\\", "/");
         mojo.setConnectionUrl(connectionUrl);
         mojo.setWorkingDirectory(new File(getBasedir()));
         mojo.setConnectionType("connection");

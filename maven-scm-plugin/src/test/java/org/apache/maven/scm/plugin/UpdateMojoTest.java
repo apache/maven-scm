@@ -64,7 +64,7 @@ public class UpdateMojoTest extends AbstractJUnit4MojoTestCase {
 
         String connectionUrl = checkoutMojo.getConnectionUrl();
         connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() ? connectionUrl : connectionUrl.replace("\\", "/");
         checkoutMojo.setConnectionUrl(connectionUrl);
 
         checkoutMojo.execute();
@@ -74,7 +74,7 @@ public class UpdateMojoTest extends AbstractJUnit4MojoTestCase {
 
         connectionUrl = updateMojo.getConnectionUrl();
         connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
+        connectionUrl = connectionUrl == null || connectionUrl.isEmpty() ? connectionUrl : connectionUrl.replace("\\", "/");
         updateMojo.setConnectionUrl(connectionUrl);
 
         updateMojo.execute();
