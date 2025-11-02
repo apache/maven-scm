@@ -31,7 +31,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -165,14 +170,14 @@ public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
                 (ScmProviderRepositoryWithHost) mojo.getScmRepository().getProviderRepository();
 
         assertNotEquals(
-                "Raw encrypted Password was returned instead of the decrypted plaintext version",
                 "{Ael0S2tnXv8H3X+gHKpZAvAA25D8+gmU2w2RrGaf5v8=}",
-                repo.getPassword());
+                repo.getPassword(),
+                "Raw encrypted Password was returned instead of the decrypted plaintext version");
 
         assertNotEquals(
-                "Raw encrypted Passphrase was returned instead of the decrypted plaintext version",
                 "{7zK9P8hNVeUHbTsjiA/vnOs0zUXbND+9MBNPvdvl+x4=}",
-                repo.getPassphrase());
+                repo.getPassphrase(),
+                "Raw encrypted Passphrase was returned instead of the decrypted plaintext version");
 
         assertEquals("testuser", repo.getUser());
         assertEquals("testpass", repo.getPassword());
