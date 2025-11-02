@@ -34,13 +34,13 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Base class for all SCM tests. Consumers will typically
@@ -58,7 +58,7 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
 
     private ScmManager scmManager;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -145,16 +145,16 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
     protected void assertFile(File root, String fileName) throws Exception {
         File file = new File(root, fileName);
 
-        assertTrue("Missing file: '" + file.getAbsolutePath() + "'.", file.exists());
+        assertTrue(file.exists(), "Missing file: '" + file.getAbsolutePath() + "'.");
 
-        assertTrue("File isn't a file: '" + file.getAbsolutePath() + "'.", file.isFile());
+        assertTrue(file.isFile(), "File isn't a file: '" + file.getAbsolutePath() + "'.");
 
         String expected = fileName;
 
         String actual = FileUtils.fileRead(file);
 
         assertEquals(
-                "The file doesn't contain the expected contents. File: " + file.getAbsolutePath(), expected, actual);
+                expected, actual, "The file doesn't contain the expected contents. File: " + file.getAbsolutePath());
     }
 
     protected void assertResultIsSuccess(ScmResult result) {
@@ -300,8 +300,8 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
 
     public static void checkSystemCmdPresence(String scmProviderCommand) {
         assumeTrue(
-                "Skipping tests because the required command '" + scmProviderCommand + "' is not available.",
-                ScmTestCase.isSystemCmd(scmProviderCommand));
+                ScmTestCase.isSystemCmd(scmProviderCommand),
+                "Skipping tests because the required command '" + scmProviderCommand + "' is not available.");
     }
 
     /**

@@ -31,9 +31,9 @@ import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.untag.UntagCommandTckTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * {@inheritDoc}
@@ -71,6 +71,6 @@ public abstract class GitUntagCommandTckTest extends UntagCommandTckTest {
 
         UntagScmResult untagResult = scmProvider.untag(scmRepository, files, params);
 
-        assertFalse("Tag deletion should not have been pushed", untagResult.isSuccess());
+        assertFalse(untagResult.isSuccess(), "Tag deletion should not have been pushed");
     }
 }

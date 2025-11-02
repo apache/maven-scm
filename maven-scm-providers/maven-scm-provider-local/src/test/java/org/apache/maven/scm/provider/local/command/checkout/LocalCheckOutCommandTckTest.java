@@ -29,10 +29,10 @@ import org.apache.maven.scm.provider.local.metadata.LocalScmMetadata;
 import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3Reader;
 import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -78,7 +78,7 @@ public class LocalCheckOutCommandTckTest extends CheckOutCommandTckTest {
         // Assert metadata file
         // ----------------------------------------------------------------------
         File metadataFile = new File(getWorkingCopy(), ".maven-scm-local");
-        assertTrue("Expected metadata file .maven-scm-local does not exist", metadataFile.exists());
+        assertTrue(metadataFile.exists(), "Expected metadata file .maven-scm-local does not exist");
 
         try (Reader reader = Files.newBufferedReader(metadataFile.toPath()); ) {
             LocalScmMetadata metadata = new LocalScmMetadataXpp3Reader().read(reader);

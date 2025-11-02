@@ -35,7 +35,7 @@ import org.apache.maven.scm.provider.git.jgit.JGitTestScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.sshd.common.config.keys.PublicKeyEntry;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a> */
 public class JGitSshCheckOutCommandTckTest extends GitSshCheckOutCommandTckTest {

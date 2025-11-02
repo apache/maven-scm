@@ -27,7 +27,7 @@ import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -46,11 +46,11 @@ public final class SvnScmTestUtils {
             FileUtils.deleteDirectory(repositoryRoot);
         }
 
-        Assert.assertFalse("repositoryRoot still exists", repositoryRoot.exists());
+        Assertions.assertFalse(repositoryRoot.exists(), "repositoryRoot still exists");
 
-        Assert.assertTrue(
-                "Could not make repository root directory: " + repositoryRoot.getAbsolutePath(),
-                repositoryRoot.mkdirs());
+        Assertions.assertTrue(
+                repositoryRoot.mkdirs(),
+                "Could not make repository root directory: " + repositoryRoot.getAbsolutePath());
 
         ScmTestCase.execute(
                 repositoryRoot.getParentFile(), SVNADMIN_COMMAND_LINE, "create " + repositoryRoot.getName());
@@ -65,14 +65,14 @@ public final class SvnScmTestUtils {
             FileUtils.deleteDirectory(repositoryRoot);
         }
 
-        Assert.assertTrue(
-                "Could not make repository root directory: " + repositoryRoot.getAbsolutePath(),
-                repositoryRoot.mkdirs());
+        Assertions.assertTrue(
+                repositoryRoot.mkdirs(),
+                "Could not make repository root directory: " + repositoryRoot.getAbsolutePath());
 
         ScmTestCase.execute(
                 repositoryRoot.getParentFile(), SVNADMIN_COMMAND_LINE, "create " + repositoryRoot.getName());
 
-        Assert.assertTrue("The dump file doesn't exist: " + dump.getAbsolutePath(), dump.exists());
+        Assertions.assertTrue(dump.exists(), "The dump file doesn't exist: " + dump.getAbsolutePath());
 
         loadSvnDump(repositoryRoot, new FileInputStream(dump));
     }
@@ -111,7 +111,7 @@ public final class SvnScmTestUtils {
         }
 
         if (exitValue != 0) {
-            Assert.fail("Exit value wasn't 0, was:" + exitValue);
+            Assertions.fail("Exit value wasn't 0, was:" + exitValue);
         }
     }
 

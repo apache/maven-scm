@@ -30,10 +30,10 @@ import java.util.TimeZone;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test the {@link GitBlameConsumer} in various different situations.
@@ -45,24 +45,24 @@ public class GitBlameConsumerTest extends ScmTestCase {
     public void testConsumerEasy() throws Exception {
         GitBlameConsumer consumer = consumeFile("/src/test/resources/git/blame/git-blame-3.out");
 
-        Assert.assertEquals(36, consumer.getLines().size());
+        Assertions.assertEquals(36, consumer.getLines().size());
 
         BlameLine blameLine = consumer.getLines().get(11);
-        Assert.assertEquals("e670863b2b03e158c59f34af1fee20f91b2bd852", blameLine.getRevision());
-        Assert.assertEquals("Mark Struberg", blameLine.getAuthor());
-        Assert.assertNotNull(blameLine.getDate());
+        Assertions.assertEquals("e670863b2b03e158c59f34af1fee20f91b2bd852", blameLine.getRevision());
+        Assertions.assertEquals("Mark Struberg", blameLine.getAuthor());
+        Assertions.assertNotNull(blameLine.getDate());
     }
 
     @Test
     public void testConsumer() throws Exception {
         GitBlameConsumer consumer = consumeFile("/src/test/resources/git/blame/git-blame.out");
 
-        Assert.assertEquals(187, consumer.getLines().size());
+        Assertions.assertEquals(187, consumer.getLines().size());
 
         BlameLine blameLine = consumer.getLines().get(11);
-        Assert.assertEquals("e670863b2b03e158c59f34af1fee20f91b2bd852", blameLine.getRevision());
-        Assert.assertEquals("Mark Struberg", blameLine.getAuthor());
-        Assert.assertNotNull(blameLine.getDate());
+        Assertions.assertEquals("e670863b2b03e158c59f34af1fee20f91b2bd852", blameLine.getRevision());
+        Assertions.assertEquals("Mark Struberg", blameLine.getAuthor());
+        Assertions.assertNotNull(blameLine.getDate());
     }
 
     /**
@@ -73,7 +73,7 @@ public class GitBlameConsumerTest extends ScmTestCase {
     public void testConsumerEmptyFile() throws Exception {
         GitBlameConsumer consumer = consumeFile("/src/test/resources/git/blame/git-blame-empty.out");
 
-        Assert.assertEquals(0, consumer.getLines().size());
+        Assertions.assertEquals(0, consumer.getLines().size());
     }
 
     /**
@@ -84,11 +84,11 @@ public class GitBlameConsumerTest extends ScmTestCase {
     public void testConsumerOnNewFile() throws Exception {
         GitBlameConsumer consumer = consumeFile("/src/test/resources/git/blame/git-blame-new-file.out");
 
-        Assert.assertEquals(3, consumer.getLines().size());
+        Assertions.assertEquals(3, consumer.getLines().size());
         BlameLine blameLine = consumer.getLines().get(0);
-        Assert.assertNotNull(blameLine);
-        Assert.assertEquals("0000000000000000000000000000000000000000", blameLine.getRevision());
-        Assert.assertEquals("Not Committed Yet", blameLine.getAuthor());
+        Assertions.assertNotNull(blameLine);
+        Assertions.assertEquals("0000000000000000000000000000000000000000", blameLine.getRevision());
+        Assertions.assertEquals("Not Committed Yet", blameLine.getAuthor());
     }
 
     /**
@@ -98,18 +98,18 @@ public class GitBlameConsumerTest extends ScmTestCase {
     public void testConsumerWithDifferentAuthor() throws Exception {
         GitBlameConsumer consumer = consumeFile("/src/test/resources/git/blame/git-blame-different-author.out");
 
-        Assert.assertEquals(93, consumer.getLines().size());
+        Assertions.assertEquals(93, consumer.getLines().size());
         BlameLine blameLine = consumer.getLines().get(0);
-        Assert.assertNotNull(blameLine);
-        Assert.assertEquals("39574726d20f62023d39311e6032c7ab0a9d3cdb", blameLine.getRevision());
-        Assert.assertEquals("Mark Struberg", blameLine.getAuthor());
-        Assert.assertEquals("Mark Struberg", blameLine.getCommitter());
+        Assertions.assertNotNull(blameLine);
+        Assertions.assertEquals("39574726d20f62023d39311e6032c7ab0a9d3cdb", blameLine.getRevision());
+        Assertions.assertEquals("Mark Struberg", blameLine.getAuthor());
+        Assertions.assertEquals("Mark Struberg", blameLine.getCommitter());
 
         blameLine = consumer.getLines().get(12);
-        Assert.assertNotNull(blameLine);
-        Assert.assertEquals("41e5bc05953781a5702f597a1a36c55371b517d3", blameLine.getRevision());
-        Assert.assertEquals("Another User", blameLine.getAuthor());
-        Assert.assertEquals("Mark Struberg", blameLine.getCommitter());
+        Assertions.assertNotNull(blameLine);
+        Assertions.assertEquals("41e5bc05953781a5702f597a1a36c55371b517d3", blameLine.getRevision());
+        Assertions.assertEquals("Another User", blameLine.getAuthor());
+        Assertions.assertEquals("Mark Struberg", blameLine.getCommitter());
     }
 
     /**
@@ -119,13 +119,13 @@ public class GitBlameConsumerTest extends ScmTestCase {
     @Test
     public void testConsumerCompareWithOriginal() throws Exception {
         GitBlameConsumer consumer = consumeFile("/src/test/resources/git/blame/git-blame-2.out");
-        Assert.assertNotNull(consumer);
+        Assertions.assertNotNull(consumer);
 
         List<BlameLine> consumerLines = consumer.getLines();
         Iterator<BlameLine> consumerLineIt = consumerLines.iterator();
 
         File compareWithFile = getTestFile("/src/test/resources/git/blame/git-blame-2.orig");
-        Assert.assertNotNull(compareWithFile);
+        Assertions.assertNotNull(compareWithFile);
 
         try (BufferedReader r = new BufferedReader(new FileReader(compareWithFile))) {
             String line;
@@ -139,14 +139,14 @@ public class GitBlameConsumerTest extends ScmTestCase {
                     fail("GitBlameConsumer lines do not match the original output!");
                 }
                 BlameLine blameLine = consumerLineIt.next();
-                Assert.assertNotNull(blameLine);
+                Assertions.assertNotNull(blameLine);
 
                 String[] parts = line.split("\t");
-                Assert.assertEquals(3, parts.length);
+                Assertions.assertEquals(3, parts.length);
 
-                Assert.assertEquals("error in line " + lineNr, parts[0], blameLine.getRevision());
-                Assert.assertEquals("error in line " + lineNr, parts[1], blameLine.getAuthor());
-                Assert.assertEquals("error in line " + lineNr, parts[2], blameDateFormat.format(blameLine.getDate()));
+                Assertions.assertEquals(parts[0], blameLine.getRevision(), "error in line " + lineNr);
+                Assertions.assertEquals(parts[1], blameLine.getAuthor(), "error in line " + lineNr);
+                Assertions.assertEquals(parts[2], blameDateFormat.format(blameLine.getDate()), "error in line " + lineNr);
 
                 lineNr++;
             }

@@ -26,11 +26,11 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
@@ -41,7 +41,7 @@ public class SvnMkdirCommandTest extends ScmTestCase {
 
     String messageFileString;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -57,7 +57,7 @@ public class SvnMkdirCommandTest extends ScmTestCase {
         messageFileString = "--file " + path + " --encoding UTF-8";
     }
 
-    @After
+    @AfterEach
     @Override
     public void tearDown() throws Exception {
         assertTrue(messageFile.delete());

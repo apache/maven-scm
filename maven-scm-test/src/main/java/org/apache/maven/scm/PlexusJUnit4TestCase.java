@@ -20,7 +20,9 @@ package org.apache.maven.scm;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Optional;
 
 import com.google.inject.Module;
 import org.codehaus.plexus.ContainerConfiguration;
@@ -32,12 +34,11 @@ import org.codehaus.plexus.PlexusContainerException;
 import org.codehaus.plexus.configuration.PlexusConfiguration;
 import org.codehaus.plexus.context.Context;
 import org.codehaus.plexus.context.DefaultContext;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.TestName;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Based on PlexusTestCase from org.sonatype.sisu:sisu-inject-plexus.
@@ -50,16 +51,20 @@ public class PlexusJUnit4TestCase {
 
     private static String basedir;
 
-    @Rule
-    public TestName testName = new TestName();
+    
+    public String testName;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp(TestInfo testInfo) throws Exception {
+        Optional<Method> testMethod = testInfo.getTestMethod();
+        if (testMethod.isPresent()) {
+            this.testName = testMethod.get().getName();
+        }
         basedir = getBasedir();
     }
 
     public String getName() {
-        return testName.getMethodName();
+        return testName;
     }
 
     protected void setupContainer() {
@@ -135,7 +140,7 @@ public class PlexusJUnit4TestCase {
         return null;
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         if (container != null) {
             container.dispose();

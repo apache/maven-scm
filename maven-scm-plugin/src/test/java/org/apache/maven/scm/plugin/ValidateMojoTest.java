@@ -19,15 +19,15 @@
 package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-@RunWith(JUnit4.class)
 public class ValidateMojoTest extends AbstractJUnit4MojoTestCase {
     @Test
     public void testValidateWithoutScmUrl() throws Exception {

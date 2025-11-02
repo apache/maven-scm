@@ -22,13 +22,13 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -37,7 +37,7 @@ import static org.junit.Assert.fail;
 public class SvnScmProviderRepositoryTest extends ScmTestCase {
     private ScmManager scmManager;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -236,28 +236,28 @@ public class SvnScmProviderRepositoryTest extends ScmTestCase {
             throws Exception {
         ScmRepository repository = scmManager.makeScmRepository(scmUrl);
 
-        assertNotNull("ScmManager.makeScmRepository() returned null", repository);
+        assertNotNull(repository, "ScmManager.makeScmRepository() returned null");
 
-        assertNotNull("The provider repository was null.", repository.getProviderRepository());
+        assertNotNull(repository.getProviderRepository(), "The provider repository was null.");
 
         assertTrue(
-                "The SCM Repository isn't a " + SvnScmProviderRepository.class.getName() + ".",
-                repository.getProviderRepository() instanceof SvnScmProviderRepository);
+                repository.getProviderRepository() instanceof SvnScmProviderRepository,
+                "The SCM Repository isn't a " + SvnScmProviderRepository.class.getName() + ".");
 
         SvnScmProviderRepository providerRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        assertEquals("url is incorrect", expectedUrl, providerRepository.getUrl());
+        assertEquals(expectedUrl, providerRepository.getUrl(), "url is incorrect");
 
-        assertEquals("url string is incorrect", "svn:" + expectedUrl, repository.toString());
+        assertEquals("svn:" + expectedUrl, repository.toString(), "url string is incorrect");
 
-        assertEquals("User is incorrect", expectedUser, providerRepository.getUser());
+        assertEquals(expectedUser, providerRepository.getUser(), "User is incorrect");
 
-        assertEquals("Password is incorrect", expectedPassword, providerRepository.getPassword());
+        assertEquals(expectedPassword, providerRepository.getPassword(), "Password is incorrect");
 
         assertEquals(
-                "Host is incorrect",
                 expectedHost,
-                ((SvnScmProviderRepository) repository.getProviderRepository()).getHost());
+                ((SvnScmProviderRepository) repository.getProviderRepository()).getHost(),
+                "Host is incorrect");
     }
 
     private void testUrl(String scmUrl, String expectedUrl, String expectedUser, String expectedHost, int expectedPort)
@@ -279,9 +279,9 @@ public class SvnScmProviderRepositoryTest extends ScmTestCase {
         ScmRepository repository = scmManager.makeScmRepository(scmUrl);
 
         assertEquals(
-                "Port is incorrect",
                 expectedPort,
-                ((SvnScmProviderRepository) repository.getProviderRepository()).getPort());
+                ((SvnScmProviderRepository) repository.getProviderRepository()).getPort(),
+                "Port is incorrect");
     }
 
     private void testIllegalUrl(String url) throws Exception {

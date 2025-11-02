@@ -23,14 +23,14 @@ import org.apache.maven.scm.manager.NoSuchScmProviderException;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -39,7 +39,7 @@ import static org.junit.Assert.fail;
 public class GitScmProviderRepositoryTest extends ScmTestCase {
     private ScmManager scmManager;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -422,7 +422,7 @@ public class GitScmProviderRepositoryTest extends ScmTestCase {
     // X in fact this url is perfectly valid from a technical perspective
     // X it will be interpreted by git as git://file/tmp/git
     @Test
-    @Ignore
+    @Disabled
     public void nottestIllegalFileUrl() throws Exception {
         testIllegalUrl("file:/tmp/git");
     }
@@ -501,20 +501,20 @@ public class GitScmProviderRepositoryTest extends ScmTestCase {
             String expectedHost,
             int expectedPort,
             GitScmProviderRepository providerRepository) {
-        assertEquals("fetch url is incorrect", expectedFetchUrl, providerRepository.getFetchUrl());
+        assertEquals(expectedFetchUrl, providerRepository.getFetchUrl(), "fetch url is incorrect");
 
         if (expectedPushUrl != null) {
-            assertEquals("push url is incorrect", expectedPushUrl, providerRepository.getPushUrl());
+            assertEquals(expectedPushUrl, providerRepository.getPushUrl(), "push url is incorrect");
         }
 
-        assertEquals("User is incorrect", expectedUser, providerRepository.getUser());
+        assertEquals(expectedUser, providerRepository.getUser(), "User is incorrect");
 
-        assertEquals("Password is incorrect", expectedPassword, providerRepository.getPassword());
+        assertEquals(expectedPassword, providerRepository.getPassword(), "Password is incorrect");
 
-        assertEquals("Host is incorrect", expectedHost == null ? "" : expectedHost, providerRepository.getHost());
+        assertEquals(expectedHost == null ? "" : expectedHost, providerRepository.getHost(), "Host is incorrect");
 
         if (expectedPort > 0) {
-            assertEquals("Port is incorrect", expectedPort, providerRepository.getPort());
+            assertEquals(expectedPort, providerRepository.getPort(), "Port is incorrect");
         }
 
         return providerRepository;
@@ -524,18 +524,18 @@ public class GitScmProviderRepositoryTest extends ScmTestCase {
             throws ScmRepositoryException, NoSuchScmProviderException {
         ScmRepository repository = scmManager.makeScmRepository(scmUrl);
 
-        assertNotNull("ScmManager.makeScmRepository() returned null", repository);
+        assertNotNull(repository, "ScmManager.makeScmRepository() returned null");
 
-        assertNotNull("The provider repository was null.", repository.getProviderRepository());
+        assertNotNull(repository.getProviderRepository(), "The provider repository was null.");
 
         assertTrue(
-                "The SCM Repository isn't a " + GitScmProviderRepository.class.getName() + ".",
-                repository.getProviderRepository() instanceof GitScmProviderRepository);
+                repository.getProviderRepository() instanceof GitScmProviderRepository,
+                "The SCM Repository isn't a " + GitScmProviderRepository.class.getName() + ".");
 
         if (expectedToString != null) {
-            assertEquals("toString is incorrect", "git:" + expectedToString, repository.toString());
+            assertEquals("git:" + expectedToString, repository.toString(), "toString is incorrect");
         } else {
-            assertEquals("toString is incorrect", "git:" + expectedFetchUrl, repository.toString());
+            assertEquals("git:" + expectedFetchUrl, repository.toString(), "toString is incorrect");
         }
 
         return repository;

@@ -35,10 +35,10 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test Changlog command. <br>
@@ -75,7 +75,7 @@ public abstract class ChangeLogCommandTckTest extends ScmTckTestCase {
 
         // for svn and git the repo get recreated for each test and therefore initial changelog size is 1
         int firstLogSize = firstResult.getChangeLog().getChangeSets().size();
-        assertTrue("Unexpected initial log size", firstLogSize >= 1);
+        assertTrue(firstLogSize >= 1, "Unexpected initial log size");
 
         // Make a timestamp that we know are after initial revision but before the second
         Date timeBeforeSecond = new Date(); // Current time
@@ -89,7 +89,7 @@ public abstract class ChangeLogCommandTckTest extends ScmTckTestCase {
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString(CommandParameter.MESSAGE, COMMIT_MSG);
         CheckInScmResult checkInResult = provider.checkIn(getScmRepository(), fileSet, commandParameters);
-        assertTrue("Unable to checkin changes to the repository", checkInResult.isSuccess());
+        assertTrue(checkInResult.isSuccess(), "Unable to checkin changes to the repository");
 
         ScmTagParameters scmTagParameters = new ScmTagParameters();
         TagScmResult tagResult = provider.tag(getScmRepository(), fileSet, COMMIT_TAG, scmTagParameters);

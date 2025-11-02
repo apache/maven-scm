@@ -26,9 +26,9 @@ import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -60,6 +60,6 @@ public abstract class GitTagCommandTckTest extends TagCommandTckTest {
                 .getProviderByUrl(getScmUrl())
                 .tag(getScmRepository(), new ScmFileSet(getWorkingCopy()), tag);
 
-        assertFalse("Tag should not have been pushed", tagResult.isSuccess());
+        assertFalse(tagResult.isSuccess(), "Tag should not have been pushed");
     }
 }

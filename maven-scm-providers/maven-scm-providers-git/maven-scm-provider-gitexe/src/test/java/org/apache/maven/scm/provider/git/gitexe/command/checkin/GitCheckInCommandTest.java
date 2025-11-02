@@ -39,12 +39,12 @@ import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNoException;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeNoException;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -54,7 +54,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
 
     private String messageFileString;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -141,8 +141,8 @@ public class GitCheckInCommandTest extends ScmTestCase {
                 .checkIn(scmRepository, new ScmFileSet(checkedOutRepo), "moved wine.xml from foo/bar/ to foo/newbar/");
         assertResultIsSuccess(checkInScmResult);
         assertTrue(
-                "Renamed file has not been commited!",
-                checkInScmResult.getCheckedInFiles().size() != 0);
+                checkInScmResult.getCheckedInFiles().size() != 0,
+                "Renamed file has not been commited!");
     }
 
     // Test FileSet in configuration

@@ -20,9 +20,9 @@ package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Bertrand Paquet

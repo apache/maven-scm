@@ -35,12 +35,12 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This test tests the update command.
@@ -64,15 +64,15 @@ public abstract class UpdateCommandTckTest extends ScmTckTestCase {
     private void commit(File workingDirectory, ScmRepository repository) throws Exception {
         CheckInScmResult result = getScmManager().checkIn(repository, new ScmFileSet(workingDirectory), "No msg");
 
-        assertTrue("Check result was successful, output: " + result.getCommandOutput(), result.isSuccess());
+        assertTrue(result.isSuccess(), "Check result was successful, output: " + result.getCommandOutput());
 
         List<ScmFile> committedFiles = result.getCheckedInFiles();
 
         assertEquals(
-                "Expected 3 files in the committed files list:\n  "
-                        + StringUtils.join(committedFiles.iterator(), "\n  "),
                 3,
-                committedFiles.size());
+                committedFiles.size(),
+                "Expected 3 files in the committed files list:\n  "
+                        + StringUtils.join(committedFiles.iterator(), "\n  "));
     }
 
     @Test
@@ -139,7 +139,7 @@ public abstract class UpdateCommandTckTest extends ScmTckTestCase {
 
         UpdateScmResult result = scmManager.update(repository, new ScmFileSet(getUpdatingCopy()), lastUpdate);
 
-        assertNotNull("The command returned a null result.", result);
+        assertNotNull(result, "The command returned a null result.");
 
         assertResultIsSuccess(result);
 
@@ -147,11 +147,11 @@ public abstract class UpdateCommandTckTest extends ScmTckTestCase {
 
         List<ChangeSet> changedSets = result.getChanges();
 
-        assertEquals("Expected 3 files in the updated files list " + updatedFiles, 3, updatedFiles.size());
+        assertEquals(3, updatedFiles.size(), "Expected 3 files in the updated files list " + updatedFiles);
 
-        assertNotNull("The changed files list is null", changedSets);
+        assertNotNull(changedSets, "The changed files list is null");
 
-        assertFalse("The changed files list is empty ", changedSets.isEmpty());
+        assertFalse(changedSets.isEmpty(), "The changed files list is empty ");
 
         for (ChangeSet changeSet : changedSets) {
             System.out.println(changeSet.toXML());

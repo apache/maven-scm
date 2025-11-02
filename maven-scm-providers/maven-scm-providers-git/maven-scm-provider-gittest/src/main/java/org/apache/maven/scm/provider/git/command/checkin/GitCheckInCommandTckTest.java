@@ -37,9 +37,9 @@ import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -106,7 +106,7 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
 
         CheckInScmResult checkInScmResult = getScmManager().checkIn(scmRepository, rejectedFileSet, commandParameters);
         assertFalse(
-                "check-in should have been rejected since fast forward was not possible", checkInScmResult.isSuccess());
+                checkInScmResult.isSuccess(), "check-in should have been rejected since fast forward was not possible");
     }
 
     @Test
@@ -118,7 +118,7 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
             CheckInScmResult result =
                     getScmManager().checkIn(getScmRepository(), addedFile, "Commit with pre-commit hook");
             assertFalse(
-                    "check-in should have been rejected since pre-push hook rejects all commits", result.isSuccess());
+                    result.isSuccess(), "check-in should have been rejected since pre-push hook rejects all commits");
         } catch (ScmException e) {
             // some providers may use an exception to indicate a failed commit
 

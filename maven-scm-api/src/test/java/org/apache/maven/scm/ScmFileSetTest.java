@@ -23,11 +23,11 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author dtran
@@ -60,9 +60,9 @@ public class ScmFileSetTest {
         assertEquals("**/**", fileSet.getIncludes());
         // assertEquals( ScmFileSet.DEFAULT_EXCLUDES, fileSet.getExcludes() );
         assertTrue(
+                fileSet.getFileList().size() > 10,
                 "List of files should be longer than 10 elements, but received: "
-                        + fileSet.getFileList().size(),
-                fileSet.getFileList().size() > 10);
+                        + fileSet.getFileList().size());
     }
 
     @Test

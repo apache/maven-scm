@@ -18,10 +18,10 @@
  */
 package org.apache.maven.scm;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ScmResultTest {
 
@@ -38,11 +38,11 @@ public class ScmResultTest {
     @Test
     public void testPasswordsAreMaskedInOutput() throws Exception {
         ScmResult result = new ScmResult("git push", "git-push failed", MOCK_ERROR_OUTPUT, false);
-        assertNotSame("Command output contains password", MOCK_ERROR_OUTPUT, result.getCommandOutput());
-        assertTrue("Command output not masked", result.getCommandOutput().contains(ScmResult.PASSWORD_PLACE_HOLDER));
+        assertNotSame(MOCK_ERROR_OUTPUT, result.getCommandOutput(), "Command output contains password");
+        assertTrue(result.getCommandOutput().contains(ScmResult.PASSWORD_PLACE_HOLDER), "Command output not masked");
 
         result = new ScmResult("git push", "git-push failed", MOCK_ERROR_MULTILINE_OUTPUT, false);
-        assertNotSame("Command output contains password", MOCK_ERROR_MULTILINE_OUTPUT, result.getCommandOutput());
-        assertTrue("Command output not masked", result.getCommandOutput().contains(ScmResult.PASSWORD_PLACE_HOLDER));
+        assertNotSame(MOCK_ERROR_MULTILINE_OUTPUT, result.getCommandOutput(), "Command output contains password");
+        assertTrue(result.getCommandOutput().contains(ScmResult.PASSWORD_PLACE_HOLDER), "Command output not masked");
     }
 }

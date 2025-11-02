@@ -34,12 +34,12 @@ import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -137,7 +137,7 @@ public class GitChangeLogConsumerTest extends ScmTestCase {
             }
         }
         assertEquals(
-                "Action summary differs from expectations", "{modified=21, added=88, deleted=1}", summary.toString());
+                "{modified=21, added=88, deleted=1}", summary.toString(), "Action summary differs from expectations");
 
         assertEquals(8, modifications.size());
 

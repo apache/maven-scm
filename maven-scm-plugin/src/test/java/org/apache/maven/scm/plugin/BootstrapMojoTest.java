@@ -21,10 +21,10 @@ package org.apache.maven.scm.plugin;
 import java.io.File;
 
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit Test for BootstrapMojo
@@ -32,7 +32,6 @@ import org.junit.runners.JUnit4;
  * @author <a href="mailto:arne@degenring.com">Arne Degenring</a>
  *
  */
-@RunWith(JUnit4.class)
 public class BootstrapMojoTest extends AbstractJUnit4MojoTestCase {
     File checkoutDir;
 
@@ -42,7 +41,7 @@ public class BootstrapMojoTest extends AbstractJUnit4MojoTestCase {
 
     BootstrapMojo bootstrapMojo;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
 

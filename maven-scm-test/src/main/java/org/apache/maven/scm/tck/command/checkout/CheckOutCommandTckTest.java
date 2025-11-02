@@ -30,11 +30,11 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * This test tests the check out command.
@@ -73,7 +73,7 @@ public abstract class CheckOutCommandTckTest extends ScmTckTestCase {
         CheckOutScmResult result = checkOut(getWorkingCopy(), getScmRepository());
         assertResultIsSuccess(result);
         Optional<ScmRepository> repository = getScmManager().makeProviderScmRepository(getWorkingCopy());
-        assertTrue("Could not detect SCM repository for working copy at " + getWorkingCopy(), repository.isPresent());
+        assertTrue(repository.isPresent(), "Could not detect SCM repository for working copy at " + getWorkingCopy());
     }
 
     private boolean isMakeProviderScmRepositoryFromDirectorySupportedByProvider() throws Exception {

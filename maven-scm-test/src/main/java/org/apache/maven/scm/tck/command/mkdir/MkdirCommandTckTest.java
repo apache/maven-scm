@@ -23,10 +23,10 @@ import java.io.File;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.command.mkdir.MkdirScmResult;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * This test tests the mkdir command.
@@ -45,7 +45,7 @@ public abstract class MkdirCommandTckTest extends ScmTckTestCase {
         assertNotNull(result.getCreatedDirs());
 
         assertEquals(
-                "Directory should have been added.", 1, result.getCreatedDirs().size());
+                1, result.getCreatedDirs().size(), "Directory should have been added.");
     }
 
     protected String getMissingDirectory() {

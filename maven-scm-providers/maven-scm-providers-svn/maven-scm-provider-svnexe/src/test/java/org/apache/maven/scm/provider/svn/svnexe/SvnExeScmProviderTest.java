@@ -22,13 +22,13 @@ import java.io.File;
 
 import org.apache.maven.scm.ScmException;
 import org.codehaus.plexus.util.Os;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -36,16 +36,16 @@ import static org.mockito.Mockito.when;
 public class SvnExeScmProviderTest {
     private SvnExeScmProvider scmProvider;
 
-    @Before
+    @BeforeEach
     public void onSetup() {
         scmProvider = new SvnExeScmProvider();
     }
 
     // SCM-435
     @Test
-    @Ignore("This test is for now ignore: it mock Logger and then asserts against it")
+    @Disabled("This test is for now ignore: it mock Logger and then asserts against it")
     public void testGetRepositoryURLWindows() throws Exception {
-        Assume.assumeTrue(Os.isFamily(Os.FAMILY_WINDOWS));
+        Assumptions.assumeTrue(Os.isFamily(Os.FAMILY_WINDOWS));
 
         // prepare
         Logger logger = mock(Logger.class);

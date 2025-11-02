@@ -24,20 +24,19 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
-@RunWith(JUnit4.class)
 public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
     File checkoutDir;
 
     File repository;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
 

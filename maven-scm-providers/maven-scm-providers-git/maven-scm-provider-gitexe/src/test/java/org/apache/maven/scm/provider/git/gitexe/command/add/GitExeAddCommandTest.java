@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Check if the {@code GitAddCommand#createCommandLine(File, List)} returns the correct

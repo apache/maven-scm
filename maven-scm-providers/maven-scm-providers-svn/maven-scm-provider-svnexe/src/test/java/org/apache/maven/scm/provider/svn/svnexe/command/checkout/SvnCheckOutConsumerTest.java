@@ -20,8 +20,8 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkout;
 
 import java.io.File;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SvnCheckOutConsumerTest {
     SvnCheckOutConsumer consumer;
@@ -36,6 +36,6 @@ public class SvnCheckOutConsumerTest {
 
         consumer.parseLine("Checked out revision 1345915.");
 
-        Assert.assertEquals(1345915, consumer.getRevision());
+        Assertions.assertEquals(1345915, consumer.getRevision());
     }
 }

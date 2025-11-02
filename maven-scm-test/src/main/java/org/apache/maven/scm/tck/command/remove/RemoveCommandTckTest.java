@@ -30,11 +30,11 @@ import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /** This test tests the remove command. */
 public abstract class RemoveCommandTckTest extends ScmTckTestCase {
@@ -83,10 +83,10 @@ public abstract class RemoveCommandTckTest extends ScmTckTestCase {
 
         File applicationJava = new File(getAssertionCopy(), "src/main/java/Application.java");
 
-        assertFalse("Application.java does exist even though it has been removed before", applicationJava.canRead());
+        assertFalse(applicationJava.canRead(), "Application.java does exist even though it has been removed before");
 
         File testJava = new File(getAssertionCopy(), "src/test/java/Test.java");
 
-        assertFalse("Test.java does exist even though it has been removed before", testJava.canRead());
+        assertFalse(testJava.canRead(), "Test.java does exist even though it has been removed before");
     }
 }

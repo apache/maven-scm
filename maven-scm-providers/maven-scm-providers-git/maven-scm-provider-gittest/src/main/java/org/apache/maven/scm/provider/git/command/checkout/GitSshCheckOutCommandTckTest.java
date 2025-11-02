@@ -18,6 +18,7 @@
  */
 package org.apache.maven.scm.provider.git.command.checkout;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 
@@ -26,16 +27,15 @@ import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.GitSshServer;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
-import org.junit.Assume;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 public abstract class GitSshCheckOutCommandTckTest extends CheckOutCommandTckTest {
     protected final GitSshServer gitSshServer;
 
-    @Rule
-    public TemporaryFolder tmpDirectory = new TemporaryFolder();
+    @TempDir
+    public File tmpDirectory;
 
     protected GitSshCheckOutCommandTckTest() throws GeneralSecurityException {
         gitSshServer = new GitSshServer();
@@ -54,7 +54,7 @@ public abstract class GitSshCheckOutCommandTckTest extends CheckOutCommandTckTes
         ScmProviderRepositoryWithHost providerRepository =
                 ScmProviderRepositoryWithHost.class.cast(repository.getProviderRepository());
         // store as file
-        Path privateKeyFile = tmpDirectory.newFile().toPath();
+        Path privateKeyFile = File.createTempFile("junit", null, tmpDirectory).toPath();
         gitSshServer.writePrivateKeyAsPkcs8(privateKeyFile, passphrase);
         providerRepository.setPrivateKey(privateKeyFile.toString());
         providerRepository.setPassphrase(passphrase); // may be null
@@ -87,8 +87,8 @@ public abstract class GitSshCheckOutCommandTckTest extends CheckOutCommandTckTes
     @Test
     public void testCheckOutCommandWithPassphraseTest() throws Exception {
         // TODO: currently no easy way to pass passphrase in gitexe
-        Assume.assumeTrue(
-                "Ignore test with passphrase for provider " + getScmProvider(), "jgit".equals(getScmProvider()));
+        Assumptions.assumeTrue(
+                "jgit".equals(getScmProvider()), "Ignore test with passphrase for provider " + getScmProvider());
         configureCredentials(getScmRepository(), "mySecret");
         super.testCheckOutCommandTest();
     }

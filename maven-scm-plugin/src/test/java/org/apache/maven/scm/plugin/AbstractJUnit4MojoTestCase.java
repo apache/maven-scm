@@ -22,19 +22,19 @@ import java.io.File;
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.PlexusJUnit4TestCase;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 public abstract class AbstractJUnit4MojoTestCase extends AbstractMojoTestCase {
     private static final PlexusJUnit4TestCase PLEXUS_JUNIT4_TEST_CASE = new PlexusJUnit4TestCase();
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
         PLEXUS_JUNIT4_TEST_CASE.setUp();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         super.tearDown();
         PLEXUS_JUNIT4_TEST_CASE.tearDown();

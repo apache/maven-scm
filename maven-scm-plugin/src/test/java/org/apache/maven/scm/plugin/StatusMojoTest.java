@@ -21,9 +21,7 @@ package org.apache.maven.scm.plugin;
 import java.io.File;
 
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
 
@@ -31,7 +29,6 @@ import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-@RunWith(JUnit4.class)
 public class StatusMojoTest extends AbstractJUnit4MojoTestCase {
     @Test
     public void testStatusMojo() throws Exception {

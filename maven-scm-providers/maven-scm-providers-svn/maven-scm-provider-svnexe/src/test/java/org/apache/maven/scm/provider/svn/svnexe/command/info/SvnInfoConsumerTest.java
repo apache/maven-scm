@@ -21,9 +21,9 @@ package org.apache.maven.scm.provider.svn.svnexe.command.info;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SvnInfoConsumerTest {
 

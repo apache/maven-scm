@@ -22,14 +22,14 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for the {@link ChangeSet}class
@@ -46,7 +46,7 @@ public class ChangeSetTest {
     /**
      * Initialize per test data
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         instance = createInstance();
     }
@@ -67,7 +67,7 @@ public class ChangeSetTest {
     public void testAddFileWithFile() {
         ChangeFile file = new ChangeFile("maven:dummy");
         instance.addFile(file);
-        assertTrue("File name not found in list", instance.toString().indexOf("maven:dummy") != -1);
+        assertTrue(instance.toString().indexOf("maven:dummy") != -1, "File name not found in list");
 
         assertTrue(instance.containsFilename("maven:"));
         assertTrue(instance.containsFilename(":dummy"));
@@ -83,9 +83,9 @@ public class ChangeSetTest {
     public void testToString() {
         // dion, Mon Apr 01 00:00:00 EST 2002, comment
         String value = instance.toString();
-        assertTrue("author not found in string", value.indexOf("dion") != -1);
-        assertTrue("comment not found in string", value.indexOf("comment") != -1);
-        assertTrue("date not found in string", value.indexOf("Mon Apr 01") != -1);
+        assertTrue(value.indexOf("dion") != -1, "author not found in string");
+        assertTrue(value.indexOf("comment") != -1, "comment not found in string");
+        assertTrue(value.indexOf("Mon Apr 01") != -1, "date not found in string");
     }
 
     /**
@@ -93,7 +93,7 @@ public class ChangeSetTest {
      */
     @Test
     public void testGetAuthor() {
-        assertEquals("Author value not retrieved correctly", "dion", instance.getAuthor());
+        assertEquals("dion", instance.getAuthor(), "Author value not retrieved correctly");
     }
 
     /**
@@ -102,7 +102,7 @@ public class ChangeSetTest {
     @Test
     public void testSetAuthor() {
         instance.setAuthor("maven:dion");
-        assertEquals("Author not set correctly", "maven:dion", instance.getAuthor());
+        assertEquals("maven:dion", instance.getAuthor(), "Author not set correctly");
     }
 
     /**
@@ -110,7 +110,7 @@ public class ChangeSetTest {
      */
     @Test
     public void testGetComment() {
-        assertEquals("Comment value not retrieved correctly", "comment", instance.getComment());
+        assertEquals("comment", instance.getComment(), "Comment value not retrieved correctly");
     }
 
     /**
@@ -119,7 +119,7 @@ public class ChangeSetTest {
     @Test
     public void testSetComment() {
         instance.setComment("maven:comment");
-        assertEquals("Comment not set correctly", "maven:comment", instance.getComment());
+        assertEquals("maven:comment", instance.getComment(), "Comment not set correctly");
     }
 
     /**
@@ -127,7 +127,7 @@ public class ChangeSetTest {
      */
     @Test
     public void testGetDate() {
-        assertEquals("Date value not retrieved correctly", getDate(2002, 3, 1), instance.getDate());
+        assertEquals(getDate(2002, 3, 1), instance.getDate(), "Date value not retrieved correctly");
     }
 
     /**
@@ -138,7 +138,7 @@ public class ChangeSetTest {
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
         instance.setDate(date);
-        assertEquals("Date value not set correctly", date, instance.getDate());
+        assertEquals(date, instance.getDate(), "Date value not set correctly");
     }
 
     /**
@@ -147,7 +147,7 @@ public class ChangeSetTest {
     @Test
     public void testSetDateFromString() {
         instance.setDate("2002/03/04 00:00:00");
-        assertEquals("Date value not set correctly from a string", getDate(2002, 2, 4), instance.getDate());
+        assertEquals(getDate(2002, 2, 4), instance.getDate(), "Date value not set correctly from a string");
     }
 
     /**
@@ -155,7 +155,7 @@ public class ChangeSetTest {
      */
     @Test
     public void testGetDateFormatted() {
-        assertEquals("Date not formatted correctly", "2002-04-01", instance.getDateFormatted());
+        assertEquals("2002-04-01", instance.getDateFormatted(), "Date not formatted correctly");
     }
 
     /**
@@ -163,7 +163,7 @@ public class ChangeSetTest {
      */
     @Test
     public void testGetTimeFormatted() {
-        assertEquals("Time not formatted correctly", "00:00:00", instance.getTimeFormatted());
+        assertEquals("00:00:00", instance.getTimeFormatted(), "Time not formatted correctly");
     }
 
     public static Date getDate(int year, int month, int day) {

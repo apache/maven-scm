@@ -34,11 +34,11 @@ import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.changelog.ChangeLogCommandTckTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -78,9 +78,9 @@ public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest
 
         List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
         assertEquals(
-                String.format("changelog for %s..%s returned bad number of commits", startVersion, endVersion),
                 1,
-                logEntries.size());
+                logEntries.size(),
+                String.format("changelog for %s..%s returned bad number of commits", startVersion, endVersion));
 
         assertThat("bad head commit SHA1 retrieved", logEntries.get(0).getRevision(), startsWith("464921b"));
     }
@@ -101,9 +101,9 @@ public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest
 
         List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
         assertEquals(
-                String.format("changelog for %s..%s returned bad number of commits", startVersion, endVersion),
                 0,
-                logEntries.size());
+                logEntries.size(),
+                String.format("changelog for %s..%s returned bad number of commits", startVersion, endVersion));
     }
 
     @Test
@@ -120,7 +120,7 @@ public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest
 
         List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
         assertEquals(
-                String.format("changelog for ..%s returned bad number of commits", endVersion), 0, logEntries.size());
+                0, logEntries.size(), String.format("changelog for ..%s returned bad number of commits", endVersion));
     }
 
     @Test
@@ -137,7 +137,7 @@ public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest
 
         List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
         assertEquals(
-                String.format("changelog for %s.. returned bad number of commits", startVersion), 2, logEntries.size());
+                2, logEntries.size(), String.format("changelog for %s.. returned bad number of commits", startVersion));
 
         assertThat("bad commit SHA1 retrieved", logEntries.get(0).getRevision(), startsWith("464921b"));
         assertThat("bad commit SHA1 retrieved", logEntries.get(1).getRevision(), startsWith("db46d63"));
@@ -159,7 +159,7 @@ public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest
 
         List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
         assertEquals(
-                String.format("changelog for %s.. returned bad number of commits", startVersion), 2, logEntries.size());
+                2, logEntries.size(), String.format("changelog for %s.. returned bad number of commits", startVersion));
 
         assertThat("bad commit SHA1 retrieved", logEntries.get(0).getRevision(), startsWith("db46d63"));
         assertThat("bad commit SHA1 retrieved", logEntries.get(1).getRevision(), startsWith("e3864d9"));
@@ -181,9 +181,9 @@ public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest
 
         List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
         assertEquals(
-                String.format("changelog for %s..%s should return no commits", startVersion, endVersion),
                 0,
-                logEntries.size());
+                logEntries.size(),
+                String.format("changelog for %s..%s should return no commits", startVersion, endVersion));
     }
 
     @Test
@@ -199,7 +199,7 @@ public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest
         ChangeLogScmResult changelogResult = provider.changeLog(clr);
 
         List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
-        assertEquals(String.format("changelog for %s returned bad number of commits", version), 5, logEntries.size());
+        assertEquals(5, logEntries.size(), String.format("changelog for %s returned bad number of commits", version));
     }
 
     @Test
@@ -215,7 +215,7 @@ public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest
         ChangeLogScmResult changelogResult = provider.changeLog(clr);
 
         List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
-        assertEquals(String.format("changelog for %s returned bad number of commits", version), 4, logEntries.size());
+        assertEquals(4, logEntries.size(), String.format("changelog for %s returned bad number of commits", version));
 
         assertThat("bad commit SHA1 retrieved", logEntries.get(0).getRevision(), startsWith("db46d63"));
         assertThat("bad commit SHA1 retrieved", logEntries.get(1).getRevision(), startsWith("e3864d9"));
@@ -226,10 +226,10 @@ public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest
         List<String> tags2 = Collections.singletonList("Tag2");
         List<String> noTags = Collections.emptyList();
 
-        assertEquals("Incorrect tags found", tags4, sorted(logEntries.get(0).getTags()));
-        assertEquals("Incorrect tags found", noTags, sorted(logEntries.get(1).getTags()));
-        assertEquals("Incorrect tags found", tags2, sorted(logEntries.get(2).getTags()));
-        assertEquals("Incorrect tags found", noTags, sorted(logEntries.get(3).getTags()));
+        assertEquals(tags4, sorted(logEntries.get(0).getTags()), "Incorrect tags found");
+        assertEquals(noTags, sorted(logEntries.get(1).getTags()), "Incorrect tags found");
+        assertEquals(tags2, sorted(logEntries.get(2).getTags()), "Incorrect tags found");
+        assertEquals(noTags, sorted(logEntries.get(3).getTags()), "Incorrect tags found");
     }
 
     private List<String> sorted(List<String> input) {
