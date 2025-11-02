@@ -36,9 +36,8 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.changelog.ChangeLogCommandTckTest;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.startsWith;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -82,7 +81,7 @@ public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest
                 1,
                 logEntries.size());
 
-        assertThat("bad head commit SHA1 retrieved", logEntries.get(0).getRevision(), startsWith("464921b"));
+        assertTrue(logEntries.get(0).getRevision().startsWith("464921b"), "bad head commit SHA1 retrieved");
     }
 
     @Test
@@ -139,8 +138,8 @@ public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest
         assertEquals(
                 String.format("changelog for %s.. returned bad number of commits", startVersion), 2, logEntries.size());
 
-        assertThat("bad commit SHA1 retrieved", logEntries.get(0).getRevision(), startsWith("464921b"));
-        assertThat("bad commit SHA1 retrieved", logEntries.get(1).getRevision(), startsWith("db46d63"));
+        assertTrue(logEntries.get(0).getRevision().startsWith("464921b"), "bad commit SHA1 retrieved");
+        assertTrue(logEntries.get(1).getRevision().startsWith("db46d63"), "bad commit SHA1 retrieved");
     }
 
     @Test
@@ -161,8 +160,8 @@ public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest
         assertEquals(
                 String.format("changelog for %s.. returned bad number of commits", startVersion), 2, logEntries.size());
 
-        assertThat("bad commit SHA1 retrieved", logEntries.get(0).getRevision(), startsWith("db46d63"));
-        assertThat("bad commit SHA1 retrieved", logEntries.get(1).getRevision(), startsWith("e3864d9"));
+        assertTrue(logEntries.get(0).getRevision().startsWith("db46d63"), "bad commit SHA1 retrieved");
+        assertTrue(logEntries.get(1).getRevision().startsWith("e3864d9"), "bad commit SHA1 retrieved");
     }
 
     @Test
@@ -217,10 +216,10 @@ public abstract class GitChangeLogCommandTckTest extends ChangeLogCommandTckTest
         List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
         assertEquals(String.format("changelog for %s returned bad number of commits", version), 4, logEntries.size());
 
-        assertThat("bad commit SHA1 retrieved", logEntries.get(0).getRevision(), startsWith("db46d63"));
-        assertThat("bad commit SHA1 retrieved", logEntries.get(1).getRevision(), startsWith("e3864d9"));
-        assertThat("bad commit SHA1 retrieved", logEntries.get(2).getRevision(), startsWith("0f1e817"));
-        assertThat("bad commit SHA1 retrieved", logEntries.get(3).getRevision(), startsWith("e75cb5a"));
+        assertTrue(logEntries.get(0).getRevision().startsWith("db46d63"), "bad commit SHA1 retrieved");
+        assertTrue(logEntries.get(1).getRevision().startsWith("e3864d9"), "bad commit SHA1 retrieved");
+        assertTrue(logEntries.get(2).getRevision().startsWith("0f1e817"), "bad commit SHA1 retrieved");
+        assertTrue(logEntries.get(3).getRevision().startsWith("e75cb5a"), "bad commit SHA1 retrieved");
 
         List<String> tags4 = Arrays.asList("Tag4a", "Tag4b");
         List<String> tags2 = Collections.singletonList("Tag2");

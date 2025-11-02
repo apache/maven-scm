@@ -29,8 +29,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -528,9 +528,7 @@ public class GitScmProviderRepositoryTest extends ScmTestCase {
 
         assertNotNull("The provider repository was null.", repository.getProviderRepository());
 
-        assertTrue(
-                "The SCM Repository isn't a " + GitScmProviderRepository.class.getName() + ".",
-                repository.getProviderRepository() instanceof GitScmProviderRepository);
+        assertInstanceOf(GitScmProviderRepository.class, repository.getProviderRepository(), "The SCM Repository isn't a " + GitScmProviderRepository.class.getName() + ".");
 
         if (expectedToString != null) {
             assertEquals("toString is incorrect", "git:" + expectedToString, repository.toString());

@@ -28,8 +28,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -56,7 +56,7 @@ public class LocalRepositoryTest extends ScmTestCase {
 
         assertNotNull(providerRepository);
 
-        assertTrue(providerRepository instanceof LocalScmProviderRepository);
+        assertInstanceOf(LocalScmProviderRepository.class, providerRepository);
 
         LocalScmProviderRepository local = (LocalScmProviderRepository) providerRepository;
 

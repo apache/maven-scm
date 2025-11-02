@@ -27,8 +27,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -240,9 +240,7 @@ public class SvnScmProviderRepositoryTest extends ScmTestCase {
 
         assertNotNull("The provider repository was null.", repository.getProviderRepository());
 
-        assertTrue(
-                "The SCM Repository isn't a " + SvnScmProviderRepository.class.getName() + ".",
-                repository.getProviderRepository() instanceof SvnScmProviderRepository);
+        assertInstanceOf(SvnScmProviderRepository.class, repository.getProviderRepository(), "The SCM Repository isn't a " + SvnScmProviderRepository.class.getName() + ".");
 
         SvnScmProviderRepository providerRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
@@ -302,14 +300,14 @@ public class SvnScmProviderRepositoryTest extends ScmTestCase {
     @Test
     public void testGetParentDotSlashEndingURL() {
         SvnScmProviderRepository slashDotRepo = new SvnScmProviderRepository("file://a/b/c/././.");
-        assertTrue(slashDotRepo.getParent() instanceof SvnScmProviderRepository);
+        assertInstanceOf(SvnScmProviderRepository.class, slashDotRepo.getParent());
         assertEquals("file://a/b", ((SvnScmProviderRepository) slashDotRepo.getParent()).getUrl());
     }
 
     @Test
     public void testGetParentSlashEndingURL() {
         SvnScmProviderRepository slashRepo = new SvnScmProviderRepository("file://a/b/c///");
-        assertTrue(slashRepo.getParent() instanceof SvnScmProviderRepository);
+        assertInstanceOf(SvnScmProviderRepository.class, slashRepo.getParent());
         assertEquals("file://a/b", ((SvnScmProviderRepository) slashRepo.getParent()).getUrl());
     }
 }
