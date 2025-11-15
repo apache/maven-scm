@@ -28,3 +28,4 @@ jobs:
     with:
       install-mercurial: true
       maven-args: "-P tck-git -P tck-hg -P tck-svn"
+      matrix-exclude: '[ {"jdk": "25"} ]'
