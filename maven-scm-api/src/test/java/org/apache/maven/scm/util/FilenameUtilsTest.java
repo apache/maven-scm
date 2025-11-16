@@ -18,15 +18,15 @@
  */
 package org.apache.maven.scm.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class FilenameUtilsTest {
+class FilenameUtilsTest {
 
     @Test
-    public void testNormalize() {
+    void testNormalize() {
         assertNull(FilenameUtils.normalizeFilename((String) null));
         assertEquals("", FilenameUtils.normalizeFilename(""));
 

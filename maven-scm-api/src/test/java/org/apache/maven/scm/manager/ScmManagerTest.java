@@ -18,17 +18,17 @@
  */
 package org.apache.maven.scm.manager;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class ScmManagerTest {
+class ScmManagerTest {
     @Test
-    public void testCleanScmUrl() throws Exception {
+    void testCleanScmUrl() {
         BasicScmManager manager = new BasicScmManager();
 
         assertEquals(

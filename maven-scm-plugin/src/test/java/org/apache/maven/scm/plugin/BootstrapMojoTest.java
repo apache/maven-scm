@@ -20,11 +20,11 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
-import org.codehaus.plexus.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit Test for BootstrapMojo
@@ -32,8 +32,11 @@ import org.junit.runners.JUnit4;
  * @author <a href="mailto:arne@degenring.com">Arne Degenring</a>
  *
  */
-@RunWith(JUnit4.class)
-public class BootstrapMojoTest extends AbstractJUnit4MojoTestCase {
+class BootstrapMojoTest {
+
+    @TempDir
+    File tempDir;
+
     File checkoutDir;
 
     File projectDir;
@@ -42,25 +45,23 @@ public class BootstrapMojoTest extends AbstractJUnit4MojoTestCase {
 
     BootstrapMojo bootstrapMojo;
 
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
+    @BeforeEach
+    void setUp() throws Exception {
 
-        checkoutDir = getTestFile("target/checkout");
-        FileUtils.forceDelete(checkoutDir);
+        checkoutDir = new File(tempDir, "target/checkout");
         checkoutDir.mkdirs();
 
-        projectDir = getTestFile("target/checkout/my/project");
+        projectDir = new File(checkoutDir, "my/project");
         projectDir.mkdirs();
 
-        goalDir = getTestFile("target/checkout/my/project/modules/1");
+        goalDir = new File(checkoutDir, "my/project/modules/1");
         goalDir.mkdirs();
 
         bootstrapMojo = new BootstrapMojo(null, null);
     }
 
     @Test
-    public void testDetermineWorkingDirectoryPath() throws Exception {
+    void testDetermineWorkingDirectoryPath() throws Exception {
         // only checkout dir
         assertEquals(checkoutDir.getPath(), bootstrapMojo.determineWorkingDirectoryPath(checkoutDir, "", ""));
         assertEquals(checkoutDir.getPath(), bootstrapMojo.determineWorkingDirectoryPath(checkoutDir, null, null));
