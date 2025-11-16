@@ -26,10 +26,10 @@ import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderStub;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryStub;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * Test for the ScmManagerStub
@@ -47,7 +47,7 @@ public class ScmManagerStubTest {
 
     private ScmRepository scmRepository;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         messages = new ArrayList<>(0);
         scmProvider = new ScmProviderStub();

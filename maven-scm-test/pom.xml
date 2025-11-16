@@ -76,6 +76,12 @@
       <artifactId>junit</artifactId>
     </dependency>
     <dependency>
+      <!-- first step - only used for test -->
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.apache.maven.plugin-testing</groupId>
       <artifactId>maven-plugin-testing-harness</artifactId>
       <version>3.4.0</version>

@@ -18,41 +18,38 @@
  */
 package org.apache.maven.scm.plugin;
 
+import org.apache.maven.api.plugin.testing.InjectMojo;
+import org.apache.maven.api.plugin.testing.MojoTest;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-@RunWith(JUnit4.class)
-public class ValidateMojoTest extends AbstractJUnit4MojoTestCase {
+@MojoTest
+class ValidateMojoTest {
+
     @Test
-    public void testValidateWithoutScmUrl() throws Exception {
-        ValidateMojo mojo = (ValidateMojo)
-                lookupMojo("validate", getTestFile("src/test/resources/mojos/validate/validateWithoutScmUrl.xml"));
-        mojo.execute();
+    @InjectMojo(goal = "validate", pom = "classpath:/mojos/validate/validateWithoutScmUrl.xml")
+    void testValidateWithoutScmUrl(ValidateMojo mojo) {
+        assertDoesNotThrow(mojo::execute);
     }
 
     @Test
-    public void testValidateWithValidScmUrls() throws Exception {
-        ValidateMojo mojo = (ValidateMojo)
-                lookupMojo("validate", getTestFile("src/test/resources/mojos/validate/validateWithValidScmUrls.xml"));
-        mojo.execute();
+    @InjectMojo(goal = "validate", pom = "classpath:/mojos/validate/validateWithValidScmUrls.xml")
+    void testValidateWithValidScmUrls(ValidateMojo mojo) {
+        assertDoesNotThrow(mojo::execute);
     }
 
     @Test
-    public void testValidateWithInvalidScmUrls() throws Exception {
-        ValidateMojo mojo = (ValidateMojo)
-                lookupMojo("validate", getTestFile("src/test/resources/mojos/validate/validateWithInvalidScmUrls.xml"));
-        try {
-            mojo.execute();
-
-            fail("mojo execution must fail.");
-        } catch (MojoExecutionException e) {
-            assertNotNull(e.getMessage());
-        }
+    @InjectMojo(goal = "validate", pom = "classpath:/mojos/validate/validateWithInvalidScmUrls.xml")
+    void testValidateWithInvalidScmUrls(ValidateMojo mojo) throws Exception {
+        MojoExecutionException exception = assertThrows(MojoExecutionException.class, mojo::execute);
+        assertNotNull(exception.getMessage());
     }
 }

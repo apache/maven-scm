@@ -18,28 +18,34 @@
  */
 package org.apache.maven.scm.plugin;
 
-import java.io.File;
-
+import org.apache.maven.api.plugin.testing.Basedir;
+import org.apache.maven.api.plugin.testing.InjectMojo;
+import org.apache.maven.api.plugin.testing.MojoTest;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIf;
 
-import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-@RunWith(JUnit4.class)
-public class StatusMojoTest extends AbstractJUnit4MojoTestCase {
+@MojoTest
+@EnabledIf(
+        value = "isSvnPresence",
+        disabledReason = "Skipping SVN tests since SVN command line client is not available")
+class StatusMojoTest {
+
+    static boolean isSvnPresence() {
+        return ScmTestCase.isSystemCmd(SvnScmTestUtils.SVN_COMMAND_LINE);
+    }
+
     @Test
-    public void testStatusMojo() throws Exception {
-        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
-
-        StatusMojo mojo = (StatusMojo) lookupMojo("status", getTestFile("src/test/resources/mojos/status/status.xml"));
-
-        mojo.setWorkingDirectory(new File(getBasedir()));
-        mojo.execute();
+    @Basedir("/mojos/status/")
+    @InjectMojo(goal = "status", pom = "status.xml")
+    void testStatusMojo(StatusMojo mojo) {
+        assertDoesNotThrow(mojo::execute);
     }
 }

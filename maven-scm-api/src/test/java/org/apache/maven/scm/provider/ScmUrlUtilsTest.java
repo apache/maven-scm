@@ -18,17 +18,17 @@
  */
 package org.apache.maven.scm.provider;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:dennisl@apache.org">Dennis Lundberg</a>
  *
  */
-public class ScmUrlUtilsTest {
+class ScmUrlUtilsTest {
     private static final String SCM_URL_INVALID_1 = null;
 
     private static final String SCM_URL_INVALID_2 = "scm";
@@ -46,7 +46,7 @@ public class ScmUrlUtilsTest {
     private static final String SCM_URL_VALID_4 = "scm:a|provider-specific-part";
 
     @Test
-    public void testGetProvider() throws Exception {
+    void testGetProvider() {
         assertEquals("a", ScmUrlUtils.getProvider(SCM_URL_VALID_1));
         assertEquals("a", ScmUrlUtils.getProvider(SCM_URL_VALID_2));
         assertEquals("a", ScmUrlUtils.getProvider(SCM_URL_VALID_3));
@@ -54,7 +54,7 @@ public class ScmUrlUtilsTest {
     }
 
     @Test
-    public void testGetProviderSpecificPart() throws Exception {
+    void testGetProviderSpecificPart() {
         assertEquals("", ScmUrlUtils.getProviderSpecificPart(SCM_URL_VALID_1));
         assertEquals("", ScmUrlUtils.getProviderSpecificPart(SCM_URL_VALID_2));
         assertEquals("provider-specific-part", ScmUrlUtils.getProviderSpecificPart(SCM_URL_VALID_3));
@@ -62,7 +62,7 @@ public class ScmUrlUtilsTest {
     }
 
     @Test
-    public void testIsValid() throws Exception {
+    void testIsValid() {
         assertTrue(ScmUrlUtils.isValid(SCM_URL_VALID_1));
         assertTrue(ScmUrlUtils.isValid(SCM_URL_VALID_2));
         assertTrue(ScmUrlUtils.isValid(SCM_URL_VALID_3));

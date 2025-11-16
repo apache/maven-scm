@@ -443,7 +443,6 @@
                 <id>non-aggregate</id>
                 <reports>
                   <report>javadoc</report>
-                  <report>test-javadoc</report>
                 </reports>
               </reportSet>
               <reportSet>

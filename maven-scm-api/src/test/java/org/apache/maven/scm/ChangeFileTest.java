@@ -18,17 +18,17 @@
  */
 package org.apache.maven.scm;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
  */
-public class ChangeFileTest {
+class ChangeFileTest {
     @Test
-    public void testNewFile() {
+    void testNewFile() {
         ChangeFile f = new ChangeFile("test.java");
         assertEquals("test.java", f.getName());
         assertNull(f.getRevision());
@@ -36,7 +36,7 @@ public class ChangeFileTest {
     }
 
     @Test
-    public void testNewFileRevision() {
+    void testNewFileRevision() {
         ChangeFile f = new ChangeFile("test.java", "1.2.3");
         assertEquals("test.java", f.getName());
         assertEquals("1.2.3", f.getRevision());
@@ -44,7 +44,7 @@ public class ChangeFileTest {
     }
 
     @Test
-    public void testNewRevisionFile() {
+    void testNewRevisionFile() {
         ChangeFile f = new ChangeFile("test.java", "revision1");
         assertEquals("test.java", f.getName());
         assertEquals("revision1", f.getRevision());

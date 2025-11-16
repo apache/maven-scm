@@ -23,19 +23,19 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author dtran
  */
-public class ScmFileSetTest {
+class ScmFileSetTest {
     private static String basedirPath;
 
-    public static String getBasedir() {
+    private static String getBasedir() {
         if (basedirPath != null) {
             return basedirPath;
         }
@@ -54,25 +54,25 @@ public class ScmFileSetTest {
     }
 
     @Test
-    public void testFilesList() throws IOException {
+    void testFilesList() throws IOException {
         ScmFileSet fileSet = new ScmFileSet(new File(getBasedir(), "src"), "**/**");
         assertEquals("src", fileSet.getBasedir().getName());
         assertEquals("**/**", fileSet.getIncludes());
         // assertEquals( ScmFileSet.DEFAULT_EXCLUDES, fileSet.getExcludes() );
         assertTrue(
+                fileSet.getFileList().size() > 10,
                 "List of files should be longer than 10 elements, but received: "
-                        + fileSet.getFileList().size(),
-                fileSet.getFileList().size() > 10);
+                        + fileSet.getFileList().size());
     }
 
     @Test
-    public void testFilesListWithoutIncludesResultsEmptyList() throws IOException {
+    void testFilesListWithoutIncludesResultsEmptyList() {
         ScmFileSet fileSet = new ScmFileSet(new File(getBasedir(), "src"));
         assertEquals(0, fileSet.getFileList().size());
     }
 
     @Test
-    public void testFilesListExcludes() throws IOException {
+    void testFilesListExcludes() throws IOException {
         ScmFileSet fileSet = new ScmFileSet(new File(getBasedir(), "src"), "**/**", "**/exclude/**");
 
         List<File> files = fileSet.getFileList();
@@ -87,14 +87,14 @@ public class ScmFileSetTest {
     }
 
     @Test
-    public void testFilesListExcludes2() throws IOException {
+    void testFilesListExcludes2() throws IOException {
         ScmFileSet fileSet = new ScmFileSet(new File(getBasedir(), "src"), "**/scmfileset/**", "**/exclude/**");
 
         assertEquals(2, fileSet.getFileList().size());
     }
 
     @Test
-    public void testFilesListNoExcludes() throws IOException {
+    void testFilesListNoExcludes() throws IOException {
         ScmFileSet fileSet = new ScmFileSet(new File(getBasedir(), "src"), "**/scmfileset/**");
 
         assertEquals(4, fileSet.getFileList().size());
