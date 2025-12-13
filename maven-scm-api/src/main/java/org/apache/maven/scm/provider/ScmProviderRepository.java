@@ -119,6 +119,10 @@ public abstract class ScmProviderRepository {
      * @return the workItem
      * @since 1.9.5
      */
+    /**
+     * @deprecated This method is deprecated as it exposes legacy SCM work item
+     * metadata and is no longer used internally. There is no direct replacement.
+     */
     @Deprecated
     public String getWorkItem() {
         return workItem;
@@ -129,6 +133,10 @@ public abstract class ScmProviderRepository {
      *
      * @param workItem the workItem
      * @since 1.9.5
+     */
+    /**
+     * @deprecated This method is deprecated as it modifies legacy SCM work item
+     * metadata that is no longer used internally. There is no direct replacement.
      */
     @Deprecated
     public void setWorkItem(String workItem) {
