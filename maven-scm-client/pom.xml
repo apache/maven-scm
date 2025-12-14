@@ -78,7 +78,7 @@
     <dependency>
       <groupId>com.google.inject</groupId>
       <artifactId>guice</artifactId>
-      <classifier>no_aop</classifier>
+      <classifier>classes</classifier>
       <scope>runtime</scope>
     </dependency>
   </dependencies>
