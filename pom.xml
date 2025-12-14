@@ -171,6 +171,7 @@
   <properties>
     <javaVersion>8</javaVersion>
     <slf4jVersion>1.7.36</slf4jVersion>
+    <version.plexus-utils>3.6.0</version.plexus-utils>
     <maven.site.path>scm-archives/scm-LATEST</maven.site.path>
     <checkstyle.violation.ignore>RedundantThrows,NewlineAtEndOfFile,ParameterNumber,MethodLength,FileLength,InnerAssignment,MagicNumber</checkstyle.violation.ignore>
     <checkstyle.failOnViolation>true</checkstyle.failOnViolation>
@@ -258,8 +259,8 @@
       <dependency>
         <groupId>com.google.inject</groupId>
         <artifactId>guice</artifactId>
-        <version>4.2.3</version>
-        <classifier>no_aop</classifier>
+        <version>5.1.0</version>
+        <classifier>classes</classifier>
       </dependency>
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
