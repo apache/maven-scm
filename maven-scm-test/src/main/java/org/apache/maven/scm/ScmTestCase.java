@@ -18,6 +18,8 @@
  */
 package org.apache.maven.scm;
 
+import javax.inject.Inject;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,19 +29,19 @@ import java.util.TimeZone;
 
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.ContainerConfiguration;
-import org.codehaus.plexus.PlexusConstants;
+import org.codehaus.plexus.testing.PlexusTest;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Base class for all SCM tests. Consumers will typically
@@ -50,17 +52,17 @@ import static org.junit.Assume.assumeTrue;
  *
  * @author <a href="mailto:jason@maven.org">Jason van Zyl</a>
  */
-public abstract class ScmTestCase extends PlexusJUnit4TestCase {
+@PlexusTest
+public abstract class ScmTestCase {
     protected static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone("GMT");
 
     private static boolean debugExecute;
 
+    @Inject
     private ScmManager scmManager;
 
-    @Before
-    @Override
+    @BeforeEach
     public void setUp() throws Exception {
-        super.setUp();
 
         deleteDirectory(getRepositoryRoot());
         deleteDirectory(getWorkingCopy());
@@ -69,30 +71,25 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
         deleteDirectory(getUpdatingCopy());
     }
 
-    @Override
-    public void customizeContainerConfiguration(final ContainerConfiguration configuration) {
-        configuration.setClassPathScanning(PlexusConstants.SCANNING_INDEX).setAutoWiring(true);
-    }
-
     /**
      * @return default location of the test read/write repository
      */
     protected File getRepositoryRoot() {
-        return PlexusJUnit4TestCase.getTestFile("target/scm-test/repository");
+        return getTestFile("target/scm-test/repository");
     }
 
     /**
      * @return location of the revisioned (read only) repository
      */
     protected File getRepository() {
-        return PlexusJUnit4TestCase.getTestFile("/src/test/repository");
+        return getTestFile("/src/test/repository");
     }
 
     /**
      * @return location of the working copy (always checkout)
      */
     protected File getWorkingCopy() {
-        return PlexusJUnit4TestCase.getTestFile("target/scm-test/working-copy");
+        return getTestFile("target/scm-test/working-copy");
     }
 
     /**
@@ -108,21 +105,17 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
      * @return default location for doing assertions on a working tree
      */
     protected File getAssertionCopy() {
-        return PlexusJUnit4TestCase.getTestFile("target/scm-test/assertion-copy");
+        return getTestFile("target/scm-test/assertion-copy");
     }
 
     /**
      * @return default location for doing update operations on a working tree
      */
     protected File getUpdatingCopy() {
-        return PlexusJUnit4TestCase.getTestFile("target/scm-test/updating-copy");
+        return getTestFile("target/scm-test/updating-copy");
     }
 
     protected ScmManager getScmManager() throws Exception {
-        if (scmManager == null) {
-            scmManager = lookup(ScmManager.class);
-        }
-
         return scmManager;
     }
 
@@ -137,16 +130,16 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
     protected void assertFile(File root, String fileName) throws Exception {
         File file = new File(root, fileName);
 
-        assertTrue("Missing file: '" + file.getAbsolutePath() + "'.", file.exists());
+        assertTrue(file.exists(), "Missing file: '" + file.getAbsolutePath() + "'.");
 
-        assertTrue("File isn't a file: '" + file.getAbsolutePath() + "'.", file.isFile());
+        assertTrue(file.isFile(), "File isn't a file: '" + file.getAbsolutePath() + "'.");
 
         String expected = fileName;
 
         String actual = FileUtils.fileRead(file);
 
         assertEquals(
-                "The file doesn't contain the expected contents. File: " + file.getAbsolutePath(), expected, actual);
+                expected, actual, "The file doesn't contain the expected contents. File: " + file.getAbsolutePath());
     }
 
     protected void assertResultIsSuccess(ScmResult result) {
@@ -292,8 +285,8 @@ public abstract class ScmTestCase extends PlexusJUnit4TestCase {
 
     public static void checkSystemCmdPresence(String scmProviderCommand) {
         assumeTrue(
-                "Skipping tests because the required command '" + scmProviderCommand + "' is not available.",
-                ScmTestCase.isSystemCmd(scmProviderCommand));
+                ScmTestCase.isSystemCmd(scmProviderCommand),
+                "Skipping tests because the required command '" + scmProviderCommand + "' is not available.");
     }
 
     /**

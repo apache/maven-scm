@@ -30,9 +30,9 @@ import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.untag.UntagScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * This test tests the untag command.
@@ -44,7 +44,7 @@ public abstract class UntagCommandTckTest extends ScmTckTestCase {
     }
 
     @Test
-    public void testUntagCommandTest() throws Exception {
+    public void untagCommandTest() throws Exception {
         String tag = getTagName();
         ScmProvider scmProvider = getScmManager().getProviderByUrl(getScmUrl());
         ScmRepository scmRepository = getScmRepository();

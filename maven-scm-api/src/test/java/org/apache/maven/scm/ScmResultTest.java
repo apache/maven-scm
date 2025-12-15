@@ -36,7 +36,7 @@ class ScmResultTest {
             + System.lineSeparator() + "fatal: Authentication failed for '" + SCM_URL_GIT_COLON + "'";
 
     @Test
-    void testPasswordsAreMaskedInOutput() throws Exception {
+    void passwordsAreMaskedInOutput() throws Exception {
         ScmResult result = new ScmResult("git push", "git-push failed", MOCK_ERROR_OUTPUT, false);
         assertNotSame(MOCK_ERROR_OUTPUT, result.getCommandOutput(), "Command output contains password");
         assertTrue(result.getCommandOutput().contains(ScmResult.PASSWORD_PLACE_HOLDER), "Command output not masked");

@@ -26,24 +26,24 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Bertrand Paquet
  *
  */
-public class GitExeCheckOutCommandNoBranchTest extends ScmTestCase {
+class GitExeCheckOutCommandNoBranchTest extends ScmTestCase {
     private File workingDirectory;
 
     private File repo;
 
     private ScmRepository scmRepository;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -58,14 +58,14 @@ public class GitExeCheckOutCommandNoBranchTest extends ScmTestCase {
     }
 
     @Test
-    public void testCheckoutNoBranch() throws Exception {
+    void checkoutNoBranch() throws Exception {
         checkSystemCmdPresence(GIT_COMMAND_LINE);
         CheckOutScmResult result = checkoutRepo();
         assertEquals(0, result.getCheckedOutFiles().size());
     }
 
     @Test
-    public void testDoubleCheckoutNoBranch() throws Exception {
+    void doubleCheckoutNoBranch() throws Exception {
         checkSystemCmdPresence(GIT_COMMAND_LINE);
         CheckOutScmResult result = checkoutRepo();
         assertEquals(0, result.getCheckedOutFiles().size());

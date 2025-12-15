@@ -19,7 +19,6 @@
 package org.apache.maven.scm;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -54,7 +53,7 @@ class ScmFileSetTest {
     }
 
     @Test
-    void testFilesList() throws IOException {
+    void filesList() throws Exception {
         ScmFileSet fileSet = new ScmFileSet(new File(getBasedir(), "src"), "**/**");
         assertEquals("src", fileSet.getBasedir().getName());
         assertEquals("**/**", fileSet.getIncludes());
@@ -66,13 +65,13 @@ class ScmFileSetTest {
     }
 
     @Test
-    void testFilesListWithoutIncludesResultsEmptyList() {
+    void filesListWithoutIncludesResultsEmptyList() {
         ScmFileSet fileSet = new ScmFileSet(new File(getBasedir(), "src"));
         assertEquals(0, fileSet.getFileList().size());
     }
 
     @Test
-    void testFilesListExcludes() throws IOException {
+    void filesListExcludes() throws Exception {
         ScmFileSet fileSet = new ScmFileSet(new File(getBasedir(), "src"), "**/**", "**/exclude/**");
 
         List<File> files = fileSet.getFileList();
@@ -87,14 +86,14 @@ class ScmFileSetTest {
     }
 
     @Test
-    void testFilesListExcludes2() throws IOException {
+    void filesListExcludes2() throws Exception {
         ScmFileSet fileSet = new ScmFileSet(new File(getBasedir(), "src"), "**/scmfileset/**", "**/exclude/**");
 
         assertEquals(2, fileSet.getFileList().size());
     }
 
     @Test
-    void testFilesListNoExcludes() throws IOException {
+    void filesListNoExcludes() throws Exception {
         ScmFileSet fileSet = new ScmFileSet(new File(getBasedir(), "src"), "**/scmfileset/**");
 
         assertEquals(4, fileSet.getFileList().size());

@@ -21,24 +21,24 @@ package org.apache.maven.scm.plugin;
 import java.io.File;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
-@RunWith(JUnit4.class)
-public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
+public class UntagMojoTest extends AbstractMojoTestCase {
     File checkoutDir;
 
     File repository;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    protected void setUp() throws Exception {
         super.setUp();
 
         checkoutDir = getTestFile("target/checkout");
@@ -67,7 +67,7 @@ public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testUntag() throws Exception {
+    void untag() throws Exception {
         checkSystemCmdPresence(GitScmTestUtils.GIT_COMMAND_LINE);
 
         TagMojo tagMojo = (TagMojo) lookupMojo("tag", getTestFile("src/test/resources/mojos/untag/tag.xml"));

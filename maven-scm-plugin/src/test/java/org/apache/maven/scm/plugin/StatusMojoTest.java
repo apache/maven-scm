@@ -45,7 +45,7 @@ class StatusMojoTest {
     @Test
     @Basedir("/mojos/status/")
     @InjectMojo(goal = "status", pom = "status.xml")
-    void testStatusMojo(StatusMojo mojo) {
+    void statusMojo(StatusMojo mojo) {
         assertDoesNotThrow(mojo::execute);
     }
 }

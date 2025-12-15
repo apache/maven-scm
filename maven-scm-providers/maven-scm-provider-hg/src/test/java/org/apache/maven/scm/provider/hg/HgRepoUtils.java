@@ -29,6 +29,8 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.codehaus.plexus.util.FileUtils;
 
+import static org.codehaus.plexus.testing.PlexusExtension.getBasedir;
+
 /**
  * Common code used in all tests.
  *

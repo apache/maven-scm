@@ -21,21 +21,21 @@ package org.apache.maven.scm.provider.hg;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class HgUtilsTest {
+class HgUtilsTest {
 
     @Test
-    public void testNullWorkingDirectory() throws Exception {
+    void nullWorkingDirectory() throws Exception {
         Commandline cmd = HgUtils.buildCmd(null, new String[] {});
         assertNull(cmd.getWorkingDirectory());
     }
 
     @Test
-    public void testCryptPassword() throws Exception {
+    void cryptPassword() throws Exception {
         Commandline cmdHttps = HgUtils.buildCmd(
                 null, new String[] {HgCommandConstants.PUSH_CMD, null, "https://username:password@example.com/foobar"});
         Commandline cmd = new Commandline(HgUtils.maskPassword(cmdHttps));

@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.changelog;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +33,13 @@ import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -47,7 +47,7 @@ import static org.junit.Assert.assertTrue;
 public class GitChangeLogConsumerTest extends ScmTestCase {
 
     @Test
-    public void testConsumer1() throws Exception {
+    void consumer1() throws Exception {
         // was  Date:   Tue Nov 27 16:16:28 2007 +0100
         // iso  Date:   2007-11-24 01:13:10 +0100
         Pattern datePattern = Pattern.compile("^Date:\\s*(.*)"); // new RE( "^Date:\\s*\\w-1\\w-1\\w-1\\s(.*)" );
@@ -66,9 +66,7 @@ public class GitChangeLogConsumerTest extends ScmTestCase {
 
         assertEquals(6, modifications.size());
 
-        for (Iterator<ChangeSet> i = modifications.iterator(); i.hasNext(); ) {
-            ChangeSet entry = i.next();
-
+        for (ChangeSet entry : modifications) {
             assertEquals("Mark Struberg <struberg@yahoo.de>", entry.getAuthor());
 
             assertNotNull(entry.getDate());
@@ -102,7 +100,7 @@ public class GitChangeLogConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumer2() throws Exception {
+    void consumer2() throws Exception {
         GitChangeLogConsumer consumer = new GitChangeLogConsumer(null);
 
         File f = getTestFile("/src/test/resources/git/changelog/gitwhatchanged2.gitlog");
@@ -114,9 +112,7 @@ public class GitChangeLogConsumerTest extends ScmTestCase {
         // must use *Linked* HashMap to have predictable toString
         final Map<ScmFileStatus, AtomicInteger> summary = new LinkedHashMap<>();
 
-        for (Iterator<ChangeSet> i = modifications.iterator(); i.hasNext(); ) {
-            ChangeSet entry = i.next();
-
+        for (ChangeSet entry : modifications) {
             assertEquals("Mark Struberg <struberg@yahoo.de>", entry.getAuthor());
 
             assertNotNull(entry.getDate());
@@ -137,7 +133,7 @@ public class GitChangeLogConsumerTest extends ScmTestCase {
             }
         }
         assertEquals(
-                "Action summary differs from expectations", "{modified=21, added=88, deleted=1}", summary.toString());
+                "{modified=21, added=88, deleted=1}", summary.toString(), "Action summary differs from expectations");
 
         assertEquals(8, modifications.size());
 
@@ -167,7 +163,8 @@ public class GitChangeLogConsumerTest extends ScmTestCase {
         assertTrue(cf.getRevision() != null && cf.getRevision().length() > 0);
     }
 
-    public void testGitLogConsumer3() throws Exception {
+    @Test
+    public void gitLogConsumer3() throws Exception {
         GitChangeLogConsumer consumer = new GitChangeLogConsumer(null);
 
         File f = getTestFile("/src/test/resources/git/changelog/gitlog3.gitlog");
@@ -200,7 +197,8 @@ public class GitChangeLogConsumerTest extends ScmTestCase {
         assertFalse(second.getFiles().isEmpty());
     }
 
-    public void testTagAndBranchConsumer() {
+    @Test
+    public void tagAndBranchConsumer() {
         String[] lines = {
             "commit a6d03ee7bcec7bfd6b0fc890a277f004a1c54077 (HEAD -> main, tag: TestTag, origin/main, origin/HEAD)",
             "Author: Niels Basjes <niels@basjes.nl>",

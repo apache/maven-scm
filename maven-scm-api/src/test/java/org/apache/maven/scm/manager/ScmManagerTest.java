@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class ScmManagerTest {
     @Test
-    void testCleanScmUrl() {
+    void cleanScmUrl() {
         BasicScmManager manager = new BasicScmManager();
 
         assertEquals(

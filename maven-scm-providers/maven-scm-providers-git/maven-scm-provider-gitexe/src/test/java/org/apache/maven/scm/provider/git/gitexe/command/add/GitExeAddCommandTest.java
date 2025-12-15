@@ -24,7 +24,9 @@ import java.util.List;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
 
 /**
  * Check if the {@code GitAddCommand#createCommandLine(File, List)} returns the correct
@@ -32,33 +34,33 @@ import org.junit.Test;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
  */
-public class GitExeAddCommandTest extends ScmTestCase {
+class GitExeAddCommandTest extends ScmTestCase {
 
     @Test
-    public void testAddCommandSingleFile() throws Exception {
+    void addCommandSingleFile() throws Exception {
         List<File> files = new ArrayList<>();
 
         files.add(new File("myFile.java"));
 
-        testCommandLine("scm:git:http://foo.com/git", files, "git add -- myFile.java");
+        checkCommandLine("scm:git:http://foo.com/git", files, "git add -- myFile.java");
     }
 
     @Test
-    public void testAddCommandMultipleFiles() throws Exception {
+    void addCommandMultipleFiles() throws Exception {
         List<File> files = new ArrayList<>();
 
         files.add(new File("myFile.java"));
         files.add(new File("myFile2.java"));
         files.add(new File("myFile3.java"));
 
-        testCommandLine("scm:git:http://foo.com/git", files, "git add -- myFile.java myFile2.java myFile3.java");
+        checkCommandLine("scm:git:http://foo.com/git", files, "git add -- myFile.java myFile2.java myFile3.java");
     }
 
     // ----------------------------------------------------------------------
     // private helper functions
     // ----------------------------------------------------------------------
 
-    private void testCommandLine(String scmUrl, List<File> files, String commandLine) throws Exception {
+    private void checkCommandLine(String scmUrl, List<File> files, String commandLine) throws Exception {
         File workingDirectory = getTestFile("target/git-add-command-test");
 
         Commandline cl = GitAddCommand.createCommandLine(workingDirectory, files);

@@ -20,13 +20,12 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
+import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
 
@@ -34,14 +33,13 @@ import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-@RunWith(JUnit4.class)
-public class UpdateMojoTest extends AbstractJUnit4MojoTestCase {
+class UpdateMojoTest extends AbstractMojoTestCase {
     File checkoutDir;
 
     File repository;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    protected void setUp() throws Exception {
         super.setUp();
 
         checkoutDir = getTestFile("target/checkout");
@@ -52,7 +50,7 @@ public class UpdateMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testSkipCheckoutWithConnectionUrl() throws Exception {
+    void skipCheckoutWithConnectionUrl() throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);

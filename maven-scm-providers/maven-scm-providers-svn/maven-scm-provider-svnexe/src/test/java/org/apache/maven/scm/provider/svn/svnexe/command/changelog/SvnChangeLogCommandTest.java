@@ -29,16 +29,18 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class SvnChangeLogCommandTest extends ScmTestCase {
+class SvnChangeLogCommandTest extends ScmTestCase {
     @Test
-    public void testCommandLineNoDates() throws Exception {
-        testCommandLine(
+    void commandLineNoDates() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 null,
                 null,
@@ -47,8 +49,8 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineNoDatesLimitedCount() throws Exception {
-        testCommandLine(
+    void commandLineNoDatesLimitedCount() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 null,
                 null,
@@ -58,11 +60,11 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithDates() throws Exception {
+    void commandLineWithDates() throws Exception {
         Date startDate = getDate(2003, Calendar.SEPTEMBER, 10, GMT_TIME_ZONE);
         Date endDate = getDate(2003, Calendar.OCTOBER, 10, GMT_TIME_ZONE);
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 null,
                 startDate,
@@ -71,10 +73,10 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineStartDateOnly() throws Exception {
+    void commandLineStartDateOnly() throws Exception {
         Date startDate = getDate(2003, Calendar.SEPTEMBER, 10, 1, 1, 1, GMT_TIME_ZONE);
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 null,
                 startDate,
@@ -83,11 +85,11 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineDateFormat() throws Exception {
+    void commandLineDateFormat() throws Exception {
         Date startDate = getDate(2003, Calendar.SEPTEMBER, 10, 1, 1, 1, GMT_TIME_ZONE);
         Date endDate = getDate(2005, Calendar.NOVEMBER, 13, 23, 23, 23, GMT_TIME_ZONE);
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 null,
                 startDate,
@@ -96,11 +98,11 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineEndDateOnly() throws Exception {
+    void commandLineEndDateOnly() throws Exception {
         Date endDate = getDate(2003, Calendar.NOVEMBER, 10, GMT_TIME_ZONE);
 
         // Only specifying end date should print no dates at all
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 null,
                 null,
@@ -109,8 +111,8 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithBranchNoDates() throws Exception {
-        testCommandLine(
+    void commandLineWithBranchNoDates() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmBranch("my-test-branch"),
                 null,
@@ -119,10 +121,10 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithBranchStartDateOnly() throws Exception {
+    void commandLineWithBranchStartDateOnly() throws Exception {
         Date startDate = getDate(2003, Calendar.SEPTEMBER, 10, 1, 1, 1, GMT_TIME_ZONE);
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmBranch("my-test-branch"),
                 startDate,
@@ -131,11 +133,11 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithBranchEndDateOnly() throws Exception {
+    void commandLineWithBranchEndDateOnly() throws Exception {
         Date endDate = getDate(2003, Calendar.OCTOBER, 10, 1, 1, 1, GMT_TIME_ZONE);
 
         // Only specifying end date should print no dates at all
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmBranch("my-test-branch"),
                 null,
@@ -144,11 +146,11 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithBranchBothDates() throws Exception {
+    void commandLineWithBranchBothDates() throws Exception {
         Date startDate = getDate(2003, Calendar.SEPTEMBER, 10, GMT_TIME_ZONE);
         Date endDate = getDate(2003, Calendar.OCTOBER, 10, GMT_TIME_ZONE);
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmBranch("my-test-branch"),
                 startDate,
@@ -157,8 +159,8 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithStartVersion() throws Exception {
-        testCommandLine(
+    void commandLineWithStartVersion() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmRevision("1"),
                 null,
@@ -166,8 +168,8 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithStartVersionAndEndVersion() throws Exception {
-        testCommandLine(
+    void commandLineWithStartVersionAndEndVersion() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmRevision("1"),
                 new ScmRevision("10"),
@@ -175,8 +177,8 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithStartVersionAndEndVersionEquals() throws Exception {
-        testCommandLine(
+    void commandLineWithStartVersionAndEndVersionEquals() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmRevision("1"),
                 new ScmRevision("1"),
@@ -184,8 +186,8 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithBaseVersion() throws Exception {
-        testCommandLine(
+    void commandLineWithBaseVersion() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmRevision("1"),
                 new ScmRevision("BASE"),
@@ -196,12 +198,12 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine(String scmUrl, ScmBranch branch, Date startDate, Date endDate, String commandLine)
+    private void checkCommandLine(String scmUrl, ScmBranch branch, Date startDate, Date endDate, String commandLine)
             throws Exception {
-        testCommandLine(scmUrl, branch, startDate, endDate, null, commandLine);
+        checkCommandLine(scmUrl, branch, startDate, endDate, null, commandLine);
     }
 
-    private void testCommandLine(
+    private void checkCommandLine(
             String scmUrl, ScmBranch branch, Date startDate, Date endDate, Integer limit, String commandLine)
             throws Exception {
         File workingDirectory = getTestFile("target/svn-update-command-test");
@@ -216,7 +218,7 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
         assertCommandLine(commandLine, workingDirectory, cl);
     }
 
-    private void testCommandLine(String scmUrl, ScmVersion startVersion, ScmVersion endVersion, String commandLine)
+    private void checkCommandLine(String scmUrl, ScmVersion startVersion, ScmVersion endVersion, String commandLine)
             throws Exception {
         File workingDirectory = getTestFile("target/svn-update-command-test");
 

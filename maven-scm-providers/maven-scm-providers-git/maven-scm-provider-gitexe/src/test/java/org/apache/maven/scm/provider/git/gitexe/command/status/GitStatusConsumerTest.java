@@ -33,15 +33,16 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitStatusConsumerTest extends ScmTestCase {
+class GitStatusConsumerTest extends ScmTestCase {
 
     private List<ScmFile> getChangedFiles(File gitlog) throws IOException {
         return getChangedFiles(gitlog, null);
@@ -88,7 +89,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerUntrackedFile() {
+    void consumerUntrackedFile() {
         List<ScmFile> changedFiles = getChangedFiles("?? project.xml", null);
 
         assertNotNull(changedFiles);
@@ -101,7 +102,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerAddedFile() {
+    void consumerAddedFile() {
         List<ScmFile> changedFiles = getChangedFiles("A  project.xml", null);
 
         assertNotNull(changedFiles);
@@ -118,23 +119,23 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerAddedAndModifiedFile() {
+    void consumerAddedAndModifiedFile() {
         List<ScmFile> changedFiles = getChangedFiles("AM project.xml", null);
 
         assertNotNull(changedFiles);
         assertEquals(1, changedFiles.size());
-        testScmFile(changedFiles.get(0), "project.xml", ScmFileStatus.ADDED);
+        checkScmFile(changedFiles.get(0), "project.xml", ScmFileStatus.ADDED);
 
         changedFiles = getChangedFiles("AM \"test file with spaces and a special \\177 character.xml\"", null);
 
         assertNotNull(changedFiles);
         assertEquals(1, changedFiles.size());
-        testScmFile(
+        checkScmFile(
                 changedFiles.get(0), "test file with spaces and a special \u007f character.xml", ScmFileStatus.ADDED);
     }
 
     @Test
-    public void testConsumerAddedFileWithDirectoryAndNoFile() throws IOException {
+    void consumerAddedFileWithDirectoryAndNoFile() throws Exception {
         File dir = createTempDirectory();
 
         List<ScmFile> changedFiles = getChangedFiles("A  project.xml", dir);
@@ -151,7 +152,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerAddedFileWithDirectoryAndFile() throws IOException {
+    void consumerAddedFileWithDirectoryAndFile() throws Exception {
         File dir = createTempDirectory();
         FileUtils.write(new File(dir, "project.xml"), "data", StandardCharsets.UTF_8);
 
@@ -178,7 +179,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerModifiedFile() {
+    void consumerModifiedFile() {
         List<ScmFile> changedFiles = getChangedFiles("M  project.xml", null);
 
         assertNotNull(changedFiles);
@@ -195,14 +196,14 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testURI() throws Exception {
+    void uri() throws Exception {
         String path = "Not%Scheme:/sub dir";
         URI u = GitStatusConsumer.uriFromPath(path);
         assertEquals(path, u.getPath());
     }
 
     @Test
-    public void testConsumerWithFileSet() throws IOException {
+    void consumerWithFileSet() throws Exception {
         File dir = createTempDirectory();
         FileUtils.write(new File(dir, "project.xml"), "data", StandardCharsets.UTF_8);
         FileUtils.write(new File(dir, "pom.xml"), "more data", StandardCharsets.UTF_8);
@@ -225,7 +226,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
 
     // SCM-740
     @Test
-    public void testConsumerModifiedFileInComplexDirectorySetup() throws IOException {
+    void consumerModifiedFileInComplexDirectorySetup() throws Exception {
 
         File dir = createTempDirectory();
         URI relativeCWD = URI.create("");
@@ -255,7 +256,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerModifiedFileInComplexDirectoryWithSpaces() throws IOException {
+    void consumerModifiedFileInComplexDirectoryWithSpaces() throws Exception {
 
         File dir = createTempDirectory();
         URI relativeCWD = URI.create("");
@@ -289,43 +290,43 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerModifiedFileUnstaged() {
+    void consumerModifiedFileUnstaged() {
         List<ScmFile> changedFiles = getChangedFiles("M  project.xml", null);
 
         assertNotNull(changedFiles);
         assertEquals(1, changedFiles.size());
-        testScmFile(changedFiles.get(0), "project.xml", ScmFileStatus.MODIFIED);
+        checkScmFile(changedFiles.get(0), "project.xml", ScmFileStatus.MODIFIED);
 
         changedFiles = getChangedFiles("M  \"test file with spaces and a special \\177 character.xml\"", null);
 
         assertNotNull(changedFiles);
         assertEquals(1, changedFiles.size());
-        testScmFile(
+        checkScmFile(
                 changedFiles.get(0),
                 "test file with spaces and a special \u007f character.xml",
                 ScmFileStatus.MODIFIED);
     }
 
     @Test
-    public void testConsumerModifiedFileBothStagedAndUnstaged() {
+    void consumerModifiedFileBothStagedAndUnstaged() {
         List<ScmFile> changedFiles = getChangedFiles("MM project.xml", null);
 
         assertNotNull(changedFiles);
         assertEquals(1, changedFiles.size());
-        testScmFile(changedFiles.get(0), "project.xml", ScmFileStatus.MODIFIED);
+        checkScmFile(changedFiles.get(0), "project.xml", ScmFileStatus.MODIFIED);
 
         changedFiles = getChangedFiles("MM \"test file with spaces and a special \\177 character.xml\"", null);
 
         assertNotNull(changedFiles);
         assertEquals(1, changedFiles.size());
-        testScmFile(
+        checkScmFile(
                 changedFiles.get(0),
                 "test file with spaces and a special \u007f character.xml",
                 ScmFileStatus.MODIFIED);
     }
 
     @Test
-    public void testConsumerModifiedFileWithDirectoryAndNoFile() throws IOException {
+    void consumerModifiedFileWithDirectoryAndNoFile() throws Exception {
         File dir = createTempDirectory();
 
         List<ScmFile> changedFiles = getChangedFiles("M  project.xml", dir);
@@ -342,7 +343,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerModifiedFileWithDirectoryAndFile() throws IOException {
+    void consumerModifiedFileWithDirectoryAndFile() throws Exception {
         File dir = createTempDirectory();
         FileUtils.write(new File(dir, "project.xml"), "data", StandardCharsets.UTF_8);
 
@@ -369,7 +370,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerRemovedFile() {
+    void consumerRemovedFile() {
         List<ScmFile> changedFiles = getChangedFiles("D  Capfile", null);
 
         assertNotNull(changedFiles);
@@ -386,7 +387,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerRemovedFileUnstaged() {
+    void consumerRemovedFileUnstaged() {
         List<ScmFile> changedFiles = getChangedFiles("D  Capfile", null);
 
         assertNotNull(changedFiles);
@@ -401,7 +402,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerRemovedFileWithDirectoryAndNoFile() throws IOException {
+    void consumerRemovedFileWithDirectoryAndNoFile() throws Exception {
         File dir = createTempDirectory();
 
         List<ScmFile> changedFiles = getChangedFiles("D  Capfile", dir);
@@ -422,7 +423,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerRemovedFileWithDirectoryAndFile() throws IOException {
+    void consumerRemovedFileWithDirectoryAndFile() throws Exception {
         File dir = createTempDirectory();
         FileUtils.write(new File(dir, "Capfile"), "data", StandardCharsets.UTF_8);
 
@@ -445,7 +446,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
 
     // Test reproducing SCM-694
     @Test
-    public void testConsumerRenamedFile() throws Exception {
+    void consumerRenamedFile() throws Exception {
         File dir = createTempDirectory();
 
         File tmpFile = new File(dir, "NewCapFile");
@@ -479,19 +480,19 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testLog1Consumer() throws Exception {
+    void log1Consumer() throws Exception {
         List<ScmFile> changedFiles = getChangedFiles(getTestFile("/src/test/resources/git/status/gitstatus1.gitlog"));
 
         assertEquals(4, changedFiles.size());
 
-        testScmFile(changedFiles.get(0), "project.xml", ScmFileStatus.ADDED);
-        testScmFile(changedFiles.get(1), "readme.txt", ScmFileStatus.MODIFIED);
-        testScmFile(changedFiles.get(2), "d\u00e9j\u00e0 vu.xml", ScmFileStatus.ADDED);
-        testScmFile(changedFiles.get(3), "d\u00e9j\u00e0 vu.txt", ScmFileStatus.MODIFIED);
+        checkScmFile(changedFiles.get(0), "project.xml", ScmFileStatus.ADDED);
+        checkScmFile(changedFiles.get(1), "readme.txt", ScmFileStatus.MODIFIED);
+        checkScmFile(changedFiles.get(2), "d\u00e9j\u00e0 vu.xml", ScmFileStatus.ADDED);
+        checkScmFile(changedFiles.get(3), "d\u00e9j\u00e0 vu.txt", ScmFileStatus.MODIFIED);
     }
 
     @Test
-    public void testEmptyLogConsumer() throws Exception {
+    void emptyLogConsumer() throws Exception {
         List<ScmFile> changedFiles =
                 getChangedFiles(getTestFile("/src/test/resources/git/status/gitstatus-empty.gitlog"));
 
@@ -499,24 +500,24 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testLog2Consumer() throws Exception {
+    void log2Consumer() throws Exception {
         List<ScmFile> changedFiles = getChangedFiles(getTestFile("/src/test/resources/git/status/gitstatus2.gitlog"));
 
         assertEquals(4, changedFiles.size());
 
-        testScmFile(
+        checkScmFile(
                 changedFiles.get(0),
                 "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/add/GitAddCommand.java",
                 ScmFileStatus.MODIFIED);
-        testScmFile(
+        checkScmFile(
                 changedFiles.get(1),
                 "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInCommand.java",
                 ScmFileStatus.MODIFIED);
-        testScmFile(
+        checkScmFile(
                 changedFiles.get(2),
                 "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInConsumer.java",
                 ScmFileStatus.DELETED);
-        testScmFile(
+        checkScmFile(
                 changedFiles.get(3),
                 "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusConsumer.java",
                 ScmFileStatus.MODIFIED);
@@ -524,7 +525,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
 
     // SCM-709
     @Test
-    public void testResolvePath() {
+    void resolvePath() {
         File repositoryRoot = getTestFile("repo");
         File workingDirectory = getTestFile("repo/work");
 
@@ -560,13 +561,12 @@ public class GitStatusConsumerTest extends ScmTestCase {
                 GitStatusConsumer.resolvePath("\"work with spaces and quotes/pom.xml\"", null));
     }
 
-    private void testScmFile(ScmFile fileToTest, String expectedFilePath, ScmFileStatus expectedStatus) {
+    private void checkScmFile(ScmFile fileToTest, String expectedFilePath, ScmFileStatus expectedStatus) {
         assertEquals(expectedFilePath, fileToTest.getPath());
         assertEquals(expectedStatus, fileToTest.getStatus());
     }
 
     private File createTempDirectory() throws IOException {
-        File dir = Files.createTempDirectory("gitexe" + "test").toFile();
-        return dir;
+        return Files.createTempDirectory("gitexe" + "test").toFile();
     }
 }

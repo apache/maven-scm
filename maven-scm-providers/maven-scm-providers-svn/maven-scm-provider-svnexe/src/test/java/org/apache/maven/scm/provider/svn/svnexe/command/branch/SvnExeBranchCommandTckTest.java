@@ -25,9 +25,10 @@ import org.apache.maven.scm.provider.svn.command.branch.SvnBranchCommandTckTest;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
 
 /**
  * This test tests the branch command.
@@ -42,7 +43,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
 
     // --no-auth-cache
     @Test
-    public void testBranchUserNameSvnHttpsRemoteBranchingWithRev() throws Exception {
+    void branchUserNameSvnHttpsRemoteBranchingWithRev() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -51,7 +52,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
         scmBranchParameters.setPinExternals(false);
         scmBranchParameters.setScmRevision("2");
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:https://foo.com/svn/trunk",
                 "svnbranch",
                 messageFile,
@@ -63,7 +64,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
     }
 
     @Test
-    public void testBranchUserNameSvnHttpsRemoteBranchingWithRevWithPinExternals() throws Exception {
+    void branchUserNameSvnHttpsRemoteBranchingWithRevWithPinExternals() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -72,7 +73,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
         scmBranchParameters.setPinExternals(true);
         scmBranchParameters.setScmRevision("2");
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:https://foo.com/svn/trunk",
                 "svnbranch",
                 messageFile,
@@ -84,7 +85,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
     }
 
     @Test
-    public void testBranchUserNameSvnHttpsRemoteBranchingNoRev() throws Exception {
+    void branchUserNameSvnHttpsRemoteBranchingNoRev() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -92,7 +93,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
         scmBranchParameters.setRemoteBranching(true);
         scmBranchParameters.setPinExternals(false);
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:https://foo.com/svn/trunk",
                 "svnbranch",
                 messageFile,
@@ -104,7 +105,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
     }
 
     @Test
-    public void testBranchUserNameSvnHttpsRemoteBranchingNoRevWithPinExternals() throws Exception {
+    void branchUserNameSvnHttpsRemoteBranchingNoRevWithPinExternals() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -112,7 +113,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
         scmBranchParameters.setRemoteBranching(true);
         scmBranchParameters.setPinExternals(true);
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:https://foo.com/svn/trunk",
                 "svnbranch",
                 messageFile,
@@ -124,11 +125,11 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
     }
 
     @Test
-    public void testBranchUserNameSvnHttps() throws Exception {
+    void branchUserNameSvnHttps() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:https://foo.com/svn/trunk",
                 "svnbranch",
                 messageFile,
@@ -139,11 +140,11 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
     }
 
     @Test
-    public void testBranchUserNameSvnSsh() throws Exception {
+    void branchUserNameSvnSsh() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:svn+ssh://foo.com/svn/trunk",
                 "svnbranch",
                 messageFile,
@@ -153,7 +154,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
                         + " --encoding UTF-8 . svn+ssh://user@foo.com/svn/branches/svnbranch@");
     }
 
-    private void testCommandLine(
+    private void checkCommandLine(
             String scmUrl,
             String branch,
             File messageFile,
@@ -180,8 +181,8 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
         assertCommandLine(commandLine, workingDirectory, cl);
     }
 
-    private void testCommandLine(String scmUrl, String branch, File messageFile, String user, String commandLine)
+    private void checkCommandLine(String scmUrl, String branch, File messageFile, String user, String commandLine)
             throws Exception {
-        testCommandLine(scmUrl, branch, messageFile, user, commandLine, null);
+        checkCommandLine(scmUrl, branch, messageFile, user, commandLine, null);
     }
 }

@@ -23,20 +23,21 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public class LocalRepositoryTest extends ScmTestCase {
-    @Before
+class LocalRepositoryTest extends ScmTestCase {
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -45,7 +46,7 @@ public class LocalRepositoryTest extends ScmTestCase {
     }
 
     @Test
-    public void testExistingRepository() throws Exception {
+    void existingRepository() throws Exception {
         ScmRepository repository = getScmManager().makeScmRepository("scm:local:src/test/repository:test-repo");
 
         assertNotNull(repository);
@@ -56,7 +57,7 @@ public class LocalRepositoryTest extends ScmTestCase {
 
         assertNotNull(providerRepository);
 
-        assertTrue(providerRepository instanceof LocalScmProviderRepository);
+        assertInstanceOf(LocalScmProviderRepository.class, providerRepository);
 
         LocalScmProviderRepository local = (LocalScmProviderRepository) providerRepository;
 
@@ -66,7 +67,7 @@ public class LocalRepositoryTest extends ScmTestCase {
     }
 
     @Test
-    public void testMissingRepositoryRoot() throws Exception {
+    void missingRepositoryRoot() throws Exception {
         try {
             getScmManager().makeScmRepository("scm:local:");
 
@@ -77,7 +78,7 @@ public class LocalRepositoryTest extends ScmTestCase {
     }
 
     @Test
-    public void testNonExistingMissingRepositoryRoot() throws Exception {
+    void nonExistingMissingRepositoryRoot() throws Exception {
         try {
             getScmManager().makeScmRepository("scm:local:non-existing-directory:module");
 
@@ -88,7 +89,7 @@ public class LocalRepositoryTest extends ScmTestCase {
     }
 
     @Test
-    public void testMissingModule() throws Exception {
+    void missingModule() throws Exception {
         try {
             getScmManager().makeScmRepository("scm:local:src/test/repository");
 
@@ -107,7 +108,7 @@ public class LocalRepositoryTest extends ScmTestCase {
     }
 
     @Test
-    public void testNonExistingModule() throws Exception {
+    void nonExistingModule() throws Exception {
         try {
             getScmManager().makeScmRepository("scm:local:src/test/repository:non-existing-module");
 

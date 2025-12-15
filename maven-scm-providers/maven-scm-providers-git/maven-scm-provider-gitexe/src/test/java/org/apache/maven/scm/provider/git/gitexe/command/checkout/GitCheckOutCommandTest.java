@@ -26,21 +26,23 @@ import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class GitCheckOutCommandTest extends ScmTestCase {
+class GitCheckOutCommandTest extends ScmTestCase {
     private File workingDirectory;
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -53,15 +55,15 @@ public class GitCheckOutCommandTest extends ScmTestCase {
     // ----------------------------------------------------------------------
 
     @Test
-    public void testCommandLineWithBranch() throws Exception {
-        testCommandLine(getScmManager(), "scm:git:http://foo.com/git", "mybranch", "git checkout mybranch");
+    void commandLineWithBranch() throws Exception {
+        checkCommandLine(getScmManager(), "scm:git:http://foo.com/git", "mybranch", "git checkout mybranch");
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine(ScmManager scmManager, String scmUrl, String revision, String commandLine)
+    private void checkCommandLine(ScmManager scmManager, String scmUrl, String revision, String commandLine)
             throws Exception {
         ScmRepository repository = scmManager.makeScmRepository(scmUrl);
 

@@ -28,16 +28,16 @@ import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.GitSshServer;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.untag.UntagCommandTckTest;
-import org.junit.Assume;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 public abstract class GitSshUntagCommandTckTest extends UntagCommandTckTest {
     protected final GitSshServer gitSshServer;
 
-    @Rule
-    public TemporaryFolder tmpDirectory = new TemporaryFolder();
+    @TempDir
+    protected File tmpDirectory;
 
     protected GitSshUntagCommandTckTest() throws GeneralSecurityException {
         gitSshServer = new GitSshServer();
@@ -56,7 +56,7 @@ public abstract class GitSshUntagCommandTckTest extends UntagCommandTckTest {
         ScmProviderRepositoryWithHost providerRepository =
                 ScmProviderRepositoryWithHost.class.cast(repository.getProviderRepository());
         // store as file
-        Path privateKeyFile = tmpDirectory.newFile().toPath();
+        Path privateKeyFile = File.createTempFile("junit", null, tmpDirectory).toPath();
         gitSshServer.writePrivateKeyAsPkcs8(privateKeyFile, passphrase);
         providerRepository.setPrivateKey(privateKeyFile.toString());
         providerRepository.setPassphrase(passphrase); // may be null
@@ -89,19 +89,18 @@ public abstract class GitSshUntagCommandTckTest extends UntagCommandTckTest {
     }
 
     @Test
-    public void testUntagCommandTestWithPush() throws Exception {
+    public void untagCommandTestWithPush() throws Exception {
         configureCredentials(getScmRepository(), null);
         getScmRepository().getProviderRepository().setPushChanges(true);
-        super.testUntagCommandTest();
+        super.untagCommandTest();
     }
 
     @Test
-    public void testUntagCommandWithPassphraseAndPushTest() throws Exception {
+    public void untagCommandWithPassphraseAndPushTest() throws Exception {
         // TODO: currently no easy way to pass passphrase in gitexe
-        Assume.assumeTrue(
-                "Ignore test with passphrase for provider " + getScmProvider(), "jgit".equals(getScmProvider()));
+        assumeTrue("jgit".equals(getScmProvider()), "Ignore test with passphrase for provider " + getScmProvider());
         configureCredentials(getScmRepository(), "mySecret");
         getScmRepository().getProviderRepository().setPushChanges(true);
-        super.testUntagCommandTest();
+        super.untagCommandTest();
     }
 }

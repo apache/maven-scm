@@ -19,23 +19,22 @@
 package org.apache.maven.scm.provider.svn;
 
 import org.apache.maven.scm.ScmTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author <a href="mailto:jerome@coffeebreaks.org">Jerome Lacoste</a>
  *
  */
-public class SvnCommandUtilsTest extends ScmTestCase {
+class SvnCommandUtilsTest extends ScmTestCase {
     // ----------------------------------------------------------------------
     // appendPath
     // ----------------------------------------------------------------------
 
     @Test
-    public void testFixUrlHttpUrlsAreIgnored() throws Exception {
+    void fixUrlHttpUrlsAreIgnored() throws Exception {
         String unchanged = "http://foo.com/svn/myproject/tags/foo";
         assertEquals(unchanged, SvnCommandUtils.fixUrl(unchanged, null));
         assertEquals(unchanged, SvnCommandUtils.fixUrl(unchanged, ""));
@@ -43,17 +42,16 @@ public class SvnCommandUtilsTest extends ScmTestCase {
     }
 
     @Test
-    public void testFixUrlNPEifNullURL() throws Exception {
+    void fixUrlNPEifNullURL() throws Exception {
         try {
             SvnCommandUtils.fixUrl(null, "user");
             fail("expected NPE");
-        } catch (NullPointerException e) {
-            assertTrue(true); // expected
+        } catch (NullPointerException e) { // expected
         }
     }
 
     @Test
-    public void testFixUrlSvnSshUrlsUsernameIsAddedWhenUserSpecified() throws Exception {
+    void fixUrlSvnSshUrlsUsernameIsAddedWhenUserSpecified() throws Exception {
         assertEquals(
                 "svn+ssh://foo.com/svn/myproject", SvnCommandUtils.fixUrl("svn+ssh://foo.com/svn/myproject", null));
         assertEquals("svn+ssh://foo.com/svn/myproject", SvnCommandUtils.fixUrl("svn+ssh://foo.com/svn/myproject", ""));
@@ -63,7 +61,7 @@ public class SvnCommandUtilsTest extends ScmTestCase {
     }
 
     @Test
-    public void testFixUrlSvnSshUrlsUsernameIsOverridenWhenUserSpecified() throws Exception {
+    void fixUrlSvnSshUrlsUsernameIsOverridenWhenUserSpecified() throws Exception {
         assertEquals(
                 "svn+ssh://user1@foo.com/svn/myproject",
                 SvnCommandUtils.fixUrl("svn+ssh://user1@foo.com/svn/myproject", null));

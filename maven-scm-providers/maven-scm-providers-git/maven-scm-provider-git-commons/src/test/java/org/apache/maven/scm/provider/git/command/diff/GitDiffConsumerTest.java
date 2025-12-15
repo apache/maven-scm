@@ -26,18 +26,19 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitDiffConsumerTest extends ScmTestCase {
+class GitDiffConsumerTest extends ScmTestCase {
     @Test
-    public void testEmptyLogConsumer() throws Exception {
+    void emptyLogConsumer() throws Exception {
         GitDiffConsumer consumer = new GitDiffConsumer(null);
 
         File f = getTestFile("/src/test/resources/git/diff/git-diff-empty.log");
@@ -50,7 +51,7 @@ public class GitDiffConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testLog1Consumer() throws Exception {
+    void log1Consumer() throws Exception {
         GitDiffConsumer consumer = new GitDiffConsumer(null);
 
         File f = getTestFile("src/test/resources/git/diff/git-diff1.log");
@@ -61,7 +62,7 @@ public class GitDiffConsumerTest extends ScmTestCase {
 
         assertEquals(1, changedFiles.size());
 
-        testScmFile(changedFiles.get(0), "olamy.test", ScmFileStatus.MODIFIED);
+        checkScmFile(changedFiles.get(0), "olamy.test", ScmFileStatus.MODIFIED);
 
         Map<String, CharSequence> differences = consumer.getDifferences();
         assertNotNull(differences);
@@ -72,7 +73,7 @@ public class GitDiffConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testLog2Consumer() throws Exception {
+    void log2Consumer() throws Exception {
         GitDiffConsumer consumer = new GitDiffConsumer(null);
 
         File f = getTestFile("src/test/resources/git/diff/git-diff2.log");
@@ -83,9 +84,9 @@ public class GitDiffConsumerTest extends ScmTestCase {
 
         assertEquals(2, changedFiles.size());
 
-        testScmFile(changedFiles.get(0), "pom.xml", ScmFileStatus.MODIFIED);
+        checkScmFile(changedFiles.get(0), "pom.xml", ScmFileStatus.MODIFIED);
 
-        testScmFile(changedFiles.get(1), "test.txt", ScmFileStatus.MODIFIED);
+        checkScmFile(changedFiles.get(1), "test.txt", ScmFileStatus.MODIFIED);
 
         Map<String, CharSequence> differences = consumer.getDifferences();
         assertNotNull(differences);
@@ -100,7 +101,7 @@ public class GitDiffConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testLog3Consumer() throws Exception {
+    void log3Consumer() throws Exception {
         GitDiffConsumer consumer = new GitDiffConsumer(null);
 
         File f = getTestFile("src/test/resources/git/diff/git-diff3.log");
@@ -111,7 +112,7 @@ public class GitDiffConsumerTest extends ScmTestCase {
 
         assertEquals(1, changedFiles.size());
 
-        testScmFile(changedFiles.get(0), "pom.xml", ScmFileStatus.MODIFIED);
+        checkScmFile(changedFiles.get(0), "pom.xml", ScmFileStatus.MODIFIED);
 
         Map<String, CharSequence> differences = consumer.getDifferences();
         assertNotNull(differences);
@@ -122,7 +123,7 @@ public class GitDiffConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testLog4Consumer() throws Exception {
+    void log4Consumer() throws Exception {
         GitDiffConsumer consumer = new GitDiffConsumer(null);
 
         File f = getTestFile("src/test/resources/git/diff/git-diff4.log");
@@ -133,7 +134,7 @@ public class GitDiffConsumerTest extends ScmTestCase {
 
         assertEquals(1, changedFiles.size());
 
-        testScmFile(changedFiles.get(0), "pom.xml", ScmFileStatus.MODIFIED);
+        checkScmFile(changedFiles.get(0), "pom.xml", ScmFileStatus.MODIFIED);
 
         Map<String, CharSequence> differences = consumer.getDifferences();
         assertNotNull(differences);
@@ -143,7 +144,7 @@ public class GitDiffConsumerTest extends ScmTestCase {
         assertTrue(addDiffs.indexOf("+  <!-- test -->") >= 0);
     }
 
-    private void testScmFile(ScmFile fileToTest, String expectedFilePath, ScmFileStatus expectedStatus) {
+    private void checkScmFile(ScmFile fileToTest, String expectedFilePath, ScmFileStatus expectedStatus) {
         assertEquals(expectedFilePath, fileToTest.getPath());
         assertEquals(expectedStatus, fileToTest.getStatus());
     }

@@ -20,27 +20,27 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
+import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-@RunWith(JUnit4.class)
-public class TagMojoTest extends AbstractJUnit4MojoTestCase {
+class TagMojoTest extends AbstractMojoTestCase {
     File checkoutDir;
 
     File repository;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    protected void setUp() throws Exception {
         super.setUp();
 
         checkoutDir = getTestFile("target/checkout");
@@ -76,7 +76,7 @@ public class TagMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testTag() throws Exception {
+    void tag() throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         TagMojo mojo = (TagMojo) lookupMojo("tag", getTestFile("src/test/resources/mojos/tag/tag.xml"));
@@ -104,7 +104,7 @@ public class TagMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testTagWithTimestamp() throws Exception {
+    void tagWithTimestamp() throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         TagMojo mojo = (TagMojo) lookupMojo("tag", getTestFile("src/test/resources/mojos/tag/tagWithTimestamp.xml"));

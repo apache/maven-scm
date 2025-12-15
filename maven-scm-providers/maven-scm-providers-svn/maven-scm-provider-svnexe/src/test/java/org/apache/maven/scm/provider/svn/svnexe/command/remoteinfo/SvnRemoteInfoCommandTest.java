@@ -20,18 +20,18 @@ package org.apache.maven.scm.provider.svn.svnexe.command.remoteinfo;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Olivier Lamy
  */
-public class SvnRemoteInfoCommandTest extends ScmTestCase {
+class SvnRemoteInfoCommandTest extends ScmTestCase {
     @Test
-    public void testExist() throws Exception {
+    void exist() throws Exception {
         checkSystemCmdPresence(SVN_COMMAND_LINE);
 
         SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand(false);
@@ -42,7 +42,7 @@ public class SvnRemoteInfoCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testNotExist() throws Exception {
+    void notExist() throws Exception {
         checkSystemCmdPresence(SVN_COMMAND_LINE);
 
         SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand(false);

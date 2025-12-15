@@ -26,19 +26,21 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public class SvnCheckInCommandTest extends ScmTestCase {
+class SvnCheckInCommandTest extends ScmTestCase {
     private File messageFile;
 
     private String messageFileString;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -53,34 +55,34 @@ public class SvnCheckInCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithEmptyTag() throws Exception {
-        testCommandLine("scm:svn:http://foo.com/svn/trunk", "svn --non-interactive commit " + messageFileString);
+    void commandLineWithEmptyTag() throws Exception {
+        checkCommandLine("scm:svn:http://foo.com/svn/trunk", "svn --non-interactive commit " + messageFileString);
     }
 
     @Test
-    public void testCommandLineWithoutTag() throws Exception {
-        testCommandLine("scm:svn:http://foo.com/svn/trunk", "svn --non-interactive commit " + messageFileString);
+    void commandLineWithoutTag() throws Exception {
+        checkCommandLine("scm:svn:http://foo.com/svn/trunk", "svn --non-interactive commit " + messageFileString);
     }
 
     @Test
-    public void testCommandLineTag() throws Exception {
-        testCommandLine(
+    void commandLineTag() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://anonymous@foo.com/svn/trunk",
                 "svn --username anonymous --no-auth-cache --non-interactive commit " + messageFileString);
     }
 
     @Test
-    public void testCommandLineWithUsernameAndTag() throws Exception {
-        testCommandLine(
+    void commandLineWithUsernameAndTag() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://anonymous@foo.com/svn/trunk",
                 "svn --username anonymous --no-auth-cache --non-interactive commit " + messageFileString);
     }
 
     @Test
-    public void testCommandLineWithUsernameWithoutNonInteractive() throws Exception {
+    void commandLineWithUsernameWithoutNonInteractive() throws Exception {
         try {
             SvnUtil.setSettingsDirectory(getTestFile("src/test/resources/svn/checkin/macos"));
-            testCommandLine(
+            checkCommandLine(
                     "scm:svn:http://anonymous@foo.com/svn/trunk",
                     "svn --username anonymous --no-auth-cache commit " + messageFileString,
                     true);
@@ -94,11 +96,11 @@ public class SvnCheckInCommandTest extends ScmTestCase {
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine(String scmUrl, String commandLine) throws Exception {
-        testCommandLine(scmUrl, commandLine, false);
+    private void checkCommandLine(String scmUrl, String commandLine) throws Exception {
+        checkCommandLine(scmUrl, commandLine, false);
     }
 
-    private void testCommandLine(String scmUrl, String commandLine, boolean interactive) throws Exception {
+    private void checkCommandLine(String scmUrl, String commandLine, boolean interactive) throws Exception {
         File workingDirectory = getTestFile("target/svn-checkin-command-test");
 
         ScmRepository repository = getScmManager().makeScmRepository(scmUrl);

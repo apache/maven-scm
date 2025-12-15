@@ -46,7 +46,7 @@ class ScmUrlUtilsTest {
     private static final String SCM_URL_VALID_4 = "scm:a|provider-specific-part";
 
     @Test
-    void testGetProvider() {
+    void getProvider() {
         assertEquals("a", ScmUrlUtils.getProvider(SCM_URL_VALID_1));
         assertEquals("a", ScmUrlUtils.getProvider(SCM_URL_VALID_2));
         assertEquals("a", ScmUrlUtils.getProvider(SCM_URL_VALID_3));
@@ -54,7 +54,7 @@ class ScmUrlUtilsTest {
     }
 
     @Test
-    void testGetProviderSpecificPart() {
+    void getProviderSpecificPart() {
         assertEquals("", ScmUrlUtils.getProviderSpecificPart(SCM_URL_VALID_1));
         assertEquals("", ScmUrlUtils.getProviderSpecificPart(SCM_URL_VALID_2));
         assertEquals("provider-specific-part", ScmUrlUtils.getProviderSpecificPart(SCM_URL_VALID_3));
@@ -62,7 +62,7 @@ class ScmUrlUtilsTest {
     }
 
     @Test
-    void testIsValid() {
+    void isValid() {
         assertTrue(ScmUrlUtils.isValid(SCM_URL_VALID_1));
         assertTrue(ScmUrlUtils.isValid(SCM_URL_VALID_2));
         assertTrue(ScmUrlUtils.isValid(SCM_URL_VALID_3));

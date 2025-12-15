@@ -36,19 +36,19 @@ class ValidateMojoTest {
 
     @Test
     @InjectMojo(goal = "validate", pom = "classpath:/mojos/validate/validateWithoutScmUrl.xml")
-    void testValidateWithoutScmUrl(ValidateMojo mojo) {
+    void validateWithoutScmUrl(ValidateMojo mojo) {
         assertDoesNotThrow(mojo::execute);
     }
 
     @Test
     @InjectMojo(goal = "validate", pom = "classpath:/mojos/validate/validateWithValidScmUrls.xml")
-    void testValidateWithValidScmUrls(ValidateMojo mojo) {
+    void validateWithValidScmUrls(ValidateMojo mojo) {
         assertDoesNotThrow(mojo::execute);
     }
 
     @Test
     @InjectMojo(goal = "validate", pom = "classpath:/mojos/validate/validateWithInvalidScmUrls.xml")
-    void testValidateWithInvalidScmUrls(ValidateMojo mojo) throws Exception {
+    void validateWithInvalidScmUrls(ValidateMojo mojo) throws Exception {
         MojoExecutionException exception = assertThrows(MojoExecutionException.class, mojo::execute);
         assertNotNull(exception.getMessage());
     }

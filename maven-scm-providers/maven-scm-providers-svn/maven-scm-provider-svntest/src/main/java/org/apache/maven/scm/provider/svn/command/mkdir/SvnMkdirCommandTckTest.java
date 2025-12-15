@@ -25,11 +25,11 @@ import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.tck.command.mkdir.MkdirCommandTckTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
@@ -50,7 +50,7 @@ public class SvnMkdirCommandTckTest extends MkdirCommandTckTest {
     }
 
     @Test
-    public void testMkdirCommandMkdirUrl() throws Exception {
+    void mkdirCommandMkdirUrl() throws Exception {
         ScmFileSet fileSet = new ScmFileSet(getWorkingCopy(), new File(getMissingDirectory()));
 
         MkdirScmResult result = getScmManager().mkdir(getScmRepository(), fileSet, "Mkdir message", false);
@@ -61,11 +61,11 @@ public class SvnMkdirCommandTckTest extends MkdirCommandTckTest {
 
         ListScmResult listResult = getScmManager().list(getScmRepository(), fileSet, true, null);
 
-        assertTrue("Directory should have been found.", listResult.isSuccess());
+        assertTrue(listResult.isSuccess(), "Directory should have been found.");
     }
 
     @Test
-    public void testMkdirCommandDirAlreadyAdded() throws Exception {
+    void mkdirCommandDirAlreadyAdded() throws Exception {
         ScmFileSet fileSet = new ScmFileSet(getWorkingCopy(), new File(getMissingDirectory()));
 
         MkdirScmResult result = getScmManager().mkdir(getScmRepository(), fileSet, null, false);
@@ -76,7 +76,7 @@ public class SvnMkdirCommandTckTest extends MkdirCommandTckTest {
 
         ListScmResult listResult = getScmManager().list(getScmRepository(), fileSet, true, null);
 
-        assertTrue("Directory should have been found.", listResult.isSuccess());
+        assertTrue(listResult.isSuccess(), "Directory should have been found.");
 
         // add the directory again
         result = getScmManager().mkdir(getScmRepository(), fileSet, null, false);

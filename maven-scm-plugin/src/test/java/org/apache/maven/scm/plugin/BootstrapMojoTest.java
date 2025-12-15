@@ -61,7 +61,7 @@ class BootstrapMojoTest {
     }
 
     @Test
-    void testDetermineWorkingDirectoryPath() throws Exception {
+    void determineWorkingDirectoryPath() throws Exception {
         // only checkout dir
         assertEquals(checkoutDir.getPath(), bootstrapMojo.determineWorkingDirectoryPath(checkoutDir, "", ""));
         assertEquals(checkoutDir.getPath(), bootstrapMojo.determineWorkingDirectoryPath(checkoutDir, null, null));

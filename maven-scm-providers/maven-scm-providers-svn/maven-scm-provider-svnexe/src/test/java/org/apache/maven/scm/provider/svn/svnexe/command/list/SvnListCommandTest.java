@@ -26,31 +26,31 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  *
  */
-public class SvnListCommandTest extends ScmTestCase {
+class SvnListCommandTest extends ScmTestCase {
     @Test
-    public void testCommandLineWithEmptyTag() throws Exception {
-        testCommandLine("scm:svn:http://foo.com/svn/trunk", true, "svn --non-interactive list --recursive");
+    void commandLineWithEmptyTag() throws Exception {
+        checkCommandLine("scm:svn:http://foo.com/svn/trunk", true, "svn --non-interactive list --recursive");
     }
 
     @Test
-    public void testCommandLineWithWhitespaceTag() throws Exception {
-        testCommandLine("scm:svn:http://foo.com/svn/trunk", false, "svn --non-interactive list");
+    void commandLineWithWhitespaceTag() throws Exception {
+        checkCommandLine("scm:svn:http://foo.com/svn/trunk", false, "svn --non-interactive list");
     }
 
     @Test
-    public void testCommandLineWithoutTag() throws Exception {
-        testCommandLine("scm:svn:http://foo.com/svn/trunk", false, "svn --non-interactive list");
+    void commandLineWithoutTag() throws Exception {
+        checkCommandLine("scm:svn:http://foo.com/svn/trunk", false, "svn --non-interactive list");
     }
 
     @Test
-    public void testCommandLineTag() throws Exception {
-        testCommandLine(
+    void commandLineTag() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://anonymous@foo.com/svn/trunk",
                 false,
                 "10",
@@ -58,8 +58,8 @@ public class SvnListCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithUsernameAndTag() throws Exception {
-        testCommandLine(
+    void commandLineWithUsernameAndTag() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://anonymous@foo.com/svn/trunk",
                 false,
                 "10",
@@ -76,11 +76,11 @@ public class SvnListCommandTest extends ScmTestCase {
         return (SvnScmProviderRepository) repository.getProviderRepository();
     }
 
-    private void testCommandLine(String scmUrl, boolean recursive, String commandLine) throws Exception {
-        testCommandLine(scmUrl, recursive, null, commandLine);
+    private void checkCommandLine(String scmUrl, boolean recursive, String commandLine) throws Exception {
+        checkCommandLine(scmUrl, recursive, null, commandLine);
     }
 
-    private void testCommandLine(String scmUrl, boolean recursive, String revision, String commandLine)
+    private void checkCommandLine(String scmUrl, boolean recursive, String revision, String commandLine)
             throws Exception {
         ScmFileSet fileSet = new ScmFileSet(new File("."), new File("."));
 

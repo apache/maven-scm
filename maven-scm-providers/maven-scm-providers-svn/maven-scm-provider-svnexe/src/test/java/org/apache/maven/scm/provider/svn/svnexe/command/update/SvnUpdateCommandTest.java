@@ -30,74 +30,75 @@ import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class SvnUpdateCommandTest extends ScmTestCase {
+class SvnUpdateCommandTest extends ScmTestCase {
     @Test
-    public void testCommandLineWithEmptyTag() throws Exception {
-        testCommandLine(
+    void commandLineWithEmptyTag() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmTag(""),
                 "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@");
     }
 
     @Test
-    public void testCommandLineWithEmptyBranch() throws Exception {
-        testCommandLine(
+    void commandLineWithEmptyBranch() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmBranch(""),
                 "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@");
     }
 
     @Test
-    public void testCommandLineWithEmptyVersion() throws Exception {
-        testCommandLine(
+    void commandLineWithEmptyVersion() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmRevision(""),
                 "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@");
     }
 
     @Test
-    public void testCommandLineWithWhitespaceTag() throws Exception {
-        testCommandLine(
+    void commandLineWithWhitespaceTag() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmTag("  "),
                 "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@");
     }
 
     @Test
-    public void testCommandLineWithWhitespaceBranch() throws Exception {
-        testCommandLine(
+    void commandLineWithWhitespaceBranch() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmBranch("  "),
                 "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@");
     }
 
     @Test
-    public void testCommandLineWithWhitespaceRevision() throws Exception {
-        testCommandLine(
+    void commandLineWithWhitespaceRevision() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmRevision("  "),
                 "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@");
     }
 
     @Test
-    public void testCommandLineWithoutTag() throws Exception {
-        testCommandLine(
+    void commandLineWithoutTag() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 null,
                 "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@");
     }
 
     @Test
-    public void testCommandLineTag() throws Exception {
-        testCommandLine(
+    void commandLineTag() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://anonymous@foo.com/svn/trunk",
                 new ScmRevision("10"),
                 "svn --username anonymous --no-auth-cache --non-interactive update -r 10 "
@@ -105,8 +106,8 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithUsernameAndTag() throws Exception {
-        testCommandLine(
+    void commandLineWithUsernameAndTag() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://anonymous@foo.com/svn/trunk",
                 new ScmRevision("10"),
                 "svn --username anonymous --no-auth-cache --non-interactive update -r 10 "
@@ -114,12 +115,12 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithCygwinProperty() throws Exception {
+    void commandLineWithCygwinProperty() throws Exception {
         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
             SvnUtil.setSettingsDirectory(getTestFile("src/test/resources/svn/update/cygwin"));
             try {
                 assertTrue(SvnUtil.getSettings().isUseCygwinPath());
-                testCommandLine(
+                checkCommandLine(
                         "scm:svn:http://foo.com/svn/trunk",
                         null,
                         "svn --non-interactive update /mnt/c/my_working_directory@",
@@ -131,8 +132,8 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithRelativeURLTag() throws Exception {
-        testCommandLine(
+    void commandLineWithRelativeURLTag() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmBranch("branches/my-test-branch"),
                 "svn --non-interactive switch http://foo.com/svn/branches/my-test-branch@ "
@@ -140,8 +141,8 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithAbsoluteURLTag() throws Exception {
-        testCommandLine(
+    void commandLineWithAbsoluteURLTag() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmBranch("http://foo.com/svn/branches/my-test-branch"),
                 "svn --non-interactive switch http://foo.com/svn/branches/my-test-branch@ "
@@ -149,8 +150,8 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithNonDeterminantBase() throws Exception {
-        testCommandLine(
+    void commandLineWithNonDeterminantBase() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/some-project",
                 new ScmBranch("branches/my-test-branch"),
                 "svn --non-interactive switch http://foo.com/svn/some-project/branches/my-test-branch@ "
@@ -158,8 +159,8 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithNonDeterminantBaseTrailingSlash() throws Exception {
-        testCommandLine(
+    void commandLineWithNonDeterminantBaseTrailingSlash() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/some-project/",
                 new ScmBranch("branches/my-test-branch"),
                 "svn --non-interactive switch http://foo.com/svn/some-project/branches/my-test-branch@ "
@@ -167,8 +168,8 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithBranchSameAsBase() throws Exception {
-        testCommandLine(
+    void commandLineWithBranchSameAsBase() throws Exception {
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/tags/my-tag",
                 new ScmTag("tags/my-tag"),
                 "svn --non-interactive switch http://foo.com/svn/tags/my-tag@ "
@@ -189,13 +190,13 @@ public class SvnUpdateCommandTest extends ScmTestCase {
         return (SvnScmProviderRepository) repository.getProviderRepository();
     }
 
-    private void testCommandLine(String scmUrl, ScmVersion version, String commandLine) throws Exception {
+    private void checkCommandLine(String scmUrl, ScmVersion version, String commandLine) throws Exception {
         File workingDirectory = getUpdateTestFile();
 
-        testCommandLine(scmUrl, version, commandLine, workingDirectory);
+        checkCommandLine(scmUrl, version, commandLine, workingDirectory);
     }
 
-    private void testCommandLine(String scmUrl, ScmVersion version, String commandLine, File workingDirectory)
+    private void checkCommandLine(String scmUrl, ScmVersion version, String commandLine, File workingDirectory)
             throws Exception {
         Commandline cl = new SvnUpdateCommand(false)
                 .createCommandLine(getSvnRepository(scmUrl), workingDirectory, version, false);

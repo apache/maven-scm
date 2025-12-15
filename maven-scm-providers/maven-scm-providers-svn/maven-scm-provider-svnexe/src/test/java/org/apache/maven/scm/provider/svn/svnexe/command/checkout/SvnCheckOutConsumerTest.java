@@ -20,14 +20,15 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkout;
 
 import java.io.File;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SvnCheckOutConsumerTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class SvnCheckOutConsumerTest {
     SvnCheckOutConsumer consumer;
 
     @Test
-    public void testParseLine() {
+    void parseLine() {
         File file = new File("mine/a");
         consumer = new SvnCheckOutConsumer(file);
 
@@ -36,6 +37,6 @@ public class SvnCheckOutConsumerTest {
 
         consumer.parseLine("Checked out revision 1345915.");
 
-        Assert.assertEquals(1345915, consumer.getRevision());
+        assertEquals(1345915, consumer.getRevision());
     }
 }

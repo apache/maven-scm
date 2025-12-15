@@ -26,7 +26,7 @@ import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.tck.command.blame.BlameCommandTckTest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Evgeny Mandrikov
@@ -42,7 +42,7 @@ public abstract class SvnBlameCommandTckTest extends BlameCommandTckTest {
 
     protected void verifyResult(BlameScmResult result) {
         List<BlameLine> lines = result.getLines();
-        assertEquals("Expected 1 line in blame", 1, lines.size());
+        assertEquals(1, lines.size(), "Expected 1 line in blame");
         BlameLine line = lines.get(0);
         assertEquals("trygvis", line.getAuthor());
         assertEquals("7", line.getRevision());

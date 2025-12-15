@@ -20,26 +20,27 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
+import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
  */
-@RunWith(JUnit4.class)
-public class ExportMojoTest extends AbstractJUnit4MojoTestCase {
+public class ExportMojoTest extends AbstractMojoTestCase {
     File exportDir;
 
     File repository;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    protected void setUp() throws Exception {
         super.setUp();
 
         exportDir = getTestFile("target/export");
@@ -50,7 +51,7 @@ public class ExportMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testExport() throws Exception {
+    void export() throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);
@@ -68,7 +69,7 @@ public class ExportMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testSkipExportIfExists() throws Exception {
+    void skipExportIfExists() throws Exception {
         exportDir.mkdirs();
 
         ExportMojo mojo = (ExportMojo) lookupMojo(
@@ -82,7 +83,7 @@ public class ExportMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testExcludeInclude() throws Exception {
+    void excludeInclude() throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);

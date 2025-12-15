@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  */
 class ChangeFileTest {
     @Test
-    void testNewFile() {
+    void newFile() {
         ChangeFile f = new ChangeFile("test.java");
         assertEquals("test.java", f.getName());
         assertNull(f.getRevision());
@@ -36,7 +36,7 @@ class ChangeFileTest {
     }
 
     @Test
-    void testNewFileRevision() {
+    void newFileRevision() {
         ChangeFile f = new ChangeFile("test.java", "1.2.3");
         assertEquals("test.java", f.getName());
         assertEquals("1.2.3", f.getRevision());
@@ -44,7 +44,7 @@ class ChangeFileTest {
     }
 
     @Test
-    void testNewRevisionFile() {
+    void newRevisionFile() {
         ChangeFile f = new ChangeFile("test.java", "revision1");
         assertEquals("test.java", f.getName());
         assertEquals("revision1", f.getRevision());

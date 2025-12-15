@@ -19,17 +19,17 @@
 package org.apache.maven.scm.provider.local;
 
 import org.apache.maven.scm.ScmTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
  */
-public class LocalScmProviderTest extends ScmTestCase {
+class LocalScmProviderTest extends ScmTestCase {
     @Test
-    public void testFixModuleName() {
+    void fixModuleName() {
         assertEquals("my-module", LocalScmProvider.fixModuleName("my-module"));
 
         assertEquals("my-module", LocalScmProvider.fixModuleName("/my-module"));

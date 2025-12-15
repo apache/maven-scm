@@ -39,22 +39,23 @@ import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNoException;
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  */
-public class GitCheckInCommandTest extends ScmTestCase {
+class GitCheckInCommandTest extends ScmTestCase {
     private File messageFile;
 
     private String messageFileString;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -69,31 +70,31 @@ public class GitCheckInCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithoutTag() throws Exception {
+    void commandLineWithoutTag() throws Exception {
         if (GitUtil.getSettings().isCommitNoVerify()) {
-            testCommandLine(
+            checkCommandLine(
                     "scm:git:http://foo.com/git/trunk",
                     "git commit --verbose " + messageFileString + " -a" + " --no-verify");
         } else {
-            testCommandLine("scm:git:http://foo.com/git/trunk", "git commit --verbose " + messageFileString + " -a");
+            checkCommandLine("scm:git:http://foo.com/git/trunk", "git commit --verbose " + messageFileString + " -a");
         }
     }
 
     @Test
-    public void testCommandLineWithUsername() throws Exception {
+    void commandLineWithUsername() throws Exception {
         if (GitUtil.getSettings().isCommitNoVerify()) {
-            testCommandLine(
+            checkCommandLine(
                     "scm:git:http://anonymous@foo.com/git/trunk",
                     "git commit --verbose " + messageFileString + " -a" + " --no-verify");
         } else {
-            testCommandLine(
+            checkCommandLine(
                     "scm:git:http://anonymous@foo.com/git/trunk", "git commit --verbose " + messageFileString + " -a");
         }
     }
 
     // Test reproducing SCM-694
     @Test
-    public void testCheckinAfterRename() throws Exception {
+    void checkinAfterRename() throws Exception {
         File repo = getRepositoryRoot();
         File checkedOutRepo = getWorkingCopy();
 
@@ -140,14 +141,12 @@ public class GitCheckInCommandTest extends ScmTestCase {
         checkInScmResult = getScmManager()
                 .checkIn(scmRepository, new ScmFileSet(checkedOutRepo), "moved wine.xml from foo/bar/ to foo/newbar/");
         assertResultIsSuccess(checkInScmResult);
-        assertTrue(
-                "Renamed file has not been commited!",
-                checkInScmResult.getCheckedInFiles().size() != 0);
+        assertNotSame(checkInScmResult.getCheckedInFiles().size(), 0, "Renamed file has not been commited!");
     }
 
     // Test FileSet in configuration
     @Test
-    public void testCheckinWithFileSet() throws Exception {
+    void checkinWithFileSet() throws Exception {
         File repo = getRepositoryRoot();
         File checkedOutRepo = getWorkingCopy();
 
@@ -188,7 +187,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testSignedCheckin() throws Exception {
+    void signedCheckin() throws Exception {
         checkSystemCmdPresence(GIT_COMMAND_LINE);
         checkSystemCmdPresence(GpgTestUtils.BINARY_NAME);
 
@@ -216,7 +215,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
         try {
             GpgTestUtils.importKey(GpgTestUtils.JOHN_DOE_SECRET_KEY_RESOURCE_NAME);
         } catch (Exception e) {
-            assumeNoException("GPG key import failed, skipping test: " + e.getMessage(), e);
+            fail("GPG key import failed, skipping test: " + e.getMessage(), e);
         }
         try {
             // Creating beer.xml
@@ -250,7 +249,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
         return result;
     }
 
-    private void testCommandLine(String scmUrl, String commandLine) throws Exception {
+    private void checkCommandLine(String scmUrl, String commandLine) throws Exception {
         File workingDirectory = getTestFile("target/git-checkin-command-test");
 
         ScmRepository repository = getScmManager().makeScmRepository(scmUrl);

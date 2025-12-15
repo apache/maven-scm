@@ -18,24 +18,15 @@
  */
 package org.apache.maven.scm.provider.hg.repository;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class HgScmProviderRepositoryTest {
-
-    //    public void testInvalidRepo()
-    //    {
-    //        //No protocol - makes it invalid
-    //        String url = "username:password@myhost.com/~/dev/maven";
-    //        HgScmProviderRepository repo = new HgScmProviderRepository( url );
-    //        assertNotNull( repo.validateURI() );
-    //    }
+class HgScmProviderRepositoryTest {
 
     @Test
-    public void testFileRepo() {
+    void fileRepo() {
         // 1. Test *nix like paths
         String url = "/home/username/dev/maven";
         HgScmProviderRepository repo = new HgScmProviderRepository(url);
@@ -50,15 +41,10 @@ public class HgScmProviderRepositoryTest {
         url = "C:\\Documents and Settings\\username\\dev\\maven";
         repo = new HgScmProviderRepository(url);
         assertNull(repo.validateURI());
-
-        //        //4. Test invalid file url
-        //        url = "file:/C:\\Documents and Settings\\username\\dev\\maven";
-        //        repo = new HgScmProviderRepository( url );
-        //        assertNotNull( repo.validateURI() );
     }
 
     @Test
-    public void testSSHRepo() {
+    void sshRepo() {
         // todo: check assert
         // 1. Test with relativ path
         String url = "ssh://username:password@myhost.com/~/dev/maven";
@@ -80,7 +66,7 @@ public class HgScmProviderRepositoryTest {
     }
 
     @Test
-    public void testHTTPRepo() {
+    void httpRepo() {
         // todo: check assert
         // 1. Test with relativ path
         String url = "http://www.myhost.com/~username/dev/maven";
@@ -103,11 +89,10 @@ public class HgScmProviderRepositoryTest {
         repo.setPort(81);
         assertEquals("http://User:Password@www.myhost.com:81/dev/maven", repo.getURI());
         assertNull(repo.validateURI());
-        assertTrue(true);
     }
 
     @Test
-    public void testHTTPRepoWithHgInUrl() {
+    void httpRepoWithHgInUrl() {
         String url = "http://hg/hg/maven";
         HgScmProviderRepository repo = new HgScmProviderRepository(url);
         assertEquals(url, repo.getURI());
@@ -120,7 +105,7 @@ public class HgScmProviderRepositoryTest {
      * @throws Exception
      */
     @Test
-    public void testParseHostAndPort() throws Exception {
+    void parseHostAndPort() throws Exception {
         String url = "http://localhost:8000/";
         HgScmProviderRepository repo = new HgScmProviderRepository(url);
         assertEquals(url, repo.getURI());
@@ -140,7 +125,7 @@ public class HgScmProviderRepositoryTest {
      * @throws Exception
      */
     @Test
-    public void testParseBasicAuth() throws Exception {
+    void parseBasicAuth() throws Exception {
         String url = "http://a:b@localhost:8000/";
         HgScmProviderRepository repo = new HgScmProviderRepository(url);
         assertEquals(url, repo.getURI());

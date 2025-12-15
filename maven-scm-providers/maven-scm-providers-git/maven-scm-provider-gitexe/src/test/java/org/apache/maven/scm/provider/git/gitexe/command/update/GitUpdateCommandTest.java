@@ -26,34 +26,36 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
  */
-public class GitUpdateCommandTest extends ScmTestCase {
+class GitUpdateCommandTest extends ScmTestCase {
     @Test
-    public void testCommandLineNoBranch() throws Exception {
-        testCommandLine("scm:git:http://foo.com/git", null, "git pull http://foo.com/git");
+    void commandLineNoBranch() throws Exception {
+        checkCommandLine("scm:git:http://foo.com/git", null, "git pull http://foo.com/git");
     }
 
     @Test
-    public void testCommandLineWithBranch() throws Exception {
-        testCommandLine(
+    void commandLineWithBranch() throws Exception {
+        checkCommandLine(
                 "scm:git:http://foo.com/git", new ScmBranch("mybranch"), "git pull http://foo.com/git mybranch");
     }
 
     @Test
-    public void testCommandLineLatestRevision() throws Exception {
-        testLatestRevisionCommandLine("scm:git:http://foo.com/git", null, "git log -n1 --date-order");
+    void commandLineLatestRevision() throws Exception {
+        checkLatestRevisionCommandLine("scm:git:http://foo.com/git", null, "git log -n1 --date-order");
     }
 
     // ----------------------------------------------------------------------
     // private helper functions
     // ----------------------------------------------------------------------
 
-    private void testCommandLine(String scmUrl, ScmVersion branch, String commandLine) throws Exception {
+    private void checkCommandLine(String scmUrl, ScmVersion branch, String commandLine) throws Exception {
         File workingDirectory = getTestFile("target/git-update-command-test");
 
         ScmRepository repository = getScmManager().makeScmRepository(scmUrl);
@@ -65,7 +67,7 @@ public class GitUpdateCommandTest extends ScmTestCase {
         assertCommandLine(commandLine, workingDirectory, cl);
     }
 
-    private void testLatestRevisionCommandLine(String scmUrl, ScmBranch branch, String commandLine) throws Exception {
+    private void checkLatestRevisionCommandLine(String scmUrl, ScmBranch branch, String commandLine) throws Exception {
         File workingDirectory = getTestFile("target/git-update-command-test");
 
         ScmRepository repository = getScmManager().makeScmRepository(scmUrl);

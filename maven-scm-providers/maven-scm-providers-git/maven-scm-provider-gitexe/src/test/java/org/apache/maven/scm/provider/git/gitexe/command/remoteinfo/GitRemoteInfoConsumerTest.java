@@ -20,17 +20,17 @@ package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Bertrand Paquet
  */
-public class GitRemoteInfoConsumerTest extends ScmTestCase {
+class GitRemoteInfoConsumerTest extends ScmTestCase {
 
     @Test
-    public void testConsumerRemoteInfo() {
+    void consumerRemoteInfo() {
         GitRemoteInfoConsumer consumer = new GitRemoteInfoConsumer(null);
 
         consumer.consumeLine("344581899752998038a74989142221ae08c381bc	HEAD");

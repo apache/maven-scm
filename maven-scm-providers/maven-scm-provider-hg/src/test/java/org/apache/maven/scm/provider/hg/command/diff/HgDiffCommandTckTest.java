@@ -27,10 +27,9 @@ import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.hg.HgRepoUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.diff.DiffCommandTckTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.hg.HgRepoUtils.HG_COMMAND_LINE;
-import static org.junit.Assert.assertTrue;
 
 public class HgDiffCommandTckTest extends DiffCommandTckTest {
     @Override
@@ -47,7 +46,7 @@ public class HgDiffCommandTckTest extends DiffCommandTckTest {
     }
 
     @Test
-    public void testDiffCommand() throws Exception {
+    public void diffCommand() throws Exception {
         ScmRepository repository = getScmRepository();
 
         // ----------------------------------------------------------------------
@@ -98,61 +97,5 @@ public class HgDiffCommandTckTest extends DiffCommandTckTest {
         ScmProvider provider = getScmManager().getProviderByUrl(getScmUrl());
         ScmFileSet fileSet = new ScmFileSet(getWorkingCopy());
         /*DiffScmResult result = */ provider.diff(repository, fileSet, (ScmVersion) null, null);
-
-        //		todo: check asserts
-        //		assertNotNull("The command returned a null result.", result);
-
-        //      assertResultIsSuccess(result);
-
-        //      List<ScmFile> changedFiles = result.getChangedFiles();
-
-        //      Map<String, CharSequence> differences = result.getDifferences();
-
-        //		assertEquals("Expected 3 files in the changed files list "
-        //				+ changedFiles, 3, changedFiles.size());
-
-        //		assertEquals("Expected 3 files in the differences list " + differences,
-        //				3, differences.size());
-
-        //		 ----------------------------------------------------------------------
-        //		 Assert the files in the changed files list
-        //		 ----------------------------------------------------------------------
-
-        //      Iterator<ScmFile> files = new TreeSet<ScmFile>(changedFiles).iterator();
-
-        //		Check Foo.java
-        //      ScmFile file = (ScmFile) files.next();
-
-        //		assertPath("/src/main/java/org/Foo.java", file.getPath());
-
-        //		assertTrue(file.getStatus().isDiff());
-
-        //      String postRangeStr = "+/src/main/java/org/Foo.java\n\\ No newline at end of file\n";
-        //      String actualStr = differences.get(file.getPath()).toString();
-        //		assertTrue(actualStr.endsWith(postRangeStr));
-
-        //		Check readme.txt
-        //  file = (ScmFile) files.next();
-
-        //		assertPath("/readme.txt", file.getPath());
-
-        //		assertTrue(file.getStatus().isDiff());
-
-        //      postRangeStr = "-/readme.txt\n\\ No newline at end of file\n+changed readme.txt\n\\ No newline at end of
-        // file\n";
-        //      actualStr = differences.get(file.getPath()).toString();
-        //		assertTrue(actualStr.endsWith(postRangeStr));
-
-        //		Check project.xml
-        //      file = (ScmFile) files.next();
-
-        //		assertPath("/project.xml", file.getPath());
-
-        //      postRangeStr = "+changed project.xml\n\\ No newline at end of file\n";
-        //      actualStr = differences.get(file.getPath()).toString();
-        //		assertTrue(actualStr.endsWith(postRangeStr));
-
-        //		assertTrue(file.getStatus().isDiff());
-        assertTrue(true);
     }
 }

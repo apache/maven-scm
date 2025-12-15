@@ -32,11 +32,11 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This test tests the diff command.
@@ -46,7 +46,7 @@ import static org.junit.Assert.assertTrue;
 public abstract class DiffCommandTckTest extends ScmTckTestCase {
 
     @Test
-    public void testDiffCommand() throws Exception {
+    public void diffCommand() throws Exception {
         ScmRepository repository = getScmRepository();
 
         // ----------------------------------------------------------------------
@@ -91,7 +91,7 @@ public abstract class DiffCommandTckTest extends ScmTckTestCase {
         ScmFileSet fileSet = new ScmFileSet(getWorkingCopy());
         DiffScmResult result = provider.diff(repository, fileSet, null, (ScmVersion) null);
 
-        assertNotNull("The command returned a null result.", result);
+        assertNotNull(result, "The command returned a null result.");
 
         assertResultIsSuccess(result);
 
@@ -99,9 +99,9 @@ public abstract class DiffCommandTckTest extends ScmTckTestCase {
 
         Map<String, CharSequence> differences = result.getDifferences();
 
-        assertEquals("Expected 3 files in the changed files list " + changedFiles, 3, changedFiles.size());
+        assertEquals(3, changedFiles.size(), "Expected 3 files in the changed files list " + changedFiles);
 
-        assertEquals("Expected 3 files in the differences list " + differences, 3, differences.size());
+        assertEquals(3, differences.size(), "Expected 3 files in the differences list " + differences);
 
         // ----------------------------------------------------------------------
         // Assert the files in the changed files list

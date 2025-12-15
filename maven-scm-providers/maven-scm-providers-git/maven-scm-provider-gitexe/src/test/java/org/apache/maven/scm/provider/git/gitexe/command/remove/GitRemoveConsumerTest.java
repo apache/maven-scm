@@ -26,18 +26,19 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusConsumer;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitRemoveConsumerTest extends ScmTestCase {
+class GitRemoveConsumerTest extends ScmTestCase {
 
     @Test
-    public void testConsumerRemovedFile() {
+    void consumerRemovedFile() {
         GitRemoveConsumer consumer = new GitRemoveConsumer();
 
         consumer.consumeLine("rm 'project.xml'");
@@ -50,7 +51,7 @@ public class GitRemoveConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerRemovedFileInDifferentDir() {
+    void consumerRemovedFileInDifferentDir() {
         GitRemoveConsumer consumer = new GitRemoveConsumer(GitStatusConsumer.uriFromPath("main"));
 
         consumer.consumeLine("rm 'main/project.xml'");
@@ -63,7 +64,7 @@ public class GitRemoveConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testLog1Consumer() throws Exception {
+    void log1Consumer() throws Exception {
         GitRemoveConsumer consumer = new GitRemoveConsumer();
 
         File f = getTestFile("/src/test/resources/git/remove/gitrm.gitlog");
@@ -74,12 +75,12 @@ public class GitRemoveConsumerTest extends ScmTestCase {
 
         assertEquals(2, changedFiles.size());
 
-        testScmFile(changedFiles.get(0), "src/main/java/Application.java", ScmFileStatus.DELETED);
-        testScmFile(changedFiles.get(1), "src/test/java/Test.java", ScmFileStatus.DELETED);
+        checkScmFile(changedFiles.get(0), "src/main/java/Application.java", ScmFileStatus.DELETED);
+        checkScmFile(changedFiles.get(1), "src/test/java/Test.java", ScmFileStatus.DELETED);
     }
 
     @Test
-    public void testEmptyLogConsumer() throws Exception {
+    void emptyLogConsumer() throws Exception {
         GitRemoveConsumer consumer = new GitRemoveConsumer();
 
         File f = getTestFile("/src/test/resources/git/remove/gitrm-empty.gitlog");
@@ -91,7 +92,7 @@ public class GitRemoveConsumerTest extends ScmTestCase {
         assertEquals(0, changedFiles.size());
     }
 
-    private void testScmFile(ScmFile fileToTest, String expectedFilePath, ScmFileStatus expectedStatus) {
+    private void checkScmFile(ScmFile fileToTest, String expectedFilePath, ScmFileStatus expectedStatus) {
         assertEquals(expectedFilePath, fileToTest.getPath());
         assertEquals(expectedStatus, fileToTest.getStatus());
     }

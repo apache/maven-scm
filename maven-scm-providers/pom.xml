@@ -49,6 +49,12 @@
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-test</artifactId>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 

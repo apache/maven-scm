@@ -29,20 +29,21 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
-import static org.junit.Assert.assertEquals;
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Bertrand Paquet
  */
-public class GitCheckInCommandNoBranchTest extends ScmTestCase {
+class GitCheckInCommandNoBranchTest extends ScmTestCase {
 
     private File workingDirectory;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -51,7 +52,7 @@ public class GitCheckInCommandNoBranchTest extends ScmTestCase {
     }
 
     @Test
-    public void testCheckinNoBranch() throws Exception {
+    void checkinNoBranch() throws Exception {
         checkSystemCmdPresence(GIT_COMMAND_LINE);
 
         File repoOriginal = new File("src/test/resources/repository_no_branch");

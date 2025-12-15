@@ -25,9 +25,10 @@ import org.apache.maven.scm.provider.svn.command.untag.SvnUntagCommandTckTest;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
 
 /**
  * This test tests the untag command for Subversion.
@@ -45,13 +46,13 @@ public class SvnExeUntagCommandTckTest extends SvnUntagCommandTckTest {
      * @throws Exception in case of error
      */
     @Test
-    public void testUntagSsh() throws Exception {
+    void untagSsh() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
         ScmFileSet scmFileSet = new ScmFileSet(new File("target/svn-untag-command-test"));
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:svn+ssh://foo.com/svn/trunk",
                 scmFileSet,
                 "svntag",
@@ -67,13 +68,13 @@ public class SvnExeUntagCommandTckTest extends SvnUntagCommandTckTest {
      * @throws Exception in case of error
      */
     @Test
-    public void testUntagHttps() throws Exception {
+    void untagHttps() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
         ScmFileSet scmFileSet = new ScmFileSet(new File("target/svn-untag-command-test"));
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:https://foo.com/svn/tags",
                 scmFileSet,
                 "svntag",
@@ -94,7 +95,7 @@ public class SvnExeUntagCommandTckTest extends SvnUntagCommandTckTest {
      * @param commandLine set command line for comparison
      * @throws Exception  in case of error
      */
-    private void testCommandLine(
+    private void checkCommandLine(
             String scmUrl, ScmFileSet scmFileSet, String tag, File messageFile, String user, String commandLine)
             throws Exception {
         File workingDirectory = getTestFile("target/svn-untag-command-test");

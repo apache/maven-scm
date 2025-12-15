@@ -28,12 +28,13 @@ import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Olivier Lamy
@@ -41,7 +42,7 @@ import static org.junit.Assert.assertTrue;
 public class GitInfoCommandTest extends ScmTestCase {
 
     @Test
-    public void testInfoCommand() throws Exception {
+    void infoCommand() throws Exception {
         checkSystemCmdPresence(GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy());
@@ -58,7 +59,7 @@ public class GitInfoCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testInfoCommandWithShortRevision() throws Exception {
+    void infoCommandWithShortRevision() throws Exception {
         checkSystemCmdPresence(GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy());
@@ -70,14 +71,11 @@ public class GitInfoCommandTest extends ScmTestCase {
         commandParameters.setInt(CommandParameter.SCM_SHORT_REVISION_LENGTH, 6);
         InfoScmResult result = provider.info(repository, new ScmFileSet(getRepositoryRoot()), commandParameters);
         assertNotNull(result);
-        assertEquals(
-                "revision must be short, exactly 6 digits ",
-                "cd3c0d",
-                result.getInfoItems().get(0).getRevision());
+        assertEquals("cd3c0d", result.getInfoItems().get(0).getRevision(), "revision must be short, exactly 6 digits ");
     }
 
     @Test
-    public void testInfoCommandWithNegativeShortRevision() throws Exception {
+    void infoCommandWithNegativeShortRevision() throws Exception {
         checkSystemCmdPresence(GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy());
@@ -90,13 +88,13 @@ public class GitInfoCommandTest extends ScmTestCase {
         InfoScmResult result = provider.info(repository, new ScmFileSet(getRepositoryRoot()), commandParameters);
         assertNotNull(result);
         assertEquals(
-                "revision should not be short",
                 "cd3c0dfacb65955e6fbb35c56cc5b1bf8ce4f767",
-                result.getInfoItems().get(0).getRevision());
+                result.getInfoItems().get(0).getRevision(),
+                "revision should not be short");
     }
 
     @Test
-    public void testInfoCommandWithZeroShortRevision() throws Exception {
+    void infoCommandWithZeroShortRevision() throws Exception {
         checkSystemCmdPresence(GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy());
@@ -109,8 +107,8 @@ public class GitInfoCommandTest extends ScmTestCase {
         InfoScmResult result = provider.info(repository, new ScmFileSet(getRepositoryRoot()), commandParameters);
         assertNotNull(result);
         assertTrue(
-                "revision should be not empty, minimum 4 (similar to git help rev-parse --short)",
-                result.getInfoItems().get(0).getRevision().length() >= 4);
+                result.getInfoItems().get(0).getRevision().length() >= 4,
+                "revision should be not empty, minimum 4 (similar to git help rev-parse --short)");
     }
 
     protected File getRepositoryRoot() {

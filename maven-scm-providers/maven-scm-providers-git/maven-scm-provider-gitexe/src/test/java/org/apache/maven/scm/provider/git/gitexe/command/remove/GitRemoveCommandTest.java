@@ -26,15 +26,15 @@ import java.util.Arrays;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitRemoveCommandTest extends ScmTestCase {
+class GitRemoveCommandTest extends ScmTestCase {
 
     @Test
-    public void testCommandRemoveWithFile() throws Exception {
+    void commandRemoveWithFile() throws Exception {
         File workingDirectory = createTempDirectory();
 
         File toBeRemoved = new File(workingDirectory.getAbsolutePath() + File.separator + "toto.xml");
@@ -48,7 +48,7 @@ public class GitRemoveCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandRemoveWithDirectory() throws Exception {
+    void commandRemoveWithDirectory() throws Exception {
         File workingDirectory = createTempDirectory();
 
         File toBeRemoved = new File(workingDirectory.getAbsolutePath() + File.separator + "toto");
@@ -62,7 +62,7 @@ public class GitRemoveCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandRemoveWithTwoDirectory() throws Exception {
+    void commandRemoveWithTwoDirectory() throws Exception {
         File workingDirectory = createTempDirectory();
 
         File toBeRemoved1 = new File(workingDirectory.getAbsolutePath() + File.separator + "toto");

@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -64,10 +65,10 @@ class ChangeSetTest {
      * Test of addFile methods: using ChangeFile
      */
     @Test
-    void testAddFileWithFile() {
+    void addFileWithFile() {
         ChangeFile file = new ChangeFile("maven:dummy");
         instance.addFile(file);
-        assertTrue(instance.toString().indexOf("maven:dummy") != -1, "File name not found in list");
+        assertNotSame(-1, instance.toString().indexOf("maven:dummy"), "File name not found in list");
 
         assertTrue(instance.containsFilename("maven:"));
         assertTrue(instance.containsFilename(":dummy"));
@@ -80,19 +81,19 @@ class ChangeSetTest {
      * Test of toString method
      */
     @Test
-    void testToString() {
+    void checkToString() {
         // dion, Mon Apr 01 00:00:00 EST 2002, comment
         String value = instance.toString();
-        assertTrue(value.indexOf("dion") != -1, "author not found in string");
-        assertTrue(value.indexOf("comment") != -1, "comment not found in string");
-        assertTrue(value.indexOf("Mon Apr 01") != -1, "date not found in string");
+        assertNotSame(-1, value.indexOf("dion"), "author not found in string");
+        assertNotSame(-1, value.indexOf("comment"), "comment not found in string");
+        assertNotSame(-1, value.indexOf("Mon Apr 01"), "date not found in string");
     }
 
     /**
      * Test of getAuthor method
      */
     @Test
-    void testGetAuthor() {
+    void getAuthor() {
         assertEquals("dion", instance.getAuthor(), "Author value not retrieved correctly");
     }
 
@@ -100,7 +101,7 @@ class ChangeSetTest {
      * Test of setAuthor method
      */
     @Test
-    void testSetAuthor() {
+    void setAuthor() {
         instance.setAuthor("maven:dion");
         assertEquals("maven:dion", instance.getAuthor(), "Author not set correctly");
     }
@@ -109,7 +110,7 @@ class ChangeSetTest {
      * Test of getComment method
      */
     @Test
-    void testGetComment() {
+    void getComment() {
         assertEquals("comment", instance.getComment(), "Comment value not retrieved correctly");
     }
 
@@ -117,7 +118,7 @@ class ChangeSetTest {
      * Test of setComment method
      */
     @Test
-    void testSetComment() {
+    void setComment() {
         instance.setComment("maven:comment");
         assertEquals("maven:comment", instance.getComment(), "Comment not set correctly");
     }
@@ -126,7 +127,7 @@ class ChangeSetTest {
      * Test of getDate method
      */
     @Test
-    void testGetDate() {
+    void getDate() {
         assertEquals(getDate(2002, 3, 1), instance.getDate(), "Date value not retrieved correctly");
     }
 
@@ -134,7 +135,7 @@ class ChangeSetTest {
      * Test of setDate method with Date object
      */
     @Test
-    void testSetDate() {
+    void setDate() {
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
         instance.setDate(date);
@@ -145,7 +146,7 @@ class ChangeSetTest {
      * Test of setDate method with String
      */
     @Test
-    void testSetDateFromString() {
+    void setDateFromString() {
         instance.setDate("2002/03/04 00:00:00");
         assertEquals(getDate(2002, 2, 4), instance.getDate(), "Date value not set correctly from a string");
     }
@@ -154,7 +155,7 @@ class ChangeSetTest {
      * Test of getDateFormatted method
      */
     @Test
-    void testGetDateFormatted() {
+    void getDateFormatted() {
         assertEquals("2002-04-01", instance.getDateFormatted(), "Date not formatted correctly");
     }
 
@@ -162,7 +163,7 @@ class ChangeSetTest {
      * Test of getDateFormatted method
      */
     @Test
-    void testGetTimeFormatted() {
+    void getTimeFormatted() {
         assertEquals("00:00:00", instance.getTimeFormatted(), "Time not formatted correctly");
     }
 
@@ -176,7 +177,7 @@ class ChangeSetTest {
     }
 
     @Test
-    void testEscapeValue() {
+    void escapeValue() {
         assertEquals("", ChangeSet.escapeValue(""));
         assertEquals("&apos;", ChangeSet.escapeValue("'"));
         assertEquals("a", ChangeSet.escapeValue("a"));
@@ -188,7 +189,7 @@ class ChangeSetTest {
     }
 
     @Test
-    void testEquals() {
+    void checkEquals() {
         ChangeSet instance2 = createInstance();
         assertEquals(instance, instance2);
 
@@ -200,7 +201,7 @@ class ChangeSetTest {
     }
 
     @Test
-    void testHashCode() {
+    void checkHashCode() {
         int hashCode1 = instance.hashCode();
         instance.setAuthor("anotherAuthor");
 
@@ -210,27 +211,27 @@ class ChangeSetTest {
     }
 
     @Test
-    void testToXml() {
+    void toXml() {
         String sXml = instance.toXML();
         assertNotNull(sXml);
 
-        assertTrue(sXml.indexOf("<changelog-entry>") > -1);
-        assertTrue(sXml.indexOf("</changelog-entry>") > -1);
+        assertTrue(sXml.contains("<changelog-entry>"));
+        assertTrue(sXml.contains("</changelog-entry>"));
     }
 
     @Test
-    void testToXmlWithFiles() {
+    void toXmlWithFiles() {
         instance.addFile(new ChangeFile("maven1:dummy"));
         instance.addFile(new ChangeFile("maven2:dummy2"));
 
         String sXml = instance.toXML();
         assertNotNull(sXml);
 
-        assertTrue(sXml.indexOf("<changelog-entry>") > -1);
-        assertTrue(sXml.indexOf("</changelog-entry>") > -1);
+        assertTrue(sXml.contains("<changelog-entry>"));
+        assertTrue(sXml.contains("</changelog-entry>"));
 
-        assertTrue(sXml.indexOf("<file>") > -1);
-        assertTrue(sXml.indexOf("<name>maven1:dummy</name>") > -1);
-        assertTrue(sXml.indexOf("<name>maven2:dummy2</name>") > -1);
+        assertTrue(sXml.contains("<file>"));
+        assertTrue(sXml.contains("<name>maven1:dummy</name>"));
+        assertTrue(sXml.contains("<name>maven2:dummy2</name>"));
     }
 }

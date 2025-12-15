@@ -27,11 +27,11 @@ import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This test tests the list command.
@@ -40,32 +40,32 @@ import static org.junit.Assert.assertTrue;
  */
 public abstract class ListCommandTckTest extends ScmTckTestCase {
     @Test
-    public void testListCommandTest() throws Exception {
+    public void listCommandTest() throws Exception {
         ScmFileSet fileSet = new ScmFileSet(new File("."), new File("."));
 
         List<ScmFile> files = runList(fileSet, false);
 
-        assertEquals("The result of the list command doesn't have all the files in SCM: " + files, 3, files.size());
+        assertEquals(3, files.size(), "The result of the list command doesn't have all the files in SCM: " + files);
     }
 
     @Test
-    public void testListCommandRecursiveTest() throws Exception {
+    public void listCommandRecursiveTest() throws Exception {
         ScmFileSet fileSet = new ScmFileSet(new File("."), new File("."));
 
         List<ScmFile> files = runList(fileSet, true);
 
-        assertEquals("The result of the list command doesn't have all the files in SCM: " + files, 10, files.size());
+        assertEquals(10, files.size(), "The result of the list command doesn't have all the files in SCM: " + files);
     }
 
     @Test
-    public void testListCommandUnexistantFileTest() throws Exception {
+    public void listCommandUnexistantFileTest() throws Exception {
         ScmFileSet fileSet = new ScmFileSet(new File("."), new File("/void"));
 
         ScmProvider provider = getScmManager().getProviderByUrl(getScmUrl());
 
         ListScmResult result = provider.list(getScmRepository(), fileSet, false, (ScmVersion) null);
 
-        assertFalse("Found file when shouldn't", result.isSuccess());
+        assertFalse(result.isSuccess(), "Found file when shouldn't");
     }
 
     private List<ScmFile> runList(ScmFileSet fileSet, boolean recursive) throws Exception {
@@ -74,9 +74,9 @@ public abstract class ListCommandTckTest extends ScmTckTestCase {
         ListScmResult result = provider.list(getScmRepository(), fileSet, recursive, (ScmVersion) null);
 
         assertTrue(
+                result.isSuccess(),
                 "SCM command failed: " + result.getCommandLine() + " : " + result.getProviderMessage()
-                        + (result.getCommandOutput() == null ? "" : ": " + result.getCommandOutput()),
-                result.isSuccess());
+                        + (result.getCommandOutput() == null ? "" : ": " + result.getCommandOutput()));
 
         return result.getFiles();
     }

@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class FilenameUtilsTest {
 
     @Test
-    void testNormalize() {
+    void normalize() {
         assertNull(FilenameUtils.normalizeFilename((String) null));
         assertEquals("", FilenameUtils.normalizeFilename(""));
 

@@ -27,14 +27,16 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class SvnCheckOutCommandTest extends ScmTestCase {
+class SvnCheckOutCommandTest extends ScmTestCase {
     private File workingDirectory;
 
     private boolean recursive;
@@ -43,7 +45,7 @@ public class SvnCheckOutCommandTest extends ScmTestCase {
     //
     // ----------------------------------------------------------------------
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -60,8 +62,8 @@ public class SvnCheckOutCommandTest extends ScmTestCase {
     // ----------------------------------------------------------------------
 
     @Test
-    public void testCommandLineWithoutRevision() throws Exception {
-        testCommandLine(
+    void commandLineWithoutRevision() throws Exception {
+        checkCommandLine(
                 getScmManager(),
                 "scm:svn:http://foo.com/svn/trunk",
                 null,
@@ -69,8 +71,8 @@ public class SvnCheckOutCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithEmptyRevision() throws Exception {
-        testCommandLine(
+    void commandLineWithEmptyRevision() throws Exception {
+        checkCommandLine(
                 getScmManager(),
                 "scm:svn:http://foo.com/svn/trunk",
                 "",
@@ -78,8 +80,8 @@ public class SvnCheckOutCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithRevision() throws Exception {
-        testCommandLine(
+    void commandLineWithRevision() throws Exception {
+        checkCommandLine(
                 getScmManager(),
                 "scm:svn:http://foo.com/svn/trunk",
                 "10",
@@ -87,9 +89,9 @@ public class SvnCheckOutCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testRecursiveCheckOutCommandLine() throws Exception {
+    void recursiveCheckOutCommandLine() throws Exception {
         recursive = false;
-        testCommandLine(
+        checkCommandLine(
                 getScmManager(),
                 "scm:svn:http://foo.com/svn/trunk",
                 "10",
@@ -101,7 +103,7 @@ public class SvnCheckOutCommandTest extends ScmTestCase {
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine(ScmManager scmManager, String scmUrl, String revision, String commandLine)
+    private void checkCommandLine(ScmManager scmManager, String scmUrl, String revision, String commandLine)
             throws Exception {
         ScmRepository repository = scmManager.makeScmRepository(scmUrl);
 

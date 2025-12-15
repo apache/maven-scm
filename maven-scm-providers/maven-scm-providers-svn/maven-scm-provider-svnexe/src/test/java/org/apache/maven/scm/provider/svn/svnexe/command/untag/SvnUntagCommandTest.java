@@ -25,13 +25,15 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
 
 /**
  * test the subversion untag implementation
  *
  */
-public class SvnUntagCommandTest extends ScmTestCase {
+class SvnUntagCommandTest extends ScmTestCase {
 
     /**
      * test with http repo and user
@@ -39,12 +41,12 @@ public class SvnUntagCommandTest extends ScmTestCase {
      * @throws Exception in case of error
      */
     @Test
-    public void testUntagHttp() throws Exception {
+    void untagHttp() throws Exception {
 
         File messageFile = File.createTempFile("maven-scm", "untag");
         messageFile.deleteOnExit();
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/tags",
                 new ScmFileSet(getUntagTestFile()),
                 "svntag",
@@ -60,12 +62,12 @@ public class SvnUntagCommandTest extends ScmTestCase {
      * @throws Exception in case of error
      */
     @Test
-    public void testUntagSsh() throws Exception {
+    void untagSsh() throws Exception {
 
         File messageFile = File.createTempFile("maven-scm", "untag");
         messageFile.deleteOnExit();
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:svn+ssh://foo.com/svn/tags",
                 new ScmFileSet(getUntagTestFile()),
                 "svntag",
@@ -108,7 +110,7 @@ public class SvnUntagCommandTest extends ScmTestCase {
      * @param commandline set command line to compare actual to
      * @throws Exception  in case of error
      */
-    private void testCommandLine(
+    private void checkCommandLine(
             String scmUrl, ScmFileSet scmFileSet, String tag, String user, File messageFile, String commandline)
             throws Exception {
         SvnScmProviderRepository repo = getSvnRepository(scmUrl);

@@ -26,9 +26,9 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.branch.BranchCommandTckTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -51,7 +51,7 @@ public abstract class GitBranchCommandTckTest extends BranchCommandTckTest {
     }
 
     @Test
-    public void testPushBranchRejected() throws Exception {
+    public void pushBranchRejected() throws Exception {
         String branch = getBranch();
 
         GitScmTestUtils.setupRejectAllCommitsPrePushHook(getWorkingCopy());
@@ -60,6 +60,6 @@ public abstract class GitBranchCommandTckTest extends BranchCommandTckTest {
                 .getProviderByUrl(getScmUrl())
                 .branch(getScmRepository(), new ScmFileSet(getWorkingCopy()), branch);
 
-        assertFalse("Branch should not have been pushed", branchResult.isSuccess());
+        assertFalse(branchResult.isSuccess(), "Branch should not have been pushed");
     }
 }

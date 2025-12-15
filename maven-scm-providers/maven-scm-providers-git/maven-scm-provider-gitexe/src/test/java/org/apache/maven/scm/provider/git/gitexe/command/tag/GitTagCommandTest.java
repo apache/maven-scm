@@ -25,18 +25,20 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitTagCommandTest extends ScmTestCase {
+class GitTagCommandTest extends ScmTestCase {
     private File messageFile;
 
     private String messageFileString;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -51,8 +53,8 @@ public class GitTagCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineTag() throws Exception {
-        testCommandLine(
+    void commandLineTag() throws Exception {
+        checkCommandLine(
                 "scm:git:http://foo.com/git/trunk",
                 "my-tag-1",
                 "git tag " + messageFileString + " my-tag-1",
@@ -60,8 +62,8 @@ public class GitTagCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithUsernameAndTag() throws Exception {
-        testCommandLine(
+    void commandLineWithUsernameAndTag() throws Exception {
+        checkCommandLine(
                 "scm:git:http://anonymous@foo.com/git/trunk",
                 "my-tag-1",
                 "git tag " + messageFileString + " my-tag-1",
@@ -69,8 +71,8 @@ public class GitTagCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithUsernameAndTagForceNoSign() throws Exception {
-        testCommandLine(
+    void commandLineWithUsernameAndTagForceNoSign() throws Exception {
+        checkCommandLine(
                 "scm:git:http://anonymous@foo.com/git/trunk",
                 "my-tag-1",
                 "git tag --no-sign " + messageFileString + " my-tag-1",
@@ -78,8 +80,8 @@ public class GitTagCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithUsernameAndTagAndSign() throws Exception {
-        testCommandLine(
+    void commandLineWithUsernameAndTagAndSign() throws Exception {
+        checkCommandLine(
                 "scm:git:http://anonymous@foo.com/git/trunk",
                 "my-tag-1",
                 "git tag -s " + messageFileString + " my-tag-1",
@@ -90,7 +92,7 @@ public class GitTagCommandTest extends ScmTestCase {
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine(String scmUrl, String tag, String commandLine, SignOption signOption)
+    private void checkCommandLine(String scmUrl, String tag, String commandLine, SignOption signOption)
             throws Exception {
         File workingDirectory = getTestFile("target/git-checkin-command-test");
 

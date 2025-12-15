@@ -24,15 +24,17 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SvnExportCommandTest extends ScmTestCase {
+import static org.codehaus.plexus.testing.PlexusExtension.getBasedir;
+
+class SvnExportCommandTest extends ScmTestCase {
 
     @Test
-    public void testGetExportCommandLineWithImplicitExportDirectory() throws Exception {
+    void getExportCommandLineWithImplicitExportDirectory() throws Exception {
         File exportDirectory = new File(getBasedir());
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 exportDirectory,
                 null,
@@ -40,17 +42,17 @@ public class SvnExportCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testGetExportCommandLineWithExplicitExportDirectory() throws Exception {
+    void getExportCommandLineWithExplicitExportDirectory() throws Exception {
         File exportDirectory = new File(getBasedir());
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 exportDirectory,
                 exportDirectory,
                 "svn --non-interactive export --force http://foo.com/svn/trunk@ " + exportDirectory + "@");
     }
 
-    private void testCommandLine(String scmUrl, File workingDirectory, File exportDirectory, String commandLine)
+    private void checkCommandLine(String scmUrl, File workingDirectory, File exportDirectory, String commandLine)
             throws Exception {
         ScmRepository repository = getScmManager().makeScmRepository(scmUrl);
 

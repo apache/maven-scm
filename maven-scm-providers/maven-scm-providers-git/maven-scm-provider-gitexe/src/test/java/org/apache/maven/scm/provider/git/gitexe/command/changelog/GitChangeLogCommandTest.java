@@ -29,17 +29,19 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class GitChangeLogCommandTest extends ScmTestCase {
+class GitChangeLogCommandTest extends ScmTestCase {
     private File workingDirectory;
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -48,8 +50,8 @@ public class GitChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineNoDates() throws Exception {
-        testCommandLine(
+    void commandLineNoDates() throws Exception {
+        checkCommandLine(
                 "scm:git:http://foo.com/git",
                 null,
                 (Date) null,
@@ -59,8 +61,8 @@ public class GitChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineNoDatesLimitedCount() throws Exception {
-        testCommandLine(
+    void commandLineNoDatesLimitedCount() throws Exception {
+        checkCommandLine(
                 "scm:git:http://foo.com/git",
                 null,
                 (Date) null,
@@ -69,11 +71,11 @@ public class GitChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithDates() throws Exception {
+    void commandLineWithDates() throws Exception {
         Date startDate = getDate(2003, Calendar.SEPTEMBER, 10, GMT_TIME_ZONE);
         Date endDate = getDate(2007, Calendar.OCTOBER, 10, GMT_TIME_ZONE);
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:git:http://foo.com/git",
                 null,
                 startDate,
@@ -82,10 +84,10 @@ public class GitChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineStartDateOnly() throws Exception {
+    void commandLineStartDateOnly() throws Exception {
         Date startDate = getDate(2003, Calendar.SEPTEMBER, 10, 1, 1, 1, GMT_TIME_ZONE);
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:git:http://foo.com/git",
                 null,
                 startDate,
@@ -94,11 +96,11 @@ public class GitChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineDateFormat() throws Exception {
+    void commandLineDateFormat() throws Exception {
         Date startDate = getDate(2003, Calendar.SEPTEMBER, 10, 1, 1, 1, GMT_TIME_ZONE);
         Date endDate = getDate(2005, Calendar.NOVEMBER, 13, 23, 23, 23, GMT_TIME_ZONE);
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:git:http://foo.com/git",
                 null,
                 startDate,
@@ -107,11 +109,11 @@ public class GitChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineDateVersionRanges() throws Exception {
+    void commandLineDateVersionRanges() throws Exception {
         Date startDate = getDate(2003, Calendar.SEPTEMBER, 10, 1, 1, 1, GMT_TIME_ZONE);
         Date endDate = getDate(2005, Calendar.NOVEMBER, 13, 23, 23, 23, GMT_TIME_ZONE);
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:git:http://foo.com/git",
                 null,
                 startDate,
@@ -122,11 +124,11 @@ public class GitChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineEndDateOnly() throws Exception {
+    void commandLineEndDateOnly() throws Exception {
         Date endDate = getDate(2003, Calendar.NOVEMBER, 10, GMT_TIME_ZONE);
 
         // Only specifying end date should print no dates at all
-        testCommandLine(
+        checkCommandLine(
                 "scm:git:http://foo.com/git",
                 null,
                 null,
@@ -135,8 +137,8 @@ public class GitChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithBranchNoDates() throws Exception {
-        testCommandLine(
+    void commandLineWithBranchNoDates() throws Exception {
+        checkCommandLine(
                 "scm:git:http://foo.com/git",
                 new ScmBranch("my-test-branch"),
                 (Date) null,
@@ -145,8 +147,8 @@ public class GitChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithStartVersion() throws Exception {
-        testCommandLine(
+    void commandLineWithStartVersion() throws Exception {
+        checkCommandLine(
                 "scm:git:http://foo.com/git",
                 null,
                 new ScmRevision("1"),
@@ -155,8 +157,8 @@ public class GitChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithStartVersionAndEndVersion() throws Exception {
-        testCommandLine(
+    void commandLineWithStartVersionAndEndVersion() throws Exception {
+        checkCommandLine(
                 "scm:git:http://foo.com/git",
                 null,
                 new ScmRevision("1"),
@@ -165,8 +167,8 @@ public class GitChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithStartVersionAndEndVersionEquals() throws Exception {
-        testCommandLine(
+    void commandLineWithStartVersionAndEndVersionEquals() throws Exception {
+        checkCommandLine(
                 "scm:git:http://foo.com/git",
                 null,
                 new ScmRevision("1"),
@@ -175,8 +177,8 @@ public class GitChangeLogCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithStartVersionAndEndVersionAndBranch() throws Exception {
-        testCommandLine(
+    void commandLineWithStartVersionAndEndVersionAndBranch() throws Exception {
+        checkCommandLine(
                 "scm:git:http://foo.com/git",
                 new ScmBranch("my-test-branch"),
                 new ScmRevision("1"),
@@ -188,12 +190,12 @@ public class GitChangeLogCommandTest extends ScmTestCase {
     // private helper functions
     // ----------------------------------------------------------------------
 
-    private void testCommandLine(String scmUrl, ScmBranch branch, Date startDate, Date endDate, String commandLine)
+    private void checkCommandLine(String scmUrl, ScmBranch branch, Date startDate, Date endDate, String commandLine)
             throws Exception {
-        testCommandLine(scmUrl, branch, startDate, endDate, null, commandLine);
+        checkCommandLine(scmUrl, branch, startDate, endDate, null, commandLine);
     }
 
-    private void testCommandLine(
+    private void checkCommandLine(
             String scmUrl, ScmBranch branch, Date startDate, Date endDate, Integer limit, String commandLine)
             throws Exception {
         ScmRepository repository = getScmManager().makeScmRepository(scmUrl);
@@ -206,7 +208,7 @@ public class GitChangeLogCommandTest extends ScmTestCase {
         assertCommandLine(commandLine, workingDirectory, cl);
     }
 
-    private void testCommandLine(
+    private void checkCommandLine(
             String scmUrl, ScmBranch branch, ScmVersion startVersion, ScmVersion endVersion, String commandLine)
             throws Exception {
         ScmRepository repository = getScmManager().makeScmRepository(scmUrl);
@@ -219,7 +221,7 @@ public class GitChangeLogCommandTest extends ScmTestCase {
         assertCommandLine(commandLine, workingDirectory, cl);
     }
 
-    private void testCommandLine(
+    private void checkCommandLine(
             String scmUrl,
             ScmBranch branch,
             Date startDate,

@@ -25,9 +25,10 @@ import org.apache.maven.scm.provider.svn.command.tag.SvnTagCommandTckTest;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
+import static org.codehaus.plexus.testing.PlexusExtension.getTestFile;
 
 /**
  * This test tests the tag command.
@@ -42,11 +43,11 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
     }
 
     @Test
-    public void testTagUserNameSvnSsh() throws Exception {
+    void tagUserNameSvnSsh() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:svn+ssh://foo.com/svn/trunk",
                 "svntag",
                 messageFile,
@@ -57,14 +58,14 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
     }
 
     @Test
-    public void testTagRemoteTagHttps() throws Exception {
+    void tagRemoteTagHttps() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
         ScmTagParameters scmTagParameters = new ScmTagParameters();
         scmTagParameters.setRemoteTagging(true);
         scmTagParameters.setPinExternals(false);
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:https://foo.com/svn/trunk",
                 "svntag",
                 messageFile,
@@ -75,14 +76,14 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
     }
 
     @Test
-    public void testTagRemoteTagHttpsWithPinExternals() throws Exception {
+    void tagRemoteTagHttpsWithPinExternals() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
         ScmTagParameters scmTagParameters = new ScmTagParameters();
         scmTagParameters.setRemoteTagging(true);
         scmTagParameters.setPinExternals(true);
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:https://foo.com/svn/trunk",
                 "svntag",
                 messageFile,
@@ -93,7 +94,7 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
     }
 
     @Test
-    public void testTagRemoteTagHttpsWithRevision() throws Exception {
+    void tagRemoteTagHttpsWithRevision() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -101,7 +102,7 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
         scmTagParameters.setRemoteTagging(true);
         scmTagParameters.setPinExternals(false);
         scmTagParameters.setScmRevision("12");
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:https://foo.com/svn/trunk",
                 "svntag",
                 messageFile,
@@ -112,7 +113,7 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
     }
 
     @Test
-    public void testTagRemoteTagHttpsWithRevisionAndPinExternals() throws Exception {
+    void tagRemoteTagHttpsWithRevisionAndPinExternals() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -120,7 +121,7 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
         scmTagParameters.setRemoteTagging(true);
         scmTagParameters.setPinExternals(true);
         scmTagParameters.setScmRevision("12");
-        testCommandLine(
+        checkCommandLine(
                 "scm:svn:https://foo.com/svn/trunk",
                 "svntag",
                 messageFile,
@@ -130,7 +131,7 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
                 scmTagParameters);
     }
 
-    private void testCommandLine(
+    private void checkCommandLine(
             String scmUrl,
             String tag,
             File messageFile,

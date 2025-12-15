@@ -30,12 +30,12 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Evgeny Mandrikov
@@ -44,7 +44,7 @@ public abstract class BlameCommandTckTest extends ScmTckTestCase {
     private static final String COMMIT_MSG = "Second changelog";
 
     @Test
-    public void testBlameCommand() throws Exception {
+    public void blameCommand() throws Exception {
         ScmRepository repository = getScmRepository();
         ScmManager manager = getScmManager();
         ScmProvider provider = manager.getProviderByRepository(getScmRepository());
@@ -58,9 +58,9 @@ public abstract class BlameCommandTckTest extends ScmTckTestCase {
         blameScmRequest.setFilename("readme.txt");
         // result = manager.blame( repository, fileSet, "readme.txt" );
         result = manager.blame(blameScmRequest);
-        assertNotNull("The command returned a null result.", result);
+        assertNotNull(result, "The command returned a null result.");
         assertResultIsSuccess(result);
-        assertEquals("Expected 1 line in blame", 1, result.getLines().size());
+        assertEquals(1, result.getLines().size(), "Expected 1 line in blame");
         line = result.getLines().get(0);
         String initialRevision = line.getRevision();
 
@@ -72,7 +72,7 @@ public abstract class BlameCommandTckTest extends ScmTckTestCase {
         this.edit(getWorkingCopy(), "readme.txt", null, getScmRepository());
         ScmTestCase.makeFile(getWorkingCopy(), "/readme.txt", "changed readme.txt");
         CheckInScmResult checkInResult = provider.checkIn(getScmRepository(), fileSet, COMMIT_MSG);
-        assertTrue("Unable to checkin changes to the repository", checkInResult.isSuccess());
+        assertTrue(checkInResult.isSuccess(), "Unable to checkin changes to the repository");
 
         result = manager.blame(repository, fileSet, "readme.txt");
 
@@ -80,17 +80,17 @@ public abstract class BlameCommandTckTest extends ScmTckTestCase {
         Thread.sleep(2000);
         Date timeAfterSecond = new Date(); // Current time
 
-        assertNotNull("The command returned a null result.", result);
+        assertNotNull(result, "The command returned a null result.");
         assertResultIsSuccess(result);
 
-        assertEquals("Expected 1 line in blame", 1, result.getLines().size());
+        assertEquals(1, result.getLines().size(), "Expected 1 line in blame");
         line = result.getLines().get(0);
 
-        assertNotNull("Expected not null author", line.getAuthor());
-        assertNotNull("Expected not null revision", line.getRevision());
-        assertNotNull("Expected not null date", line.getDate());
+        assertNotNull(line.getAuthor(), "Expected not null author");
+        assertNotNull(line.getRevision(), "Expected not null revision");
+        assertNotNull(line.getDate(), "Expected not null date");
 
-        assertNotEquals("Expected another revision", initialRevision, line.getRevision());
+        assertNotEquals(initialRevision, line.getRevision(), "Expected another revision");
         if (isTestDateTime()) {
             assertDateBetween(timeBeforeSecond, timeAfterSecond, line.getDate());
         }
@@ -98,7 +98,7 @@ public abstract class BlameCommandTckTest extends ScmTckTestCase {
         // === pom.xml ===
         result = manager.blame(repository, fileSet, "pom.xml");
 
-        assertNotNull("The command returned a null result.", result);
+        assertNotNull(result, "The command returned a null result.");
 
         assertResultIsSuccess(result);
 
@@ -111,8 +111,8 @@ public abstract class BlameCommandTckTest extends ScmTckTestCase {
 
     protected void assertDateBetween(Date start, Date end, Date actual) {
         assertTrue(
-                "Expected date between " + start + " and " + end + ", but was " + actual,
-                start.before(actual) && actual.before(end));
+                start.before(actual) && actual.before(end),
+                "Expected date between " + start + " and " + end + ", but was " + actual);
     }
 
     protected abstract void verifyResult(BlameScmResult result);

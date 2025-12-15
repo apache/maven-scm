@@ -23,7 +23,7 @@ import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * This test tests the remote info command.
@@ -41,7 +41,7 @@ public abstract class AbstractRemoteInfoCommandTckTest extends ScmTckTestCase {
     protected abstract ScmProviderRepository getScmProviderRepository() throws Exception;
 
     @Test
-    public void testRemoteInfoCommand() throws Exception {
+    public void remoteInfoCommand() throws Exception {
         ScmProvider provider = getScmManager().getProviderByRepository(getScmRepository());
         RemoteInfoScmResult result =
                 provider.remoteInfo(getScmProviderRepository(), new ScmFileSet(getWorkingCopy()), null);
