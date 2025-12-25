@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.maven.scm.providers.gitlib.settings.Settings;
 import org.apache.maven.scm.providers.gitlib.settings.io.xpp3.GitXpp3Reader;
 import org.codehaus.plexus.util.ReaderFactory;
@@ -44,7 +44,7 @@ public class GitUtil {
      */
     public static final String PASSWORD_PLACE_HOLDER_WITH_DELIMITERS = ":********@";
 
-    private static final Pattern PASSWORD_IN_URL_PATTERN = Pattern.compile("^.*(:[^/].*@).*$");
+    private static final Pattern PASSWORD_IN_URL_PATTERN = Pattern.compile("^.*(:[^@/]+@).*$");
 
     private static File settingsDirectory = DEFAULT_SETTINGS_DIRECTORY;
 
@@ -104,7 +104,7 @@ public class GitUtil {
             // clear password with delimiters
             final String clearPasswordWithDelimiters = passwordMatcher.group(1);
             // to be replaced in output by stars with delimiters
-            output = StringUtils.replace(output, clearPasswordWithDelimiters, PASSWORD_PLACE_HOLDER_WITH_DELIMITERS);
+            output = Strings.CS.replace(output, clearPasswordWithDelimiters, PASSWORD_PLACE_HOLDER_WITH_DELIMITERS);
         }
         return output;
     }
