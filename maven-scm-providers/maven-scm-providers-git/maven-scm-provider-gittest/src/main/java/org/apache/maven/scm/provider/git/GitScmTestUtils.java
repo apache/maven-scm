@@ -99,11 +99,18 @@ public final class GitScmTestUtils {
             fw.append("[user]\n");
             fw.append("\tname = John Doe\n");
             fw.append("\temail = john.doe@nowhere.com\n");
+
             fw.append("[commit]\n");
             // disable gpg signing for commits and tags by default
             fw.append("\tgpgsign = false\n");
+
             fw.append("[tag]\n");
             fw.append("\tgpgsign = false\n");
+
+            // disable automatic garbage collection to avoid locking issues during tests
+            fw.append("[gc]\n");
+            fw.append("\tauto = 0\n");
+
             if (configWriterCustomizer != null) {
                 configWriterCustomizer.accept(fw);
             }
