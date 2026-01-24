@@ -148,7 +148,7 @@
   <scm>
     <connection>scm:git:https://gitbox.apache.org/repos/asf/maven-scm.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/maven-scm.git</developerConnection>
-    <tag>maven-scm-2.2.1</tag>
+    <tag>HEAD</tag>
     <url>https://github.com/apache/maven-scm/tree/${project.scm.tag}</url>
   </scm>
 
@@ -173,10 +173,8 @@
     <slf4jVersion>1.7.36</slf4jVersion>
     <version.plexus-utils>3.6.0</version.plexus-utils>
     <maven.site.path>scm-archives/scm-LATEST</maven.site.path>
-    <checkstyle.violation.ignore>RedundantThrows,NewlineAtEndOfFile,ParameterNumber,MethodLength,FileLength,InnerAssignment,MagicNumber</checkstyle.violation.ignore>
-    <checkstyle.failOnViolation>true</checkstyle.failOnViolation>
+    <checkstyle.violation.ignore>ParameterNumber,InnerAssignment</checkstyle.violation.ignore>
     <project.build.outputTimestamp>2025-09-19T15:43:30Z</project.build.outputTimestamp>
-    <version.maven-invoker-plugin>3.9.1</version.maven-invoker-plugin>
   </properties>
 
   <dependencyManagement>
@@ -308,19 +306,6 @@
     </dependencies>
   </dependencyManagement>
 
-  <repositories>
-    <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <id>apache.snapshots</id>
-      <url>https://repository.apache.org/content/groups/snapshots-group/</url>
-    </repository>
-  </repositories>
-
   <build>
     <pluginManagement>
       <plugins>
@@ -433,12 +418,6 @@
                   <packages>org.apache.maven.scm.provider.svn*:org.apache.maven.scm.providers.svn*</packages>
                 </group>
               </groups>
-              <tags>
-                <tag>
-                  <name>plexus.component</name>
-                  <placement>X</placement>
-                </tag>
-              </tags>
             </configuration>
             <reportSets>
               <reportSet>
