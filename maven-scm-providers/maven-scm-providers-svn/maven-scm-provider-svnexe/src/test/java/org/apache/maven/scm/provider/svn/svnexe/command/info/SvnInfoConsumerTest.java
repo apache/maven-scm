@@ -21,14 +21,14 @@ package org.apache.maven.scm.provider.svn.svnexe.command.info;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SvnInfoConsumerTest {
 
     @Test
-    public void testParseDate() {
+    void testParseDate() {
         TemporalAccessor date = SvnInfoConsumer.parseDate("2024-01-19 16:33:05 +0100 (Fr, 19 Jan 2024");
         assertEquals(2024, date.get(ChronoField.YEAR));
     }

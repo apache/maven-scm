@@ -34,14 +34,14 @@ import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -52,10 +52,8 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
 
     SvnChangeLogConsumer consumer;
 
-    @Before
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
+    @BeforeEach
+    void setUp() throws Exception {
         consumer = new SvnChangeLogConsumer(null);
     }
 
@@ -63,10 +61,8 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
      * Initial modifications should be empty.
      */
     @Test
-    public void testGetModificationsInitial() {
-        assertTrue(
-                "Initial modifications should be empty",
-                consumer.getModifications().isEmpty());
+    void testGetModificationsInitial() {
+        assertTrue(consumer.getModifications().isEmpty(), "Initial modifications should be empty");
     }
 
     /**
@@ -75,7 +71,7 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
      * @throws Exception if any problem occurs.
      */
     @Test
-    public void testConsumeLineValidOutput() throws Exception {
+    void testConsumeLineValidOutput() throws Exception {
         final File svnLog = getTestFile("/src/test/resources/svn/changelog/svnLogValidOutput.txt");
 
         consumeLog(svnLog);
@@ -85,12 +81,12 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
         final List<ChangeFile> changedFiles = entry.getFiles();
         final String revision = changedFiles.get(0).getRevision();
 
-        assertEquals("Valid revision expected", "15", revision);
-        assertEquals("Valid num changed files expected", 2, changedFiles.size());
-        assertEquals("Valid name expected", "unconventional author output (somedata)", entry.getAuthor());
+        assertEquals("15", revision, "Valid revision expected");
+        assertEquals(2, changedFiles.size(), "Valid num changed files expected");
+        assertEquals("unconventional author output (somedata)", entry.getAuthor(), "Valid name expected");
         String expectedDate = getLocalizedDate("2002-08-26 14:33:26", TimeZone.getTimeZone("GMT-4"));
-        assertEquals("Valid date expected", expectedDate, entry.getDateFormatted());
-        assertEquals("Valid comment expected", "Minor formatting changes.\n", entry.getComment());
+        assertEquals(expectedDate, entry.getDateFormatted(), "Valid date expected");
+        assertEquals("Minor formatting changes.\n", entry.getComment(), "Valid comment expected");
     }
 
     private static String getLocalizedDate(String date, TimeZone timeZone) throws Exception {
@@ -107,7 +103,7 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
      * @throws Exception
      */
     @Test
-    public void testConsumeLineInvalidReason() throws Exception {
+    void testConsumeLineInvalidReason() throws Exception {
         final File svnLog = getTestFile("/src/test/resources/svn/changelog/svnLogInvalidReason.txt");
 
         try {
@@ -124,7 +120,7 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
      * @throws Exception
      */
     @Test
-    public void testConsumeLineInvalidDate() throws Exception {
+    void testConsumeLineInvalidDate() throws Exception {
         final File svnLog = getTestFile("/src/test/resources/svn/changelog/svnLogInvalidDate.txt");
         try {
             consumeLog(svnLog);
@@ -145,7 +141,7 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerWithPattern1() throws Exception {
+    void testConsumerWithPattern1() throws Exception {
         StringBuilder out = new StringBuilder();
 
         File f = getTestFile("/src/test/resources/svn/changelog/svnlog.txt");
@@ -190,7 +186,7 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerWithPattern2() throws Exception {
+    void testConsumerWithPattern2() throws Exception {
         StringBuilder out = new StringBuilder();
 
         File f = getTestFile("/src/test/resources/svn/changelog/svnlog2.txt");
@@ -225,10 +221,10 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
                 out.append("File:" + fileName);
 
                 // files in this log are known to be from one subtree
-                assertTrue("Unexpected file name: " + fileName, fileName.startsWith("/maven/scm/trunk"));
+                assertTrue(fileName.startsWith("/maven/scm/trunk"), "Unexpected file name: " + fileName);
 
                 // files in this log are known not to contain space
-                assertEquals("Unexpected space found in filename: " + fileName, -1, fileName.indexOf(" "));
+                assertEquals(-1, fileName.indexOf(" "), "Unexpected space found in filename: " + fileName);
 
                 if (file.getOriginalName() != null) {
                     origFileCounter++;
@@ -238,12 +234,12 @@ public class SvnChangeLogConsumerTest extends ScmTestCase {
             out.append("==============================");
         }
 
-        assertEquals("Unexpected number of file copy records", 1, origFileCounter);
+        assertEquals(1, origFileCounter, "Unexpected number of file copy records");
 
         assertEquals(
-                "Action summary differs from expectations",
                 "{modified=626, deleted=56, added=310, copied=1}",
-                summary.toString());
+                summary.toString(),
+                "Action summary differs from expectations");
 
         if (logger.isDebugEnabled()) {
             logger.debug(out.toString());

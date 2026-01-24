@@ -35,7 +35,7 @@ import org.apache.maven.scm.provider.git.jgit.JGitTestScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.sshd.common.config.keys.PublicKeyEntry;
 import org.eclipse.jgit.util.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a> */
 public class JGitSshCheckOutCommandTckTest extends GitSshCheckOutCommandTckTest {
@@ -65,7 +65,7 @@ public class JGitSshCheckOutCommandTckTest extends GitSshCheckOutCommandTckTest 
     }
 
     @Test
-    public void testCheckOutCommandWithPregeneratedKeysTest() throws Exception {
+    void testCheckOutCommandWithPregeneratedKeysTest() throws Exception {
         // test key pairs being generated with ssh-keygen (they have a slighly different format than the ones tested
         // in testCheckOutCommandWithPassphraseTest and testCheckOutCommandTest)
         configureKeypairFromClasspathResource(getScmRepository(), "sample_rsa", "mySecret");

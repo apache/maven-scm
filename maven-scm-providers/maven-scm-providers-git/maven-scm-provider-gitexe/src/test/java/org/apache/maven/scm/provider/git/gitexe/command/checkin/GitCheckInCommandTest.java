@@ -39,12 +39,12 @@ import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNoException;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.abort;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -54,11 +54,8 @@ public class GitCheckInCommandTest extends ScmTestCase {
 
     private String messageFileString;
 
-    @Before
-    @Override
+    @BeforeEach
     public void setUp() throws Exception {
-        super.setUp();
-
         messageFile = new File("commit-message");
 
         String path = messageFile.getAbsolutePath();
@@ -69,7 +66,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithoutTag() throws Exception {
+    void testCommandLineWithoutTag() throws Exception {
         if (GitUtil.getSettings().isCommitNoVerify()) {
             testCommandLine(
                     "scm:git:http://foo.com/git/trunk",
@@ -80,7 +77,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithUsername() throws Exception {
+    void testCommandLineWithUsername() throws Exception {
         if (GitUtil.getSettings().isCommitNoVerify()) {
             testCommandLine(
                     "scm:git:http://anonymous@foo.com/git/trunk",
@@ -93,7 +90,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
 
     // Test reproducing SCM-694
     @Test
-    public void testCheckinAfterRename() throws Exception {
+    void testCheckinAfterRename() throws Exception {
         File repo = getRepositoryRoot();
         File checkedOutRepo = getWorkingCopy();
 
@@ -140,14 +137,12 @@ public class GitCheckInCommandTest extends ScmTestCase {
         checkInScmResult = getScmManager()
                 .checkIn(scmRepository, new ScmFileSet(checkedOutRepo), "moved wine.xml from foo/bar/ to foo/newbar/");
         assertResultIsSuccess(checkInScmResult);
-        assertTrue(
-                "Renamed file has not been commited!",
-                checkInScmResult.getCheckedInFiles().size() != 0);
+        assertTrue(checkInScmResult.getCheckedInFiles().size() != 0, "Renamed file has not been commited!");
     }
 
     // Test FileSet in configuration
     @Test
-    public void testCheckinWithFileSet() throws Exception {
+    void testCheckinWithFileSet() throws Exception {
         File repo = getRepositoryRoot();
         File checkedOutRepo = getWorkingCopy();
 
@@ -188,7 +183,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testSignedCheckin() throws Exception {
+    void testSignedCheckin() throws Exception {
         checkSystemCmdPresence(GIT_COMMAND_LINE);
         checkSystemCmdPresence(GpgTestUtils.BINARY_NAME);
 
@@ -216,7 +211,7 @@ public class GitCheckInCommandTest extends ScmTestCase {
         try {
             GpgTestUtils.importKey(GpgTestUtils.JOHN_DOE_SECRET_KEY_RESOURCE_NAME);
         } catch (Exception e) {
-            assumeNoException("GPG key import failed, skipping test: " + e.getMessage(), e);
+            abort("GPG key import failed, skipping test: " + e.getMessage());
         }
         try {
             // Creating beer.xml

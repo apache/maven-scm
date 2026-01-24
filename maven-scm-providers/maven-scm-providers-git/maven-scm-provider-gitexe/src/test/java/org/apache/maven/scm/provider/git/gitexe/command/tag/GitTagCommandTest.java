@@ -25,8 +25,8 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -36,11 +36,8 @@ public class GitTagCommandTest extends ScmTestCase {
 
     private String messageFileString;
 
-    @Before
-    @Override
+    @BeforeEach
     public void setUp() throws Exception {
-        super.setUp();
-
         messageFile = new File("commit-message");
 
         String path = messageFile.getAbsolutePath();
@@ -51,7 +48,7 @@ public class GitTagCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineTag() throws Exception {
+    void testCommandLineTag() throws Exception {
         testCommandLine(
                 "scm:git:http://foo.com/git/trunk",
                 "my-tag-1",
@@ -60,7 +57,7 @@ public class GitTagCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithUsernameAndTag() throws Exception {
+    void testCommandLineWithUsernameAndTag() throws Exception {
         testCommandLine(
                 "scm:git:http://anonymous@foo.com/git/trunk",
                 "my-tag-1",
@@ -69,7 +66,7 @@ public class GitTagCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithUsernameAndTagForceNoSign() throws Exception {
+    void testCommandLineWithUsernameAndTagForceNoSign() throws Exception {
         testCommandLine(
                 "scm:git:http://anonymous@foo.com/git/trunk",
                 "my-tag-1",
@@ -78,7 +75,7 @@ public class GitTagCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithUsernameAndTagAndSign() throws Exception {
+    void testCommandLineWithUsernameAndTagAndSign() throws Exception {
         testCommandLine(
                 "scm:git:http://anonymous@foo.com/git/trunk",
                 "my-tag-1",

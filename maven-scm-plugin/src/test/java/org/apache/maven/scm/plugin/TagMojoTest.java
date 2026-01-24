@@ -43,7 +43,7 @@ public class TagMojoTest {
     private File checkoutDir;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
 
         checkoutDir = getTestFile("target/checkout");
 

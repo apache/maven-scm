@@ -26,10 +26,10 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusConsumer;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -37,7 +37,7 @@ import static org.junit.Assert.assertNotNull;
 public class GitRemoveConsumerTest extends ScmTestCase {
 
     @Test
-    public void testConsumerRemovedFile() {
+    void testConsumerRemovedFile() {
         GitRemoveConsumer consumer = new GitRemoveConsumer();
 
         consumer.consumeLine("rm 'project.xml'");
@@ -50,7 +50,7 @@ public class GitRemoveConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumerRemovedFileInDifferentDir() {
+    void testConsumerRemovedFileInDifferentDir() {
         GitRemoveConsumer consumer = new GitRemoveConsumer(GitStatusConsumer.uriFromPath("main"));
 
         consumer.consumeLine("rm 'main/project.xml'");
@@ -63,7 +63,7 @@ public class GitRemoveConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testLog1Consumer() throws Exception {
+    void testLog1Consumer() throws Exception {
         GitRemoveConsumer consumer = new GitRemoveConsumer();
 
         File f = getTestFile("/src/test/resources/git/remove/gitrm.gitlog");
@@ -79,7 +79,7 @@ public class GitRemoveConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testEmptyLogConsumer() throws Exception {
+    void testEmptyLogConsumer() throws Exception {
         GitRemoveConsumer consumer = new GitRemoveConsumer();
 
         File f = getTestFile("/src/test/resources/git/remove/gitrm-empty.gitlog");

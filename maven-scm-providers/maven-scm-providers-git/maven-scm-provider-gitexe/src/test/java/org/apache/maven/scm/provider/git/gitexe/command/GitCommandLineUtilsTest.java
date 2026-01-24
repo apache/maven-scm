@@ -31,12 +31,12 @@ import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * @author mfriedenhagen
@@ -48,7 +48,7 @@ public class GitCommandLineUtilsTest {
      * systems.
      */
     @Test
-    public void testAddTargetNonWindows() {
+    void testAddTargetNonWindows() {
         assumeTrue(!runsOnWindows());
         final File workingDir = new File("/prj");
         final List<File> filesToAdd = Arrays.asList(new File("/prj/pom.xml"), new File("/prj/mod1/pom.xml"));
@@ -60,7 +60,7 @@ public class GitCommandLineUtilsTest {
      * Test of addTarget method, of class GitCommandLineUtils on Windows.
      */
     @Test
-    public void testAddTargetWindows() {
+    void testAddTargetWindows() {
         assumeTrue(runsOnWindows());
         final File workingDir = new File("C:\\prj");
         // Note that the second file has a lowercase drive letter, see
@@ -79,7 +79,7 @@ public class GitCommandLineUtilsTest {
     }
 
     @Test
-    public void testPasswordAnonymous() throws Exception {
+    void testPasswordAnonymous() throws Exception {
 
         String commandLine = "git push https://user:password@foo.com/git/trunk refs/tags/my-tag-1";
 
@@ -90,10 +90,10 @@ public class GitCommandLineUtilsTest {
         //
         for (int i = 0; i < commandLineArgs.length; i++) {
             assertFalse(
+                    commandLineArgs[i].contains(GitUtil.PASSWORD_PLACE_HOLDER_WITH_DELIMITERS),
                     MessageFormat.format(
                             "The target log message should not contain <{0}> but it contains <{1}>",
-                            GitUtil.PASSWORD_PLACE_HOLDER_WITH_DELIMITERS, commandLineArgs[i]),
-                    commandLineArgs[i].contains(GitUtil.PASSWORD_PLACE_HOLDER_WITH_DELIMITERS));
+                            GitUtil.PASSWORD_PLACE_HOLDER_WITH_DELIMITERS, commandLineArgs[i]));
         }
 
         final String scmUrlFakeForTest = "https://user"
@@ -101,14 +101,14 @@ public class GitCommandLineUtilsTest {
                 .concat("foo.com/git/trunk");
 
         assertTrue(
+                cl.toString().contains(scmUrlFakeForTest),
                 MessageFormat.format(
                         "The target log message should contain <{0}> but it contains <{1}>",
-                        scmUrlFakeForTest, cl.toString()),
-                cl.toString().contains(scmUrlFakeForTest));
+                        scmUrlFakeForTest, cl.toString()));
     }
 
     @Test
-    public void testPrepareEnvVariablesForRepository() throws ScmException {
+    void testPrepareEnvVariablesForRepository() throws ScmException {
         GitScmProviderRepository repository = new GitScmProviderRepository("http://localhost/repository.git");
         assertEquals(Collections.emptyMap(), GitCommandLineUtils.prepareEnvVariablesForRepository(repository, null));
 

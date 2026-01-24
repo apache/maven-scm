@@ -33,12 +33,12 @@ import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Base class for all TcK tests.
@@ -109,19 +109,17 @@ public abstract class ScmTckTestCase extends ScmTestCase {
         String scmProviderCommand = getScmProviderCommand();
         if (scmProviderCommand != null) {
             assumeTrue(
-                    "Skipping tests because the required command '" + scmProviderCommand + "' is not available.",
-                    ScmTestCase.isSystemCmd(scmProviderCommand));
+                    ScmTestCase.isSystemCmd(scmProviderCommand),
+                    "Skipping tests because the required command '" + scmProviderCommand + "' is not available.");
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    @Before
-    @Override
-    public void setUp() throws Exception {
+    @BeforeEach
+    void scmTckTestSetUp() throws Exception {
         checkScmPresence();
-        super.setUp();
 
         scmRepository = null;
 
@@ -152,11 +150,9 @@ public abstract class ScmTckTestCase extends ScmTestCase {
     /**
      * Provided to allow removeRepo() to be called.
      */
-    @After
-    @Override
-    public void tearDown() throws Exception {
+    @AfterEach
+    void scmTckTestTearDown() throws Exception {
         removeRepo();
-        super.tearDown();
     }
 
     /**
@@ -178,7 +174,7 @@ public abstract class ScmTckTestCase extends ScmTestCase {
                 .getProviderByUrl(getScmUrl())
                 .checkOut(repository, new ScmFileSet(workingDirectory), (ScmVersion) null);
 
-        assertTrue("Check result was successful, output: " + result.getCommandOutput(), result.isSuccess());
+        assertTrue(result.isSuccess(), "Check result was successful, output: " + result.getCommandOutput());
 
         return result;
     }
@@ -191,7 +187,7 @@ public abstract class ScmTckTestCase extends ScmTestCase {
                 .getProviderByUrl(getScmUrl())
                 .checkIn(repository, new ScmFileSet(workingDirectory), (ScmVersion) null, "Initial Checkin");
 
-        assertTrue("Check result was successful, output: " + result.getCommandOutput(), result.isSuccess());
+        assertTrue(result.isSuccess(), "Check result was successful, output: " + result.getCommandOutput());
 
         return result;
     }
@@ -204,7 +200,7 @@ public abstract class ScmTckTestCase extends ScmTestCase {
                 .getProviderByUrl(getScmUrl())
                 .remove(repository, new ScmFileSet(workingDirectory), "Initial Checkin");
 
-        assertTrue("Remove result was successful, output: " + result.getCommandOutput(), result.isSuccess());
+        assertTrue(result.isSuccess(), "Remove result was successful, output: " + result.getCommandOutput());
 
         return result;
     }
@@ -220,13 +216,13 @@ public abstract class ScmTckTestCase extends ScmTestCase {
 
         AddScmResult result = provider.add(repository, new ScmFileSet(workingDirectory, file), commandParameters);
 
-        assertTrue("Check result was successful, output: " + result.getCommandOutput(), result.isSuccess());
+        assertTrue(result.isSuccess(), "Check result was successful, output: " + result.getCommandOutput());
 
         List<ScmFile> addedFiles = result.getAddedFiles();
 
         if (new File(workingDirectory, file.getPath()).isFile()) {
             // Don't check directory add because some SCM tools ignore it
-            assertEquals("Expected 1 file in the added files list " + addedFiles, 1, addedFiles.size());
+            assertEquals(1, addedFiles.size(), "Expected 1 file in the added files list " + addedFiles);
         }
     }
 

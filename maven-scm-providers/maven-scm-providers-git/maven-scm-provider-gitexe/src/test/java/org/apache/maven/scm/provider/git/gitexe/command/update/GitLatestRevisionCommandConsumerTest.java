@@ -24,10 +24,10 @@ import java.io.Reader;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.ReaderFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -36,7 +36,7 @@ import static org.junit.Assert.assertNotNull;
  */
 public class GitLatestRevisionCommandConsumerTest extends ScmTestCase {
     @Test
-    public void testUpToDate() throws Exception {
+    void testUpToDate() throws Exception {
 
         GitLatestRevisionCommandConsumer consumer =
                 buildGitLatestRevisionCommandConsumer("/src/test/resources/git/update/git-update-latest-rev.out");

@@ -24,10 +24,10 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.tck.command.mkdir.MkdirCommandTckTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
@@ -36,7 +36,7 @@ import static org.junit.Assert.assertTrue;
 public class LocalMkdirCommandTckTest extends MkdirCommandTckTest {
     private static final String MODULE_NAME = "checkin-tck";
 
-    public String getScmUrl() throws Exception {
+    public String getScmUrl() {
         return "scm:local|" + getRepositoryRoot() + "|" + MODULE_NAME;
     }
 
@@ -57,7 +57,7 @@ public class LocalMkdirCommandTckTest extends MkdirCommandTckTest {
     }
 
     @Test
-    public void testMkdirCommandMkdirUrl() throws Exception {
+    void testMkdirCommandMkdirUrl() throws Exception {
         ScmFileSet fileSet = new ScmFileSet(getWorkingCopy(), new File(getMissingDirectory()));
 
         MkdirScmResult result = getScmManager().mkdir(getScmRepository(), fileSet, "Mkdir message", false);
@@ -66,11 +66,11 @@ public class LocalMkdirCommandTckTest extends MkdirCommandTckTest {
 
         ListScmResult listResult = getScmManager().list(getScmRepository(), fileSet, true, null);
 
-        assertTrue("Directory should have been found.", listResult.isSuccess());
+        assertTrue(listResult.isSuccess(), "Directory should have been found.");
     }
 
     @Test
-    public void testMkdirCommandDirAlreadyAdded() throws Exception {
+    void testMkdirCommandDirAlreadyAdded() throws Exception {
         ScmFileSet fileSet = new ScmFileSet(getWorkingCopy(), new File(getMissingDirectory()));
 
         MkdirScmResult result = getScmManager().mkdir(getScmRepository(), fileSet, "Mkdir message", false);
@@ -79,7 +79,7 @@ public class LocalMkdirCommandTckTest extends MkdirCommandTckTest {
 
         ListScmResult listResult = getScmManager().list(getScmRepository(), fileSet, true, null);
 
-        assertTrue("Directory should have been found.", listResult.isSuccess());
+        assertTrue(listResult.isSuccess(), "Directory should have been found.");
 
         // add the directory again
         result = getScmManager().mkdir(getScmRepository(), fileSet, "Mkdir message", false);

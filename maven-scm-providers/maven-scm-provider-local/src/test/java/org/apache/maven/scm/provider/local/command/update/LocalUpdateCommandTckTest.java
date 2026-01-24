@@ -36,12 +36,12 @@ import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -50,7 +50,7 @@ import static org.junit.Assert.assertTrue;
 public class LocalUpdateCommandTckTest extends UpdateCommandTckTest {
     private static final String MODULE_NAME = "update-tck";
 
-    public String getScmUrl() throws Exception {
+    public String getScmUrl() {
         return "scm:local|" + getRepositoryRoot() + "|" + MODULE_NAME;
     }
 
@@ -63,7 +63,7 @@ public class LocalUpdateCommandTckTest extends UpdateCommandTckTest {
      * additions must not be deleted.
      */
     @Test
-    public void testDeletion() throws Exception {
+    void testDeletion() throws Exception {
         FileUtils.deleteDirectory(getUpdatingCopy());
 
         ScmRepository repository = makeScmRepository(getScmUrl());
@@ -79,7 +79,7 @@ public class LocalUpdateCommandTckTest extends UpdateCommandTckTest {
         // Delete readme.txt from repository
         File readmeFileRepo = new File(getRepositoryRoot(), MODULE_NAME + "/readme.txt");
         assertTrue(readmeFileRepo.exists());
-        assertTrue("Could not delete", readmeFileRepo.delete());
+        assertTrue(readmeFileRepo.delete(), "Could not delete");
         assertFalse(readmeFileRepo.exists());
 
         // Make local addition to updating copy - this one must not be touched
@@ -95,19 +95,19 @@ public class LocalUpdateCommandTckTest extends UpdateCommandTckTest {
         Thread.sleep(1000);
         UpdateScmResult result = scmManager.update(repository, new ScmFileSet(getUpdatingCopy()), lastUpdate);
 
-        assertNotNull("The command returned a null result.", result);
+        assertNotNull(result, "The command returned a null result.");
 
         assertResultIsSuccess(result);
 
         List<ScmFile> updatedFiles = result.getUpdatedFiles();
 
-        assertEquals("Expected 1 files in the updated files list " + updatedFiles, 1, updatedFiles.size());
+        assertEquals(1, updatedFiles.size(), "Expected 1 files in the updated files list " + updatedFiles);
 
         // ----------------------------------------------------------------------
         // Assert the files in the updated files list
         // ----------------------------------------------------------------------
 
-        Iterator<ScmFile> files = new TreeSet<ScmFile>(updatedFiles).iterator();
+        Iterator<ScmFile> files = new TreeSet<>(updatedFiles).iterator();
 
         // readme.txt
         ScmFile file = files.next();
@@ -119,20 +119,19 @@ public class LocalUpdateCommandTckTest extends UpdateCommandTckTest {
         // ----------------------------------------------------------------------
 
         // readme.txt
-        assertFalse("Expected local copy of readme.txt to be deleted", readmeFileLocal.exists());
+        assertFalse(readmeFileLocal.exists(), "Expected local copy of readme.txt to be deleted");
 
         // newfile.xml
-        assertTrue("Expected local copy of newfile.xml NOT to be deleted", newFileLocal.exists());
+        assertTrue(newFileLocal.exists(), "Expected local copy of newfile.xml NOT to be deleted");
 
         // ----------------------------------------------------------------------
         // Assert metadata file
         // ----------------------------------------------------------------------
         File metadataFile = new File(getUpdatingCopy(), ".maven-scm-local");
-        assertTrue("Expected metadata file .maven-scm-local does not exist", metadataFile.exists());
+        assertTrue(metadataFile.exists(), "Expected metadata file .maven-scm-local does not exist");
         try (Reader reader = Files.newBufferedReader(metadataFile.toPath())) {
             LocalScmMetadata metadata = new LocalScmMetadataXpp3Reader().read(reader);
             File root = new File(getRepositoryRoot() + "/" + MODULE_NAME);
-            @SuppressWarnings("unchecked")
             List<String> fileNames = FileUtils.getFileNames(root, "**", null, false);
             assertEquals(fileNames, metadata.getRepositoryFileNames());
         }

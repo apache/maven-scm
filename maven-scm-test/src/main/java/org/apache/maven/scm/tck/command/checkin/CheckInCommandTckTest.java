@@ -36,13 +36,13 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.util.FilenameUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This test tests the check out command.
@@ -59,11 +59,11 @@ public abstract class CheckInCommandTckTest extends ScmTckTestCase {
 
         File readmeTxt = new File(getWorkingCopy(), "readme.txt");
 
-        assertFalse("check Foo.java doesn't yet exist", fooJava.canRead());
+        assertFalse(fooJava.canRead(), "check Foo.java doesn't yet exist");
 
-        assertFalse("check Bar.java doesn't yet exist", barJava.canRead());
+        assertFalse(barJava.canRead(), "check Bar.java doesn't yet exist");
 
-        assertTrue("check can read readme.txt", readmeTxt.canRead());
+        assertTrue(readmeTxt.canRead(), "check can read readme.txt");
 
         // Change the files
         createFooJava(fooJava);
@@ -117,17 +117,17 @@ public abstract class CheckInCommandTckTest extends ScmTckTestCase {
 
         readmeTxt = new File(getAssertionCopy(), "readme.txt");
 
-        assertTrue("check can read Foo.java", fooJava.canRead());
+        assertTrue(fooJava.canRead(), "check can read Foo.java");
 
-        assertFalse("check Bar.java doesn't exist", barJava.canRead());
+        assertFalse(barJava.canRead(), "check Bar.java doesn't exist");
 
-        assertTrue("check can read readme.txt", readmeTxt.canRead());
+        assertTrue(readmeTxt.canRead(), "check can read readme.txt");
 
-        assertEquals("check readme.txt contents", "changed file", FileUtils.fileRead(readmeTxt));
+        assertEquals("changed file", FileUtils.fileRead(readmeTxt), "check readme.txt contents");
     }
 
     @Test
-    public void testCheckInCommandPartialFileset() throws Exception {
+    void testCheckInCommandPartialFileset() throws Exception {
         // Make sure that the correct files was checked out
         File fooJava = new File(getWorkingCopy(), "src/main/java/Foo.java");
 
@@ -135,11 +135,11 @@ public abstract class CheckInCommandTckTest extends ScmTckTestCase {
 
         File readmeTxt = new File(getWorkingCopy(), "readme.txt");
 
-        assertFalse("check Foo.java doesn't yet exist", fooJava.canRead());
+        assertFalse(fooJava.canRead(), "check Foo.java doesn't yet exist");
 
-        assertFalse("check Bar.java doesn't yet exist", barJava.canRead());
+        assertFalse(barJava.canRead(), "check Bar.java doesn't yet exist");
 
-        assertTrue("check can read readme.txt", readmeTxt.canRead());
+        assertTrue(readmeTxt.canRead(), "check can read readme.txt");
 
         // Change the files
         createFooJava(fooJava);
@@ -181,26 +181,25 @@ public abstract class CheckInCommandTckTest extends ScmTckTestCase {
 
         readmeTxt = new File(getAssertionCopy(), "readme.txt");
 
-        assertTrue("check can read Foo.java", fooJava.canRead());
+        assertTrue(fooJava.canRead(), "check can read Foo.java");
 
-        assertFalse("check Bar.java doesn't exist", barJava.canRead());
+        assertFalse(barJava.canRead(), "check Bar.java doesn't exist");
 
-        assertTrue("check can read readme.txt", readmeTxt.canRead());
+        assertTrue(readmeTxt.canRead(), "check can read readme.txt");
 
-        assertEquals("check readme.txt contents", "/readme.txt", FileUtils.fileRead(readmeTxt));
+        assertEquals("/readme.txt", FileUtils.fileRead(readmeTxt), "check readme.txt contents");
     }
 
     @Test
-    public void testCheckInCommandFilesetWithBasedirOtherThanWorkingCopyRoot() throws Exception {
+    void testCheckInCommandFilesetWithBasedirOtherThanWorkingCopyRoot() throws Exception {
         ScmProvider scmProvider = getScmManager().getProviderByUrl(getScmUrl());
 
-        Assume.assumeFalse(
-                "Local provider does not properly support basedir",
-                scmProvider.getScmType().equals("local"));
+        Assumptions.assumeFalse(
+                scmProvider.getScmType().equals("local"), "Local provider does not properly support basedir");
         // Make sure that the correct files was checked out
         File fooJava = new File(getWorkingCopy(), "src/main/java/Foo.java");
 
-        assertFalse("check Foo.java doesn't yet exist", fooJava.canRead());
+        assertFalse(fooJava.canRead(), "check Foo.java doesn't yet exist");
 
         // Change the files
         createFooJava(fooJava);
@@ -244,7 +243,7 @@ public abstract class CheckInCommandTckTest extends ScmTckTestCase {
 
         fooJava = new File(getAssertionCopy(), "src/main/java/Foo.java");
 
-        assertTrue("check can read Foo.java", fooJava.canRead());
+        assertTrue(fooJava.canRead(), "check can read Foo.java");
     }
 
     private void createFooJava(File fooJava) throws Exception {

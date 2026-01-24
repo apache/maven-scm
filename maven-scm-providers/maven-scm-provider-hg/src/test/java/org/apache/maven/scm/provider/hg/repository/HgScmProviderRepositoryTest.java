@@ -18,11 +18,11 @@
  */
 package org.apache.maven.scm.provider.hg.repository;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HgScmProviderRepositoryTest {
 
@@ -35,7 +35,7 @@ public class HgScmProviderRepositoryTest {
     //    }
 
     @Test
-    public void testFileRepo() {
+    void testFileRepo() {
         // 1. Test *nix like paths
         String url = "/home/username/dev/maven";
         HgScmProviderRepository repo = new HgScmProviderRepository(url);
@@ -58,7 +58,7 @@ public class HgScmProviderRepositoryTest {
     }
 
     @Test
-    public void testSSHRepo() {
+    void testSSHRepo() {
         // todo: check assert
         // 1. Test with relativ path
         String url = "ssh://username:password@myhost.com/~/dev/maven";
@@ -80,7 +80,7 @@ public class HgScmProviderRepositoryTest {
     }
 
     @Test
-    public void testHTTPRepo() {
+    void testHTTPRepo() {
         // todo: check assert
         // 1. Test with relativ path
         String url = "http://www.myhost.com/~username/dev/maven";
@@ -107,7 +107,7 @@ public class HgScmProviderRepositoryTest {
     }
 
     @Test
-    public void testHTTPRepoWithHgInUrl() {
+    void testHTTPRepoWithHgInUrl() {
         String url = "http://hg/hg/maven";
         HgScmProviderRepository repo = new HgScmProviderRepository(url);
         assertEquals(url, repo.getURI());
@@ -120,7 +120,7 @@ public class HgScmProviderRepositoryTest {
      * @throws Exception
      */
     @Test
-    public void testParseHostAndPort() throws Exception {
+    void testParseHostAndPort() throws Exception {
         String url = "http://localhost:8000/";
         HgScmProviderRepository repo = new HgScmProviderRepository(url);
         assertEquals(url, repo.getURI());
@@ -140,7 +140,7 @@ public class HgScmProviderRepositoryTest {
      * @throws Exception
      */
     @Test
-    public void testParseBasicAuth() throws Exception {
+    void testParseBasicAuth() throws Exception {
         String url = "http://a:b@localhost:8000/";
         HgScmProviderRepository repo = new HgScmProviderRepository(url);
         assertEquals(url, repo.getURI());

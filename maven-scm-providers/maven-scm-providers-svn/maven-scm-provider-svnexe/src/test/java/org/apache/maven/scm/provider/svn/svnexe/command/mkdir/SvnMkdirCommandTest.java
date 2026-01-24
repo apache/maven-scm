@@ -26,11 +26,11 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
@@ -41,11 +41,8 @@ public class SvnMkdirCommandTest extends ScmTestCase {
 
     String messageFileString;
 
-    @Before
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         messageFile = new File("mkdir-message");
 
         String path = messageFile.getAbsolutePath();
@@ -57,16 +54,13 @@ public class SvnMkdirCommandTest extends ScmTestCase {
         messageFileString = "--file " + path + " --encoding UTF-8";
     }
 
-    @After
-    @Override
-    public void tearDown() throws Exception {
+    @AfterEach
+    void tearDown() throws Exception {
         assertTrue(messageFile.delete());
-
-        super.tearDown();
     }
 
     @Test
-    public void testCommandLineMkdirUrl() throws Exception {
+    void testCommandLineMkdirUrl() throws Exception {
         testCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 "svn --non-interactive mkdir --parents http://foo.com/svn/trunk/missing@ " + messageFileString,
@@ -74,7 +68,7 @@ public class SvnMkdirCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineMkdirUrlWithUsername() throws Exception {
+    void testCommandLineMkdirUrlWithUsername() throws Exception {
         testCommandLine(
                 "scm:svn:http://anonymous@foo.com/svn/trunk",
                 "svn --username anonymous --no-auth-cache --non-interactive mkdir --parents http://foo.com/svn/trunk/missing@ "
@@ -83,7 +77,7 @@ public class SvnMkdirCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineMkdirLocalPath() throws Exception {
+    void testCommandLineMkdirLocalPath() throws Exception {
         testCommandLine("scm:svn:http://foo.com/svn/trunk", "svn --non-interactive mkdir --parents missing ", true);
     }
 

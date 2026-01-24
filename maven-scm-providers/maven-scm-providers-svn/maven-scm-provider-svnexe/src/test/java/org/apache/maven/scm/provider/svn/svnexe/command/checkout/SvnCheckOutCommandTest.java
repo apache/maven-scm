@@ -27,8 +27,8 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -43,11 +43,8 @@ public class SvnCheckOutCommandTest extends ScmTestCase {
     //
     // ----------------------------------------------------------------------
 
-    @Before
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         recursive = true;
         workingDirectory = getTestFile("target/svn-checkout-command-test");
         if (workingDirectory.isDirectory()) {
@@ -60,7 +57,7 @@ public class SvnCheckOutCommandTest extends ScmTestCase {
     // ----------------------------------------------------------------------
 
     @Test
-    public void testCommandLineWithoutRevision() throws Exception {
+    void testCommandLineWithoutRevision() throws Exception {
         testCommandLine(
                 getScmManager(),
                 "scm:svn:http://foo.com/svn/trunk",
@@ -69,7 +66,7 @@ public class SvnCheckOutCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithEmptyRevision() throws Exception {
+    void testCommandLineWithEmptyRevision() throws Exception {
         testCommandLine(
                 getScmManager(),
                 "scm:svn:http://foo.com/svn/trunk",
@@ -78,7 +75,7 @@ public class SvnCheckOutCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithRevision() throws Exception {
+    void testCommandLineWithRevision() throws Exception {
         testCommandLine(
                 getScmManager(),
                 "scm:svn:http://foo.com/svn/trunk",
@@ -87,7 +84,7 @@ public class SvnCheckOutCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testRecursiveCheckOutCommandLine() throws Exception {
+    void testRecursiveCheckOutCommandLine() throws Exception {
         recursive = false;
         testCommandLine(
                 getScmManager(),

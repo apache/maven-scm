@@ -19,7 +19,7 @@
 package org.apache.maven.scm.provider.svn.svnexe.command.blame;
 
 import org.apache.maven.scm.provider.svn.command.blame.SvnBlameCommandTckTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
 

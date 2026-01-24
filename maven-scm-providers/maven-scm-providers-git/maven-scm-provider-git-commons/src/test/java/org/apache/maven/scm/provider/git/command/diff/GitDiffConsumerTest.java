@@ -26,18 +26,18 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitDiffConsumerTest extends ScmTestCase {
+class GitDiffConsumerTest extends ScmTestCase {
     @Test
-    public void testEmptyLogConsumer() throws Exception {
+    void testEmptyLogConsumer() throws Exception {
         GitDiffConsumer consumer = new GitDiffConsumer(null);
 
         File f = getTestFile("/src/test/resources/git/diff/git-diff-empty.log");
@@ -50,7 +50,7 @@ public class GitDiffConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testLog1Consumer() throws Exception {
+    void testLog1Consumer() throws Exception {
         GitDiffConsumer consumer = new GitDiffConsumer(null);
 
         File f = getTestFile("src/test/resources/git/diff/git-diff1.log");
@@ -72,7 +72,7 @@ public class GitDiffConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testLog2Consumer() throws Exception {
+    void testLog2Consumer() throws Exception {
         GitDiffConsumer consumer = new GitDiffConsumer(null);
 
         File f = getTestFile("src/test/resources/git/diff/git-diff2.log");
@@ -100,7 +100,7 @@ public class GitDiffConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testLog3Consumer() throws Exception {
+    void testLog3Consumer() throws Exception {
         GitDiffConsumer consumer = new GitDiffConsumer(null);
 
         File f = getTestFile("src/test/resources/git/diff/git-diff3.log");
@@ -122,7 +122,7 @@ public class GitDiffConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testLog4Consumer() throws Exception {
+    void testLog4Consumer() throws Exception {
         GitDiffConsumer consumer = new GitDiffConsumer(null);
 
         File f = getTestFile("src/test/resources/git/diff/git-diff4.log");

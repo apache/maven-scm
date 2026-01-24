@@ -23,10 +23,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-import org.apache.maven.scm.PlexusJUnit4TestCase;
+import org.codehaus.plexus.testing.PlexusExtension;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
-import org.junit.Assert;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -42,16 +43,16 @@ public final class GitScmTestUtils {
 
         FileUtils.deleteDirectory(assertionDirectory);
 
-        Assert.assertTrue(assertionDirectory.mkdirs());
+        assertTrue(assertionDirectory.mkdirs());
     }
 
     public static void initRepo(String source, File repository, File workingDirectory) throws IOException {
         // Copy the repository to target
-        File src = PlexusJUnit4TestCase.getTestFile(source);
+        File src = PlexusExtension.getTestFile(source);
 
         FileUtils.deleteDirectory(repository);
 
-        Assert.assertTrue(repository.mkdirs());
+        assertTrue(repository.mkdirs());
 
         FileUtils.copyDirectoryStructure(src, repository);
 
@@ -63,7 +64,7 @@ public final class GitScmTestUtils {
 
         FileUtils.deleteDirectory(workingDirectory);
 
-        Assert.assertTrue(workingDirectory.mkdirs());
+        assertTrue(workingDirectory.mkdirs());
     }
 
     public static String getScmUrl(File repositoryRootFile, String provider) throws CommandLineException {
