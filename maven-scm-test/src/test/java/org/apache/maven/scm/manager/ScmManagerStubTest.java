@@ -48,7 +48,7 @@ public class ScmManagerStubTest {
     private ScmRepository scmRepository;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         messages = new ArrayList<>(0);
         scmProvider = new ScmProviderStub();
         scmRepository = new ScmRepositoryStub();
@@ -63,7 +63,7 @@ public class ScmManagerStubTest {
      * Test method for 'org.apache.maven.scm.manager.ScmManagerStub.makeScmRepository(String)'
      */
     @Test
-    public void testMakeScmRepository() throws Exception {
+    void testMakeScmRepository() throws Exception {
         ScmRepository repository = scmManagerStub.makeScmRepository("");
         assertSame(scmRepository, repository);
     }
@@ -72,7 +72,7 @@ public class ScmManagerStubTest {
      * Test method for 'org.apache.maven.scm.manager.ScmManagerStub.makeProviderScmRepository(String, File)'
      */
     @Test
-    public void testMakeProviderScmRepository() throws Exception {
+    void testMakeProviderScmRepository() throws Exception {
         ScmRepository repository = scmManagerStub.makeProviderScmRepository("", new File(""));
         assertSame(scmRepository, repository);
     }
@@ -81,7 +81,7 @@ public class ScmManagerStubTest {
      * Test method for 'org.apache.maven.scm.manager.ScmManagerStub.validateScmRepository(String)'
      */
     @Test
-    public void testValidateScmRepository() {
+    void testValidateScmRepository() {
         List<String> list = scmManagerStub.validateScmRepository("");
         assertSame(messages, list);
     }
@@ -90,7 +90,7 @@ public class ScmManagerStubTest {
      * Test method for 'org.apache.maven.scm.manager.ScmManagerStub.getProviderByUrl(String)'
      */
     @Test
-    public void testGetProviderByUrl() throws Exception {
+    void testGetProviderByUrl() throws Exception {
         ScmProvider providerByUrl = scmManagerStub.getProviderByUrl("");
         assertSame(scmProvider, providerByUrl);
     }
@@ -99,7 +99,7 @@ public class ScmManagerStubTest {
      * Test method for 'org.apache.maven.scm.manager.ScmManagerStub.getProviderByType(String)'
      */
     @Test
-    public void testGetProviderByType() throws Exception {
+    void testGetProviderByType() throws Exception {
         ScmProvider providerByType = scmManagerStub.getProviderByType("");
         assertSame(scmProvider, providerByType);
     }
@@ -108,7 +108,7 @@ public class ScmManagerStubTest {
      * Test method for 'org.apache.maven.scm.manager.ScmManagerStub.getProviderByRepository(ScmRepository)'
      */
     @Test
-    public void testGetProviderByRepository() throws Exception {
+    void testGetProviderByRepository() throws Exception {
         ScmProvider providerByRepository = scmManagerStub.getProviderByRepository(new ScmRepositoryStub());
         assertSame(scmProvider, providerByRepository);
     }

@@ -24,10 +24,10 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -35,7 +35,7 @@ import static org.junit.Assert.assertNotEquals;
  */
 public class SvnCommandLineUtilsTest extends ScmTestCase {
     @Test
-    public void testCryptPassword() throws Exception {
+    void testCryptPassword() throws Exception {
         /* FIXME Plexus does not quote the crypted password on Windows which is actually incorrect at the moment
          * it would cause wildcard expansion with cmd: https://github.com/codehaus-plexus/plexus-utils/issues/37.
          */

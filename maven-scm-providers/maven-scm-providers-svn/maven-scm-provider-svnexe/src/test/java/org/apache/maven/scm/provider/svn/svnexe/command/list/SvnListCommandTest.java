@@ -26,7 +26,7 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
@@ -34,22 +34,22 @@ import org.junit.Test;
  */
 public class SvnListCommandTest extends ScmTestCase {
     @Test
-    public void testCommandLineWithEmptyTag() throws Exception {
+    void testCommandLineWithEmptyTag() throws Exception {
         testCommandLine("scm:svn:http://foo.com/svn/trunk", true, "svn --non-interactive list --recursive");
     }
 
     @Test
-    public void testCommandLineWithWhitespaceTag() throws Exception {
+    void testCommandLineWithWhitespaceTag() throws Exception {
         testCommandLine("scm:svn:http://foo.com/svn/trunk", false, "svn --non-interactive list");
     }
 
     @Test
-    public void testCommandLineWithoutTag() throws Exception {
+    void testCommandLineWithoutTag() throws Exception {
         testCommandLine("scm:svn:http://foo.com/svn/trunk", false, "svn --non-interactive list");
     }
 
     @Test
-    public void testCommandLineTag() throws Exception {
+    void testCommandLineTag() throws Exception {
         testCommandLine(
                 "scm:svn:http://anonymous@foo.com/svn/trunk",
                 false,
@@ -58,7 +58,7 @@ public class SvnListCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithUsernameAndTag() throws Exception {
+    void testCommandLineWithUsernameAndTag() throws Exception {
         testCommandLine(
                 "scm:svn:http://anonymous@foo.com/svn/trunk",
                 false,

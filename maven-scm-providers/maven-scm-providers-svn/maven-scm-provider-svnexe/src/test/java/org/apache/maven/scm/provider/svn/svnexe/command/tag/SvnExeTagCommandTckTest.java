@@ -25,7 +25,7 @@ import org.apache.maven.scm.provider.svn.command.tag.SvnTagCommandTckTest;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
 
@@ -42,7 +42,7 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
     }
 
     @Test
-    public void testTagUserNameSvnSsh() throws Exception {
+    void testTagUserNameSvnSsh() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -57,7 +57,7 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
     }
 
     @Test
-    public void testTagRemoteTagHttps() throws Exception {
+    void testTagRemoteTagHttps() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -75,7 +75,7 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
     }
 
     @Test
-    public void testTagRemoteTagHttpsWithPinExternals() throws Exception {
+    void testTagRemoteTagHttpsWithPinExternals() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -93,7 +93,7 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
     }
 
     @Test
-    public void testTagRemoteTagHttpsWithRevision() throws Exception {
+    void testTagRemoteTagHttpsWithRevision() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -112,7 +112,7 @@ public class SvnExeTagCommandTckTest extends SvnTagCommandTckTest {
     }
 
     @Test
-    public void testTagRemoteTagHttpsWithRevisionAndPinExternals() throws Exception {
+    void testTagRemoteTagHttpsWithRevisionAndPinExternals() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 

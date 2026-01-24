@@ -24,12 +24,12 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SvnExportCommandTest extends ScmTestCase {
 
     @Test
-    public void testGetExportCommandLineWithImplicitExportDirectory() throws Exception {
+    void testGetExportCommandLineWithImplicitExportDirectory() throws Exception {
         File exportDirectory = new File(getBasedir());
 
         testCommandLine(
@@ -40,7 +40,7 @@ public class SvnExportCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testGetExportCommandLineWithExplicitExportDirectory() throws Exception {
+    void testGetExportCommandLineWithExplicitExportDirectory() throws Exception {
         File exportDirectory = new File(getBasedir());
 
         testCommandLine(

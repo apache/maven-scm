@@ -34,20 +34,20 @@ import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitChangeLogConsumerTest extends ScmTestCase {
+class GitChangeLogConsumerTest extends ScmTestCase {
 
     @Test
-    public void testConsumer1() throws Exception {
+    void testConsumer1() throws Exception {
         // was  Date:   Tue Nov 27 16:16:28 2007 +0100
         // iso  Date:   2007-11-24 01:13:10 +0100
         Pattern datePattern = Pattern.compile("^Date:\\s*(.*)"); // new RE( "^Date:\\s*\\w-1\\w-1\\w-1\\s(.*)" );
@@ -102,7 +102,7 @@ public class GitChangeLogConsumerTest extends ScmTestCase {
     }
 
     @Test
-    public void testConsumer2() throws Exception {
+    void testConsumer2() throws Exception {
         GitChangeLogConsumer consumer = new GitChangeLogConsumer(null);
 
         File f = getTestFile("/src/test/resources/git/changelog/gitwhatchanged2.gitlog");
@@ -137,7 +137,7 @@ public class GitChangeLogConsumerTest extends ScmTestCase {
             }
         }
         assertEquals(
-                "Action summary differs from expectations", "{modified=21, added=88, deleted=1}", summary.toString());
+                "{modified=21, added=88, deleted=1}", summary.toString(), "Action summary differs from expectations");
 
         assertEquals(8, modifications.size());
 
@@ -167,7 +167,8 @@ public class GitChangeLogConsumerTest extends ScmTestCase {
         assertTrue(cf.getRevision() != null && cf.getRevision().length() > 0);
     }
 
-    public void testGitLogConsumer3() throws Exception {
+    @Test
+    void testGitLogConsumer3() throws Exception {
         GitChangeLogConsumer consumer = new GitChangeLogConsumer(null);
 
         File f = getTestFile("/src/test/resources/git/changelog/gitlog3.gitlog");
@@ -200,7 +201,8 @@ public class GitChangeLogConsumerTest extends ScmTestCase {
         assertFalse(second.getFiles().isEmpty());
     }
 
-    public void testTagAndBranchConsumer() {
+    @Test
+    void testTagAndBranchConsumer() {
         String[] lines = {
             "commit a6d03ee7bcec7bfd6b0fc890a277f004a1c54077 (HEAD -> main, tag: TestTag, origin/main, origin/HEAD)",
             "Author: Niels Basjes <niels@basjes.nl>",

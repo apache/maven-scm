@@ -27,9 +27,9 @@ import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.command.info.InfoItem;
 import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This test tests the info command.
@@ -37,7 +37,7 @@ import static org.junit.Assert.assertEquals;
 public abstract class InfoCommandTckTest extends ScmTckTestCase {
 
     @Test
-    public void testInfoCommandWithJustBasedir() throws Exception {
+    void testInfoCommandWithJustBasedir() throws Exception {
         ScmProvider scmProvider = getScmManager().getProviderByUrl(getScmUrl());
         InfoScmResult result = scmProvider.info(getScmRepository().getProviderRepository(), getScmFileSet(), null);
         assertResultIsSuccess(result);
@@ -50,7 +50,7 @@ public abstract class InfoCommandTckTest extends ScmTckTestCase {
     }
 
     @Test
-    public void testInfoCommandFromBasedirDifferentFromWorkingCopyDirectory() throws Exception {
+    void testInfoCommandFromBasedirDifferentFromWorkingCopyDirectory() throws Exception {
         ScmProvider scmProvider = getScmManager().getProviderByUrl(getScmUrl());
         ScmFileSet fileSet = new ScmFileSet(new File(getWorkingCopy(), "src/main"), new File("java/Application.java"));
         InfoScmResult result = scmProvider.info(getScmRepository().getProviderRepository(), fileSet, null);

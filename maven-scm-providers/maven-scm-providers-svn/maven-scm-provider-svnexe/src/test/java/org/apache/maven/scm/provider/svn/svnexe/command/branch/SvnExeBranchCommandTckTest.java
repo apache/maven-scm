@@ -25,7 +25,7 @@ import org.apache.maven.scm.provider.svn.command.branch.SvnBranchCommandTckTest;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
 
@@ -42,7 +42,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
 
     // --no-auth-cache
     @Test
-    public void testBranchUserNameSvnHttpsRemoteBranchingWithRev() throws Exception {
+    void testBranchUserNameSvnHttpsRemoteBranchingWithRev() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -63,7 +63,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
     }
 
     @Test
-    public void testBranchUserNameSvnHttpsRemoteBranchingWithRevWithPinExternals() throws Exception {
+    void testBranchUserNameSvnHttpsRemoteBranchingWithRevWithPinExternals() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -84,7 +84,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
     }
 
     @Test
-    public void testBranchUserNameSvnHttpsRemoteBranchingNoRev() throws Exception {
+    void testBranchUserNameSvnHttpsRemoteBranchingNoRev() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -104,7 +104,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
     }
 
     @Test
-    public void testBranchUserNameSvnHttpsRemoteBranchingNoRevWithPinExternals() throws Exception {
+    void testBranchUserNameSvnHttpsRemoteBranchingNoRevWithPinExternals() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -124,7 +124,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
     }
 
     @Test
-    public void testBranchUserNameSvnHttps() throws Exception {
+    void testBranchUserNameSvnHttps() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -139,7 +139,7 @@ public class SvnExeBranchCommandTckTest extends SvnBranchCommandTckTest {
     }
 
     @Test
-    public void testBranchUserNameSvnSsh() throws Exception {
+    void testBranchUserNameSvnSsh() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 

@@ -30,9 +30,9 @@ import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -40,7 +40,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class SvnUpdateCommandTest extends ScmTestCase {
     @Test
-    public void testCommandLineWithEmptyTag() throws Exception {
+    void testCommandLineWithEmptyTag() throws Exception {
         testCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmTag(""),
@@ -48,7 +48,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithEmptyBranch() throws Exception {
+    void testCommandLineWithEmptyBranch() throws Exception {
         testCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmBranch(""),
@@ -56,7 +56,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithEmptyVersion() throws Exception {
+    void testCommandLineWithEmptyVersion() throws Exception {
         testCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmRevision(""),
@@ -64,7 +64,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithWhitespaceTag() throws Exception {
+    void testCommandLineWithWhitespaceTag() throws Exception {
         testCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmTag("  "),
@@ -72,7 +72,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithWhitespaceBranch() throws Exception {
+    void testCommandLineWithWhitespaceBranch() throws Exception {
         testCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmBranch("  "),
@@ -80,7 +80,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithWhitespaceRevision() throws Exception {
+    void testCommandLineWithWhitespaceRevision() throws Exception {
         testCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmRevision("  "),
@@ -88,7 +88,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithoutTag() throws Exception {
+    void testCommandLineWithoutTag() throws Exception {
         testCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 null,
@@ -96,7 +96,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineTag() throws Exception {
+    void testCommandLineTag() throws Exception {
         testCommandLine(
                 "scm:svn:http://anonymous@foo.com/svn/trunk",
                 new ScmRevision("10"),
@@ -105,7 +105,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithUsernameAndTag() throws Exception {
+    void testCommandLineWithUsernameAndTag() throws Exception {
         testCommandLine(
                 "scm:svn:http://anonymous@foo.com/svn/trunk",
                 new ScmRevision("10"),
@@ -114,7 +114,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithCygwinProperty() throws Exception {
+    void testCommandLineWithCygwinProperty() throws Exception {
         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
             SvnUtil.setSettingsDirectory(getTestFile("src/test/resources/svn/update/cygwin"));
             try {
@@ -131,7 +131,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithRelativeURLTag() throws Exception {
+    void testCommandLineWithRelativeURLTag() throws Exception {
         testCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmBranch("branches/my-test-branch"),
@@ -140,7 +140,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithAbsoluteURLTag() throws Exception {
+    void testCommandLineWithAbsoluteURLTag() throws Exception {
         testCommandLine(
                 "scm:svn:http://foo.com/svn/trunk",
                 new ScmBranch("http://foo.com/svn/branches/my-test-branch"),
@@ -149,7 +149,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithNonDeterminantBase() throws Exception {
+    void testCommandLineWithNonDeterminantBase() throws Exception {
         testCommandLine(
                 "scm:svn:http://foo.com/svn/some-project",
                 new ScmBranch("branches/my-test-branch"),
@@ -158,7 +158,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithNonDeterminantBaseTrailingSlash() throws Exception {
+    void testCommandLineWithNonDeterminantBaseTrailingSlash() throws Exception {
         testCommandLine(
                 "scm:svn:http://foo.com/svn/some-project/",
                 new ScmBranch("branches/my-test-branch"),
@@ -167,7 +167,7 @@ public class SvnUpdateCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testCommandLineWithBranchSameAsBase() throws Exception {
+    void testCommandLineWithBranchSameAsBase() throws Exception {
         testCommandLine(
                 "scm:svn:http://foo.com/svn/tags/my-tag",
                 new ScmTag("tags/my-tag"),

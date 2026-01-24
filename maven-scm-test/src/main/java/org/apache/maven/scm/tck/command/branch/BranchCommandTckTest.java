@@ -32,10 +32,10 @@ import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * This test tests the branch command.
@@ -64,7 +64,7 @@ public abstract class BranchCommandTckTest extends ScmTckTestCase {
 
         File readmeTxt = new File(getWorkingCopy(), "readme.txt");
 
-        assertEquals("check readme.txt contents", "/readme.txt", FileUtils.fileRead(readmeTxt));
+        assertEquals("/readme.txt", FileUtils.fileRead(readmeTxt), "check readme.txt contents");
 
         this.edit(getWorkingCopy(), "readme.txt", null, getScmRepository());
         changeReadmeTxt(readmeTxt.toPath());
@@ -84,11 +84,11 @@ public abstract class BranchCommandTckTest extends ScmTckTestCase {
 
         readmeTxt = new File(getAssertionCopy(), "readme.txt");
 
-        assertEquals("check readme.txt contents", "changed file", FileUtils.fileRead(readmeTxt));
+        assertEquals("changed file", FileUtils.fileRead(readmeTxt), "check readme.txt contents");
 
         deleteDirectory(getAssertionCopy());
 
-        assertFalse("check previous assertion copy deleted", getAssertionCopy().exists());
+        assertFalse(getAssertionCopy().exists(), "check previous assertion copy deleted");
 
         checkoutResult = getScmManager()
                 .getProviderByUrl(getScmUrl())
@@ -97,7 +97,7 @@ public abstract class BranchCommandTckTest extends ScmTckTestCase {
         assertResultIsSuccess(checkoutResult);
 
         assertEquals(
-                "check readme.txt contents is from branched version", "/readme.txt", FileUtils.fileRead(readmeTxt));
+                "/readme.txt", FileUtils.fileRead(readmeTxt), "check readme.txt contents is from branched version");
     }
 
     private void changeReadmeTxt(Path readmeTxt) throws Exception {

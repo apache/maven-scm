@@ -34,12 +34,12 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This test tests the status command.
@@ -66,11 +66,11 @@ public abstract class StatusCommandTckTest extends ScmTckTestCase {
         CheckInScmResult result =
                 getScmManager().checkIn(repository, new ScmFileSet(workingDirectory), commandParameters);
 
-        assertTrue("Check result was successful, output: " + result.getCommandOutput(), result.isSuccess());
+        assertTrue(result.isSuccess(), "Check result was successful, output: " + result.getCommandOutput());
 
         List<ScmFile> committedFiles = result.getCheckedInFiles();
 
-        assertEquals("Expected 2 files in the committed files list " + committedFiles, 2, committedFiles.size());
+        assertEquals(2, committedFiles.size(), "Expected 2 files in the committed files list " + committedFiles);
     }
 
     protected boolean commitUpdateCopy() {
@@ -78,7 +78,7 @@ public abstract class StatusCommandTckTest extends ScmTckTestCase {
     }
 
     @Test
-    public void testStatusCommand() throws Exception {
+    void testStatusCommand() throws Exception {
         ScmRepository repository = makeScmRepository(getScmUrl());
 
         checkOut(getUpdatingCopy(), repository);
@@ -137,13 +137,13 @@ public abstract class StatusCommandTckTest extends ScmTckTestCase {
             commit(getUpdatingCopy(), repository);
         }
 
-        assertNotNull("The command returned a null result.", result);
+        assertNotNull(result, "The command returned a null result.");
 
         assertResultIsSuccess(result);
 
         List<ScmFile> changedFiles = result.getChangedFiles();
 
-        assertEquals("Expected 2 files in the updated files list " + changedFiles, 2, changedFiles.size());
+        assertEquals(2, changedFiles.size(), "Expected 2 files in the updated files list " + changedFiles);
 
         // ----------------------------------------------------------------------
         // Assert the files in the updated files list
@@ -161,6 +161,6 @@ public abstract class StatusCommandTckTest extends ScmTckTestCase {
 
         assertFile(getUpdatingCopy(), "/readme.txt");
 
-        assertFalse("project.xml created incorrectly", new File(getUpdatingCopy(), "/project.xml").exists());
+        assertFalse(new File(getUpdatingCopy(), "/project.xml").exists(), "project.xml created incorrectly");
     }
 }

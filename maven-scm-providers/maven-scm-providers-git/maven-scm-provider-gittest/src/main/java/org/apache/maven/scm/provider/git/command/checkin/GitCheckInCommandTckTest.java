@@ -27,7 +27,6 @@ import java.nio.file.StandardCopyOption;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
-import org.apache.maven.scm.PlexusJUnit4TestCase;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -37,9 +36,9 @@ import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -63,7 +62,7 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
     }
 
     @Test
-    public void testUpToDatePush() throws Exception {
+    void testUpToDatePush() throws Exception {
         File checkedOutRepo = getWorkingCopy();
 
         ScmRepository scmRepository = getScmManager().makeScmRepository(getScmUrl());
@@ -79,9 +78,9 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
     }
 
     @Test
-    public void testRejectedNonFastForwardPush() throws Exception {
-        File blockingRepo = PlexusJUnit4TestCase.getTestFile("target/scm-test/blocking-repo");
-        File rejectedRepo = PlexusJUnit4TestCase.getTestFile("target/scm-test/rejected-repo");
+    void testRejectedNonFastForwardPush() throws Exception {
+        File blockingRepo = getTestFile("target/scm-test/blocking-repo");
+        File rejectedRepo = getTestFile("target/scm-test/rejected-repo");
 
         ScmRepository scmRepository = getScmManager().makeScmRepository(getScmUrl());
         checkoutRepoInto(rejectedRepo, scmRepository);
@@ -106,11 +105,11 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
 
         CheckInScmResult checkInScmResult = getScmManager().checkIn(scmRepository, rejectedFileSet, commandParameters);
         assertFalse(
-                "check-in should have been rejected since fast forward was not possible", checkInScmResult.isSuccess());
+                checkInScmResult.isSuccess(), "check-in should have been rejected since fast forward was not possible");
     }
 
     @Test
-    public void testCommitWithRejectingPreCommitHook() throws Exception {
+    void testCommitWithRejectingPreCommitHook() throws Exception {
         GitScmTestUtils.setupRejectAllCommitsPreCommitHook(getWorkingCopy());
         GitScmTestUtils.setDefaultGitConfig(getWorkingCopy());
         ScmFileSet addedFile = createWorkspaceChange(getWorkingCopy());
@@ -118,7 +117,7 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
             CheckInScmResult result =
                     getScmManager().checkIn(getScmRepository(), addedFile, "Commit with pre-commit hook");
             assertFalse(
-                    "check-in should have been rejected since pre-push hook rejects all commits", result.isSuccess());
+                    result.isSuccess(), "check-in should have been rejected since pre-push hook rejects all commits");
         } catch (ScmException e) {
             // some providers may use an exception to indicate a failed commit
 
@@ -126,7 +125,7 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
     }
 
     @Test
-    public void testCommitNoVerify() throws Exception {
+    void testCommitNoVerify() throws Exception {
         GitScmTestUtils.setupRejectAllCommitsPreCommitHook(getWorkingCopy());
         GitScmTestUtils.setDefaultGitConfig(getWorkingCopy());
         ScmFileSet addedFile = createWorkspaceChange(getWorkingCopy());

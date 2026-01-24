@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.git.command.tag;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 
@@ -28,16 +29,16 @@ import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.GitSshServer;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
-import org.junit.Assume;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 public abstract class GitSshTagCommandTckTest extends TagCommandTckTest {
     protected final GitSshServer gitSshServer;
 
-    @Rule
-    public TemporaryFolder tmpDirectory = new TemporaryFolder();
+    @TempDir
+    private Path tmpDirectory;
 
     protected GitSshTagCommandTckTest() throws GeneralSecurityException {
         gitSshServer = new GitSshServer();
@@ -57,7 +58,7 @@ public abstract class GitSshTagCommandTckTest extends TagCommandTckTest {
         ScmProviderRepositoryWithHost providerRepository =
                 ScmProviderRepositoryWithHost.class.cast(repository.getProviderRepository());
         // store as file
-        Path privateKeyFile = tmpDirectory.newFile().toPath();
+        Path privateKeyFile = Files.createTempFile(tmpDirectory, "scm-provider-gittest-", ".pem");
         gitSshServer.writePrivateKeyAsPkcs8(privateKeyFile, passphrase);
         providerRepository.setPrivateKey(privateKeyFile.toString());
         providerRepository.setPassphrase(passphrase); // may be null
@@ -90,17 +91,16 @@ public abstract class GitSshTagCommandTckTest extends TagCommandTckTest {
     }
 
     @Test
-    public void testTagCommandTestWithPush() throws Exception {
+    void testTagCommandTestWithPush() throws Exception {
         configureCredentials(getScmRepository(), null);
         getScmRepository().getProviderRepository().setPushChanges(true);
         super.testTagCommandTest();
     }
 
     @Test
-    public void testTagCommandWithPassphraseAndPushTest() throws Exception {
+    void testTagCommandWithPassphraseAndPushTest() throws Exception {
         // TODO: currently no easy way to pass passphrase in gitexe
-        Assume.assumeTrue(
-                "Ignore test with passphrase for provider " + getScmProvider(), "jgit".equals(getScmProvider()));
+        assumeTrue("jgit".equals(getScmProvider()), "Ignore test with passphrase for provider " + getScmProvider());
         configureCredentials(getScmRepository(), "mySecret");
         getScmRepository().getProviderRepository().setPushChanges(true);
         super.testTagCommandTest();

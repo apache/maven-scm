@@ -24,32 +24,34 @@ import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.blame.GitBlameCommandTckTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Evgeny Mandrikov
  */
-public class GitExeBlameCommandTckTest extends GitBlameCommandTckTest {
+class GitExeBlameCommandTckTest extends GitBlameCommandTckTest {
     @Override
     public String getScmProviderCommand() {
         return GIT_COMMAND_LINE;
     }
 
+    @Override
     public String getScmUrl() throws Exception {
         return GitScmTestUtils.getScmUrl(getRepositoryRoot(), "git");
     }
 
     @Test
+    @Override
     public void testBlameCommand() throws Exception {
         super.testBlameCommand();
     }
 
     protected void verifyResult(BlameScmResult result) {
         List<BlameLine> lines = result.getLines();
-        assertEquals("Expected 1 line in blame", 1, lines.size());
+        assertEquals(1, lines.size(), "Expected 1 line in blame");
         BlameLine line = lines.get(0);
         assertEquals("Mark Struberg", line.getAuthor());
         assertEquals("92f139dfec4d1dfb79c3cd2f94e83bf13129668b", line.getRevision());

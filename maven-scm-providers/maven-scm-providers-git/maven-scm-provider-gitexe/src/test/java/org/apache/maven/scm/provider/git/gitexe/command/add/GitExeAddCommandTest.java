@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Check if the {@code GitAddCommand#createCommandLine(File, List)} returns the correct
@@ -32,10 +32,10 @@ import org.junit.Test;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
  */
-public class GitExeAddCommandTest extends ScmTestCase {
+class GitExeAddCommandTest extends ScmTestCase {
 
     @Test
-    public void testAddCommandSingleFile() throws Exception {
+    void testAddCommandSingleFile() throws Exception {
         List<File> files = new ArrayList<>();
 
         files.add(new File("myFile.java"));
@@ -44,7 +44,7 @@ public class GitExeAddCommandTest extends ScmTestCase {
     }
 
     @Test
-    public void testAddCommandMultipleFiles() throws Exception {
+    void testAddCommandMultipleFiles() throws Exception {
         List<File> files = new ArrayList<>();
 
         files.add(new File("myFile.java"));

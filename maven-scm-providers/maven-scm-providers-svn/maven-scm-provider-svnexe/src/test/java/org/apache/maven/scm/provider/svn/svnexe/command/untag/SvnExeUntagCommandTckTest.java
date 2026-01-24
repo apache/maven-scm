@@ -25,7 +25,7 @@ import org.apache.maven.scm.provider.svn.command.untag.SvnUntagCommandTckTest;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
 
@@ -45,7 +45,7 @@ public class SvnExeUntagCommandTckTest extends SvnUntagCommandTckTest {
      * @throws Exception in case of error
      */
     @Test
-    public void testUntagSsh() throws Exception {
+    void testUntagSsh() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 
@@ -67,7 +67,7 @@ public class SvnExeUntagCommandTckTest extends SvnUntagCommandTckTest {
      * @throws Exception in case of error
      */
     @Test
-    public void testUntagHttps() throws Exception {
+    void testUntagHttps() throws Exception {
         File messageFile = File.createTempFile("maven-scm", "commit");
         messageFile.deleteOnExit();
 

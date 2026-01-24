@@ -26,16 +26,16 @@ import java.util.List;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.ReaderFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 public class GitDiffRawConsumerTest extends ScmTestCase {
     @Test
-    public void testUpToDate() throws Exception {
+    void testUpToDate() throws Exception {
         GitDiffRawConsumer consumer = buildGitDiffRawConsumer("/src/test/resources/git/diff/git-diff-raw_long.out");
 
         List<ScmFile> changedFiles = consumer.getChangedFiles();

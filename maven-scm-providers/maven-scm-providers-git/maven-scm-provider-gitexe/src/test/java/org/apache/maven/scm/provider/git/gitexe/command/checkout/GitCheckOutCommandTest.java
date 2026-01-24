@@ -26,8 +26,8 @@ import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -40,10 +40,8 @@ public class GitCheckOutCommandTest extends ScmTestCase {
     //
     // ----------------------------------------------------------------------
 
-    @Before
-    @Override
+    @BeforeEach
     public void setUp() throws Exception {
-        super.setUp();
 
         workingDirectory = getTestFile("target/git-checkout-command-test");
     }
@@ -53,7 +51,7 @@ public class GitCheckOutCommandTest extends ScmTestCase {
     // ----------------------------------------------------------------------
 
     @Test
-    public void testCommandLineWithBranch() throws Exception {
+    void testCommandLineWithBranch() throws Exception {
         testCommandLine(getScmManager(), "scm:git:http://foo.com/git", "mybranch", "git checkout mybranch");
     }
 

@@ -26,11 +26,11 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Bertrand Paquet
@@ -43,10 +43,8 @@ public class GitExeCheckOutCommandNoBranchTest extends ScmTestCase {
 
     private ScmRepository scmRepository;
 
-    @Before
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
+    @BeforeEach
+    void setUp() throws Exception {
 
         workingDirectory = new File("target/checkin-nobranch");
         FileUtils.deleteDirectory(workingDirectory);
@@ -58,14 +56,14 @@ public class GitExeCheckOutCommandNoBranchTest extends ScmTestCase {
     }
 
     @Test
-    public void testCheckoutNoBranch() throws Exception {
+    void testCheckoutNoBranch() throws Exception {
         checkSystemCmdPresence(GIT_COMMAND_LINE);
         CheckOutScmResult result = checkoutRepo();
         assertEquals(0, result.getCheckedOutFiles().size());
     }
 
     @Test
-    public void testDoubleCheckoutNoBranch() throws Exception {
+    void testDoubleCheckoutNoBranch() throws Exception {
         checkSystemCmdPresence(GIT_COMMAND_LINE);
         CheckOutScmResult result = checkoutRepo();
         assertEquals(0, result.getCheckedOutFiles().size());

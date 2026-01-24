@@ -25,7 +25,7 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * test the subversion untag implementation
@@ -39,7 +39,7 @@ public class SvnUntagCommandTest extends ScmTestCase {
      * @throws Exception in case of error
      */
     @Test
-    public void testUntagHttp() throws Exception {
+    void testUntagHttp() throws Exception {
 
         File messageFile = File.createTempFile("maven-scm", "untag");
         messageFile.deleteOnExit();
@@ -60,7 +60,7 @@ public class SvnUntagCommandTest extends ScmTestCase {
      * @throws Exception in case of error
      */
     @Test
-    public void testUntagSsh() throws Exception {
+    void testUntagSsh() throws Exception {
 
         File messageFile = File.createTempFile("maven-scm", "untag");
         messageFile.deleteOnExit();

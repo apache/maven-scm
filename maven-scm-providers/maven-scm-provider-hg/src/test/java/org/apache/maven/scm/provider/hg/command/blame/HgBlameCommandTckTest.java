@@ -26,8 +26,8 @@ import org.apache.maven.scm.provider.hg.HgRepoUtils;
 import org.apache.maven.scm.tck.command.blame.BlameCommandTckTest;
 
 import static org.apache.maven.scm.provider.hg.HgRepoUtils.HG_COMMAND_LINE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * @author Evgeny Mandrikov
@@ -48,7 +48,7 @@ public class HgBlameCommandTckTest extends BlameCommandTckTest {
 
     protected void verifyResult(BlameScmResult result) {
         List<BlameLine> lines = result.getLines();
-        assertEquals("Expected 1 line in blame", 1, lines.size());
+        assertEquals(1, lines.size(), "Expected 1 line in blame");
         BlameLine line = lines.get(0);
         assertNotEquals("0", line.getRevision());
     }

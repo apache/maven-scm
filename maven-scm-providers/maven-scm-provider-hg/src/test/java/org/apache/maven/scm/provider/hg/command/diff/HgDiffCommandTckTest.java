@@ -27,10 +27,10 @@ import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.hg.HgRepoUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.diff.DiffCommandTckTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.hg.HgRepoUtils.HG_COMMAND_LINE;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HgDiffCommandTckTest extends DiffCommandTckTest {
     @Override
@@ -47,7 +47,7 @@ public class HgDiffCommandTckTest extends DiffCommandTckTest {
     }
 
     @Test
-    public void testDiffCommand() throws Exception {
+    void testDiffCommand() throws Exception {
         ScmRepository repository = getScmRepository();
 
         // ----------------------------------------------------------------------

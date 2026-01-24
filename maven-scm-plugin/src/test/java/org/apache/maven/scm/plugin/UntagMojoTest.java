@@ -49,7 +49,7 @@ class UntagMojoTest {
 
         checkSystemCmdPresence(GitScmTestUtils.GIT_COMMAND_LINE);
 
-        GitScmTestUtils.initRepo("src/test/resources/git", repository, checkoutDir);
+        GitScmTestUtils.initRepo("../../git", repository, checkoutDir);
     }
 
     @Test

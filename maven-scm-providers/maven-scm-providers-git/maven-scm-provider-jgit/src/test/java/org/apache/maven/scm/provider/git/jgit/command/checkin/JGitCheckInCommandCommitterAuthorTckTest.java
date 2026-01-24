@@ -25,7 +25,6 @@ import java.io.PrintWriter;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
-import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -45,33 +44,27 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Dominik Bartholdi (imod)
  */
 public class JGitCheckInCommandCommitterAuthorTckTest extends GitCheckInCommandTckTest {
 
-    @Before
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() {
         SystemReader.setInstance(new CustomSystemReader());
     }
 
-    @After
-    @Override
-    public void tearDown() throws Exception {
-        super.tearDown();
-
+    @AfterEach
+    void tearDown() {
         // back to default
         SystemReader.setInstance(null);
     }
@@ -94,7 +87,7 @@ public class JGitCheckInCommandCommitterAuthorTckTest extends GitCheckInCommandT
     @Test
     public void testCheckInCommandTest() throws Exception {
         File fooJava = new File(getWorkingCopy(), "src/main/java/Foo.java");
-        assertFalse("check Foo.java doesn't yet exist", fooJava.canRead());
+        assertFalse(fooJava.canRead(), "check Foo.java doesn't yet exist");
 
         Git git = Git.open(getWorkingCopy());
 
@@ -138,8 +131,8 @@ public class JGitCheckInCommandCommitterAuthorTckTest extends GitCheckInCommandT
         head = getHeadCommit(git.getRepository());
         assertEquals("dbartholdi", head.getCommitterIdent().getName());
         assertFalse(
-                "no mail domain is configured, git system default should be used",
-                head.getCommitterIdent().getEmailAddress().contains("dbartholdi"));
+                head.getCommitterIdent().getEmailAddress().contains("dbartholdi"),
+                "no mail domain is configured, git system default should be used");
         JGitUtils.closeRepo(git);
 
         // unset a user and maven user but set default mail domain
@@ -210,11 +203,11 @@ public class JGitCheckInCommandCommitterAuthorTckTest extends GitCheckInCommandT
         assertEquals("dundy", head.getCommitterIdent().getName());
         assertEquals("dundy", head.getAuthorIdent().getName());
         assertTrue(
-                "the maven user (from parameter) name must be in the committer mail when nothing else is configured",
-                head.getCommitterIdent().getEmailAddress().contains("dundy"));
+                head.getCommitterIdent().getEmailAddress().contains("dundy"),
+                "the maven user (from parameter) name must be in the committer mail when nothing else is configured");
         assertTrue(
-                "the user name (from parameter) must be in the author mail when nothing else is configured",
-                head.getAuthorIdent().getEmailAddress().contains("dundy"));
+                head.getAuthorIdent().getEmailAddress().contains("dundy"),
+                "the user name (from parameter) must be in the author mail when nothing else is configured");
         JGitUtils.closeRepo(git);
 
         // unset all configs
@@ -247,7 +240,7 @@ public class JGitCheckInCommandCommitterAuthorTckTest extends GitCheckInCommandT
         config.unsetSection(JGitCheckInCommand.GIT_MAVEN_SECTION, null);
     }
 
-    private void createAndCommitFile(File file, String username) throws Exception, ScmException, IOException {
+    private void createAndCommitFile(File file, String username) throws Exception {
         createFooJava(file);
 
         ScmRepository scmRepository = getScmRepository();
@@ -293,7 +286,7 @@ public class JGitCheckInCommandCommitterAuthorTckTest extends GitCheckInCommandT
      *
      * @author Robert Scholte
      */
-    class CustomSystemReader extends SystemReader {
+    static class CustomSystemReader extends SystemReader {
 
         private final SystemReader reader = SystemReader.getInstance();
 
