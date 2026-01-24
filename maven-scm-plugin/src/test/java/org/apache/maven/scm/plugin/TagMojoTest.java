@@ -20,83 +20,63 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
+import org.apache.maven.api.plugin.testing.Basedir;
+import org.apache.maven.api.plugin.testing.InjectMojo;
+import org.apache.maven.api.plugin.testing.MojoTest;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import static org.apache.maven.api.plugin.testing.MojoExtension.getTestFile;
 import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-@RunWith(JUnit4.class)
-public class TagMojoTest extends AbstractJUnit4MojoTestCase {
-    File checkoutDir;
+@MojoTest
+@Basedir("/mojos/tag")
+public class TagMojoTest {
+    private File checkoutDir;
 
-    File repository;
-
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        super.setUp();
 
         checkoutDir = getTestFile("target/checkout");
 
         FileUtils.forceDelete(checkoutDir);
 
-        repository = getTestFile("target/repository");
+        File repository = getTestFile("target/repository");
 
         FileUtils.forceDelete(repository);
 
         checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);
-
-        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
-
-        CheckoutMojo checkoutMojo = (CheckoutMojo)
-                lookupMojo("checkout", getTestFile("src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml"));
-        checkoutMojo.setWorkingDirectory(new File(getBasedir()));
-
-        setupConnectionUrl(checkoutMojo);
-
-        checkoutMojo.setCheckoutDirectory(checkoutDir);
-
-        checkoutMojo.execute();
-    }
-
-    private static void setupConnectionUrl(AbstractScmMojo mojo) {
-        String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = connectionUrl.replace("${basedir}", getBasedir());
-        connectionUrl = connectionUrl.replace('\\', '/');
-        mojo.setConnectionUrl(connectionUrl);
     }
 
     @Test
-    public void testTag() throws Exception {
+    void testTag(
+            @InjectMojo(goal = "tag", pom = "tag.xml") TagMojo mojo,
+            @InjectMojo(goal = "checkout", pom = "../checkout/checkoutWithConnectionUrl.xml")
+                    CheckoutMojo checkoutMojoInit,
+            @InjectMojo(goal = "checkout", pom = "checkout.xml") CheckoutMojo checkoutMojo)
+            throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
-        TagMojo mojo = (TagMojo) lookupMojo("tag", getTestFile("src/test/resources/mojos/tag/tag.xml"));
+        checkoutMojoInit.execute();
+
         mojo.setWorkingDirectory(checkoutDir);
 
-        setupConnectionUrl(mojo);
-
         mojo.execute();
-
-        CheckoutMojo checkoutMojo =
-                (CheckoutMojo) lookupMojo("checkout", getTestFile("src/test/resources/mojos/tag/checkout.xml"));
-        checkoutMojo.setWorkingDirectory(new File(getBasedir()));
-
-        setupConnectionUrl(checkoutMojo);
 
         File tagCheckoutDir = getTestFile("target/tags/mytag");
         if (tagCheckoutDir.exists()) {
             FileUtils.deleteDirectory(tagCheckoutDir);
         }
-        checkoutMojo.setCheckoutDirectory(tagCheckoutDir);
 
         assertFalse(new File(tagCheckoutDir, "pom.xml").exists());
         checkoutMojo.execute();
@@ -104,13 +84,16 @@ public class TagMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testTagWithTimestamp() throws Exception {
+    void testTagWithTimestamp(
+            @InjectMojo(goal = "tag", pom = "tag.xml") TagMojo mojo,
+            @InjectMojo(goal = "checkout", pom = "../checkout/checkoutWithConnectionUrl.xml")
+                    CheckoutMojo checkoutMojoInit)
+            throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
-        TagMojo mojo = (TagMojo) lookupMojo("tag", getTestFile("src/test/resources/mojos/tag/tagWithTimestamp.xml"));
-        mojo.setWorkingDirectory(checkoutDir);
+        checkoutMojoInit.execute();
 
-        setupConnectionUrl(mojo);
+        mojo.setWorkingDirectory(checkoutDir);
 
         mojo.execute();
     }

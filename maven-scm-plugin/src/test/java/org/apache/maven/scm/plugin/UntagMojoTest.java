@@ -20,65 +20,52 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
+import org.apache.maven.api.plugin.testing.Basedir;
+import org.apache.maven.api.plugin.testing.InjectMojo;
+import org.apache.maven.api.plugin.testing.MojoTest;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import static org.apache.maven.api.plugin.testing.MojoExtension.getTestFile;
 import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
-@RunWith(JUnit4.class)
-public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
-    File checkoutDir;
+@MojoTest
+@Basedir("/mojos/untag")
+class UntagMojoTest {
+    private File checkoutDir;
 
-    File repository;
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
+    @BeforeEach
+    void setUp() throws Exception {
+        //        super.setUp();
 
         checkoutDir = getTestFile("target/checkout");
 
-        repository = getTestFile("target/repository");
+        File repository = getTestFile("target/repository");
 
         checkSystemCmdPresence(GitScmTestUtils.GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/git", repository, checkoutDir);
-
-        CheckoutMojo checkoutMojo =
-                (CheckoutMojo) lookupMojo("checkout", getTestFile("src/test/resources/mojos/untag/checkout.xml"));
-        checkoutMojo.setWorkingDirectory(checkoutDir);
-
-        String connectionUrl = checkoutMojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-        checkoutMojo.setConnectionUrl(connectionUrl);
-
-        checkoutMojo.setCheckoutDirectory(checkoutDir);
-
-        checkoutMojo.execute();
-
-        // Add a default user to the config
-        GitScmTestUtils.setDefaultGitConfig(checkoutDir);
     }
 
     @Test
-    public void testUntag() throws Exception {
+    void testUntag(
+            @InjectMojo(goal = "tag", pom = "tag.xml") TagMojo tagMojo,
+            @InjectMojo(goal = "untag", pom = "untag.xml") UntagMojo untagMojo,
+            @InjectMojo(goal = "checkout", pom = "checkout.xml") CheckoutMojo checkoutMojoInit,
+            @InjectMojo(goal = "checkout", pom = "checkout-tag.xml") CheckoutMojo checkoutMojo)
+            throws Exception {
         checkSystemCmdPresence(GitScmTestUtils.GIT_COMMAND_LINE);
 
-        TagMojo tagMojo = (TagMojo) lookupMojo("tag", getTestFile("src/test/resources/mojos/untag/tag.xml"));
-        tagMojo.setWorkingDirectory(checkoutDir);
-        tagMojo.setConnectionUrl(getConnectionLocalAddress(tagMojo));
-        tagMojo.execute();
+        checkoutMojoInit.execute();
+        // Add a default user to the config
+        GitScmTestUtils.setDefaultGitConfig(checkoutDir);
 
-        CheckoutMojo checkoutMojo =
-                (CheckoutMojo) lookupMojo("checkout", getTestFile("src/test/resources/mojos/untag/checkout-tag.xml"));
-        checkoutMojo.setWorkingDirectory(new File(getBasedir()));
-        checkoutMojo.setConnectionUrl(getConnectionLocalAddress(checkoutMojo));
+        tagMojo.execute();
 
         File tagCheckoutDir = getTestFile("target/tags/mytag");
 
@@ -86,14 +73,8 @@ public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
             FileUtils.deleteDirectory(tagCheckoutDir);
         }
 
-        checkoutMojo.setCheckoutDirectory(tagCheckoutDir);
         checkoutMojo.execute();
-
-        UntagMojo mojo = (UntagMojo) lookupMojo("untag", getTestFile("src/test/resources/mojos/untag/untag.xml"));
-        mojo.setWorkingDirectory(checkoutDir);
-        mojo.setConnectionUrl(getConnectionLocalAddress(mojo));
-
-        mojo.execute();
+        untagMojo.execute();
 
         FileUtils.deleteDirectory(tagCheckoutDir);
 
@@ -104,12 +85,5 @@ public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
         } catch (MojoExecutionException e) {
             assertNotNull(e.getMessage());
         }
-    }
-
-    private String getConnectionLocalAddress(AbstractScmMojo mojo) {
-        String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-        return connectionUrl;
     }
 }

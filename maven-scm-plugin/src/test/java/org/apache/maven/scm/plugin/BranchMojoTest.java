@@ -20,88 +20,66 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
-import org.apache.maven.scm.PlexusJUnit4TestCase;
+import org.apache.maven.api.plugin.testing.Basedir;
+import org.apache.maven.api.plugin.testing.InjectMojo;
+import org.apache.maven.api.plugin.testing.MojoTest;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import static org.apache.maven.api.plugin.testing.MojoExtension.getBasedir;
+import static org.apache.maven.api.plugin.testing.MojoExtension.getTestFile;
 import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-@RunWith(JUnit4.class)
-public class BranchMojoTest extends AbstractJUnit4MojoTestCase {
-    File checkoutDir;
+@MojoTest
+class BranchMojoTest {
+    private File checkoutDir;
 
-    File repository;
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
+    @BeforeEach
+    void setUp() throws Exception {
 
         checkoutDir = getTestFile("target/checkout");
 
         FileUtils.forceDelete(checkoutDir);
 
-        repository = getTestFile("target/repository");
+        File repository = getTestFile("target/repository");
 
         FileUtils.forceDelete(repository);
 
         checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);
-
-        checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
-
-        CheckoutMojo checkoutMojo = (CheckoutMojo)
-                lookupMojo("checkout", getTestFile("src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml"));
-        checkoutMojo.setWorkingDirectory(new File(getBasedir()));
-
-        String connectionUrl = checkoutMojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-        checkoutMojo.setConnectionUrl(connectionUrl);
-
-        checkoutMojo.setCheckoutDirectory(checkoutDir);
-
-        checkoutMojo.execute();
     }
 
     @Test
-    public void testBranch() throws Exception {
+    @Basedir("/mojos/branch")
+    void testBranch(
+            @InjectMojo(goal = "branch", pom = "branch.xml") BranchMojo mojo,
+            @InjectMojo(goal = "checkout", pom = "../checkout/checkoutWithConnectionUrl.xml")
+                    CheckoutMojo checkoutMojoInit,
+            @InjectMojo(goal = "checkout", pom = "checkout.xml") CheckoutMojo checkoutMojo)
+            throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
-        BranchMojo mojo = (BranchMojo)
-                lookupMojo("branch", PlexusJUnit4TestCase.getTestFile("src/test/resources/mojos/branch/branch.xml"));
-        mojo.setWorkingDirectory(checkoutDir);
+        checkoutMojoInit.execute();
 
-        String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", PlexusJUnit4TestCase.getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-        mojo.setConnectionUrl(connectionUrl);
+        mojo.setWorkingDirectory(checkoutDir);
 
         mojo.execute();
 
-        CheckoutMojo checkoutMojo = (CheckoutMojo) lookupMojo(
-                "checkout", PlexusJUnit4TestCase.getTestFile("src/test/resources/mojos/branch/checkout.xml"));
-        checkoutMojo.setWorkingDirectory(new File(PlexusJUnit4TestCase.getBasedir()));
+        checkoutMojo.setWorkingDirectory(new File(getBasedir()));
 
-        connectionUrl = checkoutMojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", PlexusJUnit4TestCase.getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-        checkoutMojo.setConnectionUrl(connectionUrl);
-
-        File branchCheckoutDir = PlexusJUnit4TestCase.getTestFile("target/branches/mybranch");
+        File branchCheckoutDir = getTestFile("target/branches/mybranch");
         if (branchCheckoutDir.exists()) {
             FileUtils.deleteDirectory(branchCheckoutDir);
         }
-        checkoutMojo.setCheckoutDirectory(branchCheckoutDir);
 
         assertFalse(new File(branchCheckoutDir, "pom.xml").exists());
         checkoutMojo.execute();

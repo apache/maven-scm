@@ -18,115 +18,80 @@
  */
 package org.apache.maven.scm.plugin;
 
+import javax.inject.Inject;
+
 import java.io.File;
 
+import org.apache.maven.api.plugin.testing.Basedir;
+import org.apache.maven.api.plugin.testing.InjectMojo;
+import org.apache.maven.api.plugin.testing.MojoTest;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.scm.PlexusJUnit4TestCase;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
-import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import static org.apache.maven.api.plugin.testing.MojoExtension.getTestFile;
 import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.atMost;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-@RunWith(JUnit4.class)
-public class ChangeLogMojoTest extends AbstractJUnit4MojoTestCase {
-    File repository;
+@MojoTest
+@Basedir("/mojos/changelog")
+class ChangeLogMojoTest {
 
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
+    @Inject
+    private Log log;
 
-        repository = getTestFile("target/repository");
-
-        FileUtils.forceDelete(repository);
-
+    @BeforeEach
+    void setUp() throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
+        File repository = getTestFile("target/repository");
         SvnScmTestUtils.initializeRepository(repository);
     }
 
     @Test
-    public void testChangeLog() throws Exception {
+    @InjectMojo(goal = "changelog", pom = "changelog.xml")
+    void testChangeLog(ChangeLogMojo mojo) throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
-        ChangeLogMojo mojo = (ChangeLogMojo)
-                lookupMojo("changelog", getTestFile("src/test/resources/mojos/changelog/changelog.xml"));
-
-        String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", PlexusJUnit4TestCase.getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-        mojo.setConnectionUrl(connectionUrl);
-        mojo.setWorkingDirectory(new File(PlexusJUnit4TestCase.getBasedir()));
-        mojo.setConnectionType("connection");
 
         mojo.execute();
+        // verify log messages as result of mojo execution
+        verify(log, times(8)).debug(anyString());
     }
 
     @Test
-    public void testChangeLogWithParameters() throws Exception {
+    @InjectMojo(goal = "changelog", pom = "changelogWithParameters.xml")
+    void testChangeLogWithParameters(ChangeLogMojo mojo) throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
-
-        ChangeLogMojo mojo = (ChangeLogMojo)
-                lookupMojo("changelog", getTestFile("src/test/resources/mojos/changelog/changelogWithParameters.xml"));
-
-        String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", PlexusJUnit4TestCase.getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-        mojo.setConnectionUrl(connectionUrl);
-        mojo.setWorkingDirectory(new File(getBasedir()));
-        mojo.setConnectionType("connection");
 
         mojo.execute();
+        // verify log messages as result of mojo execution
+        verify(log, atMost(7)).debug(anyString());
     }
 
     @Test
-    public void testChangeLogWithBadUserDateFormat() throws Exception {
-        ChangeLogMojo mojo = (ChangeLogMojo) lookupMojo(
-                "changelog", getTestFile("src/test/resources/mojos/changelog/changelogWithBadUserDateFormat.xml"));
-
-        String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-        mojo.setConnectionUrl(connectionUrl);
-        mojo.setWorkingDirectory(new File(getBasedir()));
-        mojo.setConnectionType("connection");
-
-        try {
-            mojo.execute();
-
-            fail("mojo execution must fail.");
-        } catch (MojoExecutionException e) {
-            assertNotNull(e.getMessage());
-        }
+    @InjectMojo(goal = "changelog", pom = "changelogWithBadUserDateFormat.xml")
+    void testChangeLogWithBadUserDateFormat(ChangeLogMojo mojo) throws Exception {
+        MojoExecutionException exception = assertThrows(MojoExecutionException.class, mojo::execute);
+        assertTrue(exception.getMessage().contains("Please use this date pattern: yyyyMMdd"));
     }
 
     @Test
-    public void testChangeLogWithBadConnectionUrl() throws Exception {
+    @InjectMojo(goal = "changelog", pom = "changelogWithBadConnectionUrl.xml")
+    void testChangeLogWithBadConnectionUrl(ChangeLogMojo mojo) throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
-        ChangeLogMojo mojo = (ChangeLogMojo) lookupMojo(
-                "changelog", getTestFile("src/test/resources/mojos/changelog/changelogWithBadConnectionUrl.xml"));
-
-        String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-        mojo.setConnectionUrl(connectionUrl);
-        mojo.setWorkingDirectory(new File(getBasedir()));
-        mojo.setConnectionType("connection");
-
-        try {
-            mojo.execute();
-
-            fail("mojo execution must fail.");
-        } catch (MojoExecutionException e) {
-            assertNotNull(e.getMessage());
-        }
+        MojoExecutionException exception = assertThrows(MojoExecutionException.class, mojo::execute);
+        assertTrue(exception.getMessage().contains("Command failed: The svn command failed."));
     }
 }

@@ -20,27 +20,32 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
+import org.apache.maven.api.plugin.testing.Basedir;
+import org.apache.maven.api.plugin.testing.InjectMojo;
+import org.apache.maven.api.plugin.testing.MojoTest;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import static org.apache.maven.api.plugin.testing.MojoExtension.getTestFile;
 import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
  */
-@RunWith(JUnit4.class)
-public class ExportMojoTest extends AbstractJUnit4MojoTestCase {
-    File exportDir;
+@MojoTest
+@Basedir("/mojos/export")
+class ExportMojoTest {
+    private File exportDir;
 
-    File repository;
+    private File repository;
 
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
+    @BeforeEach
+    void setUp() throws Exception {
 
         exportDir = getTestFile("target/export");
 
@@ -50,14 +55,13 @@ public class ExportMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testExport() throws Exception {
+    @InjectMojo(goal = "export", pom = "export.xml")
+    void testExport(ExportMojo mojo) throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);
 
         checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
-
-        ExportMojo mojo = (ExportMojo) lookupMojo("export", getTestFile("src/test/resources/mojos/export/export.xml"));
 
         mojo.setExportDirectory(exportDir.getAbsoluteFile());
 
@@ -68,11 +72,9 @@ public class ExportMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testSkipExportIfExists() throws Exception {
+    @InjectMojo(goal = "export", pom = "exportWhenExportDirectoryExistsAndSkip.xml")
+    void testSkipExportIfExists(ExportMojo mojo) throws Exception {
         exportDir.mkdirs();
-
-        ExportMojo mojo = (ExportMojo) lookupMojo(
-                "export", getTestFile("src/test/resources/mojos/export/exportWhenExportDirectoryExistsAndSkip.xml"));
 
         mojo.setExportDirectory(exportDir);
 
@@ -82,7 +84,8 @@ public class ExportMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testExcludeInclude() throws Exception {
+    @InjectMojo(goal = "export", pom = "exportWithExcludesIncludes.xml")
+    void testExcludeInclude(ExportMojo mojo) throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);
@@ -90,9 +93,6 @@ public class ExportMojoTest extends AbstractJUnit4MojoTestCase {
         exportDir.mkdirs();
 
         checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
-
-        ExportMojo mojo = (ExportMojo)
-                lookupMojo("export", getTestFile("src/test/resources/mojos/export/exportWithExcludesIncludes.xml"));
 
         mojo.setExportDirectory(exportDir);
 
