@@ -20,33 +20,38 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
+import org.apache.maven.api.plugin.testing.Basedir;
+import org.apache.maven.api.plugin.testing.InjectMojo;
+import org.apache.maven.api.plugin.testing.MojoTest;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import static org.apache.maven.api.plugin.testing.MojoExtension.getTestFile;
 import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.AssertionsKt.assertNotNull;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-@RunWith(JUnit4.class)
-public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
-    File checkoutDir;
+@MojoTest
+@Basedir("/mojos/checkout")
+class CheckoutMojoTest {
+    private File checkoutDir;
 
-    File repository;
+    private File repository;
 
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         checkoutDir = getTestFile("target/checkout");
 
         repository = getTestFile("target/repository");
@@ -55,13 +60,10 @@ public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testSkipCheckoutWhenCheckoutDirectoryExistsAndSkip() throws Exception {
+    @InjectMojo(goal = "checkout", pom = "checkoutWhenCheckoutDirectoryExistsAndSkip.xml")
+    void testSkipCheckoutWhenCheckoutDirectoryExistsAndSkip(CheckoutMojo mojo) throws Exception {
         FileUtils.forceDelete(checkoutDir);
         checkoutDir.mkdirs();
-
-        CheckoutMojo mojo = (CheckoutMojo) lookupMojo(
-                "checkout",
-                getTestFile("src/test/resources/mojos/checkout/checkoutWhenCheckoutDirectoryExistsAndSkip.xml"));
 
         mojo.setCheckoutDirectory(checkoutDir);
 
@@ -71,23 +73,13 @@ public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testSkipCheckoutWithConnectionUrl() throws Exception {
+    @InjectMojo(goal = "checkout", pom = "checkoutWithConnectionUrl.xml")
+    void testSkipCheckoutWithConnectionUrl(CheckoutMojo mojo) throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
-
-        FileUtils.forceDelete(checkoutDir);
 
         SvnScmTestUtils.initializeRepository(repository);
 
         checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
-
-        CheckoutMojo mojo = (CheckoutMojo)
-                lookupMojo("checkout", getTestFile("src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml"));
-        mojo.setWorkingDirectory(new File(getBasedir()));
-
-        String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-        connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-        mojo.setConnectionUrl(connectionUrl);
 
         mojo.setCheckoutDirectory(checkoutDir);
 
@@ -95,12 +87,11 @@ public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testSkipCheckoutWithoutConnectionUrl() throws Exception {
+    @InjectMojo(goal = "checkout", pom = "checkoutWithoutConnectionUrl.xml")
+    void testSkipCheckoutWithoutConnectionUrl(CheckoutMojo mojo) throws Exception {
         FileUtils.forceDelete(checkoutDir);
 
         checkoutDir.mkdirs();
-        CheckoutMojo mojo = (CheckoutMojo) lookupMojo(
-                "checkout", getTestFile("src/test/resources/mojos/checkout/checkoutWithoutConnectionUrl.xml"));
 
         try {
             mojo.execute();
@@ -112,15 +103,13 @@ public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testUseExport() throws Exception {
+    @InjectMojo(goal = "checkout", pom = "checkoutUsingExport.xml")
+    void testUseExport(CheckoutMojo mojo) throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         FileUtils.forceDelete(checkoutDir);
 
         checkoutDir.mkdirs();
-
-        CheckoutMojo mojo = (CheckoutMojo)
-                lookupMojo("checkout", getTestFile("src/test/resources/mojos/checkout/checkoutUsingExport.xml"));
 
         mojo.setCheckoutDirectory(checkoutDir);
 
@@ -131,7 +120,8 @@ public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testExcludeInclude() throws Exception {
+    @InjectMojo(goal = "checkout", pom = "checkoutWithExcludesIncludes.xml")
+    void testExcludeInclude(CheckoutMojo mojo) throws Exception {
         checkSystemCmdPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         FileUtils.forceDelete(checkoutDir);
@@ -141,9 +131,6 @@ public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
         SvnScmTestUtils.initializeRepository(repository);
 
         checkSystemCmdPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
-
-        CheckoutMojo mojo = (CheckoutMojo) lookupMojo(
-                "checkout", getTestFile("src/test/resources/mojos/checkout/checkoutWithExcludesIncludes.xml"));
 
         mojo.setCheckoutDirectory(checkoutDir);
 
@@ -158,21 +145,20 @@ public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
     }
 
     @Test
-    public void testEncryptedPasswordFromSettings() throws Exception {
-        File pom = getTestFile("src/test/resources/mojos/checkout/checkoutEncryptedPasswordFromSettings.xml");
-        CheckoutMojo mojo = (CheckoutMojo) lookupMojo("checkout", pom);
+    @InjectMojo(goal = "checkout", pom = "checkoutEncryptedPasswordFromSettings.xml")
+    void testEncryptedPasswordFromSettings(CheckoutMojo mojo) throws Exception {
         ScmProviderRepositoryWithHost repo =
                 (ScmProviderRepositoryWithHost) mojo.getScmRepository().getProviderRepository();
 
         assertNotEquals(
-                "Raw encrypted Password was returned instead of the decrypted plaintext version",
                 "{Ael0S2tnXv8H3X+gHKpZAvAA25D8+gmU2w2RrGaf5v8=}",
-                repo.getPassword());
+                repo.getPassword(),
+                "Raw encrypted Password was returned instead of the decrypted plaintext version");
 
         assertNotEquals(
-                "Raw encrypted Passphrase was returned instead of the decrypted plaintext version",
                 "{7zK9P8hNVeUHbTsjiA/vnOs0zUXbND+9MBNPvdvl+x4=}",
-                repo.getPassphrase());
+                repo.getPassphrase(),
+                "Raw encrypted Passphrase was returned instead of the decrypted plaintext version");
 
         assertEquals("testuser", repo.getUser());
         assertEquals("testpass", repo.getPassword());

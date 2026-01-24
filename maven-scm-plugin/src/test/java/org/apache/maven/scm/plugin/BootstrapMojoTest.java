@@ -35,15 +35,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class BootstrapMojoTest {
 
     @TempDir
-    File tempDir;
+    private File tempDir;
 
-    File checkoutDir;
+    private File checkoutDir;
 
-    File projectDir;
+    private File projectDir;
 
-    File goalDir;
+    private File goalDir;
 
-    BootstrapMojo bootstrapMojo;
+    private BootstrapMojo bootstrapMojo;
 
     @BeforeEach
     void setUp() throws Exception {

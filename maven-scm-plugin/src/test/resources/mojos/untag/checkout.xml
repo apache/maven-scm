@@ -23,8 +23,7 @@
       <plugin>
         <artifactId>maven-scm-plugin</artifactId>
         <configuration>
-          <settings implementation="org.apache.maven.settings.Settings"/>
-          <checkoutDirectory>target/tags/mytag</checkoutDirectory>
+          <checkoutDirectory>target/checkout</checkoutDirectory>
           <connectionType>connection</connectionType>
           <connectionUrl>scm:git:file:///${basedir}/target/repository</connectionUrl>
         </configuration>

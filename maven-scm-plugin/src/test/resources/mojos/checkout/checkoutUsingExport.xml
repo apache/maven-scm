@@ -23,7 +23,6 @@
       <plugin>
         <artifactId>maven-scm-plugin</artifactId>
         <configuration>
-          <settings implementation="org.apache.maven.settings.Settings"/>
           <checkoutDirectory>target/checkout</checkoutDirectory>
           <connectionType>connection</connectionType>
           <useExport>true</useExport>

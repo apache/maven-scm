@@ -23,7 +23,6 @@
       <plugin>
         <artifactId>maven-scm-plugin</artifactId>
         <configuration>
-          <settings implementation="org.apache.maven.settings.Settings"/>
           <connectionUrl>scm:svn:http://a.bad.host/repos/trunk</connectionUrl>
           <connectionType>connection</connectionType>
         </configuration>
