@@ -248,19 +248,19 @@ public abstract class AbstractScmManager implements ScmManager {
 
     @Override
     public Optional<ScmRepository> makeProviderScmRepository(File workingDirectory) {
-        //
-        for (ScmProvider provider : scmProviders.values()) {
+        for (Map.Entry<String, ScmProvider> providerByName : scmProviders.entrySet()) {
             logger.debug(
                     "Checking if SCM provider {} is suitable for processing: {}",
-                    provider.getScmType(),
+                    providerByName.getKey(),
                     workingDirectory);
             try {
-                ScmProviderRepository providerRepository = provider.makeProviderScmRepository(workingDirectory);
-                return Optional.of(new ScmRepository(provider.getScmType(), providerRepository));
+                ScmProviderRepository providerRepository =
+                        providerByName.getValue().makeProviderScmRepository(workingDirectory);
+                return Optional.of(new ScmRepository(providerByName.getValue().getScmType(), providerRepository));
             } catch (ScmRepositoryException | UnknownRepositoryStructure e) {
                 logger.debug(
                         "SCM provider {} is not suitable for processing: {}",
-                        provider.getScmType(),
+                        providerByName.getKey(),
                         workingDirectory,
                         e);
             }
