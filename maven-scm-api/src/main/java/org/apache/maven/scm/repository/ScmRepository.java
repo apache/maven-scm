@@ -36,7 +36,9 @@ public class ScmRepository {
     }
 
     /**
-     * @return returns the provider
+     * The SCM provider type, such as "svn", "git", etc.
+     * A value as returned by {@link org.apache.maven.scm.provider.ScmProvider#getScmType()}.
+     * @return returns the provider type
      */
     public String getProvider() {
         return provider;
