@@ -35,6 +35,13 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author Olivier Lamy
  */
 public abstract class AbstractChangeLogCommand extends AbstractCommand implements ChangeLogCommand {
+    /**
+     * @deprecated This method is part of the legacy changelog command execution
+     * mechanism and is retained for backward compatibility with existing SCM
+     * provider implementations. Some providers (for example Git) still implement
+     * this API, but newer code should rely on the current changelog handling
+     * logic provided by the SCM command framework instead.
+     */
     @Deprecated
     protected abstract ChangeLogScmResult executeChangeLogCommand(
             ScmProviderRepository repository,
@@ -45,6 +52,12 @@ public abstract class AbstractChangeLogCommand extends AbstractCommand implement
             String datePattern)
             throws ScmException;
 
+    /**
+     * @deprecated This legacy overload is kept for backward compatibility.
+     * It may not be supported by all SCM providers and in many cases
+     * results in an {@link ScmException}. Providers that still rely on it
+     * should consider migrating to the newer changelog execution APIs.
+     */
     @Deprecated
     protected ChangeLogScmResult executeChangeLogCommand(
             ScmProviderRepository repository,
@@ -56,6 +69,12 @@ public abstract class AbstractChangeLogCommand extends AbstractCommand implement
         throw new ScmException("Unsupported method for this provider.");
     }
 
+    /**
+     * @deprecated This legacy overload is kept for backward compatibility.
+     * It may not be supported by all SCM providers and in many cases
+     * results in an {@link ScmException}. Providers that still rely on it
+     * should consider migrating to the newer changelog execution APIs.
+     */
     @Deprecated
     protected ChangeLogScmResult executeChangeLogCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, ScmVersion version, String datePattern)
