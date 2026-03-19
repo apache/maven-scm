@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.plexus.util.DirectoryScanner;
@@ -182,10 +183,32 @@ public class ScmFileSet implements Serializable {
         return this.excludes;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public String toString() {
-        return "basedir = " + basedir + "; files = " + files;
+        return "ScmFileSet [basedir=" + basedir + ", includes=" + includes + ", excludes=" + excludes + ", files="
+                + files + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(basedir, excludes, files, includes);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ScmFileSet other = (ScmFileSet) obj;
+        return Objects.equals(basedir, other.basedir)
+                && Objects.equals(excludes, other.excludes)
+                && Objects.equals(files, other.files)
+                && Objects.equals(includes, other.includes);
     }
 }
