@@ -19,6 +19,7 @@
 package org.apache.maven.scm;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,7 +40,8 @@ public class ScmResult implements Serializable {
     public static final String PASSWORD_PLACE_HOLDER = "********";
 
     // works for SVN and git
-    private Pattern patternForUserColonPasswordAtHost = Pattern.compile("^.*:(.*)@.*$", Pattern.DOTALL);
+    private static final Pattern PATTERN_FOR_USER_COLON_PASSWORD_AT_HOST =
+            Pattern.compile("^.*:(.*)@.*$", Pattern.DOTALL);
 
     /**
      * Copy constructor.
@@ -109,7 +111,7 @@ public class ScmResult implements Serializable {
 
     private String masked(String commandOutput) {
         if (null != commandOutput) {
-            final Matcher passwordMatcher = patternForUserColonPasswordAtHost.matcher(commandOutput);
+            final Matcher passwordMatcher = PATTERN_FOR_USER_COLON_PASSWORD_AT_HOST.matcher(commandOutput);
             if (passwordMatcher.find()) {
                 // clear password
                 final String clearPassword = passwordMatcher.group(1);
@@ -118,5 +120,34 @@ public class ScmResult implements Serializable {
             }
         }
         return commandOutput;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(commandLine, commandOutput, providerMessage, success);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ScmResult other = (ScmResult) obj;
+        return Objects.equals(commandLine, other.commandLine)
+                && Objects.equals(commandOutput, other.commandOutput)
+                && Objects.equals(providerMessage, other.providerMessage)
+                && success == other.success;
+    }
+
+    @Override
+    public String toString() {
+        return "ScmResult [success=" + success + ", providerMessage=" + providerMessage + ", commandOutput="
+                + commandOutput + ", commandLine=" + commandLine + "]";
     }
 }
