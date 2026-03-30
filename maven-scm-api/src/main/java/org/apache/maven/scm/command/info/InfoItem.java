@@ -20,6 +20,7 @@ package org.apache.maven.scm.command.info;
 
 import java.time.OffsetDateTime;
 import java.time.temporal.TemporalAccessor;
+import java.util.Objects;
 
 /**
  * Encapsulates meta information about a file (or directory) being managed with an SCM.
@@ -155,5 +156,87 @@ public class InfoItem {
      */
     public void setLastChangedDateTime(TemporalAccessor accessor) {
         this.lastChangedDateTime = OffsetDateTime.from(accessor);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("InfoItem [");
+        if (path != null) {
+            builder.append("path=").append(path).append(", ");
+        }
+        if (url != null) {
+            builder.append("url=").append(url).append(", ");
+        }
+        if (repositoryRoot != null) {
+            builder.append("repositoryRoot=").append(repositoryRoot).append(", ");
+        }
+        if (repositoryUUID != null) {
+            builder.append("repositoryUUID=").append(repositoryUUID).append(", ");
+        }
+        if (revision != null) {
+            builder.append("revision=").append(revision).append(", ");
+        }
+        if (nodeKind != null) {
+            builder.append("nodeKind=").append(nodeKind).append(", ");
+        }
+        if (schedule != null) {
+            builder.append("schedule=").append(schedule).append(", ");
+        }
+        if (lastChangedAuthor != null) {
+            builder.append("lastChangedAuthor=").append(lastChangedAuthor).append(", ");
+        }
+        if (lastChangedRevision != null) {
+            builder.append("lastChangedRevision=").append(lastChangedRevision).append(", ");
+        }
+        if (lastChangedDate != null) {
+            builder.append("lastChangedDate=").append(lastChangedDate).append(", ");
+        }
+        if (lastChangedDateTime != null) {
+            builder.append("lastChangedDateTime=").append(lastChangedDateTime);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                lastChangedAuthor,
+                lastChangedDate,
+                lastChangedDateTime,
+                lastChangedRevision,
+                nodeKind,
+                path,
+                repositoryRoot,
+                repositoryUUID,
+                revision,
+                schedule,
+                url);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        InfoItem other = (InfoItem) obj;
+        return Objects.equals(lastChangedAuthor, other.lastChangedAuthor)
+                && Objects.equals(lastChangedDate, other.lastChangedDate)
+                && Objects.equals(lastChangedDateTime, other.lastChangedDateTime)
+                && Objects.equals(lastChangedRevision, other.lastChangedRevision)
+                && Objects.equals(nodeKind, other.nodeKind)
+                && Objects.equals(path, other.path)
+                && Objects.equals(repositoryRoot, other.repositoryRoot)
+                && Objects.equals(repositoryUUID, other.repositoryUUID)
+                && Objects.equals(revision, other.revision)
+                && Objects.equals(schedule, other.schedule)
+                && Objects.equals(url, other.url);
     }
 }
