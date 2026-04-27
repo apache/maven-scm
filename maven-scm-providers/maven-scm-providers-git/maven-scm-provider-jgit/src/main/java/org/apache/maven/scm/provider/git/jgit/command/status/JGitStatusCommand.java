@@ -55,7 +55,8 @@ public class JGitStatusCommand extends AbstractStatusCommand implements GitComma
             Status status = git.status().call();
             List<ScmFile> changedFiles = getFileStati(status);
             if (!fileSet.getFileList().isEmpty()) {
-                Set<String> fileSetPaths = fileSet.getFileList().stream().map(File::toString).collect(Collectors.toSet());
+                Set<String> fileSetPaths =
+                        fileSet.getFileList().stream().map(File::toString).collect(Collectors.toSet());
                 changedFiles.removeIf(scmFile -> !fileSetPaths.contains(scmFile.getPath()));
             }
             return new StatusScmResult("JGit status", changedFiles);
