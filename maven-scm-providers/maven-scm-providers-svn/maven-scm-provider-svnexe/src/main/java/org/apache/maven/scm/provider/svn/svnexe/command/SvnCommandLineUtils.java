@@ -44,6 +44,41 @@ import org.slf4j.LoggerFactory;
 public final class SvnCommandLineUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(SvnCommandLineUtils.class);
 
+    /**
+     * Factory interface for creating {@link Commandline} instances.
+     * The default implementation simply returns {@code new Commandline()}.
+     * Tests may replace it via {@link #setCommandlineFactory(CommandlineFactory)}
+     * to return a subclass that captures environment variables, arguments, etc.
+     */
+    @FunctionalInterface
+    public interface CommandlineFactory {
+        Commandline create();
+    }
+
+    /**
+     * Default factory: plain {@code new Commandline()} — production behaviour.
+     */
+    private static final CommandlineFactory DEFAULT_FACTORY = Commandline::new;
+
+    /**
+     * Active factory. Replaced only in tests; never {@code null}.
+     */
+    private static CommandlineFactory commandlineFactory = DEFAULT_FACTORY;
+
+    /**
+     * Replaces the factory used to create {@link Commandline} instances.
+     * <p>
+     * Intended for tests only. Always restore the default after the test:
+     * <pre>
+     *   SvnCommandLineUtils.setCommandlineFactory(null); // resets to default
+     * </pre>
+     *
+     * @param factory the factory to use, or {@code null} to reset to the default
+     */
+    public static void setCommandlineFactory(CommandlineFactory factory) {
+        commandlineFactory = (factory != null) ? factory : DEFAULT_FACTORY;
+    }
+
     private SvnCommandLineUtils() {}
 
     public static void addTarget(Commandline cl, List<File> files) throws IOException {
@@ -71,11 +106,15 @@ public final class SvnCommandLineUtils {
 
     public static Commandline getBaseSvnCommandLine(
             File workingDirectory, SvnScmProviderRepository repository, boolean interactive) {
-        Commandline cl = new Commandline();
+        Commandline cl = commandlineFactory.create();
 
         cl.setExecutable("svn");
         try {
             cl.addSystemEnvironment();
+            // ISSUE-1375: ensure that LC_ALL is unset to avoid locale issues with svn command output parsing
+            // (setting just LC_ALL=C goes too far, since it would imply that LC_CTYPE=C, which would cause
+            // svn to output non-ASCII chars in an unreadable way.)
+            cl.addEnvironment("LC_ALL", "");
             cl.addEnvironment("LC_MESSAGES", "C");
         } catch (Exception e) {
             // Do nothing
@@ -164,7 +203,7 @@ public final class SvnCommandLineUtils {
 
     public static int executeCleanUp(File workinDirectory, StreamConsumer stdout, StreamConsumer stderr)
             throws CommandLineException {
-        Commandline cl = new Commandline();
+        Commandline cl = commandlineFactory.create();
 
         cl.setExecutable("svn");
 

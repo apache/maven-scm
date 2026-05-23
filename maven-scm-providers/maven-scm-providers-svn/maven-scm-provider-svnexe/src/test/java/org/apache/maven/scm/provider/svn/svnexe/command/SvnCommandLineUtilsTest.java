@@ -19,6 +19,8 @@
 package org.apache.maven.scm.provider.svn.svnexe.command;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
@@ -135,5 +137,40 @@ public class SvnCommandLineUtilsTest extends ScmTestCase {
                 "svn --username username --no-auth-cache --non-interactive",
                 new File("."),
                 SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false));
+    }
+
+    @Test
+    // ISSUE-1375: ensure that LC_ALL is unset and LC_MESSAGES is set to C to avoid locale issues with svn command
+    // output parsing
+    void testGetBaseSvnCommandLineLcAllIsSetToC() throws Exception {
+        Map<String, String> capturedEnvVarsMap = new HashMap<String, String>();
+
+        SvnCommandLineUtils.CommandlineFactory factory = () -> new Commandline() {
+            @Override
+            public void addSystemEnvironment() throws Exception {
+                super.addSystemEnvironment();
+                addEnvironment("LC_ALL", "es_AR.UTF-8");
+            }
+
+            @Override
+            public void addEnvironment(String name, String value) {
+                capturedEnvVarsMap.put(name, value);
+                super.addEnvironment(name, value);
+            }
+        };
+
+        // Inject factory that returns our spy
+        SvnCommandLineUtils.setCommandlineFactory(factory);
+
+        try {
+            SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), null, false);
+
+            assertEquals("", capturedEnvVarsMap.get("LC_ALL"));
+            assertEquals("C", capturedEnvVarsMap.get("LC_MESSAGES"));
+
+        } finally {
+            // restore default
+            SvnCommandLineUtils.setCommandlineFactory(null);
+        }
     }
 }
