@@ -51,7 +51,7 @@ public final class SvnCommandLineUtils {
      * to return a subclass that captures environment variables, arguments, etc.
      */
     @FunctionalInterface
-    public interface CommandlineFactory {
+    interface CommandlineFactory {
         Commandline create();
     }
 
@@ -75,7 +75,7 @@ public final class SvnCommandLineUtils {
      *
      * @param factory the factory to use, or {@code null} to reset to the default
      */
-    public static void setCommandlineFactory(CommandlineFactory factory) {
+    static void setCommandlineFactory(CommandlineFactory factory) {
         commandlineFactory = (factory != null) ? factory : DEFAULT_FACTORY;
     }
 
@@ -111,11 +111,6 @@ public final class SvnCommandLineUtils {
         cl.setExecutable("svn");
         try {
             cl.addSystemEnvironment();
-            // ISSUE-1375: ensure that LC_ALL is unset to avoid locale issues with svn command output parsing
-            // (setting just LC_ALL=C goes too far, since it would imply that LC_CTYPE=C, which would cause
-            // svn to output non-ASCII chars in an unreadable way.)
-            cl.addEnvironment("LC_ALL", "");
-            cl.addEnvironment("LC_MESSAGES", "C");
         } catch (Exception e) {
             // Do nothing
         }
@@ -163,8 +158,12 @@ public final class SvnCommandLineUtils {
 
     public static int execute(Commandline cl, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr)
             throws CommandLineException {
-        // SCM-482: force English resource bundle
-        cl.addEnvironment("LC_MESSAGES", "en");
+        // ISSUE-1375: ensure that LC_ALL is unset to avoid locale issues with svn command output parsing
+        // (setting just LC_ALL=C goes too far, since it would imply that LC_CTYPE=C, which would cause
+        // svn to output non-ASCII chars in an unreadable way.)
+        // SCM-482: force English resource bundle (LC_MESSAGES was "en" before ISSUE-1375)
+        cl.addEnvironment("LC_ALL", "");
+        cl.addEnvironment("LC_MESSAGES", "C");
 
         int exitCode = CommandLineUtils.executeCommandLine(cl, consumer, stderr);
 
