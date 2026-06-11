@@ -75,8 +75,11 @@ public class GitScmProviderRepository extends ScmProviderRepositoryWithHost {
     public static final String PROTOCOL_HTTPS = "https";
 
     /**
-     * Use rsync for retrieving the data
-     * TODO implement!
+     * Protocol identifier for repositories accessed via <code>rsync</code>.
+     *
+     * This value is used when parsing SCM URLs and represents a repository
+     * that is retrieved using the rsync protocol. Currently, rsync is
+     * recognized but not actively implemented by the Git SCM provider.
      */
     public static final String PROTOCOL_RSYNC = "rsync";
 
@@ -226,10 +229,16 @@ public class GitScmProviderRepository extends ScmProviderRepositoryWithHost {
     }
 
     /**
-     * @param repoUrl
-     * @return TODO
+     * Builds the effective Git repository URL from the parsed SCM URL
+     * definition.
+     *
+     * @param repoUrl parsed repository descriptor containing host,
+     *                protocol, and path information
+     * @return the normalized remote repository URL that Maven SCM will
+     *         use for Git operations
      */
     private String getUrl(RepositoryUrl repoUrl) {
+
         StringBuilder urlSb = new StringBuilder(repoUrl.getProtocol());
         boolean urlSupportsUserInformation = false;
 
