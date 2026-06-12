@@ -18,16 +18,23 @@
  */
 package org.apache.maven.scm.provider.svn.svnexe.command;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.Os;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.codehaus.plexus.util.cli.StreamConsumer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -135,5 +142,48 @@ public class SvnCommandLineUtilsTest extends ScmTestCase {
                 "svn --username username --no-auth-cache --non-interactive",
                 new File("."),
                 SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false));
+    }
+
+    // ISSUE-1375: ensure that LC_ALL is unset and LC_MESSAGES is set to C to avoid locale issues with svn command
+    // output parsing
+    @Test
+    void testGetBaseSvnCommandLineLcAllIsUnsetAndMessagesIsC() throws Exception {
+        // 1. Subclass Commandline to capture addEnvironment calls
+        class CapturingCommandline extends Commandline {
+            final Map<String, String> envVars = new LinkedHashMap<>();
+
+            @Override
+            public void addEnvironment(String name, String value) {
+                envVars.put(name, value);
+                super.addEnvironment(name, value);
+            }
+
+            @Override
+            public Process execute() {
+                Process mockProcess = mock(Process.class);
+                when(mockProcess.getInputStream()).thenReturn(new ByteArrayInputStream(new byte[0]));
+                when(mockProcess.getErrorStream()).thenReturn(new ByteArrayInputStream(new byte[0]));
+                return mockProcess;
+            }
+        }
+
+        // 2. Inject it via the factory
+        CapturingCommandline capturingCl = new CapturingCommandline();
+        SvnCommandLineUtils.setCommandlineFactory(() -> capturingCl);
+
+        try {
+            CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+            StreamConsumer stdout = line -> {}; // no-op
+
+            SvnCommandLineUtils.execute(capturingCl, stdout, stderr);
+
+            // 3. Assert the env vars were set
+            assertEquals("", capturingCl.envVars.get("LC_ALL"));
+            assertEquals("C", capturingCl.envVars.get("LC_MESSAGES"));
+
+        } finally {
+            // 4. Always restore the factory
+            SvnCommandLineUtils.setCommandlineFactory(null);
+        }
     }
 }
