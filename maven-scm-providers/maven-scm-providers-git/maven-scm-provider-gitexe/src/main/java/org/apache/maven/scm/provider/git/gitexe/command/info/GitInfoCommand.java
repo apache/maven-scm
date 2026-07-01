@@ -47,13 +47,20 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
 
     public static final int NO_REVISION_LENGTH = -1;
 
+    /** Default value applied when the {@link CommandParameter#SCM_SKIP_MERGE_COMMITS} parameter is absent. */
+    public static final boolean DEFAULT_SKIP_MERGE_COMMITS = true;
+
     @Override
     protected ScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
 
+        boolean skipMergeCommits = isSkipMergeCommits(parameters);
+
         Commandline baseCli = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "log");
         baseCli.createArg().setValue("-1"); // only most recent commit matters
-        baseCli.createArg().setValue("--no-merges"); // skip merge commits
+        if (skipMergeCommits) {
+            baseCli.createArg().setValue("--no-merges"); // skip merge commits
+        }
         baseCli.addArg(GitInfoConsumer.getFormatArgument());
 
         List<InfoItem> infoItems = new LinkedList<>();
@@ -64,7 +71,9 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
             for (File scmFile : fileSet.getFileList()) {
                 baseCli = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "log");
                 baseCli.createArg().setValue("-1"); // only most recent commit matters
-                baseCli.createArg().setValue("--no-merges"); // skip merge commits
+                if (skipMergeCommits) {
+                    baseCli.createArg().setValue("--no-merges"); // skip merge commits
+                }
                 baseCli.addArg(GitInfoConsumer.getFormatArgument());
                 // Insert a separator to make sure that files aren't interpreted as part of the version spec
                 baseCli.createArg().setValue("--");
@@ -100,6 +109,23 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
             return NO_REVISION_LENGTH;
         } else {
             return parameters.getInt(CommandParameter.SCM_SHORT_REVISION_LENGTH, NO_REVISION_LENGTH);
+        }
+    }
+
+    /**
+     * Whether merge commits should be skipped (i.e. whether {@code --no-merges} should be added).
+     *
+     * @param parameters the command parameters
+     * @return {@link #DEFAULT_SKIP_MERGE_COMMITS} if parameter {@link CommandParameter#SCM_SKIP_MERGE_COMMITS}
+     *         (or the whole {@code parameters}) is absent, and otherwise the requested value
+     * @throws ScmException if the parameter has the wrong type
+     * @since 2.2.2
+     */
+    private static boolean isSkipMergeCommits(final CommandParameters parameters) throws ScmException {
+        if (parameters == null) {
+            return DEFAULT_SKIP_MERGE_COMMITS;
+        } else {
+            return parameters.getBoolean(CommandParameter.SCM_SKIP_MERGE_COMMITS, DEFAULT_SKIP_MERGE_COMMITS);
         }
     }
 }
