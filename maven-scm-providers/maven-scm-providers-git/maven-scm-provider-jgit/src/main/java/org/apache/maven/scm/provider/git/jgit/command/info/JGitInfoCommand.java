@@ -94,6 +94,7 @@ public class JGitInfoCommand extends AbstractCommand implements GitCommand {
     /**
      * Returns the most recent commit reachable from {@code headObjectId}, optionally ignoring merge commits
      * (mimics {@code git log -1 --no-merges} when {@code skipMergeCommits} is {@code true}).
+     * May return {@code null} when no non-merge commit is reachable (e.g. shallow history of merge commits only).
      */
     private RevCommit getMostRecentCommit(Repository repository, ObjectId headObjectId, boolean skipMergeCommits)
             throws IOException {
@@ -103,6 +104,7 @@ public class JGitInfoCommand extends AbstractCommand implements GitCommand {
                 return headCommit;
             }
             revWalk.markStart(headCommit);
+            revWalk.sort(RevSort.COMMIT_TIME_DESC);
             revWalk.setRevFilter(RevFilter.NO_MERGES);
             return revWalk.next();
         }
@@ -111,8 +113,13 @@ public class JGitInfoCommand extends AbstractCommand implements GitCommand {
     protected InfoItem getInfoItem(RevCommit fileCommit, File file) {
         InfoItem infoItem = new InfoItem();
         infoItem.setPath(file.getPath());
-        infoItem.setRevision(StringUtils.trim(fileCommit.name()));
         infoItem.setURL(file.toPath().toUri().toASCIIString());
+        if (fileCommit == null) {
+            // no matching commit (e.g. path without history, or only merge commits while skipping them):
+            // like gitexe on empty "git log" output, report the item without revision metadata
+            return infoItem;
+        }
+        infoItem.setRevision(StringUtils.trim(fileCommit.name()));
         PersonIdent authorIdent = fileCommit.getAuthorIdent();
         infoItem.setLastChangedDateTime(authorIdent
                 .getWhen()

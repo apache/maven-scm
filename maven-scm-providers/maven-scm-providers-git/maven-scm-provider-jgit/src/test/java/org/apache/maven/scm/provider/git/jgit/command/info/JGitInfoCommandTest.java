@@ -38,6 +38,7 @@ import org.junit.jupiter.api.io.TempDir;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for the {@code skipMergeCommits} handling of {@link JGitInfoCommand}.
@@ -59,6 +60,7 @@ class JGitInfoCommandTest {
         InfoScmResult result = info(parameters);
 
         assertNotNull(result);
+        assertEquals(1, result.getInfoItems().size(), "exactly one info item is expected");
         assertEquals(
                 mergeCommit.getName(),
                 result.getInfoItems().get(0).getRevision(),
@@ -72,6 +74,7 @@ class JGitInfoCommandTest {
         InfoScmResult result = info(new CommandParameters());
 
         assertNotNull(result);
+        assertEquals(1, result.getInfoItems().size(), "exactly one info item is expected");
         assertNotEquals(
                 mergeCommit.getName(),
                 result.getInfoItems().get(0).getRevision(),
@@ -110,7 +113,12 @@ class JGitInfoCommandTest {
                     .setFastForward(MergeCommand.FastForwardMode.NO_FF)
                     .setMessage("merge feature")
                     .call();
-            return mergeResult.getNewHead();
+            assertTrue(
+                    mergeResult.getMergeStatus().isSuccessful(),
+                    "merge must succeed but was: " + mergeResult.getMergeStatus());
+            ObjectId mergeHead = mergeResult.getNewHead();
+            assertNotNull(mergeHead, "merge must produce a new HEAD commit");
+            return mergeHead;
         }
     }
 
