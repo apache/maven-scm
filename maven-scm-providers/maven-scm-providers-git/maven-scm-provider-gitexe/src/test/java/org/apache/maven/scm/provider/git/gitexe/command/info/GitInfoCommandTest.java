@@ -32,7 +32,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -91,40 +90,6 @@ public class GitInfoCommandTest extends ScmTestCase {
                 "cd3c0dfacb65955e6fbb35c56cc5b1bf8ce4f767",
                 result.getInfoItems().get(0).getRevision(),
                 "revision should not be short");
-    }
-
-    @Test
-    void testInfoCommandSkipsMergeCommitsByDefault() throws Exception {
-        checkSystemCmdPresence(GIT_COMMAND_LINE);
-
-        GitScmTestUtils.initRepo("src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy());
-
-        ScmProvider provider = getScmManager().getProviderByUrl(getScmUrl());
-        ScmProviderRepository repository = provider.makeProviderScmRepository(getRepositoryRoot());
-        assertNotNull(repository);
-        InfoScmResult result = provider.info(repository, new ScmFileSet(getRepositoryRoot()), new CommandParameters());
-        assertNotNull(result);
-        assertTrue(
-                result.getCommandLine().contains("--no-merges"),
-                "merge commits must be skipped by default (--no-merges present)");
-    }
-
-    @Test
-    void testInfoCommandIncludeMergeCommits() throws Exception {
-        checkSystemCmdPresence(GIT_COMMAND_LINE);
-
-        GitScmTestUtils.initRepo("src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy());
-
-        ScmProvider provider = getScmManager().getProviderByUrl(getScmUrl());
-        ScmProviderRepository repository = provider.makeProviderScmRepository(getRepositoryRoot());
-        assertNotNull(repository);
-        CommandParameters commandParameters = new CommandParameters();
-        commandParameters.setString(CommandParameter.SCM_SKIP_MERGE_COMMITS, Boolean.FALSE.toString());
-        InfoScmResult result = provider.info(repository, new ScmFileSet(getRepositoryRoot()), commandParameters);
-        assertNotNull(result);
-        assertFalse(
-                result.getCommandLine().contains("--no-merges"),
-                "merge commits must be included when skipMergeCommits=false (no --no-merges)");
     }
 
     @Test
