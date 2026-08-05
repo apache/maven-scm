@@ -71,7 +71,8 @@ If you want to change the used SCM provider implementation, for example you want
 
 Once the SCM has been configured, SCM operations can be performed.
 
-## changelog - displays the project commit changes for each revisions
+changelog - displays the project commit changes for each revisions
+------------------------------------------------------------------
 
 `pom.xml` configuration :
 
@@ -110,7 +111,8 @@ or you can specify the startDate and endDate on the commandline
   mvn -DstartDate=YYYY-MM-DD -DendDate=YYYY-MM-DD scm:changelog
 ```
 
-## diff
+diff
+----
 
 `pom.xml` configuration :
 
@@ -149,7 +151,8 @@ or you can specify the startRevision and endRevision in the command line
    mvn -DstartRevision=<revision> -DendRevision=<revision> scm:diff
 ```
 
-## edit - set the edit status of the file, locking the project sources if supported.
+edit - set the edit status of the file, locking the project sources if supported.
+---------------------------------------------------------------------------------
 
 Command :
 
@@ -157,7 +160,8 @@ Command :
   mvn scm:edit
 ```
 
-## status - displays the modified files in the project.
+status - displays the modified files in the project.
+----------------------------------------------------
 
 Command :
 
@@ -165,7 +169,8 @@ Command :
    mvn scm:status
 ```
 
-## tag
+tag
+---
 
 `pom.xml` configuration :
 
@@ -203,7 +208,8 @@ or you can specify the tag name in the command line
    mvn -Dtag="<tag name>" scm:tag
 ```
 
-## unedit - unset the edit status of the project sources and unlocking it if supported.
+unedit - unset the edit status of the project sources and unlocking it if supported.
+------------------------------------------------------------------------------------
 
 Command :
 
@@ -211,7 +217,8 @@ Command :
    mvn scm:unedit
 ```
 
-## validate - check if the scm urls configured in the `pom.xml` is valid.
+validate - check if the scm urls configured in the `pom.xml` is valid.
+----------------------------------------------------------------------
 
 Command :
 
