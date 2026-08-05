@@ -18,10 +18,13 @@
  */
 package org.apache.maven.scm.provider.git.jgit.command.status;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -51,7 +54,11 @@ public class JGitStatusCommand extends AbstractStatusCommand implements GitComma
             git = JGitUtils.openRepo(fileSet.getBasedir());
             Status status = git.status().call();
             List<ScmFile> changedFiles = getFileStati(status);
-
+            if (!fileSet.getFileList().isEmpty()) {
+                Set<String> fileSetPaths =
+                        fileSet.getFileList().stream().map(File::toString).collect(Collectors.toSet());
+                changedFiles.removeIf(scmFile -> !fileSetPaths.contains(scmFile.getPath()));
+            }
             return new StatusScmResult("JGit status", changedFiles);
         } catch (IOException | GitAPIException e) {
             throw new ScmException("JGit status failure!", e);
