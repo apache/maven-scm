@@ -39,6 +39,7 @@ public interface Command {
      * @return the result object
      * @throws ScmException if any
      */
-    ScmResult execute(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+    // ScmResult execute(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
+    <T extends ScmResult> T execute(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
             throws ScmException;
 }
