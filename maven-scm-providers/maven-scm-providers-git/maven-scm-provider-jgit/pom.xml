@@ -31,11 +31,6 @@
   <description>JGIT implementation for SCM Git Provider.
     see http://eclipse.org/jgit/</description>
 
-  <properties>
-    <!-- version 6+ requires Java 11 -->
-    <jgitVersion>5.13.5.202508271544-r</jgitVersion>
-  </properties>
-
   <dependencyManagement>
     <dependencies>
       <!-- upgrade SSHD used in JGit to newer version for being compatible with ITs -->
