@@ -32,7 +32,7 @@ License: Apache License, Version 2\.0
 
 ## SCM URL
 
-For all URLs below, we use a colon \(:\) as separator. If you use a colon for one of the variables \(e.g. a windows path\), then use a pipe \(|\) as separator.
+For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
 
 ```
 scm:svn:svn://[username[:password]@]server_name[:port]/path_to_repository
@@ -59,7 +59,7 @@ The provider configuration is defined in `${user.home}/.scm/svn-settings.xml`. F
 
 ### Configuration directory
 
-You can define the subversion configuration directory \(&apos;--config-dir&apos; svn global option\) in the provider configuration file or with &apos;maven.scm.svn.config\_directory&apos; command line parameter.
+You can define the subversion configuration directory (&apos;--config-dir&apos; svn global option) in the provider configuration file or with &apos;maven.scm.svn.config_directory&apos; command line parameter.
 
 ```
 mvn -Dmaven.scm.svn.config_directory=your_configuration_directory scm:update

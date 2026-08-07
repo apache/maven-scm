@@ -31,7 +31,7 @@ Adds a new file to the source control system
 
 ## Changelog
 
-Produces a list of changed \(a new version has been put in the system\) files. This list can then be used to display the latest changes or the developer\(s\) who did the latest changes.
+Produces a list of changed (a new version has been put in the system) files. This list can then be used to display the latest changes or the developer(s) who did the latest changes.
 
 ## Checkin
 
@@ -39,7 +39,7 @@ Save the changes you have done into the repository. This will create a new versi
 
 ## Checkout
 
-Copy \(part of\) the contents of the source control system to a certain location on your local machine. It should be possible to scm operations in that location.
+Copy (part of) the contents of the source control system to a certain location on your local machine. It should be possible to scm operations in that location.
 
 ## Edit
 
@@ -55,11 +55,11 @@ Removes a file from the source control system
 
 ## Status
 
-Gives a list of files that still need some source control operation \(files that still need to be added, files that are in edit mode, ...\)
+Gives a list of files that still need some source control operation (files that still need to be added, files that are in edit mode, ...)
 
 ## Tag
 
-Tags \(label in some scm&apos;s\) a source tree with a certain tag. This allows to make reproducable builds later by checking out the source code that has this tag.
+Tags (label in some scm&apos;s) a source tree with a certain tag. This allows to make reproducable builds later by checking out the source code that has this tag.
 
 ## Update
 

@@ -31,15 +31,15 @@ License: -
 
 ## SCM URL
 
-For all URLs below, we use a colon \(:\) as separator. If you use a colon for one of the variables \(e.g. a windows path\), then use a pipe \(|\) as separator.
+For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
 
 ```
 scm:local<delimiter>path_to_repository<delimiter>module_name
 ```
 
-_path\_to\_repository_: The absolute or relative path to the parent directory of your pom.xml
+_path_to_repository_: The absolute or relative path to the parent directory of your pom.xml
 
-_module\_name_: The name of the directory that contains your pom.xml
+_module_name_: The name of the directory that contains your pom.xml
 
 ## Examples
 

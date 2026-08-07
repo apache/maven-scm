@@ -25,8 +25,8 @@ date: 2008-08-13
 
 The SCM Plugin maps a lot of commands to a variety of SCM implementations. But there are only 2 frequently used commands:
 
-- `checkin` - commit the changes to the remote repository \( SCM server \).
-- `update` - updates the local working copy with the one from the remote repository \( SCM server \).
+- `checkin` - commit the changes to the remote repository ( SCM server ).
+- `update` - updates the local working copy with the one from the remote repository ( SCM server ).
 
 # Configuring SCM
 

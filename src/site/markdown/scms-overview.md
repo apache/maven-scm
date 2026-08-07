@@ -32,7 +32,7 @@ These SCMs are supported with their providers shipping with maven-scm
 |[Git](./git.html)|`git`|[Git Executable Provider](./maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/index.html)|no|
 |[Git](./git.html)|`jgit`|[JGit Provider](./maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/index.html)|yes|
 |[Subversion](./subversion.html)|`svn`|[SVN Executable Provider](./maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svnexe/index.html)|no|
-|[Mercurial](./mercurial.html)|`hg`|[Mercurial \(Hg\) Provider](./maven-scm-providers/maven-scm-provider-hg/index.html)|no|
+|[Mercurial](./mercurial.html)|`hg`|[Mercurial (Hg) Provider](./maven-scm-providers/maven-scm-provider-hg/index.html)|no|
 |[Local](./local.html)|`local`|[Local Provider](./maven-scm-providers/maven-scm-provider-local/index.html)|yes|
 
 ## 3rd Party SCM Providers
