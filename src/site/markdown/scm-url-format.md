@@ -31,7 +31,7 @@ The general format for an SCM URL is
 scm:<provider id><delimiter><provider-specific part>
 ```
 
-For a delimiter, you can use either colon `:` or a pipe `|`, if you use a colon for one of the variables \(e.g. a Windows path\).
+For a delimiter, you can use either colon `:` or a pipe `|`, if you use a colon for one of the variables (e.g. a Windows path).
 
 For information about supported provider IDs and the provider-specific part, see the appropriate [SCM implementation](./scms-overview.html).
 

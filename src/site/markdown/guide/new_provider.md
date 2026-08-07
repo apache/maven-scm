@@ -81,7 +81,7 @@ The Sisu Maven Plugin will generate the components meta-data file used by the DI
 
 ## Create an SCM Provider Repository class
 
-This class will contain all SCM information about your SCM connection \(user, password, host, port, path...\).
+This class will contain all SCM information about your SCM connection (user, password, host, port, path...).
 
 ```unknown
 package org.apache.maven.scm.provider.myprovider.repository;
@@ -139,7 +139,7 @@ public class MyScmProvider
 }
 ```
 
-The JSR330 annotations will be used by the Sisu Maven Plugin, declared in the POM, to generate component meta-data. Generally, we use the string just after _scm:_ in the scm URL as the _provider\_name_.
+The JSR330 annotations will be used by the Sisu Maven Plugin, declared in the POM, to generate component meta-data. Generally, we use the string just after _scm:_ in the scm URL as the _provider_name_.
 
 ## Commands implementation
 
@@ -168,7 +168,7 @@ public class MyCheckoutCommand
 
 ## Allow the command in the SCM provider
 
-Now that your command is implemented, you need to add it in your SCM provider \(`MyScmProvider`\). Open the provider class and override the method that relates to your command.
+Now that your command is implemented, you need to add it in your SCM provider (`MyScmProvider`). Open the provider class and override the method that relates to your command.
 
 ```unknown
 public class MyScmProvider
@@ -202,5 +202,5 @@ It&apos;s important to test your SCM provider with these tools, because they are
 
 ## Document your provider
 
-Now that your provider works fine, you must document it \(which scm URLs are supported, which commands are supported...\). You can use the same template that is used by the other providers.
+Now that your provider works fine, you must document it (which scm URLs are supported, which commands are supported...). You can use the same template that is used by the other providers.
 

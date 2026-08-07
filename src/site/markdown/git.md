@@ -31,7 +31,7 @@ License: GNU General Public License v2
 
 ## SCM URL
 
-For all URLs below, we use a colon \(:\) as separator. If you use a colon for one of the variables \(e.g. a windows path\), then use a pipe \(|\) as separator. The separator for the port has to be a colon in any case since this part is specified in the [Git URL specification](https://git-scm.com/docs/git-clone#_git_urls).
+For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator. The separator for the port has to be a colon in any case since this part is specified in the [Git URL specification](https://git-scm.com/docs/git-clone#_git_urls).
 
 ```
 scm:git:git://server_name[:port]/path_to_repository
