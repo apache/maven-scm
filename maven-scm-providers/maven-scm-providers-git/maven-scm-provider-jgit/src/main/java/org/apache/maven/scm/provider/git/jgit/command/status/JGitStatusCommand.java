@@ -20,6 +20,8 @@ package org.apache.maven.scm.provider.git.jgit.command.status;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -55,9 +57,17 @@ public class JGitStatusCommand extends AbstractStatusCommand implements GitComma
             Status status = git.status().call();
             List<ScmFile> changedFiles = getFileStati(status);
             if (!fileSet.getFileList().isEmpty()) {
-                Set<String> fileSetPaths =
-                        fileSet.getFileList().stream().map(File::toString).collect(Collectors.toSet());
-                changedFiles.removeIf(scmFile -> !fileSetPaths.contains(scmFile.getPath()));
+                // account for difference in repo and fileSet base path
+                File gitRoot = git.getRepository().getWorkTree().getCanonicalFile();
+                File fileSetBase = fileSet.getBasedir().getCanonicalFile();
+                // switching to Path for normalize() that allows safer equals() than pure String, accounting for
+                // separator and case-sensitiviy
+                Path relativeBase = gitRoot.toPath().relativize(fileSetBase.toPath());
+                Set<Path> fileSetPaths = fileSet.getFileList().stream()
+                        .map(f -> relativeBase.resolve(f.toPath()).normalize())
+                        .collect(Collectors.toSet());
+                changedFiles.removeIf(scmFile ->
+                        !fileSetPaths.contains(Paths.get(scmFile.getPath()).normalize()));
             }
             return new StatusScmResult("JGit status", changedFiles);
         } catch (IOException | GitAPIException e) {
