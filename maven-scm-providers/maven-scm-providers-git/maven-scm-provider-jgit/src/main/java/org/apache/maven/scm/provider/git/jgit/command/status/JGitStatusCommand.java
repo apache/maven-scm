@@ -56,7 +56,7 @@ public class JGitStatusCommand extends AbstractStatusCommand implements GitComma
             git = JGitUtils.openRepo(fileSet.getBasedir());
             Status status = git.status().call();
             List<ScmFile> changedFiles = getFileStati(status);
-            if (!fileSet.getFileList().isEmpty()) {
+            if (isFileSetFiltered(fileSet)) {
                 // account for difference in repo and fileSet base path
                 File gitRoot = git.getRepository().getWorkTree().getCanonicalFile();
                 File fileSetBase = fileSet.getBasedir().getCanonicalFile();
@@ -92,4 +92,9 @@ public class JGitStatusCommand extends AbstractStatusCommand implements GitComma
             all.add(new ScmFile(f, status));
         }
     }
+
+    private static boolean isFileSetFiltered(ScmFileSet fileSet) {
+        return (fileSet.getIncludes() != null && !fileSet.getIncludes().isEmpty()) || (fileSet.getExcludes() != null && !fileSet.getExcludes().isEmpty());
+    }
+
 }
