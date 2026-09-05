@@ -18,7 +18,6 @@
  */
 package org.apache.maven.scm.provider.git.jgit.command.status;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -58,11 +57,14 @@ public class JGitStatusCommand extends AbstractStatusCommand implements GitComma
             List<ScmFile> changedFiles = getFileStati(status);
             if (isFileSetFiltered(fileSet)) {
                 // account for difference in repo and fileSet base path
-                File gitRoot = git.getRepository().getWorkTree().getCanonicalFile();
-                File fileSetBase = fileSet.getBasedir().getCanonicalFile();
-                // switching to Path for normalize() that allows safer equals() than pure String, accounting for
-                // separator and case-sensitiviy
-                Path relativeBase = gitRoot.toPath().relativize(fileSetBase.toPath());
+                Path gitRoot = git.getRepository()
+                        .getWorkTree()
+                        .toPath()
+                        .toAbsolutePath()
+                        .normalize();
+                Path fileSetBase =
+                        fileSet.getBasedir().toPath().toAbsolutePath().normalize();
+                Path relativeBase = gitRoot.relativize(fileSetBase);
                 Set<Path> fileSetPaths = fileSet.getFileList().stream()
                         .map(f -> relativeBase.resolve(f.toPath()).normalize())
                         .collect(Collectors.toSet());
@@ -94,7 +96,7 @@ public class JGitStatusCommand extends AbstractStatusCommand implements GitComma
     }
 
     private static boolean isFileSetFiltered(ScmFileSet fileSet) {
-        return (fileSet.getIncludes() != null && !fileSet.getIncludes().isEmpty()) || (fileSet.getExcludes() != null && !fileSet.getExcludes().isEmpty());
+        return (fileSet.getIncludes() != null && !fileSet.getIncludes().isEmpty())
+                || (fileSet.getExcludes() != null && !fileSet.getExcludes().isEmpty());
     }
-
 }
