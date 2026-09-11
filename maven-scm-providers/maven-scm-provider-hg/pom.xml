@@ -83,6 +83,12 @@
               <excludes>
                 <exclude>nothing</exclude>
               </excludes>
+              <environmentVariables>
+                <!-- Without HGUSER, Mercurial falls back to resolving the local hostname to
+                     build a default committer identity, which can stall for ~70s on some CI
+                     runners (notably GitHub's macOS runners). Setting it avoids that lookup. -->
+                <HGUSER>maven-scm-tck &lt;maven-scm-tck@example.org&gt;</HGUSER>
+              </environmentVariables>
             </configuration>
           </plugin>
         </plugins>
