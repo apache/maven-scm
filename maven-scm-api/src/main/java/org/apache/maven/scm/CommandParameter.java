@@ -80,6 +80,17 @@ public class CommandParameter implements Serializable {
     public static final CommandParameter SCM_SHORT_REVISION_LENGTH = new CommandParameter("shortRevisionLength");
 
     /**
+     * Parameter used only for the Git SCM {@code info} command to control whether merge commits are skipped
+     * (adds <code>--no-merges</code> to the underlying <code>git log</code> invocation).
+     * Defaults to {@code true} (skip merge commits) to keep backward compatibility. Set to {@code false} to
+     * include merge commits, e.g. so that the reported revision matches the actual {@code HEAD} in merge-based
+     * release workflows.
+     *
+     * @since 2.2.2
+     */
+    public static final CommandParameter SCM_SKIP_MERGE_COMMITS = new CommandParameter("skipMergeCommits");
+
+    /**
      * Parameter to force add.
      *
      * @since 1.7

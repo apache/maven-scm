@@ -44,6 +44,12 @@
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
     </dependency>
+    <!-- for building test scenarios (e.g. merge commits) in a provider-independent way -->
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit</artifactId>
+      <version>${jgitVersion}</version>
+    </dependency>
     <!-- for testing SSH authentication -->
     <dependency>
       <groupId>org.apache.sshd</groupId>
