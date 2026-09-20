@@ -380,26 +380,6 @@
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jxr-plugin</artifactId>
-            <reportSets>
-              <reportSet>
-                <id>non-aggregate</id>
-                <reports>
-                  <report>jxr</report>
-                  <report>test-jxr</report>
-                </reports>
-              </reportSet>
-              <reportSet>
-                <id>aggregate</id>
-                <reports>
-                  <report>aggregate</report>
-                </reports>
-                <inherited>false</inherited>
-              </reportSet>
-            </reportSets>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
             <reportSets>
               <reportSet>
