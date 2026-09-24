@@ -69,6 +69,20 @@ public final class SvnCommandLineUtils {
         targets.deleteOnExit();
     }
 
+    /**
+     * Shortcut for {@link #getBaseSvnCommandLine(File, SvnScmProviderRepository, boolean)} with the last argument being {@code false}.
+     * Although usually the interactive mode defaults to {@code true} the SVN provider always assumed non-interactive in the past.
+     *
+     * @param workingDirectory the working directory for the command
+     * @param repository the SVN repository
+     * @return the base SVN command line
+     * @deprecated Use {@link #getBaseSvnCommandLine(File, SvnScmProviderRepository, boolean)} instead
+     */
+    @Deprecated
+    public static Commandline getBaseSvnCommandLine(File workingDirectory, SvnScmProviderRepository repository) {
+        return getBaseSvnCommandLine(workingDirectory, repository, false);
+    }
+
     public static Commandline getBaseSvnCommandLine(
             File workingDirectory, SvnScmProviderRepository repository, boolean interactive) {
         Commandline cl = new Commandline();
