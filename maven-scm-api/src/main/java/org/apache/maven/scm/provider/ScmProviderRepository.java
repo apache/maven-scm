@@ -37,6 +37,11 @@ public abstract class ScmProviderRepository {
     private boolean pushChanges = true;
 
     /**
+     * Whether this repository is a shallow checkout.
+     */
+    private boolean shallow;
+
+    /**
      * Some SCMs have the concept of a work item (or task) which may need to be
      * specified to allow changes to be pushed or delivered to a target.
      * This allows you to answer the question: For this workItem, what changed?
@@ -113,6 +118,24 @@ public abstract class ScmProviderRepository {
      */
     public void setPushChanges(boolean pushChanges) {
         this.pushChanges = pushChanges;
+    }
+
+    /**
+     * Returns whether this repository is a shallow checkout.
+     *
+     * @return {@code true} if the repository has limited history
+     */
+    public boolean isShallow() {
+        return shallow;
+    }
+
+    /**
+     * Sets whether this repository is a shallow checkout.
+     *
+     * @param shallow {@code true} if the repository has limited history
+     */
+    public void setShallow(boolean shallow) {
+        this.shallow = shallow;
     }
 
     /**
