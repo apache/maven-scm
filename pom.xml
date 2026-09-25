@@ -253,17 +253,11 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <!-- Git and Subversion create read-only files (https://stackoverflow.com/q/6867336) which must be deleted by clean as well-->
-          <configuration>
-            <force>true</force>
-          </configuration>
-        </plugin>
-        <plugin>
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
           <configuration>
-            <excludes combine.children="append">
+            <inputExcludes combine.children="append">
+
               <exclude>.checkstyle</exclude>
               <exclude>.gitignore</exclude>
               <exclude>README.txt</exclude>
@@ -282,7 +276,15 @@
               <exclude>.travis.yml</exclude>
               <exclude>nbactions.xml</exclude>
               <exclude>src/site/resources/.htaccess</exclude>
-            </excludes>
+
+            </inputExcludes>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <!-- Git and Subversion create read-only files (https://stackoverflow.com/q/6867336) which must be deleted by clean as well-->
+          <configuration>
+            <force>true</force>
           </configuration>
         </plugin>
       </plugins>
@@ -317,6 +319,7 @@
   </build>
 
   <profiles>
+
     <profile>
       <id>reporting</id>
       <reporting>
@@ -400,7 +403,6 @@
         </plugins>
       </reporting>
     </profile>
-
   </profiles>
 
 </project>
