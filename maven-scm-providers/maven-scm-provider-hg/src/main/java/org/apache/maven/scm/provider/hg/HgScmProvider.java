@@ -120,6 +120,14 @@ public class HgScmProvider extends AbstractScmProvider {
 
                 return result;
             }
+        } else {
+            try {
+                new File(scmSpecificUrl);
+            } catch (RuntimeException e) {
+                result.messages.add("The filename provided is not valid");
+
+                return result;
+            }
         }
 
         result.repository = new HgScmProviderRepository(scmSpecificUrl);
