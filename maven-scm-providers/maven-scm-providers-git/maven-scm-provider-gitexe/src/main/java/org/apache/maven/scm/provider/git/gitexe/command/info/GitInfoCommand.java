@@ -51,6 +51,8 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
     protected ScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
 
+        warnIfShallowRepository(fileSet.getBasedir());
+
         Commandline baseCli = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "log");
         baseCli.createArg().setValue("-1"); // only most recent commit matters
         baseCli.createArg().setValue("--no-merges"); // skip merge commits
@@ -73,6 +75,21 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
             }
         }
         return new InfoScmResult(baseCli.toString(), infoItems);
+    }
+
+    private void warnIfShallowRepository(File basedir) {
+        Commandline cli = GitCommandLineUtils.getBaseGitCommandLine(basedir, "rev-parse");
+        cli.addArguments(new String[] {"--is-shallow-repository"});
+        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+        int exitCode = GitCommandLineUtils.execute(cli, stdout, stderr);
+        if (exitCode == 0 && isShallowRepository(stdout.getOutput())) {
+            logger.warn("Git repository {} is shallow; info dates may not identify the file's last change", basedir);
+        }
+    }
+
+    static boolean isShallowRepository(String output) {
+        return "true".equalsIgnoreCase(output.trim());
     }
 
     protected InfoItem executeInfoCommand(Commandline cli, CommandParameters parameters, File scmFile)
