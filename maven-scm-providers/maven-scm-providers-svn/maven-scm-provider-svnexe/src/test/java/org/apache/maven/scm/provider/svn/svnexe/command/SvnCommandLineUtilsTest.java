@@ -35,6 +35,16 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
  */
 public class SvnCommandLineUtilsTest extends ScmTestCase {
     @Test
+    void testDeprecatedBaseCommandLineOverload() {
+        SvnScmProviderRepository repo = new SvnScmProviderRepository(
+                "https://svn.apache.org/repos/asf/maven/scm/trunk", "username", "password");
+
+        assertEquals(
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false).toString(),
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo).toString());
+    }
+
+    @Test
     void testCryptPassword() throws Exception {
         /* FIXME Plexus does not quote the crypted password on Windows which is actually incorrect at the moment
          * it would cause wildcard expansion with cmd: https://github.com/codehaus-plexus/plexus-utils/issues/37.
