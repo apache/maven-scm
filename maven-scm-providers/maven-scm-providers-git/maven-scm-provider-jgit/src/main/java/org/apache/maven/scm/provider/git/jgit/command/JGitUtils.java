@@ -95,11 +95,14 @@ public class JGitUtils {
      * @throws IOException if the repository cannot be opened
      */
     public static Git openRepo(File basedir) throws IOException {
-        return new Git(new RepositoryBuilder()
+        Repository repository = new RepositoryBuilder()
                 .readEnvironment()
                 .findGitDir(basedir)
                 .setMustExist(true)
-                .build());
+                .build();
+        File gitDirectory = repository.getDirectory();
+        repository.close();
+        return Git.open(gitDirectory);
     }
 
     /**
