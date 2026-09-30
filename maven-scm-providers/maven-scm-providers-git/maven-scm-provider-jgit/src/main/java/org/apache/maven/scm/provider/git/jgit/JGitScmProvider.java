@@ -59,6 +59,16 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 public class JGitScmProvider extends AbstractGitScmProvider {
     private final PlexusInteractivityCredentialsProvider credentialsProvider;
 
+    /**
+     * Creates a provider that never prompts: credentials that would need user input are refused,
+     * as in non-interactive mode. Used when no Plexus {@link Prompter} is available, for example
+     * when loaded through {@link java.util.ServiceLoader}.
+     */
+    public JGitScmProvider() {
+        this(null);
+        setInteractive(false);
+    }
+
     @Inject
     public JGitScmProvider(Prompter prompter) {
         credentialsProvider = new PlexusInteractivityCredentialsProvider(prompter);

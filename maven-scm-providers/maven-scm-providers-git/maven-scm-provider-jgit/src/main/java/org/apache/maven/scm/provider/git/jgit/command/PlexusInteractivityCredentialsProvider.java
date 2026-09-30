@@ -29,6 +29,7 @@ import org.eclipse.jgit.transport.URIish;
 
 /**
  * {@link CredentialsProvider} leveraging the {@link Prompter} component.
+ * Without a prompter (<code>null</code>) every item is refused, and informational messages are dropped.
  */
 public class PlexusInteractivityCredentialsProvider extends CredentialsProvider {
     private boolean interactive;
@@ -54,9 +55,11 @@ public class PlexusInteractivityCredentialsProvider extends CredentialsProvider 
     private void get(URIish uri, CredentialItem item) throws PrompterException {
         if (item instanceof CredentialItem.InformationalMessage) {
             // works even in non-interactive mode
-            prompter.showMessage(item.getPromptText());
+            if (prompter != null) {
+                prompter.showMessage(item.getPromptText());
+            }
         } else {
-            if (!interactive) {
+            if (!interactive || prompter == null) {
                 throw new UnsupportedCredentialItem(
                         uri, "Cannot provide '" + item.getClass() + "' in non-interactive mode");
             }

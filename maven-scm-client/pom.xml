@@ -65,6 +65,18 @@
     </dependency>
     <!-- end providers declaration -->
 
+    <!-- Sisu-free ScmManager test -->
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-provider-jgit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <!-- runtime bits needed to construct Plexus -->
     <dependency>
       <groupId>org.eclipse.sisu</groupId>
