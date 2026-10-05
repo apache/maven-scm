@@ -19,9 +19,13 @@
 package org.apache.maven.scm.provider.git.jgit.command.status;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -51,7 +55,22 @@ public class JGitStatusCommand extends AbstractStatusCommand implements GitComma
             git = JGitUtils.openRepo(fileSet.getBasedir());
             Status status = git.status().call();
             List<ScmFile> changedFiles = getFileStati(status);
-
+            if (isFileSetFiltered(fileSet)) {
+                // account for difference in repo and fileSet base path
+                Path gitRoot = git.getRepository()
+                        .getWorkTree()
+                        .toPath()
+                        .toAbsolutePath()
+                        .normalize();
+                Path fileSetBase =
+                        fileSet.getBasedir().toPath().toAbsolutePath().normalize();
+                Path relativeBase = gitRoot.relativize(fileSetBase);
+                Set<Path> fileSetPaths = fileSet.getFileList().stream()
+                        .map(f -> relativeBase.resolve(f.toPath()).normalize())
+                        .collect(Collectors.toSet());
+                changedFiles.removeIf(scmFile ->
+                        !fileSetPaths.contains(Paths.get(scmFile.getPath()).normalize()));
+            }
             return new StatusScmResult("JGit status", changedFiles);
         } catch (IOException | GitAPIException e) {
             throw new ScmException("JGit status failure!", e);
@@ -74,5 +93,10 @@ public class JGitStatusCommand extends AbstractStatusCommand implements GitComma
         for (String f : files) {
             all.add(new ScmFile(f, status));
         }
+    }
+
+    private static boolean isFileSetFiltered(ScmFileSet fileSet) {
+        return (fileSet.getIncludes() != null && !fileSet.getIncludes().isEmpty())
+                || (fileSet.getExcludes() != null && !fileSet.getExcludes().isEmpty());
     }
 }
