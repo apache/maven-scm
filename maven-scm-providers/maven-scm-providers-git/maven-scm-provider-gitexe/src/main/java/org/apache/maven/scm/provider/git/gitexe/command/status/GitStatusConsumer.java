@@ -43,6 +43,11 @@ public class GitStatusConsumer extends AbstractConsumer {
     private static final Pattern ADDED_PATTERN = Pattern.compile("^A[ M]* (.*)$");
 
     /**
+     * The pattern used to match untracked file lines.
+     */
+    private static final Pattern UNTRACKED_PATTERN = Pattern.compile("^\\?\\? (.*)$");
+
+    /**
      * The pattern used to match modified file lines.
      */
     private static final Pattern MODIFIED_PATTERN = Pattern.compile("^ *M[ M]* (.*)$");
@@ -154,6 +159,9 @@ public class GitStatusConsumer extends AbstractConsumer {
 
         Matcher matcher;
         if ((matcher = ADDED_PATTERN.matcher(line)).find()) {
+            status = ScmFileStatus.ADDED;
+            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+        } else if ((matcher = UNTRACKED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.ADDED;
             files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
         } else if ((matcher = MODIFIED_PATTERN.matcher(line)).find()) {
