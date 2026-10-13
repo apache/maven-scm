@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -39,6 +40,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Olivier Lamy
  */
 public class GitInfoCommandTest extends ScmTestCase {
+
+    @Test
+    void shallowRepositoryOutputIsRecognized() {
+        assertTrue(GitInfoCommand.isShallowRepository("true\n"));
+        assertFalse(GitInfoCommand.isShallowRepository("false\n"));
+        assertFalse(GitInfoCommand.isShallowRepository(""));
+    }
 
     @Test
     void testInfoCommand() throws Exception {
