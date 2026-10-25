@@ -22,13 +22,10 @@ import java.io.File;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.scm.CommandParameter;
-import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
@@ -57,28 +54,25 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
 
     /**
      * For git, the given repository is a remote one.
-     * We have to clone it first if the working directory does not contain a git repo yet,
+     * We have to clone it first if the working directory does not contain a git
+     * repo yet,
      * otherwise we have to git-pull it.
      * <p>
-     * TODO We currently assume a '.git' directory, so this does not work for --bare repos
+     * TODO We currently assume a '.git' directory, so this does not work for --bare
+     * repos
      * {@inheritDoc}
      */
     @Override
-    public ScmResult executeCommand(ScmProviderRepository repo, ScmFileSet fileSet, CommandParameters parameters)
+    protected CheckOutScmResult executeCheckOutCommand(
+            ScmProviderRepository repository,
+            ScmFileSet fileSet,
+            ScmVersion scmVersion,
+            boolean recursive,
+            boolean shallow)
             throws ScmException {
-        ScmVersion version = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
-        boolean binary = parameters.getBoolean(CommandParameter.BINARY, false);
-        boolean shallow = parameters.getBoolean(CommandParameter.SHALLOW, false);
-
-        GitScmProviderRepository repository = (GitScmProviderRepository) repo;
-
-        if (GitScmProviderRepository.PROTOCOL_FILE.equals(
-                        repository.getFetchInfo().getProtocol())
-                && repository
-                                .getFetchInfo()
-                                .getPath()
-                                .indexOf(fileSet.getBasedir().getPath())
-                        >= 0) {
+        GitScmProviderRepository gitRepo = (GitScmProviderRepository) repository;
+        if (GitScmProviderRepository.PROTOCOL_FILE.equals(gitRepo.getFetchInfo().getProtocol())
+                && gitRepo.getFetchInfo().getPath().indexOf(fileSet.getBasedir().getPath()) >= 0) {
             throw new ScmException("remote repository must not be the working directory");
         }
 
@@ -96,7 +90,7 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
             }
 
             // no git repo seems to exist, let's clone the original repo
-            Commandline gitClone = createCloneCommand(repository, fileSet.getBasedir(), version, binary, shallow);
+            Commandline gitClone = createCloneCommand(gitRepo, fileSet.getBasedir(), scmVersion, true, false);
 
             exitCode = GitCommandLineUtils.execute(gitClone, stdout, stderr);
             if (exitCode != 0) {
@@ -108,13 +102,13 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
 
         GitRemoteInfoCommand gitRemoteInfoCommand = new GitRemoteInfoCommand(environmentVariables);
 
-        RemoteInfoScmResult result = gitRemoteInfoCommand.executeRemoteInfoCommand(repository, null, null);
+        RemoteInfoScmResult result = gitRemoteInfoCommand.executeRemoteInfoCommand(gitRepo, null, null);
 
         if (fileSet.getBasedir().exists()
                 && new File(fileSet.getBasedir(), ".git").exists()
                 && result.getBranches().size() > 0) {
             // git repo exists, so we must git-pull the changes
-            Commandline gitPull = createPullCommand(repository, fileSet.getBasedir(), version);
+            Commandline gitPull = createPullCommand(gitRepo, fileSet.getBasedir(), scmVersion);
 
             exitCode = GitCommandLineUtils.execute(gitPull, stdout, stderr);
             if (exitCode != 0) {
@@ -123,7 +117,7 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
             }
 
             // and now let's do the git-checkout itself
-            Commandline gitCheckout = createCommandLine(repository, fileSet.getBasedir(), version);
+            Commandline gitCheckout = createCommandLine(gitRepo, fileSet.getBasedir(), scmVersion);
 
             exitCode = GitCommandLineUtils.execute(gitCheckout, stdout, stderr);
             if (exitCode != 0) {
@@ -136,7 +130,7 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
         // and now search for the files
         GitListConsumer listConsumer = new GitListConsumer(fileSet.getBasedir(), ScmFileStatus.CHECKED_IN);
 
-        Commandline gitList = GitListCommand.createCommandLine(repository, fileSet.getBasedir());
+        Commandline gitList = GitListCommand.createCommandLine(gitRepo, fileSet.getBasedir());
 
         exitCode = GitCommandLineUtils.execute(gitList, listConsumer, stderr);
         if (exitCode != 0) {
@@ -169,12 +163,14 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
             GitScmProviderRepository repository,
             File workingDirectory,
             ScmVersion version,
-            boolean binary,
+            boolean recursive,
             boolean shallow) {
         Commandline gitClone = GitCommandLineUtils.getBaseGitCommandLine(
                 workingDirectory.getParentFile(), "clone", repository, environmentVariables);
 
-        forceBinary(gitClone, binary);
+        if (recursive) {
+            gitClone.createArg().setValue("--recursive");
+        }
 
         if (shallow) {
             gitClone.createArg().setValue("--depth");
@@ -196,13 +192,6 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
         return gitClone;
     }
 
-    private void forceBinary(Commandline commandLine, boolean binary) {
-        if (binary) {
-            commandLine.createArg().setValue("-c");
-            commandLine.createArg().setValue("core.autocrlf=false");
-        }
-    }
-
     /**
      * Create a git fetch or git pull repository command.
      */
@@ -211,8 +200,10 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
 
         if (version != null && StringUtils.isNotEmpty(version.getName())) {
             if (version instanceof ScmTag) {
-                // A tag will not be pulled but we only fetch all the commits from the upstream repo
-                // This is done because checking out a tag might not happen on the current branch
+                // A tag will not be pulled but we only fetch all the commits from the upstream
+                // repo
+                // This is done because checking out a tag might not happen on the current
+                // branch
                 // but create a 'detached HEAD'.
                 // In fact, a tag in git may be in multiple branches. This occurs if
                 // you create a branch after the tag has been created
@@ -235,18 +226,5 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
             gitPull.createArg().setValue("master");
             return gitPull;
         }
-    }
-
-    /**
-     * The overridden {@link #executeCommand(ScmProviderRepository, ScmFileSet, CommandParameters)} in this class will
-     * not call this method!
-     * <p>
-     * {@inheritDoc}
-     */
-    @Override
-    protected CheckOutScmResult executeCheckOutCommand(
-            ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version, boolean recursive, boolean shallow)
-            throws ScmException {
-        throw new UnsupportedOperationException("Should not get here");
     }
 }

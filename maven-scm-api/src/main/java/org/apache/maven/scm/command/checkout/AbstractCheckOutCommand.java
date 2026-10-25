@@ -22,7 +22,6 @@ import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -32,7 +31,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
  */
-public abstract class AbstractCheckOutCommand extends AbstractCommand {
+public abstract class AbstractCheckOutCommand extends AbstractCommand<CheckOutScmResult> {
     /**
      * Execute Check out command line in a recursive check out way.
      *
@@ -71,8 +70,8 @@ public abstract class AbstractCheckOutCommand extends AbstractCommand {
     /**
      * {@inheritDoc}
      */
-    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException {
+    public CheckOutScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         ScmVersion scmVersion = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
         boolean recursive = parameters.getBoolean(CommandParameter.RECURSIVE, true);
         boolean shallow = parameters.getBoolean(CommandParameter.SHALLOW, false);
