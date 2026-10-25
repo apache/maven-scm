@@ -36,9 +36,7 @@ class JGitUtilsTest {
         }
 
         Git git = JGitUtils.openRepo(tempDir.resolve("nested").toFile());
-        assertTrue(
-                git.getRepository().getObjectDatabase().exists(),
-                "the repository should be open after opening it");
+        assertTrue(git.getRepository().getObjectDatabase().exists(), "the repository should be open after opening it");
 
         Field closeRepo = Git.class.getDeclaredField("closeRepo");
         closeRepo.setAccessible(true);
