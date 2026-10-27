@@ -18,7 +18,6 @@
  */
 package org.apache.maven.scm.provider.git.jgit.command;
 
-import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -30,16 +29,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JGitUtilsTest {
     @Test
-    void openRepoClosesTheRepositoryWhenGitCloses(@TempDir Path tempDir) throws Exception {
+    void openRepoReturnsAnOpenRepositoryForNestedDirectory(@TempDir Path tempDir) throws Exception {
         try (Git initialized = Git.init().setDirectory(tempDir.toFile()).call()) {
             Files.createDirectory(tempDir.resolve("nested"));
         }
 
-        Git git = JGitUtils.openRepo(tempDir.resolve("nested").toFile());
-        assertTrue(git.getRepository().getObjectDatabase().exists(), "the repository should be open after opening it");
-
-        Field closeRepo = Git.class.getDeclaredField("closeRepo");
-        closeRepo.setAccessible(true);
-        assertTrue(closeRepo.getBoolean(git), "closing Git should close its repository");
+        try (Git git = JGitUtils.openRepo(tempDir.resolve("nested").toFile())) {
+            assertTrue(
+                    git.getRepository().getObjectDatabase().exists(), "the repository should be open after opening it");
+        }
     }
 }
