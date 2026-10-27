@@ -77,7 +77,7 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
         return new InfoScmResult(baseCli.toString(), infoItems);
     }
 
-    private void warnIfShallowRepository(File basedir) {
+    private void warnIfShallowRepository(File basedir) throws ScmException {
         Commandline cli = GitCommandLineUtils.getBaseGitCommandLine(basedir, "rev-parse");
         cli.addArguments(new String[] {"--is-shallow-repository"});
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
