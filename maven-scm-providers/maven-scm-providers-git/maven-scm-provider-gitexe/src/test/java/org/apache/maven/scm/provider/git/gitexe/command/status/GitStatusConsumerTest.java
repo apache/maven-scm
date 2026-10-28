@@ -104,6 +104,23 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     @Test
+    void testConsumerUntrackedDirectoryWithFile() throws IOException {
+        File dir = createTempDirectory();
+        try {
+            File untrackedDir = new File(dir, "new-dir");
+            FileUtils.forceMkdir(untrackedDir);
+            FileUtils.write(new File(untrackedDir, "project.xml"), "data", StandardCharsets.UTF_8);
+
+            List<ScmFile> changedFiles = getChangedFiles("?? new-dir/", dir, URI.create(""), new ScmFileSet(dir));
+
+            assertEquals(1, changedFiles.size());
+            testScmFile(changedFiles.get(0), "new-dir/", ScmFileStatus.ADDED);
+        } finally {
+            FileUtils.deleteDirectory(dir);
+        }
+    }
+
+    @Test
     void testConsumerAddedFile() {
         List<ScmFile> changedFiles = getChangedFiles("A  project.xml", null);
 

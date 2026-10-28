@@ -154,6 +154,7 @@ public class GitStatusConsumer extends AbstractConsumer {
         }
 
         ScmFileStatus status = null;
+        boolean untracked = false;
 
         List<String> files = new ArrayList<>();
 
@@ -163,6 +164,7 @@ public class GitStatusConsumer extends AbstractConsumer {
             files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
         } else if ((matcher = UNTRACKED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.ADDED;
+            untracked = true;
             files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
         } else if ((matcher = MODIFIED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.MODIFIED;
@@ -181,7 +183,7 @@ public class GitStatusConsumer extends AbstractConsumer {
             return;
         }
 
-        // If the file isn't a file; don't add it.
+        // If the path isn't a file or an untracked directory, don't add it.
         if (!files.isEmpty()) {
             if (workingDirectory != null) {
                 if (status == ScmFileStatus.RENAMED) {
@@ -204,7 +206,7 @@ public class GitStatusConsumer extends AbstractConsumer {
                         return;
                     }
                 } else {
-                    if (!isFile(files.get(0))) {
+                    if (!isFile(files.get(0)) && !(untracked && isDirectory(files.get(0)))) {
                         return;
                     }
                 }
@@ -237,6 +239,11 @@ public class GitStatusConsumer extends AbstractConsumer {
     private boolean isFile(String file) {
         File targetFile = new File(workingDirectory, file);
         return targetFile.isFile();
+    }
+
+    private boolean isDirectory(String file) {
+        File targetFile = new File(workingDirectory, file);
+        return targetFile.isDirectory();
     }
 
     public static String resolvePath(String fileEntry, URI path) {
