@@ -64,6 +64,8 @@ public class GitStatusConsumer extends AbstractConsumer {
 
     private final File workingDirectory;
 
+    private final boolean includeUntrackedEntries;
+
     private ScmFileSet scmFileSet;
 
     /**
@@ -83,7 +85,7 @@ public class GitStatusConsumer extends AbstractConsumer {
      * @param workingDirectory the working directory
      */
     public GitStatusConsumer(File workingDirectory) {
-        this.workingDirectory = workingDirectory;
+        this(workingDirectory, null, null, true);
     }
 
     /**
@@ -99,8 +101,7 @@ public class GitStatusConsumer extends AbstractConsumer {
      * @since 1.9
      */
     public GitStatusConsumer(File workingDirectory, URI relativeRepositoryPath) {
-        this(workingDirectory);
-        this.relativeRepositoryPath = relativeRepositoryPath;
+        this(workingDirectory, relativeRepositoryPath, null, true);
     }
 
     /**
@@ -116,8 +117,7 @@ public class GitStatusConsumer extends AbstractConsumer {
      * @since 1.11.0
      */
     public GitStatusConsumer(File workingDirectory, ScmFileSet scmFileSet) {
-        this(workingDirectory);
-        this.scmFileSet = scmFileSet;
+        this(workingDirectory, null, scmFileSet, true);
     }
 
     /**
@@ -134,8 +134,23 @@ public class GitStatusConsumer extends AbstractConsumer {
      * @since 1.11.0
      */
     public GitStatusConsumer(File workingDirectory, URI relativeRepositoryPath, ScmFileSet scmFileSet) {
-        this(workingDirectory, scmFileSet);
+        this(workingDirectory, relativeRepositoryPath, scmFileSet, true);
+    }
+
+    /**
+     * Creates a consumer with an explicit policy for untracked status entries.
+     *
+     * @param workingDirectory the working directory
+     * @param relativeRepositoryPath the working directory relative to the repository root
+     * @param scmFileSet fileset with includes and excludes
+     * @param includeUntrackedEntries whether to include untracked paths
+     */
+    public GitStatusConsumer(
+            File workingDirectory, URI relativeRepositoryPath, ScmFileSet scmFileSet, boolean includeUntrackedEntries) {
+        this.workingDirectory = workingDirectory;
         this.relativeRepositoryPath = relativeRepositoryPath;
+        this.scmFileSet = scmFileSet;
+        this.includeUntrackedEntries = includeUntrackedEntries;
     }
 
     // ----------------------------------------------------------------------
@@ -163,9 +178,11 @@ public class GitStatusConsumer extends AbstractConsumer {
             status = ScmFileStatus.ADDED;
             files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
         } else if ((matcher = UNTRACKED_PATTERN.matcher(line)).find()) {
-            status = ScmFileStatus.ADDED;
-            untracked = true;
-            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+            if (includeUntrackedEntries) {
+                status = ScmFileStatus.ADDED;
+                untracked = true;
+                files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+            }
         } else if ((matcher = MODIFIED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.MODIFIED;
             files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
@@ -206,7 +223,7 @@ public class GitStatusConsumer extends AbstractConsumer {
                         return;
                     }
                 } else {
-                    if (!isFile(files.get(0)) && !(untracked && isDirectory(files.get(0)))) {
+                    if (!isFile(files.get(0)) && !(untracked && includeUntrackedEntries && isDirectory(files.get(0)))) {
                         return;
                     }
                 }

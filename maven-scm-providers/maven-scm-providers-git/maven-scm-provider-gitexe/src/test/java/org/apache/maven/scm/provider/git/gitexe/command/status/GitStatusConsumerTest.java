@@ -80,7 +80,17 @@ public class GitStatusConsumerTest extends ScmTestCase {
 
     private List<ScmFile> getChangedFiles(
             String line, File workingDirectory, URI relativeRepoPath, ScmFileSet scmFileSet) {
-        GitStatusConsumer consumer = new GitStatusConsumer(workingDirectory, relativeRepoPath, scmFileSet);
+        return getChangedFiles(line, workingDirectory, relativeRepoPath, scmFileSet, false);
+    }
+
+    private List<ScmFile> getChangedFiles(
+            String line,
+            File workingDirectory,
+            URI relativeRepoPath,
+            ScmFileSet scmFileSet,
+            boolean includeUntrackedEntries) {
+        GitStatusConsumer consumer =
+                new GitStatusConsumer(workingDirectory, relativeRepoPath, scmFileSet, includeUntrackedEntries);
 
         consumer.consumeLine(line);
 
@@ -111,10 +121,15 @@ public class GitStatusConsumerTest extends ScmTestCase {
             FileUtils.forceMkdir(untrackedDir);
             FileUtils.write(new File(untrackedDir, "project.xml"), "data", StandardCharsets.UTF_8);
 
-            List<ScmFile> changedFiles = getChangedFiles("?? new-dir/", dir, URI.create(""), new ScmFileSet(dir));
+            List<ScmFile> changedFiles = getChangedFiles("?? new-dir/", dir, URI.create(""), new ScmFileSet(dir), true);
 
             assertEquals(1, changedFiles.size());
             testScmFile(changedFiles.get(0), "new-dir/", ScmFileStatus.ADDED);
+
+            assertEquals(
+                    0,
+                    getChangedFiles("?? new-dir/", dir, URI.create(""), new ScmFileSet(dir))
+                            .size());
         } finally {
             FileUtils.deleteDirectory(dir);
         }
