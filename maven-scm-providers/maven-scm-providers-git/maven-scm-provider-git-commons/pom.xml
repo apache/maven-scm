@@ -51,6 +51,11 @@
       <artifactId>junit-jupiter-api</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-test</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
