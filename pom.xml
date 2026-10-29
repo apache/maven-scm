@@ -119,7 +119,7 @@
   <properties>
     <javaVersion>8</javaVersion>
     <slf4jVersion>1.7.36</slf4jVersion>
-    <version.plexus-utils>3.6.0</version.plexus-utils>
+    <version.plexus-utils>3.6.2</version.plexus-utils>
     <maven.site.path>scm-archives/scm-LATEST</maven.site.path>
     <checkstyle.violation.ignore>ParameterNumber,InnerAssignment</checkstyle.violation.ignore>
     <project.build.outputTimestamp>2025-09-19T15:43:30Z</project.build.outputTimestamp>
@@ -207,6 +207,11 @@
         <artifactId>guice</artifactId>
         <version>5.1.0</version>
         <classifier>classes</classifier>
+      </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>33.7.2-jre</version>
       </dependency>
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
