@@ -57,6 +57,11 @@ public class GitStatusConsumer extends AbstractConsumer {
      */
     private static final Pattern RENAMED_PATTERN = Pattern.compile("^R  (.*) -> (.*)$");
 
+    /**
+     * The pattern used to match untracked file lines.
+     */
+    private static final Pattern UNTRACKED_PATTERN = Pattern.compile("^\\?\\? (.*)$");
+
     private final File workingDirectory;
 
     private ScmFileSet scmFileSet;
@@ -168,6 +173,9 @@ public class GitStatusConsumer extends AbstractConsumer {
             files.add(resolvePath(matcher.group(2), relativeRepositoryPath));
             logger.debug("RENAMED status for line '" + line + "' files added '" + matcher.group(1) + "' '"
                     + matcher.group(2));
+        } else if ((matcher = UNTRACKED_PATTERN.matcher(line)).find()) {
+            status = ScmFileStatus.UNKNOWN;
+            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
         } else {
             logger.warn("Ignoring unrecognized line: " + line);
             return;
