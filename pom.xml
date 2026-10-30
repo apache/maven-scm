@@ -117,7 +117,6 @@
   </distributionManagement>
 
   <properties>
-    <javaVersion>8</javaVersion>
     <slf4jVersion>1.7.36</slf4jVersion>
     <version.plexus-utils>3.6.0</version.plexus-utils>
     <maven.site.path>scm-archives/scm-LATEST</maven.site.path>
