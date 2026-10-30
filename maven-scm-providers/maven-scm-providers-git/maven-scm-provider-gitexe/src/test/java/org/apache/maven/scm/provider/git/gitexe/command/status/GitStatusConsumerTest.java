@@ -87,17 +87,49 @@ public class GitStatusConsumerTest extends ScmTestCase {
         return consumer.getChangedFiles();
     }
 
+    // SCM-971
     @Test
     void testConsumerUntrackedFile() {
         List<ScmFile> changedFiles = getChangedFiles("?? project.xml", null);
 
         assertNotNull(changedFiles);
-        assertEquals(0, changedFiles.size());
+        assertEquals(1, changedFiles.size());
+        testScmFile(changedFiles.get(0), "project.xml", ScmFileStatus.UNKNOWN);
 
         changedFiles = getChangedFiles("?? \"test file with spaces and a special \\177 character.xml\"", null);
 
         assertNotNull(changedFiles);
+        assertEquals(1, changedFiles.size());
+        testScmFile(
+                changedFiles.get(0), "test file with spaces and a special \u007f character.xml", ScmFileStatus.UNKNOWN);
+    }
+
+    // SCM-971
+    @Test
+    void testConsumerUntrackedFileWithDirectoryAndNoFile() throws IOException {
+        File dir = createTempDirectory();
+
+        List<ScmFile> changedFiles = getChangedFiles("?? project.xml", dir);
+
+        assertNotNull(changedFiles);
         assertEquals(0, changedFiles.size());
+
+        FileUtils.deleteDirectory(dir);
+    }
+
+    // SCM-971
+    @Test
+    void testConsumerUntrackedFileWithDirectoryAndFile() throws IOException {
+        File dir = createTempDirectory();
+        FileUtils.write(new File(dir, "project.xml"), "data", StandardCharsets.UTF_8);
+
+        List<ScmFile> changedFiles = getChangedFiles("?? project.xml", dir);
+
+        assertNotNull(changedFiles);
+        assertEquals(1, changedFiles.size());
+        testScmFile(changedFiles.get(0), "project.xml", ScmFileStatus.UNKNOWN);
+
+        FileUtils.deleteDirectory(dir);
     }
 
     @Test
@@ -490,19 +522,30 @@ public class GitStatusConsumerTest extends ScmTestCase {
         testScmFile(changedFiles.get(3), "d\u00e9j\u00e0 vu.txt", ScmFileStatus.MODIFIED);
     }
 
+    // Despite its name, this fixture only contains "??" (untracked) lines: it predates SCM-971 and was used to
+    // assert that such lines were ignored. Now that they are recognized, it covers the UNKNOWN status instead.
     @Test
     void testEmptyLogConsumer() throws Exception {
         List<ScmFile> changedFiles =
                 getChangedFiles(getTestFile("/src/test/resources/git/status/gitstatus-empty.gitlog"));
 
-        assertEquals(0, changedFiles.size());
+        assertEquals(2, changedFiles.size());
+
+        testScmFile(
+                changedFiles.get(0),
+                "maven-scm-provider-gitexe/src/test/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInConsumerTest.java",
+                ScmFileStatus.UNKNOWN);
+        testScmFile(
+                changedFiles.get(1),
+                "maven-scm-provider-gitexe/src/test/resources/git/checkin/",
+                ScmFileStatus.UNKNOWN);
     }
 
     @Test
     void testLog2Consumer() throws Exception {
         List<ScmFile> changedFiles = getChangedFiles(getTestFile("/src/test/resources/git/status/gitstatus2.gitlog"));
 
-        assertEquals(4, changedFiles.size());
+        assertEquals(6, changedFiles.size());
 
         testScmFile(
                 changedFiles.get(0),
@@ -520,6 +563,12 @@ public class GitStatusConsumerTest extends ScmTestCase {
                 changedFiles.get(3),
                 "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusConsumer.java",
                 ScmFileStatus.MODIFIED);
+        testScmFile(
+                changedFiles.get(4),
+                "maven-scm-provider-gitexe/src/test/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusConsumerTest.java",
+                ScmFileStatus.UNKNOWN);
+        testScmFile(
+                changedFiles.get(5), "maven-scm-provider-gitexe/src/test/resources/git/status/", ScmFileStatus.UNKNOWN);
     }
 
     // SCM-709
