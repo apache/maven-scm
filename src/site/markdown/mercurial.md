@@ -37,18 +37,4 @@ This provider supports version 0\.9\.2 and greater of Mercurial.
 
 ## SCM URL
 
-Path or url to the branch location. Supported protocols: HTTP, HTTPS, FILE, and local path.
-
-```
-scm:hg:url_to_repository/local_repository_directory
-```
-
-## Examples
-
-```
-scm:hg:http://host/v3
-scm:hg:file://C:/dev/project/v3 (windows drive)
-scm:hg:file:///home/smorgrav/dev/project/v3 (linux drive)
-scm:hg:/home/smorgrav/dev/project/v3 (local directory)
-```
-
+The syntax of Mercurial SCM URLs is described in [SCM URLs](https://maven.apache.org/pom-scm-urls.html#Mercurial).

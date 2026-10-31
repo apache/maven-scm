@@ -59,7 +59,7 @@ Maven will use the information embedded in the SCM configuration to determine th
    <service name>:<scm implementation>:<repository url>
 ```
 
-Check the [Maven SCM list](http://maven.apache.org/scm/scms-overview.html) for the list of supported SCMs.
+Check the [Maven SCM list](https://maven.apache.org/pom-scm-urls.html#Supported_SCMs) for the list of supported SCMs.
 
 # Committing and updating changes through Maven
 
@@ -131,4 +131,4 @@ There two possible SCM connections that can be used in the `pom.xml`, connection
 
 # Related Links
 
-- [Overview of SCMs](../scms-overview.html)
+- [Overview of SCMs](https://maven.apache.org/pom-scm-urls.html#Supported_SCMs)
