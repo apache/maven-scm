@@ -47,7 +47,7 @@ public class GitStatusCommand extends AbstractStatusCommand implements GitComman
 
         Commandline cl = createCommandLine((GitScmProviderRepository) repo, fileSet);
 
-        GitStatusConsumer consumer = new GitStatusConsumer(fileSet.getBasedir(), relativeRepositoryPath, fileSet);
+        GitStatusConsumer consumer = new GitStatusConsumer(fileSet.getBasedir(), relativeRepositoryPath, fileSet, true);
 
         stderr = new CommandLineUtils.StringStreamConsumer();
 
