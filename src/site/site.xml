@@ -27,11 +27,10 @@
       <item name="Home" href="/index.html"/>
       <item name="Maven SCM Plugin" href="/maven-scm-plugin/index.html"/>
       <item name="Javadoc" href="/apidocs/index.html"/>
-      <item name="SCM URL Format" href="/scm-url-format.html"/>
-      <item name="Supported SCMs" href="/scms-overview.html" collapse="true">
+      <item name="SCM URLs" href="https://maven.apache.org/pom-scm-urls.html"/>
+      <item name="Provider Configuration" collapse="true">
         <item name="Mercurial" href="/mercurial.html"/>
         <item name="Git" href="/git.html"/>
-        <item name="Local" href="/local.html"/>
         <item name="Subversion" href="/subversion.html"/>
       </item>
       <item name="Authentication" href="authentication.html" />

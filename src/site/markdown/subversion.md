@@ -34,26 +34,7 @@ License: Apache License, Version 2\.0
 
 ## SCM URL
 
-For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
-
-```
-scm:svn:svn://[username[:password]@]server_name[:port]/path_to_repository
-scm:svn:svn+ssh://[username@]server_name[:port]/path_to_repository
-scm:svn:file://[hostname]/path_to_repository
-scm:svn:http://[username[:password]@]server_name[:port]/path_to_repository
-scm:svn:https://[username[:password]@]server_name[:port]/path_to_repository
-```
-
-## Examples
-
-```
-scm:svn:file:///svn/root/module
-scm:svn:file://localhost/path_to_repository
-scm:svn:file://my_server/path_to_repository
-scm:svn:http://svn.apache.org/svn/root/module
-scm:svn:https://username@svn.apache.org/svn/root/module
-scm:svn:https://username:password@svn.apache.org/svn/root/module
-```
+The syntax of Subversion SCM URLs is described in [SCM URLs](https://maven.apache.org/pom-scm-urls.html#Subversion).
 
 ## Provider Configuration
 

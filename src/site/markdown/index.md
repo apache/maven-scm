@@ -25,7 +25,7 @@ under the License.
 -->
 # Maven SCM
 
-Maven SCM supports Maven plugins (for example [maven-release-plugin](https://maven.apache.org/plugins/maven-release-plugin/)) and other tools by providing them with [a common API](./maven-scm-api/apidocs) for source code management operations. You can look at [the list of SCMs](./scms-overview.html) for more information on using Maven SCM with your favorite SCM tool.
+Maven SCM supports Maven plugins (for example [maven-release-plugin](https://maven.apache.org/plugins/maven-release-plugin/)) and other tools by providing them with [a common API](./maven-scm-api/apidocs) for source code management operations. You can look at [the list of SCMs](https://maven.apache.org/pom-scm-urls.html#Supported_SCMs) for more information on using Maven SCM with your favorite SCM tool.
 
 In addition, Maven SCM provides two tools to directly use it:
 

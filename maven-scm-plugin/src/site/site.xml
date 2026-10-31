@@ -37,7 +37,7 @@
 
     <menu name="Quick Links">
       <item name="Maven SCM Home" href="../"/>
-      <item name="SCM URL Format" href="../scm-url-format.html"/>
+      <item name="SCM URL Format" href="https://maven.apache.org/pom-scm-urls.html"/>
       <item name="Authentication" href="../authentication.html"/>
     </menu>
 

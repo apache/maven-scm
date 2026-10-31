@@ -33,45 +33,7 @@ License: GNU General Public License v2
 
 ## SCM URL
 
-For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator. The separator for the port has to be a colon in any case since this part is specified in the [Git URL specification](https://git-scm.com/docs/git-clone#_git_urls).
-
-```
-scm:git:git://server_name[:port]/path_to_repository
-scm:git:http://server_name[:port]/path_to_repository
-scm:git:https://server_name[:port]/path_to_repository
-scm:git:ssh://server_name[:port]/path_to_repository
-scm:git:file://[hostname]/path_to_repository
-```
-
-An alternative SCP-like syntax may also be used with the SSH protocol where the protocol is left out:
-
-`scm:git:[<user>@]<host>:/<path-to-git-repo>`
-
-GitHub proposes to use this format by default without the leading slash:
-
-`scm:git:[<user>@]<host>:<path-to-git-repo>`
-
-
-### Examples
-
-```
-scm:git:git://github.com/path_to_repository
-scm:git:http://github.com/path_to_repository
-scm:git:https://github.com/path_to_repository
-scm:git:git@github.com:path_to_repository
-scm:git:ssh://github.com/path_to_repository
-scm:git:file://localhost/path_to_repository
-```
-
-## Different Fetch and Push URLs
-
-In some cases a different URL has to be used for read and write operations. This can happen if e.g. fetch is performed via the http protocol, but writing to the repository is only possible via ssh. In this case both URLs may be written into the _developerConnection_ tag. The fetch URL has to be prefixed with `[fetch=]` and the push URL with `[push=]`
-
-- Example:
-
-    ```
-    <developerConnection>scm:git:[fetch=]http://mywebserver.org/path_to_repository[push=]ssh://username@otherserver:8898/~/repopath.git</developerConnection>
-    ```
+The syntax of Git SCM URLs, including different fetch and push URLs, is described in [SCM URLs](https://maven.apache.org/pom-scm-urls.html#Git).
 
 ## Working with branches
 
