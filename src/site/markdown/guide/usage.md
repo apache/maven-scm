@@ -86,7 +86,7 @@ Before you call a command, the SCM manager needs an `ScmRepository`. This object
 
 ```java
     public ScmRepository getScmRepository( String scmUrl )
-        throw Exception
+        throws Exception
     {
         ScmRepository repository;
 
