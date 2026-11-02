@@ -55,11 +55,17 @@ public class GitDiffCommand extends AbstractDiffCommand implements GitCommand {
                     clDiff2Index.toString(), "The git-diff command failed.", stderr.getOutput(), false);
         }
 
-        Commandline clDiff2Head = createCommandLine(fileSet.getBasedir(), startVersion, endVersion, true);
+        // "git diff --cached" takes at most one revision; with both start and end given, the plain diff
+        // above already compares the two and the index plays no part in it, so skip the cached diff
+        // instead of passing git an invalid two-revision "--cached" invocation (SCM-1027).
+        if (startVersion == null || endVersion == null) {
+            Commandline clDiff2Head = createCommandLine(fileSet.getBasedir(), startVersion, endVersion, true);
 
-        exitCode = GitCommandLineUtils.execute(clDiff2Head, consumer, stderr);
-        if (exitCode != 0) {
-            return new DiffScmResult(clDiff2Head.toString(), "The git-diff command failed.", stderr.getOutput(), false);
+            exitCode = GitCommandLineUtils.execute(clDiff2Head, consumer, stderr);
+            if (exitCode != 0) {
+                return new DiffScmResult(
+                        clDiff2Head.toString(), "The git-diff command failed.", stderr.getOutput(), false);
+            }
         }
 
         return new DiffScmResult(
