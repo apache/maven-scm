@@ -22,6 +22,11 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +35,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.git.AbstractGitScmProvider;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
 import org.apache.maven.scm.provider.git.gitexe.command.add.GitAddCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.blame.GitBlameCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.branch.GitBranchCommand;
@@ -46,6 +52,8 @@ import org.apache.maven.scm.provider.git.gitexe.command.untag.GitUntagCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.update.GitUpdateCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
+import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -197,6 +205,62 @@ public class GitExeScmProvider extends AbstractGitScmProvider {
         }
 
         return result.getInfoItems().get(0).getURL();
+    }
+
+    @Override
+    protected boolean isShallowRepository(File path) throws ScmException {
+        String result = revParse(path, "--is-shallow-repository");
+        if ("true".equals(result) || "false".equals(result)) {
+            return Boolean.parseBoolean(result);
+        }
+        if (!"--is-shallow-repository".equals(result)) {
+            throw new ScmException("Unexpected shallow repository response from git rev-parse");
+        }
+
+        // Git before 2.15 echoes the unknown option. Ask Git for the shared
+        // repository directory so linked worktrees do not inspect their private gitdir.
+        String directory = revParse(path, "--git-common-dir");
+        if ("--git-common-dir".equals(directory)) {
+            // Git before linked worktrees were supported has only one gitdir.
+            directory = revParse(path, "--git-dir");
+        }
+        if (directory.isEmpty() || "--git-dir".equals(directory) || "--git-common-dir".equals(directory)) {
+            throw new ScmException("Cannot resolve repository directory from git rev-parse");
+        }
+        Path gitDirectory = new File(directory).toPath();
+        if (!gitDirectory.isAbsolute()) {
+            gitDirectory = path.toPath().resolve(gitDirectory);
+        }
+        try {
+            if (!Files.readAttributes(gitDirectory, BasicFileAttributes.class).isDirectory()) {
+                throw new ScmException("Resolved Git repository directory is not a directory");
+            }
+        } catch (IOException e) {
+            throw new ScmException("Cannot inspect Git repository directory", e);
+        }
+        try {
+            BasicFileAttributes attributes =
+                    Files.readAttributes(gitDirectory.resolve("shallow"), BasicFileAttributes.class);
+            if (!attributes.isRegularFile()) {
+                throw new ScmException("Git shallow marker is not a regular file");
+            }
+            return true;
+        } catch (NoSuchFileException e) {
+            return false;
+        } catch (IOException e) {
+            throw new ScmException("Cannot inspect Git shallow marker", e);
+        }
+    }
+
+    String revParse(File path, String option) throws ScmException {
+        Commandline command = GitCommandLineUtils.getBaseGitCommandLine(path, "rev-parse");
+        command.createArg().setValue(option);
+        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+        if (GitCommandLineUtils.execute(command, stdout, stderr) != 0) {
+            throw new ScmException("Cannot detect shallow repository state: git rev-parse failed");
+        }
+        return stdout.getOutput().trim();
     }
 
     public void setEnvironmentVariable(String key, String value) {

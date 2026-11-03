@@ -117,11 +117,25 @@ public abstract class AbstractGitScmProvider extends AbstractScmProvider {
         }
 
         try {
-            return makeProviderScmRepository(getRepositoryURL(path), ':');
+            ScmProviderRepository repository = makeProviderScmRepository(getRepositoryURL(path), ':');
+            repository.setShallow(isShallowRepository(path));
+            return repository;
         } catch (ScmException e) {
             // XXX We should allow throwing of SCMException.
             throw new ScmRepositoryException("Error creating the scm repository", e);
         }
+    }
+
+    /**
+     * Detects shallow history for an existing checkout. Providers that do not
+     * implement detection retain the default repository state.
+     *
+     * @param path the checkout directory
+     * @return whether the checkout is shallow
+     * @throws ScmException if detection fails
+     */
+    protected boolean isShallowRepository(File path) throws ScmException {
+        return false;
     }
 
     protected abstract String getRepositoryURL(File path) throws ScmException;
