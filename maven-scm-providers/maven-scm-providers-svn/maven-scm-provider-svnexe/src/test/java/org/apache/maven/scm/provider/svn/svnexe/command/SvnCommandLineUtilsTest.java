@@ -40,7 +40,8 @@ public class SvnCommandLineUtilsTest extends ScmTestCase {
                 "https://svn.apache.org/repos/asf/maven/scm/trunk", "username", "password");
 
         assertEquals(
-                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false).toString(),
+                SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo, false)
+                        .toString(),
                 SvnCommandLineUtils.getBaseSvnCommandLine(new File("."), repo).toString());
     }
 
