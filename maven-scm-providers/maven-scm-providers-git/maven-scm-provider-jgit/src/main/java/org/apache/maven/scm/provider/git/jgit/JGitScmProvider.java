@@ -23,12 +23,14 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.git.AbstractGitScmProvider;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.jgit.command.PlexusInteractivityCredentialsProvider;
 import org.apache.maven.scm.provider.git.jgit.command.add.JGitAddCommand;
 import org.apache.maven.scm.provider.git.jgit.command.blame.JGitBlameCommand;
@@ -47,6 +49,8 @@ import org.apache.maven.scm.provider.git.jgit.command.untag.JGitUntagCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.components.interactivity.Prompter;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.transport.CredentialsProvider;
 
 /**
@@ -179,6 +183,21 @@ public class JGitScmProvider extends AbstractGitScmProvider {
     @Override
     public GitCommand getInfoCommand() {
         return new JGitInfoCommand();
+    }
+
+    @Override
+    protected boolean isShallowRepository(File path) throws ScmException {
+        Git git = null;
+        try {
+            git = JGitUtils.openRepo(path);
+            try (ObjectReader reader = git.getRepository().newObjectReader()) {
+                return !reader.getShallowCommits().isEmpty();
+            }
+        } catch (IOException | IllegalArgumentException e) {
+            throw new ScmException("Cannot detect shallow repository state", e);
+        } finally {
+            JGitUtils.closeRepo(git);
+        }
     }
 
     /**
