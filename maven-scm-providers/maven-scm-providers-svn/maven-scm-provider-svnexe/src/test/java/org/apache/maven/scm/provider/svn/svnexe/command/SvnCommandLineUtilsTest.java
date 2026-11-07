@@ -35,6 +35,21 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
  */
 public class SvnCommandLineUtilsTest extends ScmTestCase {
     @Test
+    void testBaseCommandLineOverridesAllLocale() throws Exception {
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(
+                new File("."), new SvnScmProviderRepository("https://svn.apache.org/repos/asf/maven/scm/trunk"), false);
+
+        String locale = null;
+        for (String environmentVariable : cl.getEnvironmentVariables()) {
+            if (environmentVariable.startsWith("LC_ALL=")) {
+                locale = environmentVariable;
+            }
+        }
+
+        assertEquals("LC_ALL=C", locale);
+    }
+
+    @Test
     void testCryptPassword() throws Exception {
         /* FIXME Plexus does not quote the crypted password on Windows which is actually incorrect at the moment
          * it would cause wildcard expansion with cmd: https://github.com/codehaus-plexus/plexus-utils/issues/37.
