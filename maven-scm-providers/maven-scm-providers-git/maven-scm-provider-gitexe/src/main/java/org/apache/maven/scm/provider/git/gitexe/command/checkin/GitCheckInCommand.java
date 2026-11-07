@@ -130,7 +130,7 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
             Commandline clStatus = GitStatusCommand.createCommandLine(repository, fileSet);
 
             GitStatusConsumer statusConsumer =
-                    new GitStatusConsumer(fileSet.getBasedir(), relativeRepositoryPath, fileSet);
+                    new GitStatusConsumer(fileSet.getBasedir(), relativeRepositoryPath, fileSet, false);
             exitCode = GitCommandLineUtils.execute(clStatus, statusConsumer, stderr);
             if (exitCode != 0) {
                 // git-status returns non-zero if nothing to do
