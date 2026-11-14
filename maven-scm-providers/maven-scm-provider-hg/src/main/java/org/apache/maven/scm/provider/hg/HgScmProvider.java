@@ -123,7 +123,7 @@ public class HgScmProvider extends AbstractScmProvider {
         } else {
             try {
                 new File(scmSpecificUrl);
-            } catch (Throwable e) {
+            } catch (RuntimeException e) {
                 result.messages.add("The filename provided is not valid");
 
                 return result;
