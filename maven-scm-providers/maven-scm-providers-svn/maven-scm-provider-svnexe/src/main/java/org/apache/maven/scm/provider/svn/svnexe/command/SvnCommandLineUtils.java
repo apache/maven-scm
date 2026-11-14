@@ -76,6 +76,7 @@ public final class SvnCommandLineUtils {
         cl.setExecutable("svn");
         try {
             cl.addSystemEnvironment();
+            cl.addEnvironment("LC_ALL", "C");
             cl.addEnvironment("LC_MESSAGES", "C");
         } catch (Exception e) {
             // Do nothing
@@ -125,6 +126,7 @@ public final class SvnCommandLineUtils {
     public static int execute(Commandline cl, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr)
             throws CommandLineException {
         // SCM-482: force English resource bundle
+        cl.addEnvironment("LC_ALL", "C");
         cl.addEnvironment("LC_MESSAGES", "en");
 
         int exitCode = CommandLineUtils.executeCommandLine(cl, consumer, stderr);
