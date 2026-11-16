@@ -31,11 +31,11 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Wen Wu
@@ -48,11 +48,8 @@ public class GitExeCheckOutCommandRecursiveTest extends ScmTestCase {
 
     private ScmRepository scmRepository;
 
-    @Before
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         workingDirectory = new File("target/checkout-recursive");
         FileUtils.deleteDirectory(workingDirectory);
         repo = new File("src/test/resources/repository_submodule");
@@ -63,8 +60,8 @@ public class GitExeCheckOutCommandRecursiveTest extends ScmTestCase {
     }
 
     @Test
-    public void testCheckoutNoBranch() throws Exception {
-        checkScmPresence(GIT_COMMAND_LINE);
+    void testCheckoutNoBranch() throws Exception {
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
         CheckOutScmResult result = checkoutRepo(false);
 
         assertEquals(5, result.getCheckedOutFiles().size());
