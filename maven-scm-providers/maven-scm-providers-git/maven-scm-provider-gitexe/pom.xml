@@ -79,4 +79,22 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <environmentVariables>
+            <!-- Git 2.38.1+ refuses file:// submodule clones by default (CVE-2022-39253);
+                 allow it so tests can use local fixture repositories as submodules. -->
+            <GIT_CONFIG_COUNT>1</GIT_CONFIG_COUNT>
+            <GIT_CONFIG_KEY_0>protocol.file.allow</GIT_CONFIG_KEY_0>
+            <GIT_CONFIG_VALUE_0>always</GIT_CONFIG_VALUE_0>
+          </environmentVariables>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
