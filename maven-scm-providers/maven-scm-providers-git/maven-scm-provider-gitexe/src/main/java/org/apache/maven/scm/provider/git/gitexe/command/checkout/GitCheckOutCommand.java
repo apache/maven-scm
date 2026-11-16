@@ -136,7 +136,7 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
 
         if (recursive) {
             // and now lets do the git-submodule update
-            Commandline clSubmoduleUpdate = createSubmoduleUpdateCommand(fileSet.getBasedir());
+            Commandline clSubmoduleUpdate = createSubmoduleUpdateCommand(repository, fileSet.getBasedir());
 
             exitCode = GitCommandLineUtils.execute(clSubmoduleUpdate, stdout, stderr);
             if (exitCode != 0) {
@@ -185,8 +185,9 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
     /**
      * create a git-submodule update command
      */
-    Commandline createSubmoduleUpdateCommand(File workingDirectory) {
-        Commandline gitSubmoduleUpdate = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "submodule");
+    Commandline createSubmoduleUpdateCommand(GitScmProviderRepository repository, File workingDirectory) {
+        Commandline gitSubmoduleUpdate = GitCommandLineUtils.getBaseGitCommandLine(
+                workingDirectory, "submodule", repository, environmentVariables);
 
         gitSubmoduleUpdate.createArg().setValue("update");
         gitSubmoduleUpdate.createArg().setValue("--init");

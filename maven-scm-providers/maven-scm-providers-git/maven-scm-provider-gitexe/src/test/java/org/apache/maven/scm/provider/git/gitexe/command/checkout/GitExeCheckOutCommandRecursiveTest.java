@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.provider.git.gitexe.GitExeScmProvider;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -53,6 +54,13 @@ public class GitExeCheckOutCommandRecursiveTest extends ScmTestCase {
         workingDirectory = new File("target/checkout-recursive");
         FileUtils.deleteDirectory(workingDirectory);
         repo = new File("src/test/resources/repository_submodule");
+
+        // The fixture's submodule is a local file:// repository, which git 2.38.1+ refuses
+        // to clone by default (CVE-2022-39253); allow it for this test's provider only.
+        GitExeScmProvider provider = (GitExeScmProvider) getScmManager().getProviderByType("git");
+        provider.setEnvironmentVariable("GIT_CONFIG_COUNT", "1");
+        provider.setEnvironmentVariable("GIT_CONFIG_KEY_0", "protocol.file.allow");
+        provider.setEnvironmentVariable("GIT_CONFIG_VALUE_0", "always");
 
         scmRepository = getScmManager()
                 .makeScmRepository(
