@@ -90,16 +90,24 @@ public class JGitUtils {
 
     /**
      * Opens a JGit repository in the current directory or a parent directory.
+     * The returned Git instance owns the repository and must be closed by the caller.
      *
      * @param basedir the directory to start with
      * @throws IOException if the repository cannot be opened
      */
     public static Git openRepo(File basedir) throws IOException {
-        return new Git(new RepositoryBuilder()
+        Repository repository = new RepositoryBuilder()
                 .readEnvironment()
                 .findGitDir(basedir)
                 .setMustExist(true)
-                .build());
+                .build();
+        // Git.open(File) would discard environment-selected work trees, indexes and object directories.
+        return new Git(repository) {
+            @Override
+            public void close() {
+                getRepository().close();
+            }
+        };
     }
 
     /**
