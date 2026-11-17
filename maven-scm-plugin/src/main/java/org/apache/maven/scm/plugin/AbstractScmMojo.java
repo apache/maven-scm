@@ -149,6 +149,16 @@ public abstract class AbstractScmMojo extends AbstractMojo {
     private String tagBase;
 
     /**
+     * The URL of the branch's base directory (used by svn protocol). It is not
+     * necessary to set it if you use the standard svn layout
+     * (branches/tags/trunk).
+     *
+     * @since 2.3.0
+     */
+    @Parameter(property = "branchBase")
+    private String branchBase;
+
+    /**
      * Comma separated list of includes file pattern.
      */
     @Parameter(property = "includes")
@@ -361,6 +371,13 @@ public abstract class AbstractScmMojo extends AbstractMojo {
                 SvnScmProviderRepository svnRepo = (SvnScmProviderRepository) repository.getProviderRepository();
 
                 svnRepo.setTagBase(tagBase);
+            }
+
+            if (!(branchBase == null || branchBase.isEmpty())
+                    && repository.getProvider().equals("svn")) {
+                SvnScmProviderRepository svnRepo = (SvnScmProviderRepository) repository.getProviderRepository();
+
+                svnRepo.setBranchBase(branchBase);
             }
 
             return repository;
