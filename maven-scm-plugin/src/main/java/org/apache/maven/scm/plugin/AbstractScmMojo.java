@@ -205,6 +205,15 @@ public abstract class AbstractScmMojo extends AbstractMojo {
     @Deprecated
     private String workItem;
 
+    /**
+     * Skip the execution of the goal if set to {@code true}. The {@code check-local-modification} goal does not
+     * use this parameter, it keeps its own {@code scm.checkLocalModification.skip}.
+     *
+     * @since 2.3.0
+     */
+    @Parameter(property = "scm.skip", defaultValue = "false")
+    private boolean skip;
+
     private final ScmManager manager;
 
     private final SettingsDecrypter settingsDecrypter;
@@ -212,6 +221,19 @@ public abstract class AbstractScmMojo extends AbstractMojo {
     protected AbstractScmMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
         this.manager = manager;
         this.settingsDecrypter = settingsDecrypter;
+    }
+
+    /**
+     * Tells whether the goal was disabled with the {@code scm.skip} parameter, and logs it if so.
+     *
+     * @return {@code true} if the execution must be skipped
+     * @since 2.3.0
+     */
+    protected boolean isSkipped() {
+        if (skip) {
+            getLog().info("SCM execution has been skipped by the 'scm.skip' parameter");
+        }
+        return skip;
     }
 
     /**

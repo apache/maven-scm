@@ -52,4 +52,10 @@ class ValidateMojoTest {
         MojoExecutionException exception = assertThrows(MojoExecutionException.class, mojo::execute);
         assertNotNull(exception.getMessage());
     }
+
+    @Test
+    @InjectMojo(goal = "validate", pom = "classpath:/mojos/validate/validateWithInvalidScmUrlsAndSkip.xml")
+    void testValidateWithInvalidScmUrlsAndSkip(ValidateMojo mojo) {
+        assertDoesNotThrow(mojo::execute);
+    }
 }

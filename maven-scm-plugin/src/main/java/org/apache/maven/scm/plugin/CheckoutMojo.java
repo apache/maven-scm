@@ -95,6 +95,9 @@ public class CheckoutMojo extends AbstractScmMojo {
      * {@inheritDoc}
      */
     public void execute() throws MojoExecutionException {
+        if (isSkipped()) {
+            return;
+        }
         super.execute();
 
         // skip checkout if checkout directory is already created. See SCM-201

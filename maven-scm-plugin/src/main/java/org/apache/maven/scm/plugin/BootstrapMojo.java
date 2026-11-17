@@ -83,6 +83,9 @@ public class BootstrapMojo extends CheckoutMojo {
      * {@inheritDoc}
      */
     public void execute() throws MojoExecutionException {
+        if (isSkipped()) {
+            return;
+        }
         super.execute();
 
         if (this.getCheckoutResult() != null) {

@@ -74,6 +74,9 @@ public class ExportMojo extends AbstractScmMojo {
      * {@inheritDoc}
      */
     public void execute() throws MojoExecutionException {
+        if (isSkipped()) {
+            return;
+        }
         super.execute();
 
         if (this.skipExportIfExists && this.exportDirectory.isDirectory()) {

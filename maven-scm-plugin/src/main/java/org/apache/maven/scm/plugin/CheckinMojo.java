@@ -83,6 +83,9 @@ public class CheckinMojo extends AbstractScmMojo {
      * {@inheritDoc}
      */
     public void execute() throws MojoExecutionException {
+        if (isSkipped()) {
+            return;
+        }
         super.execute();
 
         setConnectionType(connectionType);

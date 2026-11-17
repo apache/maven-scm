@@ -75,6 +75,9 @@ public class ValidateMojo extends AbstractScmMojo {
      * {@inheritDoc}
      */
     public void execute() throws MojoExecutionException {
+        if (isSkipped()) {
+            return;
+        }
         super.execute();
 
         // check connectionUrl provided with cli
