@@ -117,6 +117,16 @@ public class TagMojo extends AbstractScmMojo {
     @Parameter(property = "signOption")
     private SignOption signOption = SignOption.DEFAULT;
 
+    /**
+     * Creates a lightweight tag instead of an annotated one (only applicable to Git). A lightweight tag has neither
+     * a message nor a signature, so {@link #message} and {@link #signOption} are ignored; combining it with
+     * {@link SignOption#FORCE_SIGN} fails.
+     *
+     * @since 2.3.0
+     */
+    @Parameter(property = "lightweight", defaultValue = "false")
+    private boolean lightweight;
+
     @Inject
     public TagMojo(ScmManager manager, SettingsDecrypter settingsDecrypter) {
         super(manager, settingsDecrypter);
@@ -160,6 +170,7 @@ public class TagMojo extends AbstractScmMojo {
             ScmTagParameters scmTagParameters = new ScmTagParameters(message);
             scmTagParameters.setRemoteTagging(remoteTagging);
             scmTagParameters.setPinExternals(pinExternals);
+            scmTagParameters.setLightweight(lightweight);
             if (signOption != null) {
                 scmTagParameters.setSignOption(signOption);
             } else if (sign) {

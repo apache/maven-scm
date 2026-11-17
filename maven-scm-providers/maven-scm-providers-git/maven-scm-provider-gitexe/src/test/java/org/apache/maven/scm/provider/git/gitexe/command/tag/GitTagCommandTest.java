@@ -83,11 +83,33 @@ public class GitTagCommandTest extends ScmTestCase {
                 SignOption.FORCE_SIGN);
     }
 
+    @Test
+    void testCommandLineLightweightTag() throws Exception {
+        testCommandLine(
+                "scm:git:http://foo.com/git/trunk", "my-tag-1", "git tag --no-sign my-tag-1", SignOption.DEFAULT, true);
+    }
+
+    @Test
+    void testCommandLineLightweightTagForceNoSign() throws Exception {
+        testCommandLine(
+                "scm:git:http://foo.com/git/trunk",
+                "my-tag-1",
+                "git tag --no-sign my-tag-1",
+                SignOption.FORCE_NO_SIGN,
+                true);
+    }
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
     private void testCommandLine(String scmUrl, String tag, String commandLine, SignOption signOption)
+            throws Exception {
+        testCommandLine(scmUrl, tag, commandLine, signOption, false);
+    }
+
+    private void testCommandLine(
+            String scmUrl, String tag, String commandLine, SignOption signOption, boolean lightweight)
             throws Exception {
         File workingDirectory = getTestFile("target/git-checkin-command-test");
 
@@ -95,7 +117,8 @@ public class GitTagCommandTest extends ScmTestCase {
 
         GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = GitTagCommand.createCommandLine(gitRepository, workingDirectory, tag, messageFile, signOption);
+        Commandline cl = GitTagCommand.createCommandLine(
+                gitRepository, workingDirectory, tag, messageFile, signOption, lightweight);
 
         assertCommandLine(commandLine, workingDirectory, cl);
     }
