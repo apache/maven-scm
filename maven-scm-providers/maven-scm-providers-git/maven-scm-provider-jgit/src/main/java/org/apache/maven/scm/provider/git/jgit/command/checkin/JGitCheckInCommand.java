@@ -50,6 +50,7 @@ import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.RmCommand;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -116,6 +117,20 @@ public class JGitCheckInCommand extends AbstractCheckInCommand
             if (!fileSet.getFileList().isEmpty()) {
                 // add files first
                 doCommit = JGitUtils.addAllFiles(git, fileSet).size() > 0;
+
+                // AddCommand does not stage the deletion of a file that is missing on the disk (SCM-706)
+                RmCommand rm = git.rm().setCached(true);
+                boolean anyMissing = false;
+                for (File file : JGitUtils.getWorkingCopyRelativePaths(
+                        git.getRepository().getWorkTree(), fileSet)) {
+                    if (!new File(git.getRepository().getWorkTree(), file.getPath()).exists()) {
+                        rm.addFilepattern(JGitUtils.toNormalizedFilePath(file));
+                        anyMissing = true;
+                    }
+                }
+                if (anyMissing) {
+                    rm.call();
+                }
                 if (!doCommit) {
                     Status status = git.status().call();
                     doCommit = status.getAdded().size() > 0

@@ -93,7 +93,20 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
         }
 
         try {
-            if (!fileSet.getFileList().isEmpty()) {
+            // files that no longer exist cannot be given to git-add if they were removed with git-rm (SCM-706),
+            // their deletion is staged with git-rm --cached instead
+            List<File> filesToAdd = new ArrayList<>();
+            List<File> filesToRemove = new ArrayList<>();
+            for (File file : fileSet.getFileList()) {
+                File absoluteFile = file.isAbsolute() ? file : new File(fileSet.getBasedir(), file.getPath());
+                if (absoluteFile.exists()) {
+                    filesToAdd.add(file);
+                } else {
+                    filesToRemove.add(file);
+                }
+            }
+
+            if (!filesToAdd.isEmpty()) {
                 // if specific fileSet is given, we have to git-add them first
                 // otherwise we will use 'git-commit -a' later
 
@@ -101,7 +114,7 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
 
                 // SCM-714: Workaround for the Windows terminal command limit
                 if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-                    for (File file : fileSet.getFileList()) {
+                    for (File file : filesToAdd) {
                         clAdd = GitAddCommand.createCommandLine(fileSet.getBasedir(), Collections.singletonList(file));
                         exitCode = GitCommandLineUtils.execute(clAdd, stdout, stderr);
 
@@ -110,13 +123,28 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
                         }
                     }
                 } else {
-                    clAdd = GitAddCommand.createCommandLine(fileSet.getBasedir(), fileSet.getFileList());
+                    clAdd = GitAddCommand.createCommandLine(fileSet.getBasedir(), filesToAdd);
                     exitCode = GitCommandLineUtils.execute(clAdd, stdout, stderr);
                 }
 
                 if (exitCode != 0) {
                     return new CheckInScmResult(
                             clAdd.toString(), "The git-add command failed.", stderr.getOutput(), false);
+                }
+            }
+
+            if (!filesToRemove.isEmpty()) {
+                Commandline clRemove = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "rm");
+                clRemove.createArg().setValue("--cached");
+                clRemove.createArg().setValue("--ignore-unmatch");
+                clRemove.createArg().setValue("--quiet");
+                clRemove.createArg().setValue("--");
+                GitCommandLineUtils.addTarget(clRemove, filesToRemove);
+                exitCode = GitCommandLineUtils.execute(clRemove, stdout, stderr);
+
+                if (exitCode != 0) {
+                    return new CheckInScmResult(
+                            clRemove.toString(), "The git-rm command failed.", stderr.getOutput(), false);
                 }
             }
 
