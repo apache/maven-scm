@@ -90,6 +90,7 @@ public class JGitInfoCommand extends AbstractCommand implements GitCommand {
         InfoItem infoItem = new InfoItem();
         infoItem.setPath(file.getPath());
         infoItem.setRevision(StringUtils.trim(fileCommit.name()));
+        infoItem.setLastChangedRevision(infoItem.getRevision());
         infoItem.setURL(file.toPath().toUri().toASCIIString());
         PersonIdent authorIdent = fileCommit.getAuthorIdent();
         infoItem.setLastChangedDateTime(authorIdent
