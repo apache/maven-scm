@@ -19,8 +19,12 @@
 package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmRevision;
@@ -30,6 +34,8 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -190,6 +196,38 @@ public class SvnChangeLogCommandTest extends ScmTestCase {
                 new ScmRevision("1"),
                 new ScmRevision("BASE"),
                 "svn --non-interactive log -v -r 1:BASE");
+    }
+
+    @Test
+    void testCommandLineWithFiles() throws Exception {
+        File workingDirectory = getTestFile("target/svn-update-command-test");
+        ScmRepository repository = getScmManager().makeScmRepository("scm:svn:http://foo.com/svn/trunk");
+        SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
+
+        Commandline cl = new SvnChangeLogCommand(false)
+                .createCommandLine(
+                        svnRepository,
+                        workingDirectory,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        Arrays.asList(new File("src/main/Foo.java"), new File("pom.xml")));
+
+        String[] args = cl.getArguments();
+        assertEquals("--non-interactive", args[0]);
+        assertEquals("log", args[1]);
+        assertEquals("-v", args[2]);
+        assertEquals("http://foo.com/svn/trunk@", args[3]);
+        assertEquals("--targets", args[4]);
+        assertEquals(5 + 1, args.length);
+        assertEquals(
+                Arrays.asList("src/main/Foo.java", "pom.xml"),
+                Files.readAllLines(Paths.get(args[5])).stream()
+                        .map(String::trim)
+                        .collect(Collectors.toList()));
     }
 
     // ----------------------------------------------------------------------

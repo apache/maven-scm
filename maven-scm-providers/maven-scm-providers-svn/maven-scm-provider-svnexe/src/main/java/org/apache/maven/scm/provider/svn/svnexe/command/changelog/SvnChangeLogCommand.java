@@ -19,8 +19,11 @@
 package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -142,7 +145,8 @@ public class SvnChangeLogCommand extends AbstractChangeLogCommand implements Svn
                 endDate,
                 startVersion,
                 endVersion,
-                limit);
+                limit,
+                fileSet.getFileList());
 
         SvnChangeLogConsumer consumer = new SvnChangeLogConsumer(datePattern);
 
@@ -199,6 +203,41 @@ public class SvnChangeLogCommand extends AbstractChangeLogCommand implements Svn
             ScmVersion startVersion,
             ScmVersion endVersion,
             Integer limit) {
+        try {
+            return createCommandLine(
+                    repository,
+                    workingDirectory,
+                    branch,
+                    startDate,
+                    endDate,
+                    startVersion,
+                    endVersion,
+                    limit,
+                    Collections.emptyList());
+        } catch (ScmException e) {
+            // cannot happen: only creating the targets file for a non-empty file list can fail
+            throw new IllegalStateException(e);
+        }
+    }
+
+    /**
+     * Creates the {@code svn log} command line.
+     *
+     * @param files the files (relative to the repository URL) to restrict the log to, may be {@code null} or empty
+     * @throws ScmException if the targets file for {@code files} cannot be created
+     * @since 2.3.0
+     */
+    public Commandline createCommandLine(
+            SvnScmProviderRepository repository,
+            File workingDirectory,
+            ScmBranch branch,
+            Date startDate,
+            Date endDate,
+            ScmVersion startVersion,
+            ScmVersion endVersion,
+            Integer limit,
+            List<File> files)
+            throws ScmException {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
 
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -256,6 +295,12 @@ public class SvnChangeLogCommand extends AbstractChangeLogCommand implements Svn
 
         if (endVersion == null || !Objects.equals("BASE", endVersion.getName())) {
             cl.createArg().setValue(repository.getUrl() + "@");
+        }
+
+        try {
+            SvnCommandLineUtils.addTarget(cl, files);
+        } catch (IOException e) {
+            throw new ScmException("Can't create the targets file", e);
         }
 
         return cl;
