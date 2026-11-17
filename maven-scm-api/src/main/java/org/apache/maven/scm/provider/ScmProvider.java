@@ -55,6 +55,14 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
 /**
+ * The implementation of one SCM type (for example {@code svn} or {@code git}), registered with the
+ * {@link org.apache.maven.scm.manager.ScmManager}.
+ * <p>
+ * It is the SPI which each SCM specific module implements, and at the same time the lower level API
+ * for running commands: the {@link org.apache.maven.scm.manager.ScmManager} offers shortcuts for most, but
+ * not all, of the commands declared here. A provider works on the {@link ScmProviderRepository} of the
+ * given {@link ScmRepository}.
+ *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  */
 public interface ScmProvider {
