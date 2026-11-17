@@ -99,12 +99,23 @@ public class ValidateMojo extends AbstractScmMojo {
     }
 
     private void validateConnection(String connectionString, String type) throws MojoExecutionException {
+        String previous = System.getProperty(AbstractSvnScmProvider.CURRENT_WORKING_DIRECTORY);
         if (scmCheckWorkingDirectoryUrl) {
             System.setProperty(
                     AbstractSvnScmProvider.CURRENT_WORKING_DIRECTORY,
                     project.getFile().getParentFile().getAbsolutePath());
         }
-        List<String> messages = getScmManager().validateScmRepository(connectionString);
+        List<String> messages;
+        try {
+            messages = getScmManager().validateScmRepository(connectionString);
+        } finally {
+            // the property is JVM-wide and would otherwise leak into other executions in the same build
+            if (previous == null) {
+                System.clearProperty(AbstractSvnScmProvider.CURRENT_WORKING_DIRECTORY);
+            } else {
+                System.setProperty(AbstractSvnScmProvider.CURRENT_WORKING_DIRECTORY, previous);
+            }
+        }
 
         if (!messages.isEmpty()) {
             getLog().error("Validation of scm url connection (" + type + ") failed :");

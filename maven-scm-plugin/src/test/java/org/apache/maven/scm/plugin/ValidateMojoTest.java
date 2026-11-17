@@ -21,10 +21,12 @@ package org.apache.maven.scm.plugin;
 import org.apache.maven.api.plugin.testing.InjectMojo;
 import org.apache.maven.api.plugin.testing.MojoTest;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.scm.provider.svn.AbstractSvnScmProvider;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -57,5 +59,17 @@ class ValidateMojoTest {
     @InjectMojo(goal = "validate", pom = "classpath:/mojos/validate/validateWithInvalidScmUrlsAndSkip.xml")
     void testValidateWithInvalidScmUrlsAndSkip(ValidateMojo mojo) {
         assertDoesNotThrow(mojo::execute);
+    }
+
+    @Test
+    @InjectMojo(goal = "validate", pom = "classpath:/mojos/validate/validateWithWorkingDirectoryCheck.xml")
+    void testWorkingDirectoryPropertyIsNotLeaked(ValidateMojo mojo) {
+        assertNull(System.getProperty(AbstractSvnScmProvider.CURRENT_WORKING_DIRECTORY));
+        try {
+            assertDoesNotThrow(mojo::execute);
+            assertNull(System.getProperty(AbstractSvnScmProvider.CURRENT_WORKING_DIRECTORY));
+        } finally {
+            System.clearProperty(AbstractSvnScmProvider.CURRENT_WORKING_DIRECTORY);
+        }
     }
 }
