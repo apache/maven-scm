@@ -192,6 +192,8 @@ public abstract class AbstractSvnScmProvider extends AbstractScmProvider {
 
                 return result;
             }
+            // Subversion accepts file:///D:\my\repo, but the path handling in SvnTagBranchUtils needs slashes
+            scmSpecificUrl = scmSpecificUrl.replace('\\', '/');
         } else if (scmSpecificUrl.startsWith("https")) {
             if (!scmSpecificUrl.startsWith("https://")) {
                 result.messages.add("A svn 'http' url must be on the form 'https://'.");

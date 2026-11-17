@@ -44,6 +44,11 @@ public class SvnScmProviderRepositoryTest extends ScmTestCase {
     }
 
     @Test
+    void testFileURLWithBackslashesIsNormalised() throws Exception {
+        testUrl("scm:svn:file:///C:\\tmp\\svn", "file:///C:/tmp/svn", null, null, null);
+    }
+
+    @Test
     void testLegalLocalhostFileURL() throws Exception {
         testUrl("scm:svn:file://localhost/tmp/repo", "file://localhost/tmp/repo", null, null, null);
     }
