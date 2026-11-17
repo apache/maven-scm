@@ -42,6 +42,7 @@ import org.apache.maven.scm.provider.git.jgit.command.PushException;
 import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
@@ -99,12 +100,14 @@ public class JGitTagCommand extends AbstractTagCommand implements GitCommand, Cu
             git = JGitUtils.openRepo(fileSet.getBasedir());
 
             // tag the revision
-            String tagMessage = scmTagParameters.getMessage();
-            Ref tagRef = git.tag()
-                    .setName(escapedTagName)
-                    .setMessage(tagMessage)
-                    .setForceUpdate(false)
-                    .call();
+            TagCommand tagCommand = git.tag().setName(escapedTagName).setForceUpdate(false);
+            if (scmTagParameters.isLightweight()) {
+                // JGit rejects a message on an unannotated tag
+                tagCommand.setAnnotated(false);
+            } else {
+                tagCommand.setMessage(scmTagParameters.getMessage());
+            }
+            Ref tagRef = tagCommand.call();
 
             if (repo.isPushChanges()) {
                 TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback(

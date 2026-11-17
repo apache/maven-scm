@@ -18,9 +18,13 @@
  */
 package org.apache.maven.scm.provider.git.command.tag;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
@@ -28,6 +32,7 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
@@ -61,5 +66,47 @@ public abstract class GitTagCommandTckTest extends TagCommandTckTest {
                 .tag(getScmRepository(), new ScmFileSet(getWorkingCopy()), tag);
 
         assertFalse(tagResult.isSuccess(), "Tag should not have been pushed");
+    }
+
+    @Test
+    void testAnnotatedTagIsTheDefault() throws Exception {
+        ScmTagParameters parameters = new ScmTagParameters();
+        parameters.setMessage("annotated message");
+
+        tag("annotated-tag", parameters);
+
+        assertEquals("tag", gitObjectType("annotated-tag"));
+    }
+
+    @Test
+    void testLightweightTag() throws Exception {
+        ScmTagParameters parameters = new ScmTagParameters();
+        parameters.setMessage("ignored message");
+        parameters.setLightweight(true);
+
+        tag("lightweight-tag", parameters);
+
+        assertEquals("commit", gitObjectType("lightweight-tag"));
+    }
+
+    private void tag(String tag, ScmTagParameters parameters) throws Exception {
+        TagScmResult tagResult = getScmManager()
+                .getProviderByUrl(getScmUrl())
+                .tag(getScmRepository(), new ScmFileSet(getWorkingCopy()), tag, parameters);
+
+        assertResultIsSuccess(tagResult);
+    }
+
+    private String gitObjectType(String tag) throws Exception {
+        Process process = new ProcessBuilder("git", "cat-file", "-t", "refs/tags/" + tag)
+                .directory(getWorkingCopy())
+                .redirectErrorStream(true)
+                .start();
+        try (BufferedReader reader =
+                new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
+            String type = reader.readLine();
+            process.waitFor();
+            return type;
+        }
     }
 }

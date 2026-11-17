@@ -72,16 +72,24 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
 
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
-        File messageFile = FileUtils.createTempFile("maven-scm-", ".commit", null);
+        boolean lightweight = scmTagParameters.isLightweight();
+        if (lightweight && scmTagParameters.getSignOption() == SignOption.FORCE_SIGN) {
+            throw new ScmException("A lightweight tag cannot be signed");
+        }
 
-        try {
-            FileUtils.fileWrite(messageFile.getAbsolutePath(), "UTF-8", scmTagParameters.getMessage());
-        } catch (IOException ex) {
-            return new TagScmResult(
-                    null,
-                    "Error while making a temporary file for the commit message: " + ex.getMessage(),
-                    null,
-                    false);
+        File messageFile = null;
+        if (!lightweight) {
+            messageFile = FileUtils.createTempFile("maven-scm-", ".commit", null);
+
+            try {
+                FileUtils.fileWrite(messageFile.getAbsolutePath(), "UTF-8", scmTagParameters.getMessage());
+            } catch (IOException ex) {
+                return new TagScmResult(
+                        null,
+                        "Error while making a temporary file for the commit message: " + ex.getMessage(),
+                        null,
+                        false);
+            }
         }
 
         try {
@@ -91,7 +99,7 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
             int exitCode;
 
             Commandline clTag = createCommandLine(
-                    repository, fileSet.getBasedir(), tag, messageFile, scmTagParameters.getSignOption());
+                    repository, fileSet.getBasedir(), tag, messageFile, scmTagParameters.getSignOption(), lightweight);
 
             exitCode = GitCommandLineUtils.execute(clTag, stdout, stderr);
             if (exitCode != 0) {
@@ -122,10 +130,12 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
 
             return new TagScmResult(clTag.toString(), listConsumer.getListedFiles());
         } finally {
-            try {
-                FileUtils.forceDelete(messageFile);
-            } catch (IOException ex) {
-                // ignore
+            if (messageFile != null) {
+                try {
+                    FileUtils.forceDelete(messageFile);
+                } catch (IOException ex) {
+                    // ignore
+                }
             }
         }
     }
@@ -140,22 +150,39 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
             String tag,
             File messageFile,
             SignOption signOption) {
+        return createCommandLine(repository, workingDirectory, tag, messageFile, signOption, false);
+    }
+
+    static Commandline createCommandLine(
+            GitScmProviderRepository repository,
+            File workingDirectory,
+            String tag,
+            File messageFile,
+            SignOption signOption,
+            boolean lightweight) {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(workingDirectory, "tag");
 
-        switch (signOption) {
-            case FORCE_SIGN:
-                cl.createArg().setValue("-s");
-                break;
-            case FORCE_NO_SIGN:
-                cl.createArg().setValue("--no-sign");
-                break;
-            default:
-                // no CLI argument needed when default option from git config should be used
-                break;
+        if (lightweight) {
+            // with tag.gpgSign=true git would otherwise ask for a tag message
+            cl.createArg().setValue("--no-sign");
+        } else {
+            switch (signOption) {
+                case FORCE_SIGN:
+                    cl.createArg().setValue("-s");
+                    break;
+                case FORCE_NO_SIGN:
+                    cl.createArg().setValue("--no-sign");
+                    break;
+                default:
+                    // no CLI argument needed when default option from git config should be used
+                    break;
+            }
         }
 
-        cl.createArg().setValue("-F");
-        cl.createArg().setValue(messageFile.getAbsolutePath());
+        if (!lightweight) {
+            cl.createArg().setValue("-F");
+            cl.createArg().setValue(messageFile.getAbsolutePath());
+        }
 
         // Note: this currently assumes you have the tag base checked out too
         cl.createArg().setValue(tag);

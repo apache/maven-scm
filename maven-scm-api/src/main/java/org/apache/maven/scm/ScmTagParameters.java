@@ -37,6 +37,8 @@ public class ScmTagParameters implements Serializable {
 
     private String scmRevision;
 
+    private boolean lightweight = false;
+
     public ScmTagParameters() {
         this.remoteTagging = false;
         this.pinExternals = false;
@@ -120,13 +122,38 @@ public class ScmTagParameters implements Serializable {
         this.signOption = signOption;
     }
 
+    /**
+     * Tells whether a lightweight tag (a plain reference without tag object, message or signature) is requested.
+     * Only applicable to SCMs that distinguish lightweight and annotated tags (Git).
+     *
+     * @return {@code true} for a lightweight tag, {@code false} (the default) for an annotated one
+     * @since 2.3.0
+     */
+    public boolean isLightweight() {
+        return lightweight;
+    }
+
+    /**
+     * Sets whether a lightweight tag should be created instead of an annotated one. A lightweight tag carries
+     * neither a message nor a signature, so both are ignored. A lightweight tag is never signed, even if the Git
+     * configuration asks for signed tags: the gitexe provider rejects {@code FORCE_SIGN} and the jgit provider
+     * ignores the sign option.
+     *
+     * @param lightweight {@code true} for a lightweight tag
+     * @since 2.3.0
+     */
+    public void setLightweight(boolean lightweight) {
+        this.lightweight = lightweight;
+    }
+
     @Override
     public String toString() {
         return "ScmTagParameters{" + "message='"
                 + message + '\'' + ", remoteTagging="
                 + remoteTagging + ", pinExternals="
                 + pinExternals + ", signOption="
-                + signOption + ", scmRevision='"
+                + signOption + ", lightweight="
+                + lightweight + ", scmRevision='"
                 + scmRevision + '\'' + '}';
     }
 }
