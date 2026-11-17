@@ -138,6 +138,9 @@ public class ChangeLogMojo extends AbstractScmMojo {
      * {@inheritDoc}
      */
     public void execute() throws MojoExecutionException {
+        if (isSkipped()) {
+            return;
+        }
         super.execute();
 
         SimpleDateFormat localFormat = new SimpleDateFormat(userDateFormat);
