@@ -44,6 +44,7 @@ public class ScmTagParameters implements Serializable {
     }
 
     public ScmTagParameters(String message) {
+        this();
         this.message = message;
     }
 
