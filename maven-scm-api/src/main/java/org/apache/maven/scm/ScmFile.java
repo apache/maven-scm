@@ -18,6 +18,7 @@
  */
 package org.apache.maven.scm;
 
+import java.io.File;
 import java.io.Serializable;
 
 /**
@@ -31,17 +32,19 @@ public class ScmFile implements Comparable<ScmFile>, Serializable {
     private ScmFileStatus status;
 
     /**
-     * @param path   the relative path of the file, should <b>never</b> start with any {@link java.io.File#separator}
+     * @param path   the relative path of the file, should <b>never</b> start with any {@link java.io.File#separator};
+     *               the operating system separator is converted to forward slashes
      * @param status the file status
      */
     public ScmFile(String path, ScmFileStatus status) {
-        this.path = path;
+        this.path = path != null && File.separatorChar == '\\' ? path.replace('\\', '/') : path;
 
         this.status = status;
     }
 
     /**
-     * Returns the relative path of the file.
+     * Returns the relative path of the file. The path always uses the forward slash {@code /} as separator,
+     * on every operating system. On Windows, backslashes are converted to forward slashes.
      *
      * @return the file path
      */
