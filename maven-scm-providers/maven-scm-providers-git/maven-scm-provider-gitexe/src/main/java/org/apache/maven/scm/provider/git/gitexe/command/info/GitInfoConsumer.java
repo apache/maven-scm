@@ -86,6 +86,8 @@ public class GitInfoConsumer extends AbstractConsumer {
             revision = StringUtils.truncate(revision, Integer.max(4, revisionLength));
         }
         infoItem.setRevision(revision);
+        // the command lists the most recent commit touching the item
+        infoItem.setLastChangedRevision(revision);
         infoItem.setLastChangedDateTime(
                 DateTimeFormatter.ISO_OFFSET_DATE_TIME.parse(parts[LineParts.AUTHOR_LAST_MODIFIED.getIndex()]));
     }
