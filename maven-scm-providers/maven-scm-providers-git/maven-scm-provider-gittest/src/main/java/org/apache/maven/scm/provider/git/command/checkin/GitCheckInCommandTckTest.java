@@ -18,12 +18,16 @@
  */
 package org.apache.maven.scm.provider.git.command.checkin;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -31,6 +35,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -39,6 +44,7 @@ import org.codehaus.plexus.util.FileUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -141,6 +147,82 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
             GitUtil.setSettingsDirectory(GitUtil.DEFAULT_SETTINGS_DIRECTORY); // reset to default settings directory
             Files.delete(gitSettingsFile); // delete the temporary settings file
             Files.delete(gitSettingsFile.getParent()); // delete the temporary settings directory
+        }
+    }
+
+    /**
+     * SCM-706: a file removed from the index and from the disk must not break the check-in of an explicit file set.
+     */
+    @Test
+    void testCheckInFileSetWithRemovedFile() throws Exception {
+        File workingCopy = getWorkingCopy();
+        GitScmTestUtils.setDefaultGitConfig(workingCopy);
+
+        RemoveScmResult removeResult =
+                getScmManager().remove(getScmRepository(), new ScmFileSet(workingCopy, new File("readme.txt")), "");
+        assertResultIsSuccess(removeResult);
+        assertFalse(new File(workingCopy, "readme.txt").exists(), "readme.txt should be removed from the disk");
+
+        FileUtils.fileWrite(new File(workingCopy, "beer.xml").getAbsolutePath(), "1 litre");
+        assertResultIsSuccess(
+                getScmManager().add(getScmRepository(), new ScmFileSet(workingCopy, new File("beer.xml")), "beer.xml"));
+
+        CommandParameters commandParameters = new CommandParameters();
+        commandParameters.setString(CommandParameter.MESSAGE, "Remove one file and add another");
+
+        CheckInScmResult result = getScmManager()
+                .checkIn(
+                        getScmRepository(),
+                        new ScmFileSet(workingCopy, Arrays.asList(new File("readme.txt"), new File("beer.xml"))),
+                        commandParameters);
+        assertResultIsSuccess(result);
+
+        String lastCommit = git(workingCopy, "show", "--name-status", "--format=", "HEAD");
+        assertTrue(lastCommit.contains("D\treadme.txt"), lastCommit);
+        assertTrue(lastCommit.contains("A\tbeer.xml"), lastCommit);
+    }
+
+    /**
+     * SCM-706: a tracked file deleted from the disk only (not with git-rm) is checked in as a deletion.
+     */
+    @Test
+    void testCheckInFileSetWithFileDeletedOnDisk() throws Exception {
+        File workingCopy = getWorkingCopy();
+        GitScmTestUtils.setDefaultGitConfig(workingCopy);
+
+        assertTrue(new File(workingCopy, "readme.txt").delete(), "readme.txt should be deleted from the disk");
+
+        CommandParameters commandParameters = new CommandParameters();
+        commandParameters.setString(CommandParameter.MESSAGE, "Delete one file");
+
+        CheckInScmResult result = getScmManager()
+                .checkIn(
+                        getScmRepository(),
+                        new ScmFileSet(workingCopy, Arrays.asList(new File("readme.txt"))),
+                        commandParameters);
+        assertResultIsSuccess(result);
+
+        String lastCommit = git(workingCopy, "show", "--name-status", "--format=", "HEAD");
+        assertTrue(lastCommit.contains("D\treadme.txt"), lastCommit);
+    }
+
+    private static String git(File workingDirectory, String... arguments) throws Exception {
+        String[] command = new String[arguments.length + 1];
+        command[0] = "git";
+        System.arraycopy(arguments, 0, command, 1, arguments.length);
+        Process process = new ProcessBuilder(command)
+                .directory(workingDirectory)
+                .redirectErrorStream(true)
+                .start();
+        try (BufferedReader reader =
+                new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
+            StringBuilder output = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line).append('\n');
+            }
+            process.waitFor();
+            return output.toString();
         }
     }
 
