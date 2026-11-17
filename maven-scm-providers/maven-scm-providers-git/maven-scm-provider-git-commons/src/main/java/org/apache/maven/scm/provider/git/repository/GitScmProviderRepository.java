@@ -346,8 +346,10 @@ public class GitScmProviderRepository extends ScmProviderRepositoryWithHost {
             return url;
         }
         // extract user information, broken see SCM-907
-        int indexAt = url.lastIndexOf('@');
-        if (indexAt >= 0) {
+        // user info is only part of the authority, which ends at the first slash
+        int indexSlash = url.indexOf('/');
+        int indexAt = url.lastIndexOf('@', indexSlash < 0 ? url.length() : indexSlash);
+        if (indexAt >= 0 && (indexSlash < 0 || indexAt < indexSlash)) {
             String userInfo = url.substring(0, indexAt);
             int indexPwdSep = userInfo.indexOf(':');
             if (indexPwdSep < 0) {
