@@ -52,6 +52,14 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
 /**
+ * Entry point for clients: turns SCM URLs into {@link ScmRepository} instances and looks up the
+ * {@link ScmProvider} responsible for them.
+ * <p>
+ * Most commands offered here are shortcuts which delegate to the same named method of the provider
+ * of the given repository. The provider is exposed as well (see {@link #getProviderByRepository(ScmRepository)}),
+ * and some functionality is only available through the provider. The manager is therefore the higher level
+ * API, while {@link ScmProvider} is both the lower level API and the SPI implemented by the SCM specific modules.
+ *
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

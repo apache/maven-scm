@@ -21,8 +21,12 @@ package org.apache.maven.scm.repository;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
+ * A repository as seen by clients of the {@link org.apache.maven.scm.manager.ScmManager}: it couples the type of the
+ * SCM (the provider name) with the {@link ScmProviderRepository} holding the provider specific settings
+ * parsed from the SCM URL (location, credentials and the like). Instances are created by
+ * {@link org.apache.maven.scm.manager.ScmManager#makeScmRepository(String)}.
+ *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * TODO clarify need - should be able to merge with ScmProviderRepository?
  */
 public class ScmRepository {
     private String provider;
