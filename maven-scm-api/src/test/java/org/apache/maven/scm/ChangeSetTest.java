@@ -25,6 +25,7 @@ import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -67,13 +68,14 @@ class ChangeSetTest {
     void testAddFileWithFile() {
         ChangeFile file = new ChangeFile("maven:dummy");
         instance.addFile(file);
-        assertTrue(instance.toString().indexOf("maven:dummy") != -1, "File name not found in list");
+        assertTrue(instance.toString().contains("maven:dummy"), "File name not found in list");
 
-        assertTrue(instance.containsFilename("maven:"));
-        assertTrue(instance.containsFilename(":dummy"));
-        assertTrue(instance.containsFilename(":"));
-        assertTrue(instance.containsFilename("maven:dummy"));
-        assertFalse(instance.containsFilename("dammy"));
+        assertAll(
+                () -> assertTrue(instance.containsFilename("maven:")),
+                () -> assertTrue(instance.containsFilename(":dummy")),
+                () -> assertTrue(instance.containsFilename(":")),
+                () -> assertTrue(instance.containsFilename("maven:dummy")),
+                () -> assertFalse(instance.containsFilename("dammy")));
     }
 
     /**
@@ -83,9 +85,10 @@ class ChangeSetTest {
     void testToString() {
         // dion, Mon Apr 01 00:00:00 EST 2002, comment
         String value = instance.toString();
-        assertTrue(value.indexOf("dion") != -1, "author not found in string");
-        assertTrue(value.indexOf("comment") != -1, "comment not found in string");
-        assertTrue(value.indexOf("Mon Apr 01") != -1, "date not found in string");
+        assertAll(
+                () -> assertTrue(value.contains("dion"), "author not found in string"),
+                () -> assertTrue(value.contains("comment"), "comment not found in string"),
+                () -> assertTrue(value.contains("Mon Apr 01"), "date not found in string"));
     }
 
     /**
