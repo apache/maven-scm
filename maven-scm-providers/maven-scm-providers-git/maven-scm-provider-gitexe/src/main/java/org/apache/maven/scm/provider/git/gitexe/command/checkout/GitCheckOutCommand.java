@@ -69,8 +69,19 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
         ScmVersion version = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
         boolean binary = parameters.getBoolean(CommandParameter.BINARY, false);
         boolean shallow = parameters.getBoolean(CommandParameter.SHALLOW, false);
-        boolean recursive = parameters.getBoolean(CommandParameter.RECURSIVE, false);
+        boolean submodules = parameters.getBoolean(CommandParameter.SUBMODULES, false);
 
+        return checkOut(repo, fileSet, version, binary, shallow, submodules);
+    }
+
+    private CheckOutScmResult checkOut(
+            ScmProviderRepository repo,
+            ScmFileSet fileSet,
+            ScmVersion version,
+            boolean binary,
+            boolean shallow,
+            boolean submodules)
+            throws ScmException {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
         if (GitScmProviderRepository.PROTOCOL_FILE.equals(
@@ -134,7 +145,7 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
             lastCommandLine = gitCheckout.toString();
         }
 
-        if (recursive) {
+        if (submodules) {
             // and now lets do the git-submodule update
             Commandline clSubmoduleUpdate = createSubmoduleUpdateCommand(repository, fileSet.getBasedir());
 
@@ -154,7 +165,7 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
 
         Commandline gitList = GitListCommand.createCommandLine(repository, fileSet.getBasedir());
 
-        if (recursive) {
+        if (submodules) {
             gitList.createArg().setValue("--recurse-submodules");
         }
 
@@ -272,8 +283,7 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
     }
 
     /**
-     * The overridden {@link #executeCommand(ScmProviderRepository, ScmFileSet, CommandParameters)} in this class will
-     * not call this method!
+     * Delegates to the six-argument variant without submodules.
      * <p>
      * {@inheritDoc}
      */
@@ -281,6 +291,21 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
     protected CheckOutScmResult executeCheckOutCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version, boolean recursive, boolean shallow)
             throws ScmException {
-        throw new UnsupportedOperationException("Should not get here");
+        return executeCheckOutCommand(repo, fileSet, version, recursive, shallow, false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected CheckOutScmResult executeCheckOutCommand(
+            ScmProviderRepository repo,
+            ScmFileSet fileSet,
+            ScmVersion version,
+            boolean recursive,
+            boolean shallow,
+            boolean submodules)
+            throws ScmException {
+        return checkOut(repo, fileSet, version, false, shallow, submodules);
     }
 }

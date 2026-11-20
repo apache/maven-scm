@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkout;
 import java.io.File;
 import java.util.Collections;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmVersion;
@@ -94,9 +96,29 @@ public class GitExeCheckOutCommandRecursiveTest extends ScmTestCase {
         assertEquals(9, result.getCheckedOutFiles().size());
     }
 
-    protected CheckOutScmResult checkoutRepo(boolean recursive) throws Exception {
-        CheckOutScmResult result =
-                getScmManager().checkOut(scmRepository, new ScmFileSet(workingDirectory), (ScmVersion) null, recursive);
+    @Test
+    void testSubmodulesAreNotCheckedOutByDefault() throws Exception {
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
+
+        assertEquals(5, checkout(new CommandParameters()).getCheckedOutFiles().size());
+
+        // recursive alone must not initialise submodules
+        FileUtils.deleteDirectory(workingDirectory);
+        CommandParameters recursive = new CommandParameters();
+        recursive.setString(CommandParameter.RECURSIVE, "true");
+        assertEquals(5, checkout(recursive).getCheckedOutFiles().size());
+    }
+
+    protected CheckOutScmResult checkoutRepo(boolean submodules) throws Exception {
+        CommandParameters parameters = new CommandParameters();
+        parameters.setString(CommandParameter.SUBMODULES, Boolean.toString(submodules));
+        return checkout(parameters);
+    }
+
+    private CheckOutScmResult checkout(CommandParameters parameters) throws Exception {
+        CheckOutScmResult result = getScmManager()
+                .getProviderByRepository(scmRepository)
+                .checkOut(scmRepository, new ScmFileSet(workingDirectory), (ScmVersion) null, parameters);
 
         assertResultIsSuccess(result);
         return result;
