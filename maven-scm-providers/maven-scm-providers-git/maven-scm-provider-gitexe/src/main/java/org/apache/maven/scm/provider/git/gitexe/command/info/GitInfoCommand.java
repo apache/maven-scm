@@ -119,7 +119,6 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
      * @return {@link #DEFAULT_SKIP_MERGE_COMMITS} if parameter {@link CommandParameter#SCM_SKIP_MERGE_COMMITS}
      *         (or the whole {@code parameters}) is absent, and otherwise the requested value
      * @throws ScmException if the parameter has the wrong type
-     * @since 2.2.2
      */
     private static boolean isSkipMergeCommits(final CommandParameters parameters) throws ScmException {
         if (parameters == null) {

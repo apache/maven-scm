@@ -86,7 +86,7 @@ public class CommandParameter implements Serializable {
      * include merge commits, e.g. so that the reported revision matches the actual {@code HEAD} in merge-based
      * release workflows.
      *
-     * @since 2.2.2
+     * @since 2.3.0
      */
     public static final CommandParameter SCM_SKIP_MERGE_COMMITS = new CommandParameter("skipMergeCommits");
 
