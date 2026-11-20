@@ -51,8 +51,6 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
     protected ScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
 
-        warnIfShallowRepository(fileSet.getBasedir());
-
         Commandline baseCli = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "log");
         baseCli.createArg().setValue("-1"); // only most recent commit matters
         baseCli.createArg().setValue("--no-merges"); // skip merge commits
@@ -62,6 +60,8 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
         if (fileSet.getFileList().isEmpty()) {
             infoItems.add(executeInfoCommand(baseCli, parameters, fileSet.getBasedir()));
         } else {
+            // dates of single files are wrong in a shallow clone; HEAD info is not affected
+            warnIfShallowRepository(fileSet.getBasedir());
             // iterate over files
             for (File scmFile : fileSet.getFileList()) {
                 baseCli = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "log");
