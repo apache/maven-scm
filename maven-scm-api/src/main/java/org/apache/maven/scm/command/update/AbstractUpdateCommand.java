@@ -64,7 +64,7 @@ public abstract class AbstractUpdateCommand extends AbstractCommand {
 
         ChangeLogCommand changeLogCmd = getChangeLogCommand();
 
-        if (filesList != null && filesList.size() > 0 && changeLogCmd != null) {
+        if (filesList != null && !filesList.isEmpty() && changeLogCmd != null) {
             ChangeLogScmResult changeLogScmResult =
                     (ChangeLogScmResult) changeLogCmd.executeCommand(repository, fileSet, parameters);
 

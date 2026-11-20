@@ -88,7 +88,7 @@ public abstract class AbstractGitScmProvider extends AbstractScmProvider {
         try {
             ScmUrlParserResult result = parseScmUrl(scmSpecificUrl, delimiter);
 
-            if (result.messages.size() > 0) {
+            if (!result.messages.isEmpty()) {
                 throw new ScmRepositoryException("The scm url " + scmSpecificUrl + " is invalid.", result.messages);
             }
 

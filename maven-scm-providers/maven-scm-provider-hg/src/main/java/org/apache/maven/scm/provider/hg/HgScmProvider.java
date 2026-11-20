@@ -88,7 +88,7 @@ public class HgScmProvider extends AbstractScmProvider {
             throws ScmRepositoryException {
         HgUrlParserResult result = parseScmUrl(scmSpecificUrl);
 
-        if (result.messages.size() > 0) {
+        if (!result.messages.isEmpty()) {
             throw new ScmRepositoryException("The scm url is invalid.", result.messages);
         }
 

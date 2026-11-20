@@ -112,7 +112,7 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
 
         if (fileSet.getBasedir().exists()
                 && new File(fileSet.getBasedir(), ".git").exists()
-                && result.getBranches().size() > 0) {
+                && !result.getBranches().isEmpty()) {
             // git repo exists, so we must git-pull the changes
             Commandline gitPull = createPullCommand(repository, fileSet.getBasedir(), version);
 
