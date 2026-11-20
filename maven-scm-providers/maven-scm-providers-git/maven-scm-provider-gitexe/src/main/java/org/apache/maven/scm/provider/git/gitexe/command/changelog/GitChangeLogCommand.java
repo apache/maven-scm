@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.git.gitexe.command.changelog;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -259,6 +260,11 @@ public class GitChangeLogCommand extends AbstractChangeLogCommand implements Git
         cl.createArg().setValue("--decorate=short");
         cl.createArg().setValue("--raw");
         cl.createArg().setValue("--no-merges");
+        // git stores commit messages as UTF-8 internally; ask it to transcode its output to whatever
+        // charset the JVM will use to decode the process stream (CommandLineUtils.executeCommandLine()
+        // reads it using Charset.defaultCharset()), or non-ASCII characters get corrupted on platforms
+        // whose default charset isn't UTF-8.
+        cl.createArg().setValue("--encoding=" + Charset.defaultCharset().name());
 
         if (startDate != null || endDate != null) {
             if (startDate != null) {

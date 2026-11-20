@@ -19,6 +19,7 @@
 package org.apache.maven.scm.provider.git.gitexe.command.changelog;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,6 +38,9 @@ import org.junit.jupiter.api.Test;
  *
  */
 class GitChangeLogCommandTest extends ScmTestCase {
+    private static final String ENCODING_ARG =
+            "--encoding=" + Charset.defaultCharset().name();
+
     private File workingDirectory;
 
     @BeforeEach
@@ -53,7 +57,8 @@ class GitChangeLogCommandTest extends ScmTestCase {
                 (Date) null,
                 (Date) null,
                 40,
-                "git log --format=medium --decorate=short --raw --no-merges --date=iso --max-count=40 -- .");
+                "git log --format=medium --decorate=short --raw --no-merges " + ENCODING_ARG
+                        + " --date=iso --max-count=40 -- .");
     }
 
     @Test
@@ -63,7 +68,7 @@ class GitChangeLogCommandTest extends ScmTestCase {
                 null,
                 (Date) null,
                 (Date) null,
-                "git log --format=medium --decorate=short --raw --no-merges --date=iso -- .");
+                "git log --format=medium --decorate=short --raw --no-merges " + ENCODING_ARG + " --date=iso -- .");
     }
 
     @Test
@@ -76,7 +81,8 @@ class GitChangeLogCommandTest extends ScmTestCase {
                 null,
                 startDate,
                 endDate,
-                "git log --format=medium --decorate=short --raw --no-merges \"--since=2003-09-10 00:00:00 +0000\" \"--until=2007-10-10 00:00:00 +0000\" --date=iso -- .");
+                "git log --format=medium --decorate=short --raw --no-merges " + ENCODING_ARG
+                        + " \"--since=2003-09-10 00:00:00 +0000\" \"--until=2007-10-10 00:00:00 +0000\" --date=iso -- .");
     }
 
     @Test
@@ -88,7 +94,8 @@ class GitChangeLogCommandTest extends ScmTestCase {
                 null,
                 startDate,
                 null,
-                "git log --format=medium --decorate=short --raw --no-merges \"--since=2003-09-10 01:01:01 +0000\" --date=iso -- .");
+                "git log --format=medium --decorate=short --raw --no-merges " + ENCODING_ARG
+                        + " \"--since=2003-09-10 01:01:01 +0000\" --date=iso -- .");
     }
 
     @Test
@@ -101,7 +108,8 @@ class GitChangeLogCommandTest extends ScmTestCase {
                 null,
                 startDate,
                 endDate,
-                "git log --format=medium --decorate=short --raw --no-merges \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso -- .");
+                "git log --format=medium --decorate=short --raw --no-merges " + ENCODING_ARG
+                        + " \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso -- .");
     }
 
     @Test
@@ -116,7 +124,8 @@ class GitChangeLogCommandTest extends ScmTestCase {
                 endDate,
                 new ScmRevision("1"),
                 new ScmRevision("10"),
-                "git log --format=medium --decorate=short --raw --no-merges \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso 1..10 -- .");
+                "git log --format=medium --decorate=short --raw --no-merges " + ENCODING_ARG
+                        + " \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso 1..10 -- .");
     }
 
     @Test
@@ -129,7 +138,8 @@ class GitChangeLogCommandTest extends ScmTestCase {
                 null,
                 null,
                 endDate,
-                "git log --format=medium --decorate=short --raw --no-merges \"--until=2003-11-10 00:00:00 +0000\" --date=iso -- .");
+                "git log --format=medium --decorate=short --raw --no-merges " + ENCODING_ARG
+                        + " \"--until=2003-11-10 00:00:00 +0000\" --date=iso -- .");
     }
 
     @Test
@@ -139,7 +149,8 @@ class GitChangeLogCommandTest extends ScmTestCase {
                 new ScmBranch("my-test-branch"),
                 (Date) null,
                 (Date) null,
-                "git log --format=medium --decorate=short --raw --no-merges --date=iso my-test-branch -- .");
+                "git log --format=medium --decorate=short --raw --no-merges " + ENCODING_ARG
+                        + " --date=iso my-test-branch -- .");
     }
 
     @Test
@@ -149,7 +160,7 @@ class GitChangeLogCommandTest extends ScmTestCase {
                 null,
                 new ScmRevision("1"),
                 null,
-                "git log --format=medium --decorate=short --raw --no-merges --date=iso 1.. -- .");
+                "git log --format=medium --decorate=short --raw --no-merges " + ENCODING_ARG + " --date=iso 1.. -- .");
     }
 
     @Test
@@ -159,7 +170,8 @@ class GitChangeLogCommandTest extends ScmTestCase {
                 null,
                 new ScmRevision("1"),
                 new ScmRevision("10"),
-                "git log --format=medium --decorate=short --raw --no-merges --date=iso 1..10 -- .");
+                "git log --format=medium --decorate=short --raw --no-merges " + ENCODING_ARG
+                        + " --date=iso 1..10 -- .");
     }
 
     @Test
@@ -169,7 +181,7 @@ class GitChangeLogCommandTest extends ScmTestCase {
                 null,
                 new ScmRevision("1"),
                 new ScmRevision("1"),
-                "git log --format=medium --decorate=short --raw --no-merges --date=iso 1..1 -- .");
+                "git log --format=medium --decorate=short --raw --no-merges " + ENCODING_ARG + " --date=iso 1..1 -- .");
     }
 
     @Test
@@ -179,7 +191,8 @@ class GitChangeLogCommandTest extends ScmTestCase {
                 new ScmBranch("my-test-branch"),
                 new ScmRevision("1"),
                 new ScmRevision("10"),
-                "git log --format=medium --decorate=short --raw --no-merges --date=iso 1..10 my-test-branch -- .");
+                "git log --format=medium --decorate=short --raw --no-merges " + ENCODING_ARG
+                        + " --date=iso 1..10 my-test-branch -- .");
     }
 
     // ----------------------------------------------------------------------
