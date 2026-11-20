@@ -19,15 +19,20 @@
 package org.apache.maven.scm.provider.svn.svnexe.command;
 
 import java.io.File;
+import java.nio.file.Path;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.Os;
+import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -35,18 +40,34 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
  */
 public class SvnCommandLineUtilsTest extends ScmTestCase {
     @Test
-    void testBaseCommandLineOverridesAllLocale() throws Exception {
+    void testBaseCommandLineUsesEnglishUtf8Locale() throws Exception {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(
                 new File("."), new SvnScmProviderRepository("https://svn.apache.org/repos/asf/maven/scm/trunk"), false);
 
-        String locale = null;
+        assertEquals("LC_ALL=C.UTF-8", getAllLocale(cl));
+    }
+
+    @Test
+    void testExecuteOverridesCallerLocale(@TempDir Path tempDirectory) throws Exception {
+        Commandline cl = new Commandline();
+        cl.setExecutable(tempDirectory.resolve("missing-executable").toString());
+        cl.addEnvironment("LC_ALL", "C");
+
+        // The executable does not exist: the wrapper must set the locale before attempting to launch it.
+        assertThrows(
+                CommandLineException.class,
+                () -> SvnCommandLineUtils.execute(cl, new StringStreamConsumer(), new StringStreamConsumer()));
+
+        assertEquals("LC_ALL=C.UTF-8", getAllLocale(cl));
+    }
+
+    private static String getAllLocale(Commandline cl) throws Exception {
         for (String environmentVariable : cl.getEnvironmentVariables()) {
             if (environmentVariable.startsWith("LC_ALL=")) {
-                locale = environmentVariable;
+                return environmentVariable;
             }
         }
-
-        assertEquals("LC_ALL=C", locale);
+        return null;
     }
 
     @Test
