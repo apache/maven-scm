@@ -104,19 +104,19 @@ public class HgScmProvider extends AbstractScmProvider {
 
         if (scmSpecificUrl.startsWith("file")) {
             if (!scmSpecificUrl.startsWith("file:///") && !scmSpecificUrl.startsWith("file://localhost/")) {
-                result.messages.add("An hg 'file' url must be on the form 'file:///' or 'file://localhost/'.");
+                result.messages.add("An hg 'file' URL must begin with 'file:///' or 'file://localhost/'.");
 
                 return result;
             }
         } else if (scmSpecificUrl.startsWith("https")) {
             if (!scmSpecificUrl.startsWith("https://")) {
-                result.messages.add("An hg 'http' url must be on the form 'https://'.");
+                result.messages.add("An hg 'https' URL must begin with 'https://'.");
 
                 return result;
             }
         } else if (scmSpecificUrl.startsWith("http")) {
             if (!scmSpecificUrl.startsWith("http://")) {
-                result.messages.add("An hg 'http' url must be on the form 'http://'.");
+                result.messages.add("An hg 'http' URL must begin with 'http://'.");
 
                 return result;
             }
