@@ -84,6 +84,13 @@ public class JGitInfoCommand extends AbstractCommand implements GitCommand {
         }
     }
 
+    /**
+     * Kept for subclasses compiled against earlier versions.
+     */
+    protected InfoItem getInfoItem(Repository repository, ObjectId headObjectId, File file) throws IOException {
+        return getInfoItem(repository, headObjectId, file, true);
+    }
+
     protected InfoItem getInfoItem(Repository repository, ObjectId headObjectId, File file, boolean skipMergeCommits)
             throws IOException {
         RevCommit commit = getMostRecentCommitForPath(
