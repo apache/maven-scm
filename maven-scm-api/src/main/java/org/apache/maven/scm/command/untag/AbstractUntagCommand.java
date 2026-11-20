@@ -22,6 +22,7 @@ import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmUntagParameters;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -37,7 +38,7 @@ public abstract class AbstractUntagCommand extends AbstractCommand<UntagScmResul
      * @return result of untag command
      * @throws ScmException  in case of error
      */
-    protected abstract UntagScmResult executeUntagCommand(
+    protected abstract ScmResult executeUntagCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, ScmUntagParameters scmUntagParameters)
             throws ScmException;
 
@@ -51,6 +52,6 @@ public abstract class AbstractUntagCommand extends AbstractCommand<UntagScmResul
         String message = parameters.getString(CommandParameter.MESSAGE, "[maven-scm] remove tag " + tagName);
         ScmUntagParameters scmUntagParameters = new ScmUntagParameters(tagName, message);
 
-        return executeUntagCommand(repository, fileSet, scmUntagParameters);
+        return (UntagScmResult) executeUntagCommand(repository, fileSet, scmUntagParameters);
     }
 }

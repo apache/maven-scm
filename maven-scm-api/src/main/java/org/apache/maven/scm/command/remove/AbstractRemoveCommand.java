@@ -22,6 +22,7 @@ import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
@@ -30,7 +31,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  */
 public abstract class AbstractRemoveCommand extends AbstractCommand<RemoveScmResult> {
-    protected abstract RemoveScmResult executeRemoveCommand(
+    protected abstract ScmResult executeRemoveCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String message) throws ScmException;
 
     /**
@@ -40,6 +41,6 @@ public abstract class AbstractRemoveCommand extends AbstractCommand<RemoveScmRes
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         String message = parameters.getString(CommandParameter.MESSAGE);
 
-        return executeRemoveCommand(repository, fileSet, message);
+        return (RemoveScmResult) executeRemoveCommand(repository, fileSet, message);
     }
 }

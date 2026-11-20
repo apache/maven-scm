@@ -23,6 +23,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.CommandParameters.SignOption;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -41,12 +42,12 @@ public abstract class AbstractTagCommand extends AbstractCommand<TagScmResult> {
      * @throws ScmException if any
      * @deprecated use method {@link #executeTagCommand(ScmProviderRepository, ScmFileSet, String, ScmTagParameters)}
      */
-    protected TagScmResult executeTagCommand(
+    protected ScmResult executeTagCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String tagName, String message) throws ScmException {
         return executeTagCommand(repository, fileSet, tagName, new ScmTagParameters(message));
     }
 
-    protected abstract TagScmResult executeTagCommand(
+    protected abstract ScmResult executeTagCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String tagName, ScmTagParameters scmTagParameters)
             throws ScmException;
 
@@ -75,6 +76,6 @@ public abstract class AbstractTagCommand extends AbstractCommand<TagScmResult> {
         if (signOption != null) {
             scmTagParameters.setSignOption(signOption);
         }
-        return executeTagCommand(repository, fileSet, tagName, scmTagParameters);
+        return (TagScmResult) executeTagCommand(repository, fileSet, tagName, scmTagParameters);
     }
 }

@@ -24,6 +24,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
@@ -32,7 +33,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  */
 public abstract class AbstractBranchCommand extends AbstractCommand<BranchScmResult> {
-    protected abstract BranchScmResult executeBranchCommand(
+    protected abstract ScmResult executeBranchCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String branchName, String message)
             throws ScmException;
 
@@ -47,7 +48,7 @@ public abstract class AbstractBranchCommand extends AbstractCommand<BranchScmRes
      * @throws ScmException if any
      * @since 1.3
      */
-    protected BranchScmResult executeBranchCommand(
+    protected ScmResult executeBranchCommand(
             ScmProviderRepository repository,
             ScmFileSet fileSet,
             String branchName,
@@ -72,6 +73,6 @@ public abstract class AbstractBranchCommand extends AbstractCommand<BranchScmRes
             scmBranchParameters.setMessage(message);
         }
 
-        return executeBranchCommand(repository, fileSet, branchName, scmBranchParameters);
+        return (BranchScmResult) executeBranchCommand(repository, fileSet, branchName, scmBranchParameters);
     }
 }

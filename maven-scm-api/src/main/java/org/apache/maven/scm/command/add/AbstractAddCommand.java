@@ -22,6 +22,7 @@ import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
@@ -29,7 +30,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  */
 public abstract class AbstractAddCommand extends AbstractCommand<AddScmResult> {
-    protected abstract AddScmResult executeAddCommand(
+    protected abstract ScmResult executeAddCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean binary) throws ScmException;
 
     /**
@@ -37,7 +38,7 @@ public abstract class AbstractAddCommand extends AbstractCommand<AddScmResult> {
      */
     protected AddScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
-        return executeAddCommand(
+        return (AddScmResult) executeAddCommand(
                 repository,
                 fileSet,
                 parameters.getString(CommandParameter.MESSAGE, "no message"),
