@@ -32,6 +32,13 @@ public class CommandParameter implements Serializable {
 
     public static final CommandParameter SHALLOW = new CommandParameter("shallow");
 
+    /**
+     * Whether git submodules are checked out; default false.
+     *
+     * @since 2.3.0
+     */
+    public static final CommandParameter SUBMODULES = new CommandParameter("submodules");
+
     public static final CommandParameter MESSAGE = new CommandParameter("message");
 
     public static final CommandParameter BRANCH_NAME = new CommandParameter("branchName");
