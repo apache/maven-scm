@@ -28,9 +28,12 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import static org.apache.maven.scm.ScmTestCase.checkSystemCmdPresence;
+import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -39,6 +42,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class GitExeShallowRepositoryTest {
     @TempDir
     Path temp;
+
+    @BeforeEach
+    void requireGit() {
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
+    }
 
     @Test
     void detectsExistingClonesAndLinkedWorktrees() throws Exception {
