@@ -133,6 +133,7 @@ public abstract class AbstractGitScmProvider extends AbstractScmProvider {
      * @param path the checkout directory
      * @return whether the checkout is shallow
      * @throws ScmException if detection fails
+     * @since 2.3.0
      */
     protected boolean isShallowRepository(File path) throws ScmException {
         return false;

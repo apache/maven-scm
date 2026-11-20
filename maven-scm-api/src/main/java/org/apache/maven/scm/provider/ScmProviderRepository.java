@@ -124,6 +124,7 @@ public abstract class ScmProviderRepository {
      * Returns whether this repository is a shallow checkout.
      *
      * @return {@code true} if the repository has limited history
+     * @since 2.3.0
      */
     public boolean isShallow() {
         return shallow;
@@ -133,6 +134,7 @@ public abstract class ScmProviderRepository {
      * Sets whether this repository is a shallow checkout.
      *
      * @param shallow {@code true} if the repository has limited history
+     * @since 2.3.0
      */
     public void setShallow(boolean shallow) {
         this.shallow = shallow;
