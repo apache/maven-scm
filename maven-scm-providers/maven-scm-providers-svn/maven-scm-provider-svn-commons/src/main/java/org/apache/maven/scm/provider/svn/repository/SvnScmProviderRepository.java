@@ -134,7 +134,12 @@ public class SvnScmProviderRepository extends ScmProviderRepositoryWithHost {
 
         String urlPath = url.substring(getProtocol().length());
 
+        // user info is only part of the authority, which ends at the first slash
+        int indexSlash = urlPath.indexOf('/');
         int indexAt = urlPath.indexOf('@');
+        if (indexSlash >= 0 && indexAt > indexSlash) {
+            indexAt = -1;
+        }
 
         // a file:// URL may contain userinfo according to RFC 8089, but our implementation is broken
         // extract user information, broken see SCM-909
@@ -155,7 +160,7 @@ public class SvnScmProviderRepository extends ScmProviderRepositoryWithHost {
         }
 
         if (!"file://".equals(getProtocol())) {
-            int indexSlash = urlPath.indexOf('/');
+            indexSlash = urlPath.indexOf('/');
 
             String hostPort = urlPath;
 

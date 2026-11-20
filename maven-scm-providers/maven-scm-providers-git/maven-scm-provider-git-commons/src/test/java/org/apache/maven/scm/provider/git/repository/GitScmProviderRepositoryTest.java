@@ -120,6 +120,57 @@ class GitScmProviderRepositoryTest extends ScmTestCase {
     }
 
     @Test
+    void testAtSignInPathIsNotUserInfo() throws Exception {
+        testUrl(
+                "scm:git:http://gitrepos.apache.org/workspace@2/repo",
+                null,
+                "http://gitrepos.apache.org/workspace@2/repo",
+                null,
+                null,
+                null,
+                "gitrepos.apache.org",
+                0,
+                null);
+    }
+
+    @Test
+    void testAtSignInPathAfterUserInfo() throws Exception {
+        testUrl(
+                "scm:git:http://user@gitrepos.apache.org/workspace@2/repo",
+                null,
+                "http://user@gitrepos.apache.org/workspace@2/repo",
+                null,
+                "user",
+                null,
+                "gitrepos.apache.org",
+                0,
+                null);
+    }
+
+    @Test
+    void testAtSignInPathOfScpStyleUrl() throws Exception {
+        String fetchUrl = "git@github.com:olamy/workspace@2/repo.git";
+        GitScmProviderRepository providerRepository = (GitScmProviderRepository)
+                scmManager.makeScmRepository("scm:git:" + fetchUrl).getProviderRepository();
+
+        testScmProviderRepository(null, fetchUrl, null, "git", null, "github.com", 0, providerRepository);
+    }
+
+    @Test
+    void testAtSignInLocalPath() throws Exception {
+        testUrl(
+                "scm:git:/home/jenkins/workspace@2/repo",
+                null,
+                "/home/jenkins/workspace@2/repo",
+                null,
+                null,
+                null,
+                null,
+                0,
+                null);
+    }
+
+    @Test
     void testLegalHttpURLWithUserPassword() throws Exception {
         testUrl(
                 "scm:git:http://user:password@gitrepos.apache.org",
