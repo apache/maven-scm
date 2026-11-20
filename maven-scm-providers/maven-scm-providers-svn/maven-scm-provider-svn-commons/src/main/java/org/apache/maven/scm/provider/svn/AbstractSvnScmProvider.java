@@ -106,7 +106,7 @@ public abstract class AbstractSvnScmProvider extends AbstractScmProvider {
                 throw new ScmRepositoryException("An error occurred while trying to svn info", e);
             }
         }
-        if (result.messages.size() > 0) {
+        if (!result.messages.isEmpty()) {
             throw new ScmRepositoryException("The scm url is invalid.", result.messages);
         }
 

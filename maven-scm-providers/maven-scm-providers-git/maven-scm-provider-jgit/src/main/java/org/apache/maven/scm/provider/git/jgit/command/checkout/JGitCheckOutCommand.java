@@ -151,7 +151,7 @@ public class JGitCheckOutCommand extends AbstractCheckOutCommand
 
             if (fileSet.getBasedir().exists()
                     && new File(fileSet.getBasedir(), ".git").exists()
-                    && result.getBranches().size() > 0) {
+                    && !result.getBranches().isEmpty()) {
                 // git repo exists, so we must git-pull the changes
                 CredentialsProvider credentials = JGitUtils.prepareSession(git, repository);
 

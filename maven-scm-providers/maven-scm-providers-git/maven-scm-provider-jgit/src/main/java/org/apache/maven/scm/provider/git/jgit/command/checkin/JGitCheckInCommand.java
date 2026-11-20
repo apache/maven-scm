@@ -116,7 +116,7 @@ public class JGitCheckInCommand extends AbstractCheckInCommand
 
             if (!fileSet.getFileList().isEmpty()) {
                 // add files first
-                doCommit = JGitUtils.addAllFiles(git, fileSet).size() > 0;
+                doCommit = !JGitUtils.addAllFiles(git, fileSet).isEmpty();
 
                 // AddCommand does not stage the deletion of a file that is missing on the disk (SCM-706)
                 RmCommand rm = git.rm().setCached(true);
@@ -133,9 +133,9 @@ public class JGitCheckInCommand extends AbstractCheckInCommand
                 }
                 if (!doCommit) {
                     Status status = git.status().call();
-                    doCommit = status.getAdded().size() > 0
-                            || status.getChanged().size() > 0
-                            || status.getRemoved().size() > 0;
+                    doCommit = !status.getAdded().isEmpty()
+                            || !status.getChanged().isEmpty()
+                            || !status.getRemoved().isEmpty();
                 }
             } else {
                 // add all tracked files which are modified manually
