@@ -78,14 +78,18 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
     }
 
     private void warnIfShallowRepository(File basedir) throws ScmException {
+        if (detectShallowRepository(basedir)) {
+            logger.warn("Git repository {} is shallow; info dates may not identify the file's last change", basedir);
+        }
+    }
+
+    static boolean detectShallowRepository(File basedir) throws ScmException {
         Commandline cli = GitCommandLineUtils.getBaseGitCommandLine(basedir, "rev-parse");
         cli.addArguments(new String[] {"--is-shallow-repository"});
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         int exitCode = GitCommandLineUtils.execute(cli, stdout, stderr);
-        if (exitCode == 0 && isShallowRepository(stdout.getOutput())) {
-            logger.warn("Git repository {} is shallow; info dates may not identify the file's last change", basedir);
-        }
+        return exitCode == 0 && isShallowRepository(stdout.getOutput());
     }
 
     static boolean isShallowRepository(String output) {
