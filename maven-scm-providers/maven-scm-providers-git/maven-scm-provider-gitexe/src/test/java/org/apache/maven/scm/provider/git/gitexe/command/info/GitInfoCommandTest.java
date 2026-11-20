@@ -19,6 +19,12 @@
 package org.apache.maven.scm.provider.git.gitexe.command.info;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -29,9 +35,11 @@ import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -39,6 +47,55 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Olivier Lamy
  */
 public class GitInfoCommandTest extends ScmTestCase {
+
+    @Test
+    void shallowRepositoryOutputIsRecognized() {
+        assertTrue(GitInfoCommand.isShallowRepository("true\n"));
+        assertFalse(GitInfoCommand.isShallowRepository("false\n"));
+        assertFalse(GitInfoCommand.isShallowRepository(""));
+    }
+
+    @Test
+    void detectsShallowAndFullClones(@TempDir Path temp) throws Exception {
+        checkSystemCmdPresence(GIT_COMMAND_LINE);
+
+        Path source = Files.createDirectory(temp.resolve("source"));
+        git(source, "init");
+        for (String value : new String[] {"one", "two"}) {
+            Files.write(source.resolve("file.txt"), value.getBytes("UTF-8"));
+            git(source, "add", "file.txt");
+            git(source, "-c", "user.name=Test", "-c", "user.email=test@example.invalid", "commit", "-m", value);
+        }
+        // depth is ignored for plain paths, so clone through a file:// URL
+        Path shallow = temp.resolve("shallow");
+        Path full = temp.resolve("full");
+        git(temp, "clone", "--depth", "1", source.toUri().toString(), shallow.toString());
+        git(temp, "clone", source.toUri().toString(), full.toString());
+
+        assertTrue(GitInfoCommand.detectShallowRepository(shallow.toFile()));
+        assertFalse(GitInfoCommand.detectShallowRepository(full.toFile()));
+    }
+
+    private static void git(Path directory, String... arguments) throws Exception {
+        List<String> command = new ArrayList<>();
+        command.add("git");
+        command.addAll(Arrays.asList(arguments));
+        Path output = Files.createTempFile(directory, "git-output", ".log");
+        Process process = new ProcessBuilder(command)
+                .directory(directory.toFile())
+                .redirectErrorStream(true)
+                .redirectOutput(output.toFile())
+                .start();
+        try {
+            assertTrue(process.waitFor(30, TimeUnit.SECONDS), "git timed out");
+            assertEquals(0, process.exitValue(), new String(Files.readAllBytes(output), "UTF-8"));
+        } finally {
+            if (process.isAlive()) {
+                process.destroyForcibly();
+            }
+            Files.deleteIfExists(output);
+        }
+    }
 
     @Test
     void testInfoCommand() throws Exception {
