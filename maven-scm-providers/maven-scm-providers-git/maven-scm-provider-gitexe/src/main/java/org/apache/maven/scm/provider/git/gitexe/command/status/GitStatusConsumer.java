@@ -85,7 +85,7 @@ public class GitStatusConsumer extends AbstractConsumer {
      * @param workingDirectory the working directory
      */
     public GitStatusConsumer(File workingDirectory) {
-        this(workingDirectory, null, null, true);
+        this(workingDirectory, null, null, false);
     }
 
     /**
@@ -101,7 +101,7 @@ public class GitStatusConsumer extends AbstractConsumer {
      * @since 1.9
      */
     public GitStatusConsumer(File workingDirectory, URI relativeRepositoryPath) {
-        this(workingDirectory, relativeRepositoryPath, null, true);
+        this(workingDirectory, relativeRepositoryPath, null, false);
     }
 
     /**
@@ -117,7 +117,7 @@ public class GitStatusConsumer extends AbstractConsumer {
      * @since 1.11.0
      */
     public GitStatusConsumer(File workingDirectory, ScmFileSet scmFileSet) {
-        this(workingDirectory, null, scmFileSet, true);
+        this(workingDirectory, null, scmFileSet, false);
     }
 
     /**
@@ -134,7 +134,7 @@ public class GitStatusConsumer extends AbstractConsumer {
      * @since 1.11.0
      */
     public GitStatusConsumer(File workingDirectory, URI relativeRepositoryPath, ScmFileSet scmFileSet) {
-        this(workingDirectory, relativeRepositoryPath, scmFileSet, true);
+        this(workingDirectory, relativeRepositoryPath, scmFileSet, false);
     }
 
     /**
@@ -143,7 +143,8 @@ public class GitStatusConsumer extends AbstractConsumer {
      * @param workingDirectory the working directory
      * @param relativeRepositoryPath the working directory relative to the repository root
      * @param scmFileSet fileset with includes and excludes
-     * @param includeUntrackedEntries whether to include untracked paths
+     * @param includeUntrackedEntries whether to include untracked paths, reported as {@link ScmFileStatus#UNKNOWN}
+     * @since 2.3.0
      */
     public GitStatusConsumer(
             File workingDirectory, URI relativeRepositoryPath, ScmFileSet scmFileSet, boolean includeUntrackedEntries) {
@@ -179,7 +180,7 @@ public class GitStatusConsumer extends AbstractConsumer {
             files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
         } else if ((matcher = UNTRACKED_PATTERN.matcher(line)).find()) {
             if (includeUntrackedEntries) {
-                status = ScmFileStatus.ADDED;
+                status = ScmFileStatus.UNKNOWN;
                 untracked = true;
                 files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
             }

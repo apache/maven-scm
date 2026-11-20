@@ -48,7 +48,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
     }
 
     private List<ScmFile> getChangedFiles(File gitlog, URI relativeRepoPath) throws IOException {
-        GitStatusConsumer consumer = new GitStatusConsumer(null, relativeRepoPath);
+        GitStatusConsumer consumer = new GitStatusConsumer(null, relativeRepoPath, null, true);
 
         try (BufferedReader r =
                 new BufferedReader(new InputStreamReader(new FileInputStream(gitlog), StandardCharsets.UTF_8))) {
@@ -99,18 +99,19 @@ public class GitStatusConsumerTest extends ScmTestCase {
 
     @Test
     void testConsumerUntrackedFile() {
-        List<ScmFile> changedFiles = getChangedFiles("?? project.xml", null);
+        List<ScmFile> changedFiles = getChangedFiles("?? project.xml", null, null, null, true);
 
         assertNotNull(changedFiles);
         assertEquals(1, changedFiles.size());
-        testScmFile(changedFiles.get(0), "project.xml", ScmFileStatus.ADDED);
+        testScmFile(changedFiles.get(0), "project.xml", ScmFileStatus.UNKNOWN);
 
-        changedFiles = getChangedFiles("?? \"test file with spaces and a special \\177 character.xml\"", null);
+        changedFiles = getChangedFiles(
+                "?? \"test file with spaces and a special \\177 character.xml\"", null, null, null, true);
 
         assertNotNull(changedFiles);
         assertEquals(1, changedFiles.size());
         testScmFile(
-                changedFiles.get(0), "test file with spaces and a special \u007f character.xml", ScmFileStatus.ADDED);
+                changedFiles.get(0), "test file with spaces and a special \u007f character.xml", ScmFileStatus.UNKNOWN);
     }
 
     @Test
@@ -124,7 +125,7 @@ public class GitStatusConsumerTest extends ScmTestCase {
             List<ScmFile> changedFiles = getChangedFiles("?? new-dir/", dir, URI.create(""), new ScmFileSet(dir), true);
 
             assertEquals(1, changedFiles.size());
-            testScmFile(changedFiles.get(0), "new-dir/", ScmFileStatus.ADDED);
+            testScmFile(changedFiles.get(0), "new-dir/", ScmFileStatus.UNKNOWN);
 
             assertEquals(
                     0,
@@ -534,9 +535,11 @@ public class GitStatusConsumerTest extends ScmTestCase {
         testScmFile(
                 changedFiles.get(0),
                 "maven-scm-provider-gitexe/src/test/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInConsumerTest.java",
-                ScmFileStatus.ADDED);
+                ScmFileStatus.UNKNOWN);
         testScmFile(
-                changedFiles.get(1), "maven-scm-provider-gitexe/src/test/resources/git/checkin/", ScmFileStatus.ADDED);
+                changedFiles.get(1),
+                "maven-scm-provider-gitexe/src/test/resources/git/checkin/",
+                ScmFileStatus.UNKNOWN);
     }
 
     @Test
@@ -564,9 +567,9 @@ public class GitStatusConsumerTest extends ScmTestCase {
         testScmFile(
                 changedFiles.get(4),
                 "maven-scm-provider-gitexe/src/test/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusConsumerTest.java",
-                ScmFileStatus.ADDED);
+                ScmFileStatus.UNKNOWN);
         testScmFile(
-                changedFiles.get(5), "maven-scm-provider-gitexe/src/test/resources/git/status/", ScmFileStatus.ADDED);
+                changedFiles.get(5), "maven-scm-provider-gitexe/src/test/resources/git/status/", ScmFileStatus.UNKNOWN);
     }
 
     // SCM-709
