@@ -30,7 +30,7 @@ import org.apache.maven.scm.provider.local.command.LocalCommand;
 /**
  * @author <a href="mailto:matthewm@ambientideas.com">Matthew McCullough</a>
  */
-public class LocalStatusCommand extends AbstractStatusCommand implements LocalCommand {
+public class LocalStatusCommand extends AbstractStatusCommand implements LocalCommand<StatusScmResult> {
     /**
      * {@inheritDoc}
      */

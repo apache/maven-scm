@@ -23,7 +23,6 @@ import java.io.File;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.status.AbstractStatusCommand;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -33,7 +32,7 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  */
-public class HgStatusCommand extends AbstractStatusCommand implements Command {
+public class HgStatusCommand extends AbstractStatusCommand {
 
     public HgStatusCommand() {
         super();

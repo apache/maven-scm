@@ -22,7 +22,6 @@ import java.util.Collections;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -33,11 +32,11 @@ import org.apache.maven.scm.provider.local.command.LocalCommand;
  * @author <a href="mailto:matthewm@ambientideas.com">Matthew McCullough</a>
  * @author Olivier Lamy
  */
-public class LocalTagCommand extends AbstractTagCommand implements LocalCommand {
+public class LocalTagCommand extends AbstractTagCommand implements LocalCommand<TagScmResult> {
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeTagCommand(
+    protected TagScmResult executeTagCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String message, ScmTagParameters scmTagParameters)
             throws ScmException {
         return new TagScmResult(null, Collections.emptyList());
@@ -47,7 +46,7 @@ public class LocalTagCommand extends AbstractTagCommand implements LocalCommand 
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeTagCommand(
+    protected TagScmResult executeTagCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String tagName, String message) throws ScmException {
         return new TagScmResult(null, Collections.emptyList());
     }

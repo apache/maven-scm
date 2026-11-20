@@ -30,7 +30,6 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
-import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
@@ -46,7 +45,7 @@ import org.apache.maven.scm.provider.hg.command.diff.HgDiffConsumer;
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author Olivier Lamy
  */
-public class HgUpdateCommand extends AbstractUpdateCommand implements Command {
+public class HgUpdateCommand extends AbstractUpdateCommand {
     /**
      * {@inheritDoc}
      */

@@ -28,7 +28,6 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTagParameters;
-import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -44,9 +43,9 @@ import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
  * @author Olivier Lamy
  */
-public class HgTagCommand extends AbstractTagCommand implements Command {
+public class HgTagCommand extends AbstractTagCommand {
 
-    protected ScmResult executeTagCommand(
+    protected TagScmResult executeTagCommand(
             ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag, String message)
             throws ScmException {
         return executeTagCommand(scmProviderRepository, fileSet, tag, new ScmTagParameters(message));
@@ -55,7 +54,7 @@ public class HgTagCommand extends AbstractTagCommand implements Command {
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeTagCommand(
+    protected TagScmResult executeTagCommand(
             ScmProviderRepository scmProviderRepository,
             ScmFileSet fileSet,
             String tag,

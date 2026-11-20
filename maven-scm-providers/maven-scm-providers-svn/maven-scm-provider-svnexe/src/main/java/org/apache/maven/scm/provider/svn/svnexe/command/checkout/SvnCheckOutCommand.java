@@ -44,13 +44,12 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
  */
-public class SvnCheckOutCommand extends AbstractCheckOutCommand implements SvnCommand {
+public class SvnCheckOutCommand extends AbstractCheckOutCommand implements SvnCommand<CheckOutScmResult> {
     private final boolean interactive;
 
     public SvnCheckOutCommand(boolean interactive) {
         this.interactive = interactive;
     }
-
     /**
      * {@inheritDoc}
      */

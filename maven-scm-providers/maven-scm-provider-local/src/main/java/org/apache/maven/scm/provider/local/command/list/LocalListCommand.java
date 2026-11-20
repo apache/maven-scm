@@ -32,12 +32,13 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.list.AbstractListCommand;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  */
-public class LocalListCommand extends AbstractListCommand {
+public class LocalListCommand extends AbstractListCommand implements LocalCommand<ListScmResult> {
     /**
      * {@inheritDoc}
      */

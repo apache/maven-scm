@@ -40,8 +40,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  * @since 1.6
  */
-public class SvnRemoteInfoCommand extends AbstractRemoteInfoCommand implements SvnCommand {
-
+public class SvnRemoteInfoCommand extends AbstractRemoteInfoCommand implements SvnCommand<RemoteInfoScmResult> {
     private final boolean interactive;
 
     public SvnRemoteInfoCommand(boolean interactive) {

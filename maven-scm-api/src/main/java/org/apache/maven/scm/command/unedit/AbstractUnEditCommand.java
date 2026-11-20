@@ -25,13 +25,13 @@ import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
-public abstract class AbstractUnEditCommand extends AbstractCommand {
+public abstract class AbstractUnEditCommand extends AbstractCommand<UnEditScmResult> {
     /**
      * {@inheritDoc}
      */
-    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException {
-        return executeUnEditCommand(repository, fileSet);
+    public UnEditScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
+        return (UnEditScmResult) executeUnEditCommand(repository, fileSet);
     }
 
     protected abstract ScmResult executeUnEditCommand(ScmProviderRepository repository, ScmFileSet fileSet)

@@ -32,7 +32,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  */
-public abstract class AbstractBranchCommand extends AbstractCommand {
+public abstract class AbstractBranchCommand extends AbstractCommand<BranchScmResult> {
     protected abstract ScmResult executeBranchCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String branchName, String message)
             throws ScmException;
@@ -60,8 +60,8 @@ public abstract class AbstractBranchCommand extends AbstractCommand {
     /**
      * {@inheritDoc}
      */
-    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException {
+    public BranchScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         String branchName = parameters.getString(CommandParameter.BRANCH_NAME);
 
         ScmBranchParameters scmBranchParameters =
@@ -73,6 +73,6 @@ public abstract class AbstractBranchCommand extends AbstractCommand {
             scmBranchParameters.setMessage(message);
         }
 
-        return executeBranchCommand(repository, fileSet, branchName, scmBranchParameters);
+        return (BranchScmResult) executeBranchCommand(repository, fileSet, branchName, scmBranchParameters);
     }
 }

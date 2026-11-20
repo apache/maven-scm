@@ -26,9 +26,7 @@ import org.apache.maven.scm.CommandParameters.SignOption;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTagParameters;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -44,14 +42,14 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitTagCommand extends AbstractTagCommand implements GitCommand {
+public class GitTagCommand extends AbstractTagCommand implements GitCommand<TagScmResult> {
     private final Map<String, String> environmentVariables;
 
     public GitTagCommand(Map<String, String> environmentVariables) {
         this.environmentVariables = environmentVariables;
     }
 
-    public ScmResult executeTagCommand(ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message)
+    public TagScmResult executeTagCommand(ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message)
             throws ScmException {
         return executeTagCommand(repo, fileSet, tag, new ScmTagParameters(message));
     }
@@ -59,7 +57,7 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
     /**
      * {@inheritDoc}
      */
-    public ScmResult executeTagCommand(
+    public TagScmResult executeTagCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String tag, ScmTagParameters scmTagParameters)
             throws ScmException {
         if (tag == null || tag.trim().isEmpty()) {
@@ -124,7 +122,7 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand {
 
             exitCode = GitCommandLineUtils.execute(clList, listConsumer, stderr);
             if (exitCode != 0) {
-                return new CheckOutScmResult(
+                return new TagScmResult(
                         clList.toString(), "The git-ls-files command failed.", stderr.getOutput(), false);
             }
 

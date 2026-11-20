@@ -29,7 +29,6 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
@@ -51,14 +50,14 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  * TODO since this is just a copy, use that instead
  */
-public class SvnTagCommand extends AbstractTagCommand implements SvnCommand {
+public class SvnTagCommand extends AbstractTagCommand implements SvnCommand<TagScmResult> {
     private final boolean interactive;
 
     public SvnTagCommand(boolean interactive) {
         this.interactive = interactive;
     }
 
-    public ScmResult executeTagCommand(ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message)
+    public TagScmResult executeTagCommand(ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message)
             throws ScmException {
         ScmTagParameters scmTagParameters = new ScmTagParameters(message);
         // force false to preserve backward comp
@@ -70,7 +69,7 @@ public class SvnTagCommand extends AbstractTagCommand implements SvnCommand {
     /**
      * {@inheritDoc}
      */
-    public ScmResult executeTagCommand(
+    public TagScmResult executeTagCommand(
             ScmProviderRepository repo, ScmFileSet fileSet, String tag, ScmTagParameters scmTagParameters)
             throws ScmException {
         // NPE free

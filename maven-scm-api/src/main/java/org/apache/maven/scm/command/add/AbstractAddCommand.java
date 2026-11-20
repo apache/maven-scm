@@ -29,16 +29,16 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  */
-public abstract class AbstractAddCommand extends AbstractCommand {
+public abstract class AbstractAddCommand extends AbstractCommand<AddScmResult> {
     protected abstract ScmResult executeAddCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean binary) throws ScmException;
 
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeCommand(
+    protected AddScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
-        return executeAddCommand(
+        return (AddScmResult) executeAddCommand(
                 repository,
                 fileSet,
                 parameters.getString(CommandParameter.MESSAGE, "no message"),

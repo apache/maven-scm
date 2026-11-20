@@ -27,7 +27,21 @@ import java.util.Map;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmResult;
+import org.apache.maven.scm.command.branch.BranchScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.info.InfoScmResult;
+import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
+import org.apache.maven.scm.command.remove.RemoveScmResult;
+import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.untag.UntagScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.git.AbstractGitScmProvider;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.add.GitAddCommand;
@@ -79,105 +93,105 @@ public class GitExeScmProvider extends AbstractGitScmProvider {
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getAddCommand() {
+    protected GitCommand<AddScmResult> getAddCommand() {
         return new GitAddCommand();
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getBranchCommand() {
+    protected GitCommand<BranchScmResult> getBranchCommand() {
         return new GitBranchCommand(environmentVariables);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getChangeLogCommand() {
+    protected GitCommand<ChangeLogScmResult> getChangeLogCommand() {
         return new GitChangeLogCommand();
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getCheckInCommand() {
+    protected GitCommand<CheckInScmResult> getCheckInCommand() {
         return new GitCheckInCommand(environmentVariables);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getCheckOutCommand() {
+    protected GitCommand<CheckOutScmResult> getCheckOutCommand() {
         return new GitCheckOutCommand(environmentVariables);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getDiffCommand() {
+    protected GitCommand<DiffScmResult> getDiffCommand() {
         return new GitDiffCommand();
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getExportCommand() {
+    protected GitCommand<ExportScmResult> getExportCommand() {
         return null; // X TODO
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getRemoveCommand() {
+    protected GitCommand<RemoveScmResult> getRemoveCommand() {
         return new GitRemoveCommand();
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getStatusCommand() {
+    protected GitCommand<StatusScmResult> getStatusCommand() {
         return new GitStatusCommand();
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getTagCommand() {
+    protected GitCommand<TagScmResult> getTagCommand() {
         return new GitTagCommand(environmentVariables);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getUntagCommand() {
+    protected GitCommand<UntagScmResult> getUntagCommand() {
         return new GitUntagCommand(environmentVariables);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getUpdateCommand() {
+    protected GitCommand<UpdateScmResult> getUpdateCommand() {
         return new GitUpdateCommand();
     }
 
     /**
      * {@inheritDoc}
      */
-    public GitCommand getInfoCommand() {
+    public GitCommand<InfoScmResult> getInfoCommand() {
         return new GitInfoCommand();
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getBlameCommand() {
+    protected GitCommand<BlameScmResult> getBlameCommand() {
         return new GitBlameCommand();
     }
 
     /**
      * {@inheritDoc}
      */
-    protected GitCommand getRemoteInfoCommand() {
+    protected GitCommand<RemoteInfoScmResult> getRemoteInfoCommand() {
         return new GitRemoteInfoCommand(environmentVariables);
     }
 
