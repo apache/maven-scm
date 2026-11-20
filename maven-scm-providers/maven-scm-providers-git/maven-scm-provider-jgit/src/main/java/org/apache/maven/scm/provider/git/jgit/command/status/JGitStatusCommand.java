@@ -96,7 +96,8 @@ public class JGitStatusCommand extends AbstractStatusCommand implements GitComma
     }
 
     private static boolean isFileSetFiltered(ScmFileSet fileSet) {
-        return (fileSet.getIncludes() != null && !fileSet.getIncludes().isEmpty())
+        return !fileSet.getFileList().isEmpty()
+                || (fileSet.getIncludes() != null && !fileSet.getIncludes().isEmpty())
                 || (fileSet.getExcludes() != null && !fileSet.getExcludes().isEmpty());
     }
 }
