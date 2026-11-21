@@ -31,6 +31,7 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.util.AbstractConsumer;
+import org.codehaus.plexus.util.SelectorUtils;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -151,20 +152,26 @@ public class GitStatusConsumer extends AbstractConsumer {
         ScmFileStatus status = null;
 
         List<String> files = new ArrayList<>();
+        List<String> rawFiles = new ArrayList<>();
 
         Matcher matcher;
         if ((matcher = ADDED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.ADDED;
+            rawFiles.add(matcher.group(1));
             files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
         } else if ((matcher = MODIFIED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.MODIFIED;
+            rawFiles.add(matcher.group(1));
             files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
         } else if ((matcher = DELETED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.DELETED;
+            rawFiles.add(matcher.group(1));
             files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
         } else if ((matcher = RENAMED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.RENAMED;
+            rawFiles.add(matcher.group(1));
             files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+            rawFiles.add(matcher.group(2));
             files.add(resolvePath(matcher.group(2), relativeRepositoryPath));
             logger.debug("RENAMED status for line '" + line + "' files added '" + matcher.group(1) + "' '"
                     + matcher.group(2));
@@ -202,8 +209,11 @@ public class GitStatusConsumer extends AbstractConsumer {
                 }
             }
 
-            for (String file : files) {
-                if (this.scmFileSet != null && !isFileNameInFileList(this.scmFileSet.getFileList(), file)) {
+            for (int i = 0; i < files.size(); i++) {
+                String file = files.get(i);
+                if (this.scmFileSet != null
+                        && !isFileNameInFileList(this.scmFileSet.getFileList(), file)
+                        && !isMatchedByPatterns(file, rawFiles.get(i))) {
                     // skip adding this file
                 } else {
                     changedFiles.add(new ScmFile(file, status));
@@ -224,6 +234,48 @@ public class GitStatusConsumer extends AbstractConsumer {
             }
             return fileList.isEmpty();
         }
+    }
+
+    /**
+     * The file list of a pattern based file set is built from the files that exist on disk, so a tracked file that was
+     * deleted is missing from it. Decide by the include and exclude patterns instead.
+     *
+     * @param file the path relative to the base directory of the file set
+     * @param rawFile the path as printed by git, relative to the repository root
+     */
+    private boolean isMatchedByPatterns(String file, String rawFile) {
+        String includes = scmFileSet.getIncludes();
+        if (includes == null || includes.trim().isEmpty()) {
+            return false;
+        }
+        if (relativeRepositoryPath != null && !relativeRepositoryPath.isAbsolute()) {
+            String prefix = relativeRepositoryPath.getPath();
+            if (!prefix.isEmpty() && !stripQuotes(rawFile).startsWith(prefix)) {
+                // outside of the base directory
+                return false;
+            }
+        }
+        String path = file.replace('/', File.separatorChar).replace('\\', File.separatorChar);
+        return matchesAny(includes, path) && !matchesAny(scmFileSet.getExcludes(), path);
+    }
+
+    private static boolean matchesAny(String patterns, String path) {
+        if (patterns == null) {
+            return false;
+        }
+        for (String pattern : patterns.split(",")) {
+            pattern = pattern.trim().replace('/', File.separatorChar).replace('\\', File.separatorChar);
+            if (pattern.isEmpty()) {
+                continue;
+            }
+            if (pattern.endsWith(File.separator)) {
+                pattern += "**";
+            }
+            if (SelectorUtils.matchPath(pattern, path)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isFile(String file) {

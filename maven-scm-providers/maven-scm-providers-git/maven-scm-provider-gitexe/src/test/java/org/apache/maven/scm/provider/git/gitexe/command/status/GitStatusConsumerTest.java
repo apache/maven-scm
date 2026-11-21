@@ -223,6 +223,90 @@ public class GitStatusConsumerTest extends ScmTestCase {
         assertEquals(1, changedFiles.size());
     }
 
+    @Test
+    void testConsumerDeletedFileMatchedByIncludes() throws IOException {
+        File dir = createTempDirectory();
+        FileUtils.write(new File(dir, "b.txt"), "data", StandardCharsets.UTF_8);
+
+        // a.txt is tracked but deleted on disk, so it is not in the file list
+        ScmFileSet scmFileSet = new ScmFileSet(dir, "a.txt,b.txt", null);
+        List<ScmFile> changedFiles = getChangedFiles(" D a.txt", dir, null, scmFileSet);
+        assertEquals(1, changedFiles.size());
+        testScmFile(changedFiles.get(0), "a.txt", ScmFileStatus.DELETED);
+
+        scmFileSet = new ScmFileSet(dir, "*.txt", null);
+        changedFiles = getChangedFiles(" D a.txt", dir, null, scmFileSet);
+        assertEquals(1, changedFiles.size());
+        testScmFile(changedFiles.get(0), "a.txt", ScmFileStatus.DELETED);
+
+        FileUtils.deleteDirectory(dir);
+    }
+
+    @Test
+    void testConsumerDeletedFileMatchedByExcludes() throws IOException {
+        File dir = createTempDirectory();
+        FileUtils.write(new File(dir, "b.txt"), "data", StandardCharsets.UTF_8);
+
+        ScmFileSet scmFileSet = new ScmFileSet(dir, "*.txt", "a.txt");
+        assertEquals(0, getChangedFiles(" D a.txt", dir, null, scmFileSet).size());
+
+        scmFileSet = new ScmFileSet(dir, "**", "gen/");
+        assertEquals(0, getChangedFiles(" D gen/a.txt", dir, null, scmFileSet).size());
+        assertEquals(1, getChangedFiles(" D src/a.txt", dir, null, scmFileSet).size());
+
+        FileUtils.deleteDirectory(dir);
+    }
+
+    @Test
+    void testConsumerFileOutsideIncludesIsDropped() throws IOException {
+        File dir = createTempDirectory();
+        FileUtils.write(new File(dir, "b.txt"), "data", StandardCharsets.UTF_8);
+        FileUtils.write(new File(dir, "c.xml"), "data", StandardCharsets.UTF_8);
+
+        ScmFileSet scmFileSet = new ScmFileSet(dir, "*.txt", null);
+        assertEquals(0, getChangedFiles(" M c.xml", dir, null, scmFileSet).size());
+        assertEquals(0, getChangedFiles(" D a.xml", dir, null, scmFileSet).size());
+        assertEquals(1, getChangedFiles(" M b.txt", dir, null, scmFileSet).size());
+
+        FileUtils.deleteDirectory(dir);
+    }
+
+    @Test
+    void testConsumerDeletedFileInSubdirectoryOfRepository() throws IOException {
+        File dir = createTempDirectory();
+        File subdir = new File(dir, "sub");
+        subdir.mkdir();
+        FileUtils.write(new File(subdir, "b.txt"), "data", StandardCharsets.UTF_8);
+
+        ScmFileSet scmFileSet = new ScmFileSet(subdir, "*.txt", null);
+        URI prefix = URI.create("sub/");
+
+        List<ScmFile> changedFiles = getChangedFiles(" D sub/a.txt", subdir, prefix, scmFileSet);
+        assertEquals(1, changedFiles.size());
+        testScmFile(changedFiles.get(0), "a.txt", ScmFileStatus.DELETED);
+
+        // inside the repository but outside of the base directory of the file set
+        assertEquals(
+                0, getChangedFiles(" D other/a.txt", subdir, prefix, scmFileSet).size());
+        assertEquals(0, getChangedFiles(" D a.txt", subdir, prefix, scmFileSet).size());
+
+        FileUtils.deleteDirectory(dir);
+    }
+
+    @Test
+    void testConsumerDeletedFileWithExplicitFileList() throws IOException {
+        File dir = createTempDirectory();
+        FileUtils.write(new File(dir, "b.txt"), "data", StandardCharsets.UTF_8);
+
+        ScmFileSet scmFileSet = new ScmFileSet(dir, new File("b.txt"));
+        assertEquals(0, getChangedFiles(" D a.txt", dir, null, scmFileSet).size());
+
+        scmFileSet = new ScmFileSet(dir, new File("a.txt"));
+        assertEquals(1, getChangedFiles(" D a.txt", dir, null, scmFileSet).size());
+
+        FileUtils.deleteDirectory(dir);
+    }
+
     // SCM-740
     @Test
     void testConsumerModifiedFileInComplexDirectorySetup() throws IOException {
