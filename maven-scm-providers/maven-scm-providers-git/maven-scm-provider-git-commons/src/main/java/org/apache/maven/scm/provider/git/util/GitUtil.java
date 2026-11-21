@@ -44,7 +44,7 @@ public class GitUtil {
      */
     public static final String PASSWORD_PLACE_HOLDER_WITH_DELIMITERS = ":********@";
 
-    private static final Pattern PASSWORD_IN_URL_PATTERN = Pattern.compile("^.*(:[^/].*@).*$");
+    private static final Pattern PASSWORD_IN_URL_PATTERN = Pattern.compile("^.*(:[^/]+@).*$");
 
     private static File settingsDirectory = DEFAULT_SETTINGS_DIRECTORY;
 
