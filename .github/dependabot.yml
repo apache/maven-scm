@@ -30,6 +30,14 @@ updates:
       # Maven 3 so use SLF4J 1.7.x
       - dependency-name: "org.slf4j:*"
         versions: [">= 2.0.0"]
+      - dependency-name: "org.apache.maven:maven-core"
+        versions: [">= 3.10.0"]
+      - dependency-name: "org.apache.maven:maven-plugin-api"
+        versions: [">= 3.10.0"]
+      - dependency-name: "org.apache.maven:maven-settings"
+        versions: [">= 3.10.0"]
+      - dependency-name: "org.apache.maven:maven-settings-builder"
+        versions: [">= 3.10.0"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
