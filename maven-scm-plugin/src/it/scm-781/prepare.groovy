@@ -18,25 +18,23 @@
  */
 
 // We rename the dotSvnDir in the IT folder to standard .svn naming so that the IT can execute.
-// BUT we actually don't store that special versioning directory as-is to prevent potentially confusing 
+// BUT we actually don't store that special versioning directory as-is to prevent potentially confusing
 // (to say the least) a svn checkout of the maven-scm project.
-// 
+//
 /*
-File dotSvnDir = new File( basedir, 'dotSvnDir' )
-assert dotSvnDir.exists()
-assert dotSvnDir.isDirectory()
-assert dotSvnDir.renameTo( new File( basedir, '.svn' ) )
-
-dotSvnDir = new File( basedir, 'asf/dotSvnDir' )
-assert dotSvnDir.exists()
-assert dotSvnDir.isDirectory()
-assert dotSvnDir.renameTo( new File( basedir, 'asf/.svn' ) )
-
-dotSvnDir = new File( basedir, 'maven/dotSvnDir' )
-assert dotSvnDir.exists()
-assert dotSvnDir.isDirectory()
-assert dotSvnDir.renameTo( new File( basedir, 'maven/.svn' ) )
-*/
+ File dotSvnDir = new File( basedir, 'dotSvnDir' )
+ assert dotSvnDir.exists()
+ assert dotSvnDir.isDirectory()
+ assert dotSvnDir.renameTo( new File( basedir, '.svn' ) )
+ dotSvnDir = new File( basedir, 'asf/dotSvnDir' )
+ assert dotSvnDir.exists()
+ assert dotSvnDir.isDirectory()
+ assert dotSvnDir.renameTo( new File( basedir, 'asf/.svn' ) )
+ dotSvnDir = new File( basedir, 'maven/dotSvnDir' )
+ assert dotSvnDir.exists()
+ assert dotSvnDir.isDirectory()
+ assert dotSvnDir.renameTo( new File( basedir, 'maven/.svn' ) )
+ */
 println "svn --version"
 def proc = "svn --version".execute()
 proc.waitFor()
