@@ -16,5 +16,5 @@
  * specific language governing permissions and limitations
  * under the License.
  */
- File buildLog = new File(basedir, 'build.log')
+File buildLog = new File(basedir, 'build.log')
 assert buildLog.exists()
