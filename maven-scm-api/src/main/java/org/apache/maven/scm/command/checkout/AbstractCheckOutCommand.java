@@ -69,6 +69,32 @@ public abstract class AbstractCheckOutCommand extends AbstractCommand {
             throws ScmException;
 
     /**
+     * Execute Check out command line, optionally including submodules. The default implementation ignores
+     * <code>submodules</code> and delegates to
+     * {@link #executeCheckOutCommand(ScmProviderRepository, ScmFileSet, ScmVersion, boolean, boolean)}.
+     *
+     * @param repository not null
+     * @param fileSet not null
+     * @param scmVersion not null
+     * @param recursive <code>true</code> if recursive check out is wanted, <code>false</code> otherwise
+     * @param shallow <code>true</code> if shallow check out is wanted, <code>false</code> otherwise
+     * @param submodules <code>true</code> if submodules are to be checked out, <code>false</code> otherwise
+     * @return the checkout result
+     * @throws ScmException if any
+     * @since 2.3.0
+     */
+    protected CheckOutScmResult executeCheckOutCommand(
+            ScmProviderRepository repository,
+            ScmFileSet fileSet,
+            ScmVersion scmVersion,
+            boolean recursive,
+            boolean shallow,
+            boolean submodules)
+            throws ScmException {
+        return executeCheckOutCommand(repository, fileSet, scmVersion, recursive, shallow);
+    }
+
+    /**
      * {@inheritDoc}
      */
     public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
@@ -76,6 +102,7 @@ public abstract class AbstractCheckOutCommand extends AbstractCommand {
         ScmVersion scmVersion = parameters.getScmVersion(CommandParameter.SCM_VERSION, null);
         boolean recursive = parameters.getBoolean(CommandParameter.RECURSIVE, true);
         boolean shallow = parameters.getBoolean(CommandParameter.SHALLOW, false);
-        return executeCheckOutCommand(repository, fileSet, scmVersion, recursive, shallow);
+        boolean submodules = parameters.getBoolean(CommandParameter.SUBMODULES, false);
+        return executeCheckOutCommand(repository, fileSet, scmVersion, recursive, shallow, submodules);
     }
 }
