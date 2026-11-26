@@ -44,7 +44,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
  */
-public class LocalUpdateCommand extends AbstractUpdateCommand implements LocalCommand {
+public class LocalUpdateCommand extends AbstractUpdateCommand implements LocalCommand<UpdateScmResult> {
     /**
      * {@inheritDoc}
      */

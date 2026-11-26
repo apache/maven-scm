@@ -40,7 +40,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author Olivier Lamy
  */
-public class SvnDiffCommand extends AbstractDiffCommand implements SvnCommand {
+public class SvnDiffCommand extends AbstractDiffCommand implements SvnCommand<DiffScmResult> {
     private final boolean interactive;
 
     public SvnDiffCommand(boolean interactive) {

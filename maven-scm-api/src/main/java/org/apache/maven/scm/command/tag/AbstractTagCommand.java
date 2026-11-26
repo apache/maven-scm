@@ -32,7 +32,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  */
-public abstract class AbstractTagCommand extends AbstractCommand {
+public abstract class AbstractTagCommand extends AbstractCommand<TagScmResult> {
     /**
      * @param repository TODO
      * @param fileSet TODO
@@ -54,8 +54,8 @@ public abstract class AbstractTagCommand extends AbstractCommand {
     /**
      * {@inheritDoc}
      */
-    public ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException {
+    public TagScmResult executeCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         String tagName = parameters.getString(CommandParameter.TAG_NAME);
 
         ScmTagParameters scmTagParameters = parameters.getScmTagParameters(CommandParameter.SCM_TAG_PARAMETERS);
@@ -76,6 +76,6 @@ public abstract class AbstractTagCommand extends AbstractCommand {
         if (signOption != null) {
             scmTagParameters.setSignOption(signOption);
         }
-        return executeTagCommand(repository, fileSet, tagName, scmTagParameters);
+        return (TagScmResult) executeTagCommand(repository, fileSet, tagName, scmTagParameters);
     }
 }

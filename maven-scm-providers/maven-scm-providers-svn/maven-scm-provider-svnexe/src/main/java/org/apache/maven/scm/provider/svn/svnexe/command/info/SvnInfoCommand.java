@@ -24,7 +24,6 @@ import java.util.Iterator;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -39,7 +38,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
  */
-public class SvnInfoCommand extends AbstractCommand implements SvnCommand {
+public class SvnInfoCommand extends AbstractCommand<InfoScmResult> implements SvnCommand<InfoScmResult> {
     private final boolean interactive;
 
     public SvnInfoCommand(boolean interactive) {
@@ -49,7 +48,7 @@ public class SvnInfoCommand extends AbstractCommand implements SvnCommand {
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeCommand(
+    protected InfoScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         return executeInfoCommand((SvnScmProviderRepository) repository, fileSet, parameters, false, null);
     }

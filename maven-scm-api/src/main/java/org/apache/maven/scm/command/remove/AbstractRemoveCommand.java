@@ -30,17 +30,17 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  */
-public abstract class AbstractRemoveCommand extends AbstractCommand {
+public abstract class AbstractRemoveCommand extends AbstractCommand<RemoveScmResult> {
     protected abstract ScmResult executeRemoveCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, String message) throws ScmException;
 
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeCommand(
+    protected RemoveScmResult executeCommand(
             ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
         String message = parameters.getString(CommandParameter.MESSAGE);
 
-        return executeRemoveCommand(repository, fileSet, message);
+        return (RemoveScmResult) executeRemoveCommand(repository, fileSet, message);
     }
 }

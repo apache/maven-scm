@@ -45,7 +45,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  */
-public class SvnExeExportCommand extends AbstractExportCommand implements SvnCommand {
+public class SvnExeExportCommand extends AbstractExportCommand implements SvnCommand<ExportScmResult> {
     private final boolean interactive;
 
     public SvnExeExportCommand(boolean interactive) {

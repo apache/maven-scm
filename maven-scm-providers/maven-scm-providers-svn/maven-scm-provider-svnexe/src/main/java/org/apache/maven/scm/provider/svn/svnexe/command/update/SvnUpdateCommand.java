@@ -46,7 +46,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  */
-public class SvnUpdateCommand extends AbstractUpdateCommand implements SvnCommand {
+public class SvnUpdateCommand extends AbstractUpdateCommand implements SvnCommand<UpdateScmResult> {
     private final boolean interactive;
 
     public SvnUpdateCommand(boolean interactive) {

@@ -38,13 +38,12 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  * @since 1.4
  */
-public class SvnBlameCommand extends AbstractBlameCommand implements SvnCommand {
+public class SvnBlameCommand extends AbstractBlameCommand implements SvnCommand<BlameScmResult> {
     private final boolean interactive;
 
     public SvnBlameCommand(boolean interactive) {
         this.interactive = interactive;
     }
-
     /**
      * {@inheritDoc}
      */
