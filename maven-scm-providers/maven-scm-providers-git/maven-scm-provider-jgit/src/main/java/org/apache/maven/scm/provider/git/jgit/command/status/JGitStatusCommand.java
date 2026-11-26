@@ -66,7 +66,10 @@ public class JGitStatusCommand extends AbstractStatusCommand implements GitComma
                         fileSet.getBasedir().toPath().toAbsolutePath().normalize();
                 Path relativeBase = gitRoot.relativize(fileSetBase);
                 Set<Path> fileSetPaths = fileSet.getFileList().stream()
-                        .map(f -> relativeBase.resolve(f.toPath()).normalize())
+                        .map(f -> f.toPath())
+                        .map(p -> p.isAbsolute()
+                                ? gitRoot.relativize(p.normalize())
+                                : relativeBase.resolve(p).normalize())
                         .collect(Collectors.toSet());
                 changedFiles.removeIf(scmFile ->
                         !fileSetPaths.contains(Paths.get(scmFile.getPath()).normalize()));

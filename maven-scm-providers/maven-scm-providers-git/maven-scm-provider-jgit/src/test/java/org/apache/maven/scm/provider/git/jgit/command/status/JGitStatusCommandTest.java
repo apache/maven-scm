@@ -77,6 +77,13 @@ class JGitStatusCommandTest {
         assertEquals(Collections.singletonList("sub/a.txt"), changedPaths(new ScmFileSet(basedir, "*.txt", "b.txt")));
     }
 
+    @Test
+    void absoluteFileListFiltersStatus() throws Exception {
+        assertEquals(
+                Collections.singletonList("sub/a.txt"),
+                changedPaths(new ScmFileSet(basedir, new File(basedir, "a.txt"))));
+    }
+
     private List<String> changedPaths(ScmFileSet fileSet) throws Exception {
         StatusScmResult result = new JGitStatusCommand().executeStatusCommand(null, fileSet);
         return result.getChangedFiles().stream().map(f -> f.getPath()).sorted().collect(Collectors.toList());
