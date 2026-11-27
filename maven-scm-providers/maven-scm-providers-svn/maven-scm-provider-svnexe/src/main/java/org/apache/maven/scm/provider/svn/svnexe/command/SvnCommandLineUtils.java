@@ -76,10 +76,11 @@ public final class SvnCommandLineUtils {
         cl.setExecutable("svn");
         try {
             cl.addSystemEnvironment();
-            cl.addEnvironment("LC_MESSAGES", "C");
         } catch (Exception e) {
             // Do nothing
         }
+
+        setEnglishUtf8Locale(cl);
 
         if (workingDirectory != null) {
             cl.setWorkingDirectory(workingDirectory.getAbsolutePath());
@@ -124,8 +125,7 @@ public final class SvnCommandLineUtils {
 
     public static int execute(Commandline cl, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr)
             throws CommandLineException {
-        // SCM-482: force English resource bundle
-        cl.addEnvironment("LC_MESSAGES", "en");
+        setEnglishUtf8Locale(cl);
 
         int exitCode = CommandLineUtils.executeCommandLine(cl, consumer, stderr);
 
@@ -137,11 +137,12 @@ public final class SvnCommandLineUtils {
     public static int execute(
             Commandline cl, CommandLineUtils.StringStreamConsumer stdout, CommandLineUtils.StringStreamConsumer stderr)
             throws CommandLineException {
-        int exitCode = CommandLineUtils.executeCommandLine(cl, stdout, stderr);
+        return execute(cl, (StreamConsumer) stdout, stderr);
+    }
 
-        exitCode = checkIfCleanUpIsNeeded(exitCode, cl, stdout, stderr);
-
-        return exitCode;
+    private static void setEnglishUtf8Locale(Commandline cl) {
+        // Override the caller's locale for SVN's English output without losing multibyte text.
+        cl.addEnvironment("LC_ALL", "C.UTF-8");
     }
 
     private static int checkIfCleanUpIsNeeded(

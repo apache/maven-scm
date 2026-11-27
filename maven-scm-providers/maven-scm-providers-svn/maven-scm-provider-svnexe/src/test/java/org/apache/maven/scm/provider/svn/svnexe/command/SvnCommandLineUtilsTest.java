@@ -19,12 +19,16 @@
 package org.apache.maven.scm.provider.svn.svnexe.command;
 
 import java.io.File;
+import java.nio.file.Path;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.Os;
+import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -34,6 +38,41 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
  *
  */
 public class SvnCommandLineUtilsTest extends ScmTestCase {
+    @Test
+    void testBaseCommandLineUsesEnglishUtf8Locale() throws Exception {
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine(
+                new File("."), new SvnScmProviderRepository("https://svn.apache.org/repos/asf/maven/scm/trunk"), false);
+
+        assertEquals("LC_ALL=C.UTF-8", getAllLocale(cl));
+    }
+
+    @Test
+    void testExecuteOverridesCallerLocale(@TempDir Path tempDirectory) throws Exception {
+        Commandline cl = new Commandline();
+        cl.setExecutable(tempDirectory.resolve("missing-executable").toString());
+        cl.addEnvironment("LC_ALL", "C");
+
+        // The executable does not exist: the wrapper must set the locale before attempting to launch it.
+        // The command-line implementation reports a missing executable differently across platforms:
+        // some throw while others return an exit code. The locale must be set before either outcome.
+        try {
+            SvnCommandLineUtils.execute(cl, new StringStreamConsumer(), new StringStreamConsumer());
+        } catch (CommandLineException expected) {
+            // Expected when the platform throws for the intentionally missing executable.
+        }
+
+        assertEquals("LC_ALL=C.UTF-8", getAllLocale(cl));
+    }
+
+    private static String getAllLocale(Commandline cl) throws Exception {
+        for (String environmentVariable : cl.getEnvironmentVariables()) {
+            if (environmentVariable.startsWith("LC_ALL=")) {
+                return environmentVariable;
+            }
+        }
+        return null;
+    }
+
     @Test
     void testCryptPassword() throws Exception {
         /* FIXME Plexus does not quote the crypted password on Windows which is actually incorrect at the moment
