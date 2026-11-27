@@ -23,7 +23,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,6 +33,7 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.util.AbstractConsumer;
+import org.codehaus.plexus.util.SelectorUtils;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -150,28 +153,31 @@ public class GitStatusConsumer extends AbstractConsumer {
 
         ScmFileStatus status = null;
 
-        List<String> files = new ArrayList<>();
+        // resolved path -> path as printed by git; one map so the two cannot get out of step
+        Map<String, String> entries = new LinkedHashMap<>();
 
         Matcher matcher;
         if ((matcher = ADDED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.ADDED;
-            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+            entries.put(resolvePath(matcher.group(1), relativeRepositoryPath), matcher.group(1));
         } else if ((matcher = MODIFIED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.MODIFIED;
-            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+            entries.put(resolvePath(matcher.group(1), relativeRepositoryPath), matcher.group(1));
         } else if ((matcher = DELETED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.DELETED;
-            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+            entries.put(resolvePath(matcher.group(1), relativeRepositoryPath), matcher.group(1));
         } else if ((matcher = RENAMED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.RENAMED;
-            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
-            files.add(resolvePath(matcher.group(2), relativeRepositoryPath));
+            entries.put(resolvePath(matcher.group(1), relativeRepositoryPath), matcher.group(1));
+            entries.put(resolvePath(matcher.group(2), relativeRepositoryPath), matcher.group(2));
             logger.debug("RENAMED status for line '" + line + "' files added '" + matcher.group(1) + "' '"
                     + matcher.group(2));
         } else {
             logger.warn("Ignoring unrecognized line: " + line);
             return;
         }
+
+        List<String> files = new ArrayList<>(entries.keySet());
 
         // If the file isn't a file; don't add it.
         if (!files.isEmpty()) {
@@ -202,8 +208,11 @@ public class GitStatusConsumer extends AbstractConsumer {
                 }
             }
 
-            for (String file : files) {
-                if (this.scmFileSet != null && !isFileNameInFileList(this.scmFileSet.getFileList(), file)) {
+            for (Map.Entry<String, String> entry : entries.entrySet()) {
+                String file = entry.getKey();
+                if (this.scmFileSet != null
+                        && !isFileNameInFileList(this.scmFileSet.getFileList(), file)
+                        && !isMatchedByPatterns(file, entry.getValue())) {
                     // skip adding this file
                 } else {
                     changedFiles.add(new ScmFile(file, status));
@@ -224,6 +233,51 @@ public class GitStatusConsumer extends AbstractConsumer {
             }
             return fileList.isEmpty();
         }
+    }
+
+    /**
+     * The file list of a pattern based file set is built from the files that exist on disk, so a tracked file that was
+     * deleted is missing from it. Decide by the include and exclude patterns instead.
+     *
+     * @param file the path relative to the base directory of the file set
+     * @param rawFile the path as printed by git, relative to the repository root
+     */
+    private boolean isMatchedByPatterns(String file, String rawFile) {
+        String includes = scmFileSet.getIncludes();
+        if (includes == null || includes.trim().isEmpty()) {
+            return false;
+        }
+        if (relativeRepositoryPath != null && !relativeRepositoryPath.isAbsolute()) {
+            String prefix = relativeRepositoryPath.getPath();
+            if (!prefix.isEmpty() && !prefix.endsWith("/")) {
+                prefix += "/";
+            }
+            if (!prefix.isEmpty() && !stripQuotes(rawFile).startsWith(prefix)) {
+                // outside of the base directory
+                return false;
+            }
+        }
+        String path = file.replace('/', File.separatorChar).replace('\\', File.separatorChar);
+        return matchesAny(includes, path) && !matchesAny(scmFileSet.getExcludes(), path);
+    }
+
+    private static boolean matchesAny(String patterns, String path) {
+        if (patterns == null) {
+            return false;
+        }
+        for (String pattern : patterns.split(",")) {
+            pattern = pattern.trim().replace('/', File.separatorChar).replace('\\', File.separatorChar);
+            if (pattern.isEmpty()) {
+                continue;
+            }
+            if (pattern.endsWith(File.separator)) {
+                pattern += "**";
+            }
+            if (SelectorUtils.matchPath(pattern, path)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isFile(String file) {
