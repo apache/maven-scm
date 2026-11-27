@@ -23,7 +23,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -151,34 +153,31 @@ public class GitStatusConsumer extends AbstractConsumer {
 
         ScmFileStatus status = null;
 
-        List<String> files = new ArrayList<>();
-        List<String> rawFiles = new ArrayList<>();
+        // resolved path -> path as printed by git; one map so the two cannot get out of step
+        Map<String, String> entries = new LinkedHashMap<>();
 
         Matcher matcher;
         if ((matcher = ADDED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.ADDED;
-            rawFiles.add(matcher.group(1));
-            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+            entries.put(resolvePath(matcher.group(1), relativeRepositoryPath), matcher.group(1));
         } else if ((matcher = MODIFIED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.MODIFIED;
-            rawFiles.add(matcher.group(1));
-            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+            entries.put(resolvePath(matcher.group(1), relativeRepositoryPath), matcher.group(1));
         } else if ((matcher = DELETED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.DELETED;
-            rawFiles.add(matcher.group(1));
-            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+            entries.put(resolvePath(matcher.group(1), relativeRepositoryPath), matcher.group(1));
         } else if ((matcher = RENAMED_PATTERN.matcher(line)).find()) {
             status = ScmFileStatus.RENAMED;
-            rawFiles.add(matcher.group(1));
-            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
-            rawFiles.add(matcher.group(2));
-            files.add(resolvePath(matcher.group(2), relativeRepositoryPath));
+            entries.put(resolvePath(matcher.group(1), relativeRepositoryPath), matcher.group(1));
+            entries.put(resolvePath(matcher.group(2), relativeRepositoryPath), matcher.group(2));
             logger.debug("RENAMED status for line '" + line + "' files added '" + matcher.group(1) + "' '"
                     + matcher.group(2));
         } else {
             logger.warn("Ignoring unrecognized line: " + line);
             return;
         }
+
+        List<String> files = new ArrayList<>(entries.keySet());
 
         // If the file isn't a file; don't add it.
         if (!files.isEmpty()) {
@@ -209,11 +208,11 @@ public class GitStatusConsumer extends AbstractConsumer {
                 }
             }
 
-            for (int i = 0; i < files.size(); i++) {
-                String file = files.get(i);
+            for (Map.Entry<String, String> entry : entries.entrySet()) {
+                String file = entry.getKey();
                 if (this.scmFileSet != null
                         && !isFileNameInFileList(this.scmFileSet.getFileList(), file)
-                        && !isMatchedByPatterns(file, rawFiles.get(i))) {
+                        && !isMatchedByPatterns(file, entry.getValue())) {
                     // skip adding this file
                 } else {
                     changedFiles.add(new ScmFile(file, status));
@@ -250,6 +249,9 @@ public class GitStatusConsumer extends AbstractConsumer {
         }
         if (relativeRepositoryPath != null && !relativeRepositoryPath.isAbsolute()) {
             String prefix = relativeRepositoryPath.getPath();
+            if (!prefix.isEmpty() && !prefix.endsWith("/")) {
+                prefix += "/";
+            }
             if (!prefix.isEmpty() && !stripQuotes(rawFile).startsWith(prefix)) {
                 // outside of the base directory
                 return false;
