@@ -89,6 +89,16 @@ public class SvnScmProviderRepositoryTest extends ScmTestCase {
     }
 
     @Test
+    void testAtSignInPathOfSvnUrl() throws Exception {
+        testUrl(
+                "scm:svn:svn://subversion.tigris.org/workspace@2/repo",
+                "svn://subversion.tigris.org/workspace@2/repo",
+                null,
+                null,
+                "subversion.tigris.org");
+    }
+
+    @Test
     void testAtSignInPathAfterUserInfo() throws Exception {
         testUrl(
                 "scm:svn:http://user@subversion.tigris.org/workspace@2/repo",
