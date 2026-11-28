@@ -89,6 +89,8 @@ public class JGitStatusCommand extends AbstractStatusCommand implements GitComma
         addAsScmFiles(all, status.getConflicting(), ScmFileStatus.CONFLICT);
         addAsScmFiles(all, status.getModified(), ScmFileStatus.MODIFIED);
         addAsScmFiles(all, status.getRemoved(), ScmFileStatus.DELETED);
+        addAsScmFiles(all, status.getMissing(), ScmFileStatus.DELETED);
+        addAsScmFiles(all, status.getUntracked(), ScmFileStatus.UNKNOWN);
         return all;
     }
 
