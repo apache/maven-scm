@@ -18,16 +18,48 @@
  */
 package org.apache.maven.scm.provider.git.gitexe.command.status;
 
+import java.io.File;
+import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.status.GitStatusCommandTckTest;
+import org.apache.maven.scm.repository.ScmRepository;
 
 import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
  */
 public class GitExeStatusCommandTckTest extends GitStatusCommandTckTest {
+    @org.junit.jupiter.api.Test
+    void testStatusFindsUntrackedFilesInPatternMatchedDirectories() throws Exception {
+        ScmRepository repository = makeScmRepository(getScmUrl());
+        File workingCopy = getUpdatingCopy();
+        checkOut(workingCopy, repository);
+        GitScmTestUtils.setDefaultGitConfig(workingCopy);
+
+        File projectFile = new File(workingCopy, "new-dir/project.xml");
+        assertTrue(projectFile.getParentFile().mkdirs());
+        assertTrue(projectFile.createNewFile());
+
+        StatusScmResult result = getScmManager()
+                .getProviderByUrl(getScmUrl())
+                .status(repository, new ScmFileSet(workingCopy, "**/*.xml", null));
+
+        assertResultIsSuccess(result);
+        List<ScmFile> changedFiles = result.getChangedFiles();
+        assertEquals(1, changedFiles.size());
+        assertEquals("new-dir/project.xml", changedFiles.get(0).getPath());
+        assertEquals(ScmFileStatus.UNKNOWN, changedFiles.get(0).getStatus());
+    }
+
     @Override
     public String getScmProviderCommand() {
         return GIT_COMMAND_LINE;

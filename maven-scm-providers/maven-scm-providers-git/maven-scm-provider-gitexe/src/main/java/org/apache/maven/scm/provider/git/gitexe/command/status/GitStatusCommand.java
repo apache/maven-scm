@@ -47,7 +47,7 @@ public class GitStatusCommand extends AbstractStatusCommand implements GitComman
 
         Commandline cl = createCommandLine((GitScmProviderRepository) repo, fileSet);
 
-        GitStatusConsumer consumer = new GitStatusConsumer(fileSet.getBasedir(), relativeRepositoryPath, fileSet);
+        GitStatusConsumer consumer = new GitStatusConsumer(fileSet.getBasedir(), relativeRepositoryPath, fileSet, true);
 
         stderr = new CommandLineUtils.StringStreamConsumer();
 
@@ -97,7 +97,7 @@ public class GitStatusCommand extends AbstractStatusCommand implements GitComman
 
     public static Commandline createCommandLine(GitScmProviderRepository repository, ScmFileSet fileSet) {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "status");
-        cl.addArguments(new String[] {"--porcelain", "."});
+        cl.addArguments(new String[] {"--porcelain", "--untracked-files=all", "."});
         return cl;
     }
 
