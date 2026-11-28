@@ -60,6 +60,8 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
         if (fileSet.getFileList().isEmpty()) {
             infoItems.add(executeInfoCommand(baseCli, parameters, fileSet.getBasedir()));
         } else {
+            // dates of single files are wrong in a shallow clone; HEAD info is not affected
+            warnIfShallowRepository(fileSet.getBasedir());
             // iterate over files
             for (File scmFile : fileSet.getFileList()) {
                 baseCli = GitCommandLineUtils.getBaseGitCommandLine(fileSet.getBasedir(), "log");
@@ -73,6 +75,25 @@ public class GitInfoCommand extends AbstractCommand implements GitCommand {
             }
         }
         return new InfoScmResult(baseCli.toString(), infoItems);
+    }
+
+    private void warnIfShallowRepository(File basedir) throws ScmException {
+        if (detectShallowRepository(basedir)) {
+            logger.warn("Git repository {} is shallow; info dates may not identify the file's last change", basedir);
+        }
+    }
+
+    static boolean detectShallowRepository(File basedir) throws ScmException {
+        Commandline cli = GitCommandLineUtils.getBaseGitCommandLine(basedir, "rev-parse");
+        cli.addArguments(new String[] {"--is-shallow-repository"});
+        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+        int exitCode = GitCommandLineUtils.execute(cli, stdout, stderr);
+        return exitCode == 0 && isShallowRepository(stdout.getOutput());
+    }
+
+    static boolean isShallowRepository(String output) {
+        return "true".equalsIgnoreCase(output.trim());
     }
 
     protected InfoItem executeInfoCommand(Commandline cli, CommandParameters parameters, File scmFile)
